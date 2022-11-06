@@ -1,0 +1,38 @@
+<div class="container__table">
+    <div class="table__search">
+        <label><b>LISTA DE ASEGURADOS</b></label>
+        <div class="btns">
+            <!-- <button class="btn btn__buscar" mat-button>Buscar</button>-->
+        </div>
+    </div> 
+    <table>
+        <thead>
+            <th>Tipo de Doc.</th>
+            <th>Num° documento</th>
+            <th>Asegurado</th>
+            <th>Num° llamadas</th>
+            <th>Fecha de registro</th>
+            <th>Acciones</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of asignacion">
+                <td>{{item.asegurado.tipoDocumento==1?'DNI':'RUC'}}</td>
+                <td>{{item.asegurado.numDocumento}}</td>
+                <td>{{item.asegurado.nombreCompleto | uppercase}}</td>
+                <td class="p-llamadas">
+                    <a *ngIf="item.numLlamadas!=0; else numLlamadas"  (click)="dialogLlamadas(item)" class="numLlamadas">
+                    {{item.numLlamadas}}</a>
+                    <ng-template #numLlamadas><p>Aun no se registran llamadas</p></ng-template>
+                </td>
+                <td>{{item.asegurado.fechaCreacion | date:'longDate'}}</td>
+                <td><a class="redirectTo" (click)="redirectTo(item)">Registrar llamada</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <mat-paginator [length]="length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageEvent = $event"
+               aria-label="Select page">
+</mat-paginator> -->
+</div>

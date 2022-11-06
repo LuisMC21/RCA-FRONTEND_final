@@ -1,0 +1,17 @@
+<div class="container__form">
+    <form class="form" (ngSubmit)="saveTest()">
+        <div class="form__div">
+            <section *ngFor="let item of preguntas; let i=index" class="example-section field field--radio">
+                <label class="item__test">{{item.descripcion}}</label>
+                <mat-radio-group  (change)="onCLickListenin($event,item)" aria-label="Select an option">
+                    <mat-radio-button class="radio__option" value="SI">SI</mat-radio-button>
+                    <mat-radio-button class="radio__option" value="NO">NO</mat-radio-button>
+                </mat-radio-group>
+            </section>
+        </div>
+        <div class="btn__action">
+            <button type="submit" class="btn btn__login--guardar" mat-button>Guardar</button>
+            <button type="button" class="btn btn__login--cancelar" mat-button>Cancelar</button>
+        </div>
+    </form>
+</div>

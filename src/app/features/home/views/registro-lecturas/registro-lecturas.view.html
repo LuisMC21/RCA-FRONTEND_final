@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="content">
+        <legend class="title">Registro de lecturas</legend>
+        <form>
+            
+        </form>
+        <div class="filter-date" [formGroup]="formFilter">
+            <mat-form-field class="date" appearance="fill">
+                <mat-label>Fecha de Inicio</mat-label>
+                <input matInput formControlName="fechaInicio" [matDatepicker]="picker"  [max]="fechaFin?.value">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field class="date" appearance="fill">
+                <mat-label>Fecha de Final</mat-label>
+                <input matInput formControlName="fechaFin" [matDatepicker]="picker2" [min]="fechaInicio?.value">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="container__table">
+            <div class="table__search">
+                <label><b>LISTA DE LECTURAS REALIZADAS</b></label>
+                <div class="btns">
+                    <button class="btn btn__buscar" (click)="getLecturas()" mat-button>Buscar</button>
+                </div>
+            </div> 
+            <table>
+                <thead>
+                    <th>Nr°</th>
+                    <th>Voluntario</th>
+                    <th>Asegurado</th>
+                    <th>Fecha de lectura</th>
+                    <th>Hora de inicio</th>
+                    <th>Hora de fin</th>
+                    <th>Lectura</th>
+                    <th>Genero</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of llamadas; let i=index">
+                        <td>{{i+1}}</td>
+                        <td class="left">{{item.asignacion.voluntario.persona.nombreCompleto}}</td>
+                        <td class="left">{{item.asignacion.asegurado.nombreCompleto}}</td>
+                        <td>{{item.fechaLectura | date:'longDate'}}</td>
+                        <td>{{item.horaInicio?item.horaInicio:'-'}}</td>
+                        <td>{{item.horaFin?item.horaFin:'-'}}</td>
+                        <td>{{item.libro.tituloLibro}}</td>
+                        <td>{{item.libro.genero}}</td>
+                        <td>{{item.tipo}}</td>
+                        <td>{{item.finLectura=='SI'?'Terminado':'En curso'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <mat-paginator [length]="length"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="pageSizeOptions"
+                       (page)="pageEvent = $event"
+                       aria-label="Select page">
+        </mat-paginator> -->
+        </div>
+        
+    </div>
+</div>
+
+

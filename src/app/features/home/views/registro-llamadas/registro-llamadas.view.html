@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="content">
+        <legend class="subtitle">{{asignacion.asegurado.nombreCompleto}}</legend>
+        <mat-tab-group class="tab"  animationDuration="0ms">
+            <mat-tab  label="Registro de la llamada">
+                <app-new-llamada
+                [libros]="libros"></app-new-llamada>
+            </mat-tab>
+            <mat-tab *ngIf="asignacion.numLlamadas==0" label="Test del asegurado">
+                <app-test></app-test>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

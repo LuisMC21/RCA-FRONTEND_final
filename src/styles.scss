@@ -1,0 +1,106 @@
+@use '~@angular/material' as mat;
+@include mat.core();
+$essalud-ui-primary: mat.define-palette(mat.$indigo-palette);
+$essalud-ui-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$essalud-ui-warn: mat.define-palette(mat.$red-palette);
+$essalud-ui-theme: mat.define-light-theme((
+  color: (
+    primary: $essalud-ui-primary,
+    accent: $essalud-ui-accent,
+    warn: $essalud-ui-warn,
+  )
+));
+@include mat.all-component-themes($essalud-ui-theme);
+//FUENTES
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+
+:root{
+  --font-family-primary: 'Montserrat', sans-serif;
+  --color-primary:#3566B1;
+}
+
+html, body { 
+  height: 100%; 
+    font-family: var(--font-family-primary);
+}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// ESTILOS GENERALES 
+
+//BANDEJAS
+.container{
+  font-family: var(--font-family-primary);
+}
+.content{
+  width: 84%;
+  padding: 2rem;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.title{
+     font-size: 1.8rem;
+     color: #1b3458;
+     padding-left: 1rem;
+     padding-bottom: 1rem;
+}
+.subtitle{
+  font-size: 1.4rem;
+  color: #1b3458;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+// BOTONES
+.btn__action{
+  width: 100%;
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: end;
+  & button{
+      margin-left: 0.6rem
+  };
+}
+.btn__login--guardar{
+  background-color: #3566B1;
+  color: #fff;
+  &:disabled{
+    background-color: #5583c7;
+  }
+}
+.btn__login--cancelar{
+  background-color: #eceef1;
+  color: #000;
+}
+
+//TABLAS
+.container__table{
+  box-shadow: 0 0 2px 0 rgb(98, 95, 95);
+  font-family: var(--font-family-primary);
+}
+table{
+  width: 100%;
+  padding: 0.8rem;
+  font-size: var(--font-size-table);
+  background-color: #fff;
+  & th, tr, td{
+      padding: 0.4rem;
+      text-align: center;
+  }
+  & th{
+      font-size: 0.85rem;
+  }
+  & td{
+      font-size: 0.75rem;
+  }
+}
+.table__search{
+  background-color: #eceef0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+}

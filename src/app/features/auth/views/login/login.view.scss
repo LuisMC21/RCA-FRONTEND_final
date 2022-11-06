@@ -1,0 +1,81 @@
+.container__login{
+    background-color: rgb(240, 239, 239);
+    height: 100vh;
+    width: 100%;
+}
+.container{
+    width: 70%;
+    height: 80vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: var(--font-family-primary);
+}
+.card__login{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+}
+
+.card__section--img{
+    background: linear-gradient(rgba(0,0,0.4),rgba(0,0,0,0.4)),url('../../../../../assets/img/img-login-bg.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+    & img{
+        margin: 2rem 0;
+    }
+    & .title__img{
+        height: 2.5rem;
+    }
+}
+
+.card__section--login{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.legend{
+    height: 20%;
+}
+    
+//Formulario
+
+.field{
+    width: 80%;
+    font-family: var(--font-family-primary);
+}
+
+//boton ingresar
+.btn__login--input{
+    background-color: #3566B1;
+    color: #fff;
+    font-family: var(--font-family-primary);
+}
+
+//TEXTO WELCOME
+.text__welcome{
+    font-size: 2.5rem;
+}
+
+.error__auth{
+    background-color:#e4b9b9;
+    margin-bottom: 0.7rem;
+    color: #a94442;
+    border-radius: 2px;
+    padding: 0.35rem 0;
+}
+.error{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

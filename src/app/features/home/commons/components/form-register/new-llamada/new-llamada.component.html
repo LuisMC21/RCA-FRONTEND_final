@@ -1,0 +1,91 @@
+<div class="container__form">
+    <form [formGroup]="formLlamada" (ngSubmit)="save()">
+        <div class="form">
+            <section class="section field field--radio">
+                <label class="example-margin">Se concretó la llamada?</label>
+                <mat-radio-group formControlName="llamadaRealizada" aria-label="Select an option">
+                    <mat-radio-button class="radio__option" value="SI">SI</mat-radio-button>
+                    <mat-radio-button class="radio__option" value="NO">NO</mat-radio-button>
+                </mat-radio-group>
+            </section>
+            <section class="section field field--radio">
+                <label class="example-margin">Lectura terminada?</label>
+                <mat-radio-group formControlName="finLectura" aria-label="Select an option">
+                    <mat-radio-button class="radio__option" value="SI">SI</mat-radio-button>
+                    <mat-radio-button class="radio__option" value="NO">NO</mat-radio-button>
+                </mat-radio-group>
+            </section>
+
+            <mat-form-field class="example-full-width" (click)="picker.open()">
+                <mat-label>Fecha de lectura</mat-label>
+                <input matInput [matDatepickerFilter]="myFilter" formControlName="fechaLectura" 
+                [matDatepicker]="picker" readonly>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+            <mat-form-field class="field" appearance="legacy">
+                <mat-label>Tipo de lectura</mat-label>
+                <mat-select class="field_input" formControlName="tipo" required>
+                  <mat-option *ngFor="let item of tipoLectura" [value]="item.descripcion">
+                    {{item.descripcion}}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="tipoLlamada.hasError('required')">Por favor escoge un tipo</mat-error>
+                <mat-hint>{{tipoLlamada.value?.sound}}</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field class="field" appearance="legacy">
+                <mat-label>Medio de comunicación</mat-label>
+                <mat-select class="field_input" formControlName="medio" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let item of medioComunicacion" [value]="item.descripcion">
+                    {{item.descripcion}}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="tipoLlamada.hasError('required')">Por favor escoge un tipo</mat-error>
+                <mat-hint>{{tipoLlamada.value?.sound}}</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field class="field" appearance="legacy">
+                <mat-label>libro leido</mat-label>
+                <mat-select formControlName="libro" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let item of libros" [value]="item">
+                    {{item.tituloLibro}}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="tipoLlamada.hasError('required')">Por favor escoge un tipo</mat-error>
+                <mat-hint>{{tipoLlamada.value?.sound}}</mat-hint> -->
+            </mat-form-field>
+            <section class="section__time ">
+                <mat-form-field  (click)="openFormIconIni(pickerIni)" class="field__time" appearance="legacy" appearance="outline"> 
+                    <mat-label>Hora de inicio llamada</mat-label > 
+                    <input type="text" [disabled]="true" matInput formControlName="horaInicio" [format]="24"
+                    [ngxTimepicker]="pickerIni"
+                    />
+                    <mat-icon matSuffix>schedule</mat-icon>
+                    <ngx-material-timepicker #pickerIni></ngx-material-timepicker>
+                </mat-form-field> 
+                <mat-form-field (click)="openFormIconFin(pickerFin)" class="field__time" appearance="legacy" appearance="outline"> 
+                    <mat-label>Hora de fin llamada</mat-label>
+                    <input type="text" [disabled]="true"matInput [min]="horaInicio?.value" [format]="24"
+                    formControlName="horaFin" [ngxTimepicker]="pickerFin"/>
+                    <mat-icon matSuffix>schedule</mat-icon>
+                    <ngx-material-timepicker #pickerFin></ngx-material-timepicker>
+                </mat-form-field>
+            </section>
+            <mat-form-field class="field" appearance="legacy">
+                <mat-label>Tiempo leído (Horas)</mat-label>
+                <input type="text" matInput formControlName="tiempoLeido">
+            </mat-form-field>
+        </div>
+        <mat-form-field class="field field__text--area" appearance="fill">
+            <mat-label>Observaciones</mat-label>
+            <textarea rows="3" matInput formControlName="observaciones" ></textarea>
+        </mat-form-field>
+        <div class="btn__action">
+            <button type="submit" class="btn btn__login--guardar" mat-button [disabled]="formLlamada.invalid">Guardar</button>
+            <button type="button" class="btn btn__login--cancelar" (click)="cancel()" mat-button>Cancelar</button>
+        </div>
+    </form>
+</div>
