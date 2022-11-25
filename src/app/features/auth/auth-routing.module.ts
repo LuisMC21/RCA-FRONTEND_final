@@ -3,14 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { LoginView } from './views/login/login.view';
 
+
 const routes: Routes = [
-  {
-    path:'',component:AuthComponent,
-    children : [
-      {path: '', component: LoginView },
-      {path : 'login',component:LoginView}
-    ]
-  }
+    {path: '', redirectTo: 'login', pathMatch: 'full'},
+    { 
+        path: '', component: AuthComponent, 
+        children:[
+            { path:'login',component:LoginView},
+     ]
+    }
 ];
 
 @NgModule({

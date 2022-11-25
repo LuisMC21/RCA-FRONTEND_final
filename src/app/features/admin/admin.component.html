@@ -1,0 +1,35 @@
+<!-- <app-header-admin></app-header-admin>
+<div class="dashboard flex flex-grap lg:justify-between">
+    <app-nav-admin class="nav lg:block w-auto"></app-nav-admin> 
+    <div class="dashboard__cont">
+        <header class="header_dashboard">
+            <legend>INTRANET ADMINISTRADOR</legend> 
+            <div class="header__icon">
+                <i class="bi bi-bell-fill"></i>
+                <i class="bi bi-chat-dots-fill"></i>
+                <i (click)="showNews()" class="bi bi-calendar"></i>
+            </div>
+        </header>
+        <router-outlet class="router__outlet p-2"></router-outlet>
+    </div>
+    <app-aside *ngIf="optionShowNews" class="aside hidden lg:block mt-6 rounded-xl"></app-aside>  
+</div> -->
+
+
+<app-header-admin class="header"></app-header-admin>
+<div class="dashboard">
+    <app-nav-admin class="nav"></app-nav-admin> 
+    <div class="dashboard__cont">
+        <header class="header_dashboard bg-slate-500">
+            <legend>INTRANET ADMINISTRADOR</legend> 
+            <div class="header__icon">
+                <span><i class="bi bi-bell-fill"></i></span>
+                <span><i class="bi bi-chat-dots-fill"></i></span>
+                <span (click)="showNews()"><i class="bi bi-calendar"></i></span>
+            </div>
+        </header>
+        <router-outlet class="router__outlet p-2"></router-outlet>
+    </div>
+</div>
+<app-aside *ngIf="optionShowNews" class="aside rounded-xl"></app-aside>  
+

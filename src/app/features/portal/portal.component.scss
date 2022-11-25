@@ -1,0 +1,8 @@
+.router{
+    height: auto;
+    @media screen and(max-width:1024px){
+        & {
+            padding-top: 10vh;
+        }
+    }    
+}

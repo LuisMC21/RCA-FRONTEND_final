@@ -1,0 +1,26 @@
+.pagination{
+    font-size: 0.8rem;
+    padding: 1rem 0;
+}
+.size{
+    border: 1px solid rgb(194, 184, 184);
+    border-radius: 1px;
+    cursor: pointer;
+    width: 4rem;
+}
+.index{
+    color: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1.5px;
+}
+.sizeOptions{
+    width: 4rem;
+    transition: all 0.5s ease;
+}
+.btn-page{
+    color:#000;
+    &:disabled{
+        color: var(--const-color-blue-hover);
+    }
+}

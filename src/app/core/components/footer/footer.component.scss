@@ -1,0 +1,18 @@
+.footer{
+    background-color: var(--const-color-blue);
+    color: #fff;
+    height: 50vh;
+    width: 100%;
+
+    & span{
+        display: flex;
+        width: 100%;
+        font-size: 0.9rem;
+        & i{
+            padding:0.3rem 0.5rem;
+        }
+        & label{
+            padding-left: 1rem;
+        }
+    }
+}

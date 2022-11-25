@@ -1,0 +1,8 @@
+.field__input--button{
+    background-color: var(--const-color-blue);
+    width: max-content;
+    padding: 0 1.4rem;
+    &:hover{
+        background-color: var(--const-color-blue-hover);
+    }
+}

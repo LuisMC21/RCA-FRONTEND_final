@@ -1,0 +1,60 @@
+<aside *ngIf="asideShow" class="news bg-slate-500 p-2 rounded">
+    <div class="flex items-center justify-between bg-gray-100 mb-2">
+        <legend class="news__title lg:block w-full text-center py-4">Noticias</legend>
+        <app-btn-add (click)="modalAdd.showModal()"></app-btn-add>
+    </div>
+    <div class="pb-2" *ngFor="let new of news" (click)="form(new)" (click)="modalAdd.showModal()">
+        <div class="event h-16 w-full">
+            <img class="img" src={{new.imagenLow}}> 
+            <div class="event_absolute absolute flex items-center">
+                <div class="event__desc">{{new.titulo}}</div> 
+                <!-- <span class="span__btn--update"><i class="bi bi-pen"></i></span>  -->
+            </div>
+        </div>
+    </div>
+    <span class="redirect"><a class="redirect__link" (click)="redirectTo('noticias')" >Ver todo</a></span>
+</aside>
+
+<!-- MODAL AGREGAR NOTICIA -->
+<app-modal [title]="'Agregar noticia'" #modalAdd>
+    <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
+        <div class="field">
+            <app-label-field [title]="'**Título'"></app-label-field>
+            <app-field><input  formControlName="titulo" class="input" type="text"></app-field>
+            <app-required-field class="px-2" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)" [text]="'**El campo es requerido'"></app-required-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'*Sumilla'"></app-label-field>
+            <app-field><input formControlName="sumilla" class="input" type="text"></app-field>
+            <app-required-field class="px-2" *ngIf="sumilla?.invalid && (sumilla?.dirty || sumilla?.touched)" [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+        </div>
+        <app-label-field [title]="'**Descripción'"></app-label-field>
+        <textarea  formControlName="descripcion" name="textarea" rows="5" class="textArea w-full"></textarea>
+        <app-required-field class="px-2" *ngIf="descripcion?.invalid && (descripcion?.dirty || descripcion?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+        <div class="field">
+            <app-label-field [title]="'**Fecha'"></app-label-field>
+            <app-field><input formControlName="fecha" class="input" type="date"></app-field>
+            <app-required-field class="px-2" *ngIf="fecha?.invalid && (fecha?.dirty || fecha?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+        </div>
+        <div class="">
+            <app-label-field [title]="'*Imagen'"></app-label-field>
+            <input formControlName="imagen" (change)="captureFile($event)" class="input" type="file">
+            <!-- <app-required-field class="px-2" *ngIf="imagen?.invalid && (imagen?.dirty || imagen?.touched)" [text]="'*El campo es requerido'"></app-required-field> -->
+        </div>
+        <div class="flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button> 
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
+
+<!-- MENSAJE DE OPERACION -->
+<app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+
+<app-modal [title]="msjResponse" #modalOk>
+    <div class="w-1/2">
+        <app-button (click)="refresh()" (click)="modalOk.hiddenModal()" [title]="'Aceptar'"></app-button>
+    </div>
+</app-modal>
+
+            

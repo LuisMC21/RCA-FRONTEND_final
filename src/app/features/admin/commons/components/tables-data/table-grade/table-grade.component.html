@@ -1,0 +1,53 @@
+
+<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>{{tableName}}</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"type="search" placeholder="Buscar">
+    </div>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+</div> 
+<!-- MODAL AGREGAR -->
+<app-modal [title]="'Agregar Grado'" #modalAdd>
+    <form  [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
+        <div class="field">
+            <app-label-field [title]="'**Nombre'"></app-label-field>
+            <app-field><input  formControlName="nombre" class="input" type="text" placeholder="Nombre"></app-field>
+            <app-required-field class="px-2" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)" [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
+        </div>
+        <div class="flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button> 
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
+
+<table class="table bg-gray-50">
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of grades, let i=index">
+            <td>{{item.cod}}</td>
+            <td>{{item.nombre}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()"  [title] = "'Eliminar curso'"></app-btn-delete>
+            </td>
+            <!-- MODAL ELIMINAR -->
+            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.cod}}</label>
+                    <label><b>Nombre: </b>{{item.nombre}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+        </tr>
+    </tbody>
+</table>
+
+
+

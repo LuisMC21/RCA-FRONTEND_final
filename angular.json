@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "essalud-ui": {
+    "Proyect-RCA": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/essalud-ui",
+            "outputPath": "dist/proyect-rca",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "essalud-ui:build:production"
+              "browserTarget": "Proyect-RCA:build:production"
             },
             "development": {
-              "browserTarget": "essalud-ui:build:development"
+              "browserTarget": "Proyect-RCA:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "essalud-ui:build"
+            "browserTarget": "Proyect-RCA:build"
           }
         },
         "test": {
@@ -107,5 +107,5 @@
       }
     }
   },
-  "defaultProject": "essalud-ui"
+  "defaultProject": "Proyect-RCA"
 }

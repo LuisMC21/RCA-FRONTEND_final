@@ -1,0 +1,12 @@
+
+<section class="section__news">
+    <h1 class="news__subtitle">Noticias</h1>
+    <div class="news">
+        <div class="item" *ngFor="let item of news">
+            <div class="img">
+                <img src={{item.imagen}}>
+            </div>
+            <span class="news__desc"><p>{{item.titulo}}</p></span>
+        </div>
+    </div>
+</section>

@@ -1,19 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../material/material.module';
+import { FormComponent } from './form/form.component';
+import { NavLoginComponent } from './nav-login/nav-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedComponentsModule } from 'src/app/shared/components/components.module';
 
-const COMPONENTS:any = [
-  
-];
+
 
 @NgModule({
-  declarations: [...COMPONENTS],
-  exports: [...COMPONENTS],
+  declarations: [
+    FormComponent,
+    NavLoginComponent
+  ],
+  exports:[
+    FormComponent,
+    NavLoginComponent
+  ],
   imports: [
     CommonModule,
-    MaterialModule,
     ReactiveFormsModule,
+    SharedComponentsModule
   ]
 })
 export class AuthComponentsModule { }

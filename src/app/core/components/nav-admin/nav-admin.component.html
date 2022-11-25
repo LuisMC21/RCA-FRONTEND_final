@@ -1,0 +1,142 @@
+<nav class="nav w-full">
+    <!-- Icono hamburguesa deshabilitado -->
+    <label for="menuDesabled" class="logo-menu flex justify-start items-center p-3" id="fig_menu">
+        <i class="px-2 bi bi-list"></i>
+    </label>
+    <input type="checkbox" id="menu" class="hidden nav__input">
+    <ul class="nav__options py-4">
+        <li (click)="redirectTo('inicio')" class="nav__option flex flex-col" #inicio>
+            <div class="flex" (click)="Optinicio()">
+                <i class="bi bi-house-fill"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Inicio</label>
+                </span>
+            </div>
+            <!--<ul class="sub__menu hidden bg-red-500 ml-7 py-1">
+                <li class="py-1">Submenu</li>
+            </ul>  -->
+       </li>
+       <li class="nav__option flex flex-col" #operaciones>
+        <div class="flex"  (click)="submenuOper()">
+            <i class="bi bi-people"></i>
+            <span class="nav__option__toggle">
+                <label class="option__label">Operaciones</label>
+                <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
+            </span>
+        </div>
+        <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuOper">
+            <li (click)="redirectTo('matricula')" class="nav__option__sub flex flex-col">
+                <div class="flex">
+                    <i class="bi bi-people"></i>
+                    <span class="nav__option__toggle">
+                        <label class="option__label">Matricula</label>
+                    </span>
+                </div>
+            </li>
+            <li (click)="redirectTo('añoLectivo')" class="nav__option__sub flex flex-col">
+                <div class="flex">
+                    <i class="bi bi-people-fill"></i>
+                    <span class="nav__option__toggle">
+                        <label class="option__label">Año lectivo</label>
+                    </span>
+                </div>
+            </li>         
+        </ul>
+    </li>
+       <li class="nav__option flex flex-col" #mantenimiento>
+            <div class="flex"  (click)="submenuMant()">
+                <i class="bi bi-tools"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Mantenimiento</label>
+                    <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
+                </span>
+            </div>
+            <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuMant">
+                <li (click)="redirectTo('alumno')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Alumnos</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('docente')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people-fill"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Docentes</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('apoderado')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Apoderados</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('curso')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-journal-album"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Cursos</label>
+                        </span>
+                    </div>
+                </li>
+                
+            </ul>
+        </li>
+        <li class="nav__option flex flex-col" #confALectivo>
+            <div class="flex" (click)="submenuALectivo()">
+                <i class="bi bi-calendar2-range-fill"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Año lectivo</label>
+                    <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
+                </span>
+            </div>
+            <ul class="nav__submenu" *ngIf="showSubmenuConfALectivo">
+                <li (click)="redirectTo('grado')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-bar-chart-steps"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Grado</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('periodo')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-calendar"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Periodo</label>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li (click)="redirectTo('noticias')" class="nav__option flex flex-col">
+            <div class="flex">
+                <i class="bi bi-newspaper"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Noticias</label>
+                </span>
+            </div>
+        </li>
+        <li class="nav__option flex flex-col">
+            <div class="flex">
+                <i class="bi bi-gear-fill"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">configuración</label>
+                </span>
+            </div>
+        </li>
+        <li class="nav__option flex flex-col">
+            <div class="flex">
+                <i class="bi bi-gear-fill"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Reportes</label>
+                </span>
+            </div>
+        </li>
+    </ul>
+</nav>

@@ -1,25 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AuthRoutingModule } from './auth-routing.module';
 import { LoginView } from './views/login/login.view';
+import { AuthRoutingModule } from './auth-routing.module';
+import { CoreComponentsModule } from 'src/app/core/components/components.module';
 import { AuthComponent } from './auth.component';
 import { AuthCommonsModule } from './commons/commons.module';
-import { MaterialModule } from './commons/material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NotFoundView } from './views/not-found/not-found.view';
+
 
 
 @NgModule({
   declarations: [
+    AuthComponent,
     LoginView,
-    AuthComponent
+    NotFoundView
   ],
   imports: [
-    CommonModule,
     AuthRoutingModule,
-    AuthCommonsModule,
-    ReactiveFormsModule,
-    MaterialModule
+    CommonModule,
+    CoreComponentsModule,
+    AuthCommonsModule
   ]
 })
 export class AuthModule { }

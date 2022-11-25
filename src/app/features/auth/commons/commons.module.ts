@@ -1,16 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { AuthComponentsModule } from './components/components.module';
-import { MaterialModule } from './material/material.module';
 import { AuthServicesModule } from './services/services.module';
 
 
 
 @NgModule({
-  exports: [
+  exports:[
     AuthComponentsModule,
-    AuthServicesModule,
-    MaterialModule
+    AuthServicesModule
+  ],
+  
+  imports: [
+    CommonModule,
+    AuthServicesModule
   ]
 })
 export class AuthCommonsModule { }

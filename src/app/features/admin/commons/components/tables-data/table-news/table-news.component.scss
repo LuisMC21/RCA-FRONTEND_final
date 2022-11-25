@@ -1,0 +1,59 @@
+table{
+    width: 100%;
+    font-size: var(--font-size-table);
+    & th, tr, td{
+        padding: 0.2rem;
+    }
+}
+.actions{
+    display: flex;
+    justify-content: center;
+}
+.input{
+    outline: none;
+    width: 100%;
+    padding-left: 1rem;
+    background:none;
+}
+
+
+//form
+.form{
+    width: 500px;
+    min-width: 100px;
+}
+.input{
+    outline: none;
+    width: 100%;
+    padding-left: 1rem;
+    background:none;
+}
+
+.field{
+    width: 48.5%;
+    margin-bottom: 0.5rem;
+}
+.select{
+    border: 1px solid rgb(177, 174, 174);
+    border-radius: 0.3rem;
+    color: rgb(105, 105, 105);
+}
+
+.field__input--button{
+    background-color: var(--const-color-blue);
+    padding: 0 1.4rem;
+    &:disabled{
+        background-color: rgb(126, 162, 229);
+    }
+    &:enabled{
+        &:hover{
+            background-color: var(--const-color-blue-hover);
+        }
+    }
+}
+.textArea{
+    width: 100%;
+    border: 1px solid rgb(177, 174, 174);
+    outline: none;
+    padding: 0.6rem;
+}

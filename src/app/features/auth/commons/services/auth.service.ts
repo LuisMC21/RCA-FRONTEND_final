@@ -1,38 +1,19 @@
-import { Injectable } from '@angular/core';
-import { ISignInRequest } from '../../interfaces/sign-in-request';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IToken } from 'src/app/shared/interfaces/token.interface';
 import { environment } from 'src/environments/environment';
-import { IApiResponse } from 'src/app/core/interfaces/api-response';
-import { Router } from '@angular/router';
-import { IUser } from 'src/app/features/home/interfaces/user';
+import { ISignInRequest } from '../../interfaces/sign-in-request.interface';
+import { AuthServicesModule } from './services.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: AuthServicesModule
 })
 export class AuthService {
 
-  currentUser: BehaviorSubject<IUser>;
-  nameUserLS:string = 'currentUser'
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient, private router:Router) { 
-    this.currentUser = new BehaviorSubject(
-      JSON.parse(localStorage.getItem(this.nameUserLS)||'{}')
-    )
-  }
-
-  signInRequest(data:ISignInRequest):Observable<IApiResponse>{
-    return this.http.post<IApiResponse>(`${environment.api}/auth`,data);
-  }
-
-  setUserLocalStorage(user:IUser){
-    localStorage.setItem(this.nameUserLS,JSON.stringify(user));
-  }
-
-  logout(){
-    localStorage.removeItem(this.nameUserLS)
-    localStorage.removeItem('asignacion')
-    this.currentUser.next(null as any)
-    this.router.navigateByUrl(`${environment.api}/auth`)
+   signInRequest(request: ISignInRequest):Observable<IToken>{
+    return this.http.post<IToken>(`${environment.api}/auth/sig-in`,request);
   }
 }

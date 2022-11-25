@@ -1,0 +1,21 @@
+.cardMenu{
+    // background: linear-gradient(to left,rgb(81, 167, 213),var(--const-color-blue-hover));
+    background: linear-gradient(to left,rgb(215, 77, 75),rgb(176, 55, 55));
+    border-radius: 0.1rem;
+    &:hover{
+        transform: scale(1.05);
+        transition: all 0.5s ease;
+    }
+}
+.span__icon{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    margin: 0 5%;
+    // background-color: rgb(88, 180, 230);
+    background-color: rgb(215, 77, 75);
+
+    & i{
+        color: #fff;
+    }
+}

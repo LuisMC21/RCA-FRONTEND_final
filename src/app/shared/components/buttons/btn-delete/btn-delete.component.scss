@@ -1,0 +1,26 @@
+.span__btn{
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--const-color-blue);
+    border-radius: 50%;
+    padding: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    & i{
+        cursor: pointer;
+    }
+}
+
+
+.span__btn--delete{
+    height: 2rem;
+    width: 2rem;
+    margin: 0 0.3rem;
+    background-color: rgb(203, 60, 60);
+    &:hover{
+        background-color: rgb(238, 75, 75);
+    }
+}

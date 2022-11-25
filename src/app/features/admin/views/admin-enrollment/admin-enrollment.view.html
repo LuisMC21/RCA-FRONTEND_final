@@ -1,0 +1,19 @@
+<div class="px-8">
+    <app-route></app-route>
+    <app-table [title]="'Agregar curso'" [tableName]="tableName">
+        <app-table-enrollment
+        (enrollmentSave)="save($event)" 
+        (studentSave)="getStudentSave($event)"
+        (identiParentSave)="getIdentiParent($event)"
+        (identiGradePeriodReport)="matGradoReport($event)"
+        (identiGradePeriodReportXLS)="matGradoResponseXSL($event)"
+        (studentSearch)="searchStudent($event)"
+        [gradePeriods]="gradePeriods"
+        [matGrado]="matGrado"
+        [listStudents]="students"></app-table-enrollment>
+        <app-pagination [paginationData]="paginationData"></app-pagination> 
+    </app-table>
+</div>
+
+<!-- MENSAJE DE OPERACION -->
+<app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>

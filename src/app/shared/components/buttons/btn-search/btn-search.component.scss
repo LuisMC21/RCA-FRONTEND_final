@@ -1,0 +1,20 @@
+.span__btn{
+    height: 2.2rem;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.82rem;
+    // background-color: var(--const-color-blue);
+    border-radius: 1.1rem;
+    padding: 0.5rem 0.7rem;
+    color: #fff;
+    cursor: pointer;
+    & i{
+        cursor: pointer;
+    }
+    & label{
+        cursor: pointer;
+        padding: 0 0.2rem;
+    }
+}

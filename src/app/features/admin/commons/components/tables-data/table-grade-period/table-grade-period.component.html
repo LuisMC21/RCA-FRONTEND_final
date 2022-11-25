@@ -1,0 +1,188 @@
+
+<nav class="nav">
+    <ul class="navbar__nav">
+        <li class="nav__item nav__item--default" (click)="nav('matGrado')" #matGrado>Matriculados</li>
+        <li class="nav__item" (click)="nav('confGrado')" #confGrado>Configurar grado-periodo</li>
+        <li class="nav__item" (click)="nav('confCurso')" #confCurso>Configurar curso-grado</li>
+    </ul>
+</nav>
+
+<legend *ngIf="navItem=='matGrado'" class="tabla__legend">Cursos inscritos en cada crado</legend>
+<div *ngIf="navItem=='matGrado'" class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
+    <div class="flex mx-4"  (click)="getSizeOption()">
+        <label class="px-4">Grado-Periodo:</label>
+        <div class="size">
+            <div class="flex justify-between px-2">
+                <p>{{gradePeriodNom}}</p>
+                <i class="bi bi-caret-down-fill"></i>
+            </div>
+            <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
+                <div class="sizeOption hover:bg-slate-200" *ngFor="let option of gradePeriods" (click)="curGradoReport(option.identi)">{{option.nomGrado +"-"+ option.anioele}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="flex">
+        <app-btn-report (click)="curGradoReportXSL()" class="mx-2"></app-btn-report>
+    </div>
+</div>
+<!-- TABLA REPORTE -->
+<table class="table bg-gray-50" *ngIf="navItem=='matGrado'">
+    <thead>
+        <th>Curso</th>
+        <th>Docente</th>
+    </thead>
+    <tbody *ngIf="curGrado.length!=0; else empty">
+        <tr *ngFor="let item of curGrado">
+            <td>{{item.nomCurso}}</td>
+            <td>{{item.nomDoc}}</td>
+            <!-- MODAL ELIMINAR -->
+            <app-modal [title]="'Eliminar?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>001</label>
+                    <label><b>Nombre: </b>2022</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+        </tr>
+    </tbody>
+</table>
+<ng-template #empty>
+    <!-- <div class="empty">No hay registros de docentes con sus respectivos grados</div> -->
+</ng-template>
+<!-- TABLA GRADO - PERIODO -->
+<legend *ngIf="navItem=='confGrado'" class="tabla__legend">Configurar periodo</legend>
+<div *ngIf="navItem=='confGrado'" class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>Grado - Periodo</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <!-- <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"type="search" placeholder="Buscar"> -->
+    </div>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+</div> 
+<table *ngIf="navItem=='confGrado'" class="table bg-gray-50">
+    <thead>
+        <th>Grado</th>
+        <th>Año lectivo</th>
+        <th>Acciones</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of gradePeriods, let i=index">
+            <td>{{item.nomGrado}}</td>
+            <td>{{item.anioele}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()"  [title] = "'Eliminar curso'"></app-btn-delete>
+            </td>
+            <!-- MODAL ELIMINAR -->
+            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.nomGrado}}</label>
+                    <label><b>Nombre: </b>{{item.anioele}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+        </tr>
+    </tbody>
+</table>
+<!-- TABLA CURSO - GRADO -->
+<legend *ngIf="navItem=='confCurso'" class="tabla__legend">Configurar grado</legend>
+<div  *ngIf="navItem=='confCurso'"  class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>Curso - Grado</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <!-- <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"type="search" placeholder="Buscar"> -->
+    </div>
+    <app-btn-add (click)="modalCGAdd.showModal()" [title]="title"></app-btn-add>
+</div> 
+<table  *ngIf="navItem=='confCurso'"  class="table bg-gray-50">
+    <thead>
+        <th>Curso</th>
+        <th>Grado</th>
+        <th>Periodo</th>
+        <th>Docente</th>
+        <th>Acciones</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of courseGrades, let i=index">
+            <td>{{item.nomCurso}}</td>
+            <td>{{item.nomGrado}}</td>
+            <td>{{item.aniPeriodo}}</td>
+            <td>{{item.nomDocente}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form2(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()"  [title] = "'Eliminar curso'"></app-btn-delete>
+            </td>
+            <!-- MODAL ELIMINAR -->
+            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.cursoId}}</label>
+                    <label><b>Nombre: </b>{{item.gradoPeriodo}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+        </tr>
+    </tbody>
+</table>
+
+<!-- MODAL grado-periodo -->
+<app-modal [title]="'Año lectivo'" #modalAdd>
+    <form  [formGroup]="group" (ngSubmit)="save()" class="form ">
+        <div class="form__field">
+            <div class="field">
+                <app-label-field [title]="'*Grado'"></app-label-field>
+                <select  formControlName="gradoId" class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.identi}}" *ngFor="let option of grades">{{option.nombre}}</option>
+                </select>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'*Periodo'"></app-label-field>
+                <select  formControlName="periodoId" class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.identi}}" *ngFor="let option of periods">{{option.fecInic+"  ||  "+option.fecTer}}</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button type="submit" [disabled]="group.invalid" class="field__input--button mx-2 h-9 rounded-3xl text-white">Guardar</button> 
+                <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+            </div>
+        </div>
+    </form>
+</app-modal>
+<!-- MODAL curso-grado -->
+<app-modal [title]="'Año lectivo'" #modalCGAdd>
+    <form  [formGroup]="group2" (ngSubmit)="saveCG()" class="form">
+        <div class="form__field">
+            <div class="field">
+                <app-label-field [title]="'*Curso'"></app-label-field>
+                <select  formControlName="cursoId" class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.identi}}" *ngFor="let option of courses">{{option.nom}}</option>
+                </select>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'*Grado - Periodo'"></app-label-field>
+                <select  formControlName="gradoPeriodo" class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.identi}}" *ngFor="let option of gradePeriods">{{option.nomGrado +" - "+ option.anioele}}</option>
+                </select>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'*Docente'"></app-label-field>
+                <select formControlName="docenteId"  class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.identi}}" *ngFor="let option of teachers">{{option.apelPaterno +" "+ option.apelMaterno + " "+ option.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="field flex py-7">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button> 
+            <app-btn-cancel (click)="modalCGAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
+

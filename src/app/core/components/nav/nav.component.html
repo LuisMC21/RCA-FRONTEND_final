@@ -1,0 +1,43 @@
+
+
+<nav class="nav h-full flex lg:w-full flex-col lg:flex-row">
+    <ul class="nav__options h-full w-full list-none">
+        <li class="nav__option" (click)="redirectTo('portal/home')">
+            <span>
+                <label class="nav__option__text">Inicio</label>
+            </span>
+        </li>
+        <li class="nav__option">
+            <span>
+                <label class="nav__option__text">Propuesta educativa</label>
+                <i class="Header-i bi bi-chevron-compact-down"></i>
+            </span>
+            <ul class="nav__options__secondary">
+                 <li class="nav__option__secondary">Nuestra metología</li>
+                 <li class="nav__option__secondary">Nuestra metología</li>
+                 <li class="nav__option__secondary">Nuestra metología</li>
+             </ul>
+        </li>
+        <li class="nav__option" (click)="redirectTo('portal/about')">
+            <span>
+                <label class="nav__option__text">Nosotros</label>
+            </span>
+        </li>
+        <li class="nav__option">
+            <span>
+                <label class="nav__option__text">Servicios </label> 
+                <i class="Nav-i bi bi-chevron-compact-down"></i>
+            </span>
+            <ul class="nav__options__secondary">
+                <li class="nav__option__secondary">Inicial</li>
+                <li class="nav__option__secondary">Primaria</li>
+                <li class="nav__option__secondary">Secundaria</li>
+            </ul>
+        </li>
+        <li class="nav__option">
+            <span>
+                <app-button (click)="redirectTo('auth/login')" [title]="'Aula virtual'"></app-button>
+            </span>
+        </li>
+    </ul>
+</nav>

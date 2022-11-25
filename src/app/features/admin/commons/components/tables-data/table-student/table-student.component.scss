@@ -1,0 +1,58 @@
+table{
+    width: 100%;
+    font-size: var(--font-size-table);
+    & th, tr, td{
+        padding: 0.2rem;
+    }
+}
+.actions{
+    display: flex;
+    justify-content: center;
+}
+.input{
+    outline: none;
+    width: 100%;
+    padding-left: 1rem;
+    background:none;
+}
+
+.select{
+    border: 1px solid rgb(177, 174, 174);
+    border-radius: 0.3rem;
+    color: rgb(105, 105, 105);
+}
+
+.field__input--button{
+    background-color: var(--const-color-blue);
+    padding: 0 1.4rem;
+    &:disabled{
+        background-color: rgb(126, 162, 229);
+    }
+    &:enabled{
+        &:hover{
+            background-color: var(--const-color-blue-hover);
+        }
+    }
+}
+//Agregar alumno
+.form{
+    width: 500px;
+    min-width: 100px;
+}
+.form__field{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0.2rem 0.4rem;
+}
+.btns{
+    height: 4rem;
+}
+//Buscar apoderado
+.parentSearch{
+    font-size: 0.8rem;
+}
+
+.newParent{
+    padding: 0 0.5rem;
+    font-size: 0.85rem;
+}

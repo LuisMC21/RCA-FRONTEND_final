@@ -1,0 +1,88 @@
+table{
+    width: 100%;
+    font-size: var(--font-size-table);
+    & th, tr, td{
+        padding: 0.2rem;
+        text-align: center;
+    }
+    border: 1px solid rgb(211, 208, 208);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+.actions{
+    display: flex;
+    justify-content: center;
+}
+.select{
+    border: 1px solid rgb(177, 174, 174);
+    border-radius: 0.3rem;
+    color: rgb(105, 105, 105);
+}
+.field__input--button{
+    background-color: var(--const-color-blue);
+    padding: 0 1.4rem;
+    &:disabled{
+        background-color: rgb(126, 162, 229);
+    }
+    &:enabled{
+        &:hover{
+            background-color: var(--const-color-blue-hover);
+        }
+    }
+}
+
+//Grado-Periodo
+.tabla__legend{
+    width: 100%;
+    padding:1rem 1rem;
+    font-weight: 600;
+}
+
+//curso-grado
+.form{
+    width: 60vw;
+}
+.form__field{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
+    gap: 0.2rem 0.4rem;
+
+}
+
+.size{
+    border: 1px solid rgb(194, 184, 184);
+    border-radius: 1px;
+    cursor: pointer;
+    width: 10rem;
+}
+.sizeOptions{
+    width: 10rem;
+    transition: all 0.5s ease;
+}
+
+//nav
+.nav{
+    background-color: rgb(224, 222, 222);
+}
+
+.navbar__nav{
+    display: flex;
+    height: 2rem;
+}
+
+.nav__item{
+    height: 100%;
+    display: flex;
+    padding: 0 1rem;
+    align-items: center;
+    width: max-content;
+    cursor: pointer;
+    &:hover{
+        color: rgb(46, 45, 45);
+        background-color: rgb(194, 190, 190);
+    }
+}
+
+.nav__item--default{
+    background-color:  rgb(236, 238, 240);
+}

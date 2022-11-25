@@ -1,0 +1,20 @@
+<div class="pagination w-full flex justify-end bg-slate-100">
+    <div class="flex mx-4"  (click)="getSizeOption()">
+        <label class="px-4">Tamaño de página:</label>
+        <div class="size">
+            <div class="flex justify-between px-2">
+                <p>{{size?size:5}}</p>
+                <i class="bi bi-caret-down-fill"></i>
+            </div>
+            <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
+                <div class="sizeOption hover:bg-slate-200" *ngFor="let sizeOption of sizeOptionPage" (click)="updateSize(sizeOption)">{{sizeOption}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="page flex justify-center items-center">
+        <label>Página: </label>
+        <button class="btn-page" [disabled]="page===0" (click)="previousPage()"><i class="bi bi-chevron-left"></i></button>
+        <button class="index bg-blue-500 flex justify-center items-center">{{page+1}}</button>
+        <button class="btn-page" (click)="nextPage()"><i class="bi bi-chevron-right"></i></button>
+    </div>
+</div>

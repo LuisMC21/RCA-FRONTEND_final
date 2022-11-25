@@ -1,0 +1,29 @@
+<ng-container *ngIf="show">
+    <div class="modal" #modalBack>
+        <div class="modal__content">
+            <div class="modal__header" *ngIf="title!=''; else iconLoading">
+                <div class="icon" *ngIf="successful; else failed">
+                    <i class="icon_succ bi bi-check-circle-fill"></i>
+                </div>
+                <h4 class="modal__title" *ngIf="title!=''">{{title}}</h4>
+            </div>
+            <div class="modal__container" *ngIf="title!=''">
+                <div class="btn-ok"  >
+                    <app-button (click)="refresh()" (click)="hiddenModal()" [title]="'OK'"></app-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #failed>
+    <div class="icon">
+        <i class="icon_failed bi bi-x-circle-fill"></i>
+    </div> 
+</ng-template> 
+<ng-template #iconLoading>
+    <div class="loader">
+        <app-loader-operation></app-loader-operation>
+        <h4>Cargando</h4>
+    </div>
+</ng-template>

@@ -1,0 +1,27 @@
+.review__section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    width: 100%;
+    padding: 0.5rem 0;
+    text-align: center;
+    color: var(--const-color-blue);
+}
+
+.p__text{
+    padding: 0.5rem 0;
+    text-align: justify;
+
+    @media screen and(max-width:1024px){
+        & {
+            padding: 0.5rem 1rem;
+        }
+    }
+}
+
