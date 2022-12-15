@@ -30,7 +30,8 @@ export class AdminParentView implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.parentService.getAll('', page,size)
     .subscribe(response =>{
-      this.parents = response.content;
+      this.parents = response.data.list;
+      console.log("Apoderados:"+ response.data.list)
     });
   }
 
@@ -39,7 +40,7 @@ export class AdminParentView implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.parentService.getAll(nom,page,size).subscribe(response =>{
-      this.parents = response.content;
+      this.parents = response.data.list;
     })
   }
 

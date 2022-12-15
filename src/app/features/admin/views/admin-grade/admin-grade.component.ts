@@ -26,7 +26,8 @@ export class AdminGradeComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.gradeService.getAll('', page,size)
     .subscribe(response =>{
-      this.grades = response.content;
+      this.grades = response.data.list;
+      console.log("Grados:", response.data.list)
     });
   }
 
@@ -36,14 +37,14 @@ export class AdminGradeComponent implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.gradeService.getAll(nom,page,size).subscribe(response =>{
-      this.grades = response.content;
+      this.grades = response.data.list;
     })
   }
 
   // AGREGAR - ACTUALIZAR
   save(grade:IGrade){
 
-    if(grade.identi==null){
+    if(grade.code==null){
       this.gradeService.add(grade).subscribe(data =>{
         console.log(data.msj)
         if(data.msj==='OK'){

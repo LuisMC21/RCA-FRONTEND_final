@@ -32,11 +32,12 @@ export class AdminCourseComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.courseService.getAll('', page,size)
     .subscribe(response =>{
-      this.courses = response.content;
+      this.courses = response.data.list;
+      console.log(response);
     });
 
     this.gradoService.getAll('',0,10).subscribe(response =>{
-      this.grades = response.content;
+      this.grades = response.data.list;
     })
   }
 
@@ -45,7 +46,7 @@ export class AdminCourseComponent implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.courseService.getAll(nom,page,size).subscribe(response =>{
-      this.courses = response.content;
+      this.courses = response.data.list;
     })
   }
 

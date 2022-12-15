@@ -40,10 +40,10 @@ export class TablePeriodComponent implements OnInit {
 
   form(item?:IPeriod):void{
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
-      fecInic:[item?item.fecInic:'',[Validators.required]],
-      fecTer:[item?item.fecTer:'',[Validators.required]],
-      anioElec:[item?item.anioElec:'',[Validators.required, Validators.minLength(4), Validators.minLength(4)]],
+      identi:[item?item.code:null],
+      fecInic:[item?item.date_start:'',[Validators.required]],
+      fecTer:[item?item.date_end:'',[Validators.required]],
+      anioElec:[item?item.anio_lectivoDTO:'',[Validators.required, Validators.minLength(4), Validators.minLength(4)]],
   });
 }
 

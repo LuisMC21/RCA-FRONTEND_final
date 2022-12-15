@@ -15,21 +15,21 @@ export class EnrollmentService {
 
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/matricula/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/matricula?page=${page}&size=${size}`);
   }
 
   //Agregar 
   add(enrollment:IEnrollment):Observable<IResponse>{
-    return this.http.post<IResponse>(`${environment.api}/matricula/`,enrollment)
+    return this.http.post<IResponse>(`${environment.api}/matricula`,enrollment)
   }
 
   //Modificar 
   update(enrollment:IEnrollment):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/matricula/`,enrollment);
+    return this.http.put<IResponse>(`${environment.api}/matricula`,enrollment);
   }
 
   //Eliminar 
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/matricula/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/matricula`+id);
   }
 }

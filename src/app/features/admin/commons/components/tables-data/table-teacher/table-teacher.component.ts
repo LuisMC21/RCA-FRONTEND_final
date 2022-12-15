@@ -70,11 +70,11 @@ export class TableTeacherComponent implements OnInit {
       identi:[item?item.identi:null],
       apelPaterno:[item?item.apelPaterno:'',[Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       apelMaterno:[item?item.apelMaterno:'',[Validators.required, Validators.minLength(3),Validators.maxLength(20)]],
-      nombre:[item?item.nombre:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
       tipDocumento:[item?item.tipDocumento:'',[Validators.required]],
       gradDoc:[item?item.gradDoc:'',[Validators.required]],
       numDocumento:[item?item.numDocumento:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      especializacion:[item?item.especializacion:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
+      especializacion:[item?item.specialty:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       tipSeguro:[item?item.tipSeguro:'',Validators.required]
   });
   }

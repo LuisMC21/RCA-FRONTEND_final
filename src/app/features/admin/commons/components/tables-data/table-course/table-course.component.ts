@@ -36,12 +36,13 @@ export class TableCourseComponent implements OnInit {
   
   ngOnInit(): void {
     this.form();
+    console.log("Cursos", this.courses)
   }
 
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
       identi:[item?item.identi:null],
-      nom:[item?item.nom:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
+      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       descripcion:[item?item.descripcion:'',]
   });
 }

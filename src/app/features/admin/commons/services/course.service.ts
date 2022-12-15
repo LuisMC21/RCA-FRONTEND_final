@@ -15,23 +15,23 @@ export class CourseService {
   constructor(private http: HttpClient) { }
 //Listar Cursos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/curso/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/curso?page=${page}&size=${size}`);
   }
 
   //Agregar curso
   add(course:ICourse):Observable<IResponse>{
     console.log(course)
-    return this.http.post<IResponse>(`${environment.api}/curso/`,course)
+    return this.http.post<IResponse>(`${environment.api}/curso`,course)
   }
 
   //Modificar curso
   update(course:ICourse):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/curso/`,course);
+    return this.http.put<IResponse>(`${environment.api}/curso`,course);
   }
 
   //Eliminar curso
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/curso/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/curso`+id);
   }
   
 }

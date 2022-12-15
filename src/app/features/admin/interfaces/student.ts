@@ -1,22 +1,25 @@
+import { IUser } from "./user";
+
 export interface IStudent {
     identi:string;
     fecCrear:Date;  
     estado:string;
-    apelMat:    string;
-    apelPat:    string;
+    ma_surname:    string;
+    pa_surname:    string;
     apoderado:  string;
-    codigo:     null;
+    code:     null;
     direcc:     string;
-    enferm:     string;
+    diseases:     string;
     fecNaci:    Date;
     id:         null;
-    isVacunado: string;
-    nomConPri:  string;
-    nomConSec:  string;
-    nombre:     string;
+    vaccine: string;
+    namecon_pri:  string;
+    namecon_sec:  string;
+    name:    string;
     numDoc:     string;
-    telConPri:  string;
-    telConSec:  string;
+    telcon_pri:  string;
+    telcon_sec:  string;
     tipDoc:     string;
-    tipSeg:     string;
+    tipSeg: string;
+    usuarioDTO: IUser;
 }

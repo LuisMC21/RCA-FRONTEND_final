@@ -1,6 +1,6 @@
 export interface ICourse {
     identi:string;
-    cod: string;
-    nom: string;
+    code: string;
+    name: string;
     descripcion: string;
 }

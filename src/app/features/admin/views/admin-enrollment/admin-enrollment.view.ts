@@ -48,6 +48,7 @@ export class AdminEnrollmentView implements OnInit {
   ngOnInit(): void {
     this.gradoPeriodoService.getAll("",0,5).subscribe(data =>{
       this.gradePeriods = data.content;
+      console.log("Matricula "+data.content)
     })
     this.searchStudent();
   }
@@ -71,7 +72,7 @@ export class AdminEnrollmentView implements OnInit {
   // AGREGAR - ACTUALIZAR
   save(enrollment:IEnrollment){
     enrollment.idAlumno = this.studentSave.identi;
-    if(enrollment.identi==null){
+    if(enrollment.code==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
           if(data.msj==='OK'){
             this.msjResponse = 'Matricula registrada correctamente'

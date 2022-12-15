@@ -114,20 +114,20 @@ export class TableEnrollmentComponent implements OnInit {
     this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
       identi:[item?item.identi:null],
-      apelPat:[item?item.apelPat:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      apelMat:[item?item.apelMat:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
-      nombre:[item?item.nombre:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      apelPat:[item?item.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      apelMat:[item?item.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
+      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
       //tipDoc:[item?item.tipDoc:''],
       numDoc:[item?item.numDoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
       direcc:[item?item.direcc:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       fecNaci:[item?item.fecNaci:'',[Validators.required]],
       //apoderado:[''],
-      enferm:[item?item.enferm:''],
+      enferm:[item?item.diseases:''],
       // isVacunado: [''],
       nomConPri:  [''],
       nomConSec:  [''],
       telConSec:  [''],
-      telConPri:[item?item.telConPri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
+      telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
       //tipSeg: [item?item.tipSeg:'']
     });
   }
@@ -143,7 +143,7 @@ export class TableEnrollmentComponent implements OnInit {
   }
   //Asignar estudiante
   asingStudent(student:IStudent){
-    this.nomSearch= ' '+student.nombre + ' ' +student.apelMat +' '+student.apelPat;
+    this.nomSearch= ' '+student.name + ' ' +student.pa_surname +' '+student.ma_surname;
     this.asignStudent = student
   }
   asignStudentForm(){

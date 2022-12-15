@@ -16,22 +16,22 @@ export class TeacherService {
 
    //Listar Docente
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/docente/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/docente?page=${page}&size=${size}`);
   }
 
   //Agregar docente
   add(teacher:ITeacher):Observable<IResponse>{
     console.log(teacher)
-    return this.http.post<IResponse>(`${environment.api}/docente/`,teacher)
+    return this.http.post<IResponse>(`${environment.api}/docente`,teacher)
   }
 
   //Modificar docente
   update(teacher:ITeacher):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/docente/`,teacher);
+    return this.http.put<IResponse>(`${environment.api}/docente`,teacher);
   }
 
   //Eliminar docente
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/docente/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/docente`+id);
   }
 }

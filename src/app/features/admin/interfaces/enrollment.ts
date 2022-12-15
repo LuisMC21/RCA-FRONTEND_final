@@ -1,6 +1,11 @@
+import { IAnioLectivo } from "./anio-lectivo";
+import { IStudent } from "./student";
+
 export interface IEnrollment {
-    identi:string;
+    code: string;
+    date: Date;
     idGradoPeriodo:string,
     idAlumno: string;
-    fecMatri:Date
+    alumnoDTO: IStudent
+    anioLectivoDTO:IAnioLectivo
 }

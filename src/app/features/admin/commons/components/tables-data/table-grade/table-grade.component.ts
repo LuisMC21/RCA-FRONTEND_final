@@ -38,8 +38,8 @@ export class TableGradeComponent implements OnInit {
 
   form(item?:IGrade):void{
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
-      nombre:[item?item.nombre:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
+      identi:[item?item.code:null],
+      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
   });
 }
 

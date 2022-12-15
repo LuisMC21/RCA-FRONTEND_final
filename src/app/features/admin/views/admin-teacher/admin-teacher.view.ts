@@ -6,7 +6,9 @@ import { ITeacher } from '../../interfaces/teacher';
 
 @Component({
   selector: 'app-admin-teacher',
-  templateUrl: './admin-teacher.view.html',
+  templateUrl: 
+  
+    './admin-teacher.view.html',
   styleUrls: ['./admin-teacher.view.scss']
 })
 export class AdminTeacherView implements OnInit {
@@ -31,7 +33,8 @@ export class AdminTeacherView implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.teacherService.getAll('', page,size)
     .subscribe(response =>{
-      this.teachers = response.content;
+      this.teachers = response.data.list;
+      // console.log("profesores",response.data.list)
     });
   }
   //BUSCAR
@@ -39,7 +42,7 @@ export class AdminTeacherView implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.teacherService.getAll(nom,page,size).subscribe(response =>{
-      this.teachers = response.content;
+      this.teachers = response.data.list;
     })
   }
 

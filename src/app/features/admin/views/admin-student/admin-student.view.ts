@@ -13,7 +13,7 @@ export class AdminStudentView implements OnInit {
 
   tableName = "Estudiante"
   cardMenu=[
-    {title:"Matenimiento", image:"bi bi-gear-wide-connected"},
+    {title:"Mantenimiento", image:"bi bi-gear-wide-connected"},
     {title:"Matrícula", image:"bi bi-calendar"},
     {title:"Operaciones", image:"bi bi-file-earmark-text"},
     {title:"Consultas", image:"bi bi-plus-circle"},
@@ -34,7 +34,8 @@ export class AdminStudentView implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.studentService.getAll('', page,size)
     .subscribe(response =>{
-      this.students = response.content;
+      this.students = response.data.list;
+      // console.log(response.data.list[0].usuarioDTO.pa_surname)
     });
   }
 
@@ -44,7 +45,7 @@ export class AdminStudentView implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.studentService.getAll(nom,page,size).subscribe(response =>{
-      this.students = response.content;
+      this.students = response.data.list;
     })
   }
 

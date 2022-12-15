@@ -17,21 +17,21 @@ export class ParentService {
 
   //Listar apoderado
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/apoderado/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/apoderado?page=${page}&size=${size}`);
     
   }
   //Buscar apoderado
   findById(id:string):Observable<IParent>{
-    return this.http.get<IParent>(`${environment.api}/apoderado/`+id);
+    return this.http.get<IParent>(`${environment.api}/apoderado`+id);
   }
   //Agregar apoderado
   add(parent:IParent):Observable<IResponse>{
-    return this.http.post<IResponse>(`${environment.api}/apoderado/`,parent)
+    return this.http.post<IResponse>(`${environment.api}/apoderado`,parent)
   }
 
   //Modificar apoderado
   update(parent:IParent):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/apoderado/`,parent);
+    return this.http.put<IResponse>(`${environment.api}/apoderado`,parent);
   }
 
   //Eliminar apoderado

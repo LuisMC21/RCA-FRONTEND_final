@@ -15,22 +15,22 @@ export class GradeService {
 
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/grado/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/grado?page=${page}&size=${size}`);
   }
 
   //Agregar 
   add(course:IGrade):Observable<IResponse>{
     console.log(course)
-    return this.http.post<IResponse>(`${environment.api}/grado/`,course)
+    return this.http.post<IResponse>(`${environment.api}/grado`,course)
   }
 
   //Modificar 
   update(course:IGrade):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/grado/`,course);
+    return this.http.put<IResponse>(`${environment.api}/grado`,course);
   }
 
   //Eliminar 
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/grado/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/grado`+id);
   }
 }

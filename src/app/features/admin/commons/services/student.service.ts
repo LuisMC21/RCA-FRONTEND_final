@@ -14,22 +14,22 @@ export class StudentService {
 
   //Listar alumnos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/alumno?page=${page}&size=${size}&nom=`+nom);
   }
 
   //Agregar alumno
   add(student:IStudent):Observable<IResponse>{
     console.log(student)
-    return this.http.post<IResponse>(`${environment.api}/alumno/`,student)
+    return this.http.post<IResponse>(`${environment.api}/alumno`,student)
   }
 
   //Modificar alumno
   update(student:IStudent):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/alumno/`,student);
+    return this.http.put<IResponse>(`${environment.api}/alumno`,student);
   }
 
   //Eliminar alumno
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/alumno/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/alumno`+id);
   }
 }

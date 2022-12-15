@@ -24,6 +24,13 @@ export class AdminNewsView implements OnInit {
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   ngOnInit(): void {
+    //  let page = this.pagination.getPage(this.paginationData);
+    // let size = this.pagination.getSize(this.paginationData);
+    // this.newsService.getAll('', page,size)
+    // .subscribe(response =>{
+    //   this.parents = response.data.list;
+    //   console.log("Apoderados:"+ response.data.list)
+    // });
   }
   search(nom:string){
     let page = this.pagination.getPage(this.paginationData);

@@ -1,17 +1,19 @@
+import { IUser } from "./user";
 
 export interface ITeacher{
     identi:string;
     fecCrear:Date;//
     estado:string;//
-    cod:string;//
+    code:string;//
     apelPaterno:string;//
     apelMaterno:string;//
-    nombre:string;//
+    name:string;//
     tipDocumento:string;//
     numDocumento:string;//
     gradDoc:string;//
-    especializacion:string;//
-    tipSeguro:string;//
+    specialty:string;//
+    tipSeguro: string;//
+    usuarioDTO: IUser;
 }
 
 

@@ -25,7 +25,7 @@ export class AdminPeriodComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.periodService.getAll('', page,size)
     .subscribe(response =>{
-      this.periods = response.content;
+      this.periods = response.data.list;
     });
   }
 
@@ -40,7 +40,7 @@ export class AdminPeriodComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(course:IPeriod){
-    if(course.identi==null){
+    if(course.code==null){
       this.periodService.add(course).subscribe(data =>{
         console.log(data.msj)
         if(data.msj==='OK'){
