@@ -76,14 +76,14 @@ export class TableStudentComponent implements OnInit {
 
     // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
-      apelPat:[item?item.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      apelMat:[item?item.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
-      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      tipDoc:[item?item.tipDoc:'',[Validators.required]],
-      numDoc:[item?item.numDoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      direcc:[item?item.direcc:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      fecNaci:[item?item.fecNaci:'',[Validators.required]],
+      identi:[item?item.code:null],
+      apelPat:[item?item.usuarioDTO.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      apelMat:[item?item.usuarioDTO.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
+      nombre:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      tipDoc:[item?item.usuarioDTO.type_doc:'',[Validators.required]],
+      numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
+      direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
+      // fecNaci:[item?item.fecNaci:'',[Validators.required]],
       apoderado:[''],
       enferm:[item?item.diseases:''],
       isVacunado: ['',[Validators.required]],
@@ -91,7 +91,7 @@ export class TableStudentComponent implements OnInit {
       nomConSec:  [''],
       telConSec:  [''],
       telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
-      tipSeg: [item?item.tipSeg:'',[Validators.required]]
+      tipSeg: [item?item.type_insurance:'',[Validators.required]]
     });
   }
 

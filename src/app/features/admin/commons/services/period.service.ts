@@ -15,22 +15,22 @@ export class PeriodService {
 
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/periodo/?page=${page}&size=${size}&nom=`+nom);
+    return this.http.get<IApiResponse>(`${environment.api}/periodo?page=${page}&size=${size}`);
   }
 
   //Agregar 
   add(period:IPeriod):Observable<IResponse>{
     console.log(period)
-    return this.http.post<IResponse>(`${environment.api}/periodo/`,period)
+    return this.http.post<IResponse>(`${environment.api}/periodo`,period)
   }
 
   //Modificar 
   update(period:IPeriod):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/periodo/`,period);
+    return this.http.put<IResponse>(`${environment.api}/periodo`,period);
   }
 
   //Eliminar 
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/periodo/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/periodo`+id);
   }
 }

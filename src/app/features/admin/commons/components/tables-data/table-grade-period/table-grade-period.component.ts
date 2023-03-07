@@ -26,7 +26,8 @@ export class TableGradePeriodComponent implements OnInit {
   @Input() listGrades:IGrade[]=[];
   @Input() listPeriods:IPeriod[]=[]
   @Input() gradePeriods:IGradePeriod[]=[]
-  @Input() curGrado:IReportCurGrado[]=[]
+ 
+  
 
   group!:FormGroup;
   group2!:FormGroup;
@@ -72,42 +73,40 @@ export class TableGradePeriodComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.gradePeriod.getAll('',0,5).subscribe(data=>{
-      this.gradePeriods = data.content
-     })
-    // this.courseGradeService.getAll('',0,5).subscribe(data=>{
-    //   this.courseGrades = data.content
+    // this.gradePeriod.getAll('',0,5).subscribe(data=>{
+    //   this.gradePeriods = data.content
+    //  })
+  
+    // this.courseService.getAll('',0,5).subscribe(data=>{
+    //   this.courses = data.content
     // })
-    this.courseService.getAll('',0,5).subscribe(data=>{
-      this.courses = data.content
-    })
-    this.gradeService.getAll('',0,5).subscribe(data=>{
-      this.grades = data.content
-    })
-    this.periodService.getAll('',0,5).subscribe(data=>{
-      this.periods = data.content
-    })
+    // this.gradeService.getAll('',0,5).subscribe(data=>{
+    //   this.grades = data.content
+    // })
+    // this.periodService.getAll('',0,5).subscribe(data=>{
+    //   this.periods = data.content
+    // })
     
-    this.teacherService.getAll('',0,5).subscribe(data=>{
-      this.teachers = data.content
-    })
+    // this.teacherService.getAll('',0,5).subscribe(data=>{
+    //   this.teachers = data.content
+    // })
     
-    this.getGradePeriodNom(this.gradoPeriodoLS)
-    this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
-    this.form();
+    // this.getGradePeriodNom(this.gradoPeriodoLS)
+    // this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
+    // this.form();
 
     this.form()
     this.form2();
   }
   getGradePeriodNom(iden:string){
     this.gradePeriod.getByIden(iden).subscribe(data =>{
-      this.gradePeriodNom = data.nomGrado;
+      this.gradePeriodNom = data.gradeDTO.name;
     })
   }
 
   form(item?:IGradePeriod):void{
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
+      identi:[item?item.code:null],
       gradoId:[],
       periodoId:[]
     });
@@ -115,7 +114,7 @@ export class TableGradePeriodComponent implements OnInit {
 
   form2( item2?:ICourseGrade){
     this.group2 = this.formBuilder.group({
-      identi:[item2?item2.identi:null],
+      identi:[item2?item2.code:null],
       cursoId:[],
       gradoPeriodo:[],
       docenteId:[]

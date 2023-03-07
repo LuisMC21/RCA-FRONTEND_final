@@ -12,11 +12,11 @@ import { IEnrollment } from '../../interfaces/enrollment';
 export class EnrollmentService {
 
   constructor(private http:HttpClient) { }
-
-  //Listar 
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
+getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/matricula?page=${page}&size=${size}`);
   }
+  //Listar 
+ 
 
   //Agregar 
   add(enrollment:IEnrollment):Observable<IResponse>{

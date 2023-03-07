@@ -70,7 +70,7 @@ curGradoResponseXSL(iden:string){
   // AGREGAR - ACTUALIZAR
   //grado-periodo
   save(gradePeriod:IGradePeriod){
-    if(gradePeriod.identi==null){
+    if(gradePeriod.code==null){
       this.gradoPeriodoService.add(gradePeriod).subscribe(data =>{
         if(data.msj==='OK'){
           this.msjResponse = 'Registrado correctamente'
@@ -94,7 +94,7 @@ curGradoResponseXSL(iden:string){
 
   //grado-periodo
   saveCG(cursoGrado:ICourseGrade){
-    if(cursoGrado.identi==null){
+    if(cursoGrado.code==null){
       this.courseGradeService.add(cursoGrado).subscribe(data =>{
         if(data.msj==='OK'){
           this.msjResponse = 'Registrado correctamente'

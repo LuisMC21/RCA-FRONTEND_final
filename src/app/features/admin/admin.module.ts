@@ -17,7 +17,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminSchoolYearView } from './views/admin-school-year/admin-school-year.view';
 import { AdminNewsView } from './views/admin-news/admin-news.view';
 
-
 @NgModule({
   declarations: [
     DashboardView,
@@ -30,7 +29,8 @@ import { AdminNewsView } from './views/admin-news/admin-news.view';
     AdminParentView,
     AdminEnrollmentView,
     AdminSchoolYearView,
-    AdminNewsView
+    AdminNewsView,
+  
   ],
   imports: [
     CommonModule,

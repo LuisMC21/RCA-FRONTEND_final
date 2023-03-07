@@ -5,9 +5,9 @@
     </div>
     <div class="pb-2" *ngFor="let new of news" (click)="form(new)" (click)="modalAdd.showModal()">
         <div class="event h-16 w-full">
-            <img class="img" src={{new.imagenLow}}> 
+            <img class="img" src={{new.image}}> 
             <div class="event_absolute absolute flex items-center">
-                <div class="event__desc">{{new.titulo}}</div> 
+                <div class="event__desc">{{new.title}}</div> 
                 <!-- <span class="span__btn--update"><i class="bi bi-pen"></i></span>  -->
             </div>
         </div>

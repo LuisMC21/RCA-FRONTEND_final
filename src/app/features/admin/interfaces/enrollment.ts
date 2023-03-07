@@ -1,11 +1,11 @@
 import { IAnioLectivo } from "./anio-lectivo";
+import { IAula } from "./aula";
 import { IStudent } from "./student";
 
 export interface IEnrollment {
     code: string;
     date: Date;
-    idGradoPeriodo:string,
-    idAlumno: string;
+    aulaDTO:IAula;
     alumnoDTO: IStudent
     anioLectivoDTO:IAnioLectivo
 }

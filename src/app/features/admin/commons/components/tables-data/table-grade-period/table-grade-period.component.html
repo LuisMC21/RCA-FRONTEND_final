@@ -17,7 +17,7 @@
             </div>
             <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
                 <div class="sizeOption hover:bg-slate-200" *ngFor="let option of gradePeriods"
-                    (click)="curGradoReport(option.identi)">{{option.nomGrado +"-"+ option.anioele}}</div>
+                    (click)="curGradoReport(option.code)">{{option.gradeDTO.name +"-"+ option.anioDTO}}</div>
             </div>
         </div>
     </div>
@@ -31,10 +31,10 @@
         <th>Curso</th>
         <th>Docente</th>
     </thead>
-    <tbody *ngIf="curGrado.length!=0; else empty">
-        <tr *ngFor="let item of curGrado">
-            <td>{{item.nomCurso}}</td>
-            <td>{{item.nomDoc}}</td>
+    <tbody *ngIf="gradePeriods?.length!=0; else empty">
+        <tr *ngFor="let item of courseGrades">
+            <td>{{item.cursoDTO.name}}</td>
+            <td>{{item.teacherDTO.usuarioDTO.numdoc}}</td>
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
@@ -70,8 +70,8 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of gradePeriods, let i=index">
-            <td>{{item.nomGrado}}</td>
-            <td>{{item.anioele}}</td>
+            <td>{{item.gradeDTO.name}</td>
+            <td>{{item.anioDTO.name}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
@@ -79,12 +79,12 @@
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
-                    <label><b>Codigo: </b>{{item.nomGrado}}</label>
-                    <label><b>Nombre: </b>{{item.anioele}}</label>
+                    <label><b>Codigo: </b>{{item.gradeDTO.name}</label>
+                    <label><b>Nombre: </b>{{item.anioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.code)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>
@@ -110,10 +110,10 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of courseGrades, let i=index">
-            <td>{{item.nomCurso}}</td>
-            <td>{{item.nomGrado}}</td>
-            <td>{{item.aniPeriodo}}</td>
-            <td>{{item.nomDocente}}</td>
+            <td>{{item.cursoDTO.name}}</td>
+            <td>{{item.gradeDTO.name}}</td>
+            <td>{{item.periodoDTO.name}}</td>
+            <td>{{item.teacherDTO.name}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form2(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
@@ -121,12 +121,12 @@
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
-                    <label><b>Codigo: </b>{{item.cursoId}}</label>
-                    <label><b>Nombre: </b>{{item.gradoPeriodo}}</label>
+                    <label><b>Codigo: </b>{{item.cursoDTO.code}}</label>
+                    <label><b>Nombre: </b>{{item.cursoDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.code)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>
@@ -171,8 +171,8 @@
             <div class="field">
                 <app-label-field [title]="'*Grado - Periodo'"></app-label-field>
                 <select formControlName="gradoPeriodo" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.identi}}" *ngFor="let option of gradePeriods">{{option.nomGrado +" - "+
-                        option.anioele}}</option>
+                    <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name +" - "+
+                        option.anioDTO.name}}</option>
                 </select>
             </div>
             <div class="field">

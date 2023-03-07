@@ -9,6 +9,4 @@ export class Parent{
     numDocumento:string='';
     telefono:string='';
     vacunas:string='';
-
-
 }

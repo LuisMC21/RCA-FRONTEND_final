@@ -40,6 +40,7 @@ export class TableEnrollmentComponent implements OnInit {
   @Input() gradePeriods:IGradePeriod[]=[]
   @Input() listStudents:IStudent[]=[]
   @Input() matGrado:IReportMatGrade[]=[]
+  @Input() matStudent:IEnrollment[]=[]
 
   @Output() studentSave:EventEmitter<IStudent> = new EventEmitter();
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
@@ -80,25 +81,25 @@ export class TableEnrollmentComponent implements OnInit {
   
   getGradePeriodNom(iden:string){
     this.gradePeriod.getByIden(iden).subscribe(data =>{
-      this.gradePeriodNom = data.nomGrado;
+      this.gradePeriodNom = data.gradeDTO.name;
     })
   }
 
   get apelPat(){return this.group.get('apelPat')}
   get apelMat(){return this.group.get('apelMat')}
   get nombre(){return this.group.get('nombre')}
-  // get tipDoc(){return this.group.get('tipDoc')}
+  get tipDoc(){return this.group.get('tipDoc')}
   get numDoc(){return this.group.get('numDoc')}
   get direcc(){return this.group.get('direcc')}
   get fecNaci(){return this.group.get('fecNaci')}
-  // get apoderado(){return this.group.get('apoderado')}
-  // get isVacunado(){return this.group.get('isVacunado')}
+  get apoderado(){return this.group.get('apoderado')}
+  get isVacunado(){return this.group.get('isVacunado')}
   get enferm(){return this.group.get('enferm')}
   get nomConPri(){return this.group.get('nomConPri')}
   get nomConSec(){return this.group.get('nomConSec')}
   get telConSec(){return this.group.get('telConSec')}
   get telConPri(){return this.group.get('telConPri')}
-  // get tipSeg(){return this.group.get('tipSeg')}
+  get tipSeg(){return this.group.get('tipSeg')}
 
   get fecMatri(){return this.groupEnrollment.get('fecMatri')}
   get idGradoPeriodo(){return this.groupEnrollment.get('idGradoPeriodo')}
@@ -111,16 +112,16 @@ export class TableEnrollmentComponent implements OnInit {
       identi:[null],
     })
 
-    this.nomParent = item?item.apoderado:'';
+    // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
-      apelPat:[item?item.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      apelMat:[item?item.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
-      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      identi:[item?item.code:null],
+      apelPat:[item?item.usuarioDTO.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      apelMat:[item?item.usuarioDTO.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
+      nombre:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
       //tipDoc:[item?item.tipDoc:''],
-      numDoc:[item?item.numDoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      direcc:[item?item.direcc:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      fecNaci:[item?item.fecNaci:'',[Validators.required]],
+      numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
+      direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
+      // fecNaci:[item?item.fecNaci:'',[Validators.required]],
       //apoderado:[''],
       enferm:[item?item.diseases:''],
       // isVacunado: [''],
@@ -143,7 +144,7 @@ export class TableEnrollmentComponent implements OnInit {
   }
   //Asignar estudiante
   asingStudent(student:IStudent){
-    this.nomSearch= ' '+student.name + ' ' +student.pa_surname +' '+student.ma_surname;
+    this.nomSearch= ' '+student.usuarioDTO.name + ' ' +student.usuarioDTO.pa_surname +' '+student.usuarioDTO.ma_surname;
     this.asignStudent = student
   }
   asignStudentForm(){

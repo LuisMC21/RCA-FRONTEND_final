@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { NewsService } from 'src/app/core/services/news.service';
+import { NewsService } from 'src/app/features/admin/commons/services/news.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { INews } from '../../interfaces/news';
@@ -24,25 +24,25 @@ export class AdminNewsView implements OnInit {
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   ngOnInit(): void {
-    //  let page = this.pagination.getPage(this.paginationData);
-    // let size = this.pagination.getSize(this.paginationData);
-    // this.newsService.getAll('', page,size)
-    // .subscribe(response =>{
-    //   this.parents = response.data.list;
-    //   console.log("Apoderados:"+ response.data.list)
-    // });
+     let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.newsService.getAll('', page,size)
+    .subscribe(response =>{
+      this.news = response.data.list;
+      console.log("Noticias:"+ response.data.list)
+    });
   }
   search(nom:string){
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.newsService.get(nom,page,size).subscribe(response =>{
+    this.newsService.getAll(nom,page,size).subscribe(response =>{
       this.news = response.content;
     })
   }
 
   // AGREGAR - ACTUALIZAR
   save(noticia:INews){
-    if(noticia.identi==null){
+    if(noticia.code==null){
       const formularioImg = new FormData();
   formularioImg.append('multipartFile',this.Imgfile)
 

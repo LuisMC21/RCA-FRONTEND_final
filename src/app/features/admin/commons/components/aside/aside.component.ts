@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { INews } from '../../../interfaces/news';
-import { NewsService } from '../../../../../core/services/news.service';
+import { NewsService } from '../../services/news.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ export class AsideComponent implements OnInit {
 
   ngOnInit(): void {
     this.form();
-    this.newsService.get('',0,4).subscribe(response =>{
+    this.newsService.getAll('',0,4).subscribe(response =>{
       this.news = response.content;
     })
   }
@@ -40,12 +40,12 @@ export class AsideComponent implements OnInit {
   form(item?:INews):void{
     this.group = this.formBuilder.group({
       administrativoId:['1'],
-      identi:[item?item.identi:null],
-      titulo:[item?item.titulo:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      sumilla:[item?item.sumilla:'',[Validators.required]],
-      descripcion:[item?item.descripcion:'',[Validators.required]],
-      fecha:[item?item.fecha:'',[Validators.required]],
-      imagen:[item?item.imagen:'',[Validators.required]]
+      identi:[item?item.code:null],
+      titulo:[item?item.title:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
+      sumilla:[item?item.sommelier:'',[Validators.required]],
+      descripcion:[item?item.descrip:'',[Validators.required]],
+      fecha:[item?item.date:'',[Validators.required]],
+      imagen:[item?item.image:'',[Validators.required]]
   });
 }
 

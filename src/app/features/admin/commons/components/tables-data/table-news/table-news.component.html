@@ -18,10 +18,10 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of news, let i=index">
-            <td>{{item.titulo}}</td>
-            <td>{{item.sumilla}}</td>
-            <td>{{item.descripcion}}</td>
-            <td>{{item.fecha}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.sommelier}}</td>
+            <td>{{item.descrip}}</td>
+            <td>{{item.date}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"  [title] = "'Eliminar curso'"></app-btn-delete>
@@ -29,11 +29,11 @@
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
-                    <label><b>Nombre: </b>{{item.titulo}}</label>
+                    <label><b>Nombre: </b>{{item.title}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.code)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>

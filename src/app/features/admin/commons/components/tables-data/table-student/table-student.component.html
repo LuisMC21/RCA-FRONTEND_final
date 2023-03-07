@@ -115,11 +115,11 @@
             <app-modal [title]="'Eliminar alumno?'" #modalDelete>
                 <div class="flex flex-col px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
-                    <label><b>Nombre: </b>{{item.pa_surname +' '+ item.ma_surname}} {{item.name}}</label>
+                    <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}} {{item.usuarioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete (click)="delete(item.identi)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.code)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>

@@ -33,7 +33,7 @@ export class AdminEnrollmentView implements OnInit {
   students:IStudent[]=[];
   matGrado:IReportMatGrade[]=[]
   paginationData = 'student'
-
+  enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
   
   constructor(
@@ -46,15 +46,15 @@ export class AdminEnrollmentView implements OnInit {
     ){ }
 
   ngOnInit(): void {
-    this.gradoPeriodoService.getAll("",0,5).subscribe(data =>{
-      this.gradePeriods = data.content;
-      console.log("Matricula "+data.content)
+    this.enrollmentService.getAll("",0,5).subscribe(response =>{
+      this.enrollmentList= response.data.list;
+      console.log(response.data.list)
     })
     this.searchStudent();
   }
   searchStudent(nom?:string){
-    this.studentService.getAll(nom?nom:'',0,6).subscribe(data =>{
-      this.students = data.content;
+    this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
+      this.students = response.data.list;
     })
   }
   //Reporte matriculados por grado
@@ -71,7 +71,7 @@ export class AdminEnrollmentView implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save(enrollment:IEnrollment){
-    enrollment.idAlumno = this.studentSave.identi;
+    enrollment.code = this.studentSave.code;
     if(enrollment.code==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
           if(data.msj==='OK'){

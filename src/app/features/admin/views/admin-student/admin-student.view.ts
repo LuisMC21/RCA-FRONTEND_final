@@ -51,8 +51,8 @@ export class AdminStudentView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(student:IStudent){
-    student.apoderado = this.identiParent;
-    if(student.identi==null){
+    // student.apoderado = this.identiParent;
+    if(student.code==null){
       this.studentService.add(student).subscribe(data =>{
         if(data.msj==='OK'){
           this.msjResponse = 'Alumno agregado correctamente'

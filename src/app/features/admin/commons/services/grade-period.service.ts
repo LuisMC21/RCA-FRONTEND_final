@@ -15,26 +15,26 @@ export class GradePeriodService {
 
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/periodo/?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/asignatura?page=${page}&size=${size}`);
   }
   //Buscar por Id 
   getByIden(iden?:string):Observable<IGradePeriod>{
-    return this.http.get<IGradePeriod>(`${environment.api}/periodo/`+iden);
+    return this.http.get<IGradePeriod>(`${environment.api}/asignatura`+iden);
   }
 
   //Agregar 
   add(gradePeriod:IGradePeriod):Observable<IResponse>{
     console.log(gradePeriod)
-    return this.http.post<IResponse>(`${environment.api}/periodo/`,gradePeriod)
+    return this.http.post<IResponse>(`${environment.api}/asignatura`,gradePeriod)
   }
 
   //Modificar 
   update(gradePeriod:IGradePeriod):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/periodo/`,gradePeriod);
+    return this.http.put<IResponse>(`${environment.api}/asignatura`,gradePeriod);
   }
 
   //Eliminar 
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/periodo/`+id);
+    return this.http.delete<IResponse>(`${environment.api}/asignatura`+id);
   }
 }

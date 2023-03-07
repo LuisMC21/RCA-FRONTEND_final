@@ -1,7 +1,7 @@
 <div class="px-8">
-    <app-route></app-route>
+    <app-route>
     <app-table [title]="'Agregar curso'" [tableName]="tableName">
-        <app-table-course     
+        <app-table-course 
             (courseDelete)="delete($event)" 
             (courseSave)="save($event)" 
             (courseSearch)="search($event)"
@@ -10,6 +10,7 @@
         </app-table-course> 
         <app-pagination [paginationData]="paginationData"></app-pagination>    
     </app-table>
+</app-route>
 </div>
 <!-- MENSAJE DE OPERACION -->
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>

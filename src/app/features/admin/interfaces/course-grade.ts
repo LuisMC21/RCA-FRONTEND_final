@@ -1,11 +1,14 @@
+import { ICourse } from "./course";
+import { IGrade } from "./grade";
+import { IPeriod } from "./period";
+import { IReportCurGrado } from "./reportCurGrado";
+import { ITeacher } from "./teacher";
+
 export interface ICourseGrade {
-    identi:string;
-    cursoId:string;
-    nomCurso:string;
-    aniPeriodo:string;
-    grado:string;
-    nomGrado:string;
-    gradoPeriodo:string,
-    docenteId:string;
-    nomDocente:string;
+   code:string
+   cursoDTO:ICourse
+   gradeDTO:IGrade
+   periodoDTO:IPeriod
+   teacherDTO:ITeacher
+   reportCurGrado:IReportCurGrado
 }

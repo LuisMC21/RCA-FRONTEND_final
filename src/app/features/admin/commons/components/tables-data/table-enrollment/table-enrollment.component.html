@@ -9,7 +9,7 @@
             </div>
             <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
                 <div class="sizeOption hover:bg-slate-200" *ngFor="let option of gradePeriods"
-                    (click)="matGradoResponse(option.identi)">{{option.nomGrado +"-"+ option.anioele}}</div>
+                    (click)="matGradoResponse(option.code)">{{option.gradeDTO.name +"-"+ option.anioDTO.name}</div>
             </div>
         </div>
     </div>
@@ -110,8 +110,8 @@
                     <app-label-field [title]="'*Grado Periodo'"></app-label-field>
                     <select formControlName="idGradoPeriodo"
                         class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.identi}}" *ngFor="let option of gradePeriods">{{option.nomGrado +" - " +
-                            option.anioele}}</option>
+                        <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name+" - " +
+                            option.anioDTO}}</option>
                     </select>
                 </div>
                 <div class="field">
@@ -145,10 +145,10 @@
                 <th>ALUMNO</th>
                 <th>SELECCIONAR</th>
             </thead>
-            <tbody *ngIf="listStudents.length!=0; else empty">
+            <tbody *ngIf="listStudents?.length!=0; else empty">
                 <tr class="hover:bg-gray-200" (click)="asingStudent(item)" *ngFor="let item of listStudents">
                     <td>{{item.code}}</td>
-                    <td>{{item.ma_surname + " " + item.pa_surname+ " "+ item.name}}</td>
+                    <td>{{item.usuarioDTO.ma_surname + " " + item.usuarioDTO.pa_surname+ " "+ item.usuarioDTO.name}}</td>
                     <td class="flex justify-center">
                         <app-btn-update></app-btn-update>
                     </td>
@@ -164,13 +164,13 @@
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
     </thead>
-    <tbody *ngIf="matGrado.length!=0; else empty">
-        <tr *ngFor="let item of matGrado">
-            <td>{{item.cod}}</td>
-            <td>{{item.nombre}}</td>
-            <td>{{item.numDoc}}</td>
-            <td>{{item.corrApo}}</td>
-            <td>{{item.telfApo}}</td>
+    <tbody *ngIf="matStudent?.length!=0; else empty">
+        <tr *ngFor="let item of matStudent, let i=index">
+            <td>{{item.code}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.name}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
+            <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
+            <td>{{item.alumnoDTO.apoderadoDTO.usuarioDTO.tel}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="matricula.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar registro'"></app-btn-delete>

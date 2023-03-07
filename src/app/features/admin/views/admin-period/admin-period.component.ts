@@ -26,6 +26,7 @@ export class AdminPeriodComponent implements OnInit {
     this.periodService.getAll('', page,size)
     .subscribe(response =>{
       this.periods = response.data.list;
+      console.log("Periodo" + response.data.list);
     });
   }
 

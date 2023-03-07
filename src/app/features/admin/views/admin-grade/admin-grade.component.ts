@@ -27,7 +27,7 @@ export class AdminGradeComponent implements OnInit {
     this.gradeService.getAll('', page,size)
     .subscribe(response =>{
       this.grades = response.data.list;
-      console.log("Grados:", response.data.list)
+    
     });
   }
 

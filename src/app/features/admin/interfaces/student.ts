@@ -1,25 +1,34 @@
+import { IParent } from "./parent";
 import { IUser } from "./user";
 
 export interface IStudent {
-    identi:string;
-    fecCrear:Date;  
-    estado:string;
-    ma_surname:    string;
-    pa_surname:    string;
-    apoderado:  string;
-    code:     null;
-    direcc:     string;
-    diseases:     string;
-    fecNaci:    Date;
-    id:         null;
-    vaccine: string;
+    code:string;
+    diseases:string;
     namecon_pri:  string;
-    namecon_sec:  string;
-    name:    string;
-    numDoc:     string;
     telcon_pri:  string;
+    namecon_sec:  string;
     telcon_sec:  string;
-    tipDoc:     string;
-    tipSeg: string;
+    vaccine: string;
+    type_insurance: string;
+    apoderadoDTO:  IParent;
     usuarioDTO: IUser;
+    // fecCrear:Date;  
+    // estado:string;
+    // ma_surname:    string;
+    // pa_surname:    string;
+   
+    // direcc:     string;
+ 
+    fecNaci:    Date;
+    // id:         null;
+    
+   
+    
+    // name:    string;
+    // numDoc:     string;
+  
+    
+    // tipDoc:     string;
+    
+    
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NewsService } from 'src/app/core/services/news.service';
+import { NewsService } from 'src/app/features/admin/commons/services/news.service';
 import { INews } from 'src/app/features/admin/interfaces/news';
 
 @Component({
@@ -13,7 +13,7 @@ export class HomeView implements OnInit {
   constructor(private newsService:NewsService) { }
 
   ngOnInit(): void {
-    this.newsService.get('',0,10).subscribe(response=>{
+    this.newsService.getAll('',0,10).subscribe(response=>{
       this.news = response.content;
     })
   }

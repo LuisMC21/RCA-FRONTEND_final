@@ -39,12 +39,12 @@ export class TableNewsComponent implements OnInit {
   form(item?:INews):void{
     this.group = this.formBuilder.group({
       administrativoId:['1'],
-      identi:[item?item.identi:null],
-      titulo:[item?item.titulo:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      sumilla:[item?item.sumilla:'',[Validators.required]],
-      descripcion:[item?item.descripcion:'',[Validators.required]],
-      fecha:[item?item.fecha:'',[Validators.required]],
-      imagen:[item?item.imagen:'',[Validators.required]]
+      identi:[item?item.code:null],
+      titulo:[item?item.title:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
+      sumilla:[item?item.sommelier:'',[Validators.required]],
+      descripcion:[item?item.descrip:'',[Validators.required]],
+      fecha:[item?item.date:'',[Validators.required]],
+      imagen:[item?item.image:'',[Validators.required]]
   });
 }
   //BUSCAR
