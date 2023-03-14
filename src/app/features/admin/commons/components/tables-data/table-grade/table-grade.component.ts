@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import {FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IGrade } from 'src/app/features/admin/interfaces/grade';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { GradeService } from '../../../services/grade.service';
@@ -39,7 +39,7 @@ export class TableGradeComponent implements OnInit {
   form(item?:IGrade):void{
     this.group = this.formBuilder.group({
       identi:[item?item.code:null],
-      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
+      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
   });
 }
 

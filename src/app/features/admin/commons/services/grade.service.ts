@@ -19,14 +19,14 @@ export class GradeService {
   }
 
   //Agregar 
-  add(course:IGrade):Observable<IResponse>{
-    console.log(course)
-    return this.http.post<IResponse>(`${environment.api}/grado`,course)
+  add(grade:IGrade):Observable<IResponse>{
+    console.log(grade)
+    return this.http.post<IResponse>(`${environment.api}/grado`,grade)
   }
 
   //Modificar 
-  update(course:IGrade):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/grado`,course);
+  update(grade:IGrade):Observable<IResponse>{
+    return this.http.put<IResponse>(`${environment.api}/grado`,grade);
   }
 
   //Eliminar 

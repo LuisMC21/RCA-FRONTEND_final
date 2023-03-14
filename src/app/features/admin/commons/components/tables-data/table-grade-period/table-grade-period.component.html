@@ -165,7 +165,7 @@
             <div class="field">
                 <app-label-field [title]="'*Curso'"></app-label-field>
                 <select formControlName="cursoId" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.identi}}" *ngFor="let option of courses">{{option.name}}</option>
+                    <option value="{{option.code}}" *ngFor="let option of courses">{{option.name}}</option>
                 </select>
             </div>
             <div class="field">

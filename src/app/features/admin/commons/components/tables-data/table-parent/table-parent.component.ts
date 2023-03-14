@@ -64,7 +64,7 @@ export class TableParentComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save(){
     if(this.group.valid){
-     this.parentSave.emit(this.group.value)
+    this.parentSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
   }

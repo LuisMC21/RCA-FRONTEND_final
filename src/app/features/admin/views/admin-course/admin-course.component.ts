@@ -25,7 +25,7 @@ export class AdminCourseComponent implements OnInit {
   constructor(
     private courseService: CourseService, 
     private pagination:PaginationService,
-    private gradoService:GradeService) { }
+    private gradeService:GradeService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
@@ -33,10 +33,10 @@ export class AdminCourseComponent implements OnInit {
     this.courseService.getAll('', page,size)
     .subscribe(response =>{
       this.courses = response.data.list;
-      console.log("Curso:"+ response.data.list)
+      
     });
 
-    this.gradoService.getAll('',0,10).subscribe(response =>{
+    this.gradeService.getAll('',0,10).subscribe(response =>{
       this.grades = response.data.list;
     })
   }
@@ -53,7 +53,7 @@ export class AdminCourseComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(course:ICourse){
-    if(course.identi==null){
+    if(course.code==null){
       this.courseService.add(course).subscribe(data =>{
         console.log(data.msj)
         if(data.msj==='OK'){

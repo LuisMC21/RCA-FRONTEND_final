@@ -24,26 +24,27 @@ export class TableCourseComponent implements OnInit {
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
+  head=["Codigo","Curso","Acciones"]
   group!: FormGroup;
-  head=["Codigo","Curso","Description","Acciones"]
+
   msjResponse:string='';
   nomSearch:string='';
 
   constructor(private formBuilder:FormBuilder) { }
-
-  get nom(){return this.group.get('nom')}
-  get descripcion(){return this.group.get('descripcion')}
   
   ngOnInit(): void {
     this.form();
-    console.log("Cursos", this.courses)
+  
   }
-
+  get code(){return this.group.get('code')}
+  get nom(){return this.group.get('nom')}
+  // get descripcion(){return this.group.get('descripcion')}
+  
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
+      code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      descripcion:[item?item.descripcion:'',]
+      // descripcion:[item?item.descripcion:'',]
   });
 }
 
@@ -53,9 +54,9 @@ export class TableCourseComponent implements OnInit {
   }
 
    // AGREGAR - ACTUALIZAR
-   save(){
+  save(){
     if(this.group.valid){
-     this.courseSave.emit(this.group.value)
+    this.courseSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
   }
@@ -66,5 +67,4 @@ export class TableCourseComponent implements OnInit {
     this.modalDelete.hiddenModal();
   }
 
-  refresh(): void { window.location.reload(); }
 }
