@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { AdminCourseComponent } from './views/admin-course/admin-course.component';
 import { AdminEnrollmentView } from './views/admin-enrollment/admin-enrollment.view';
 import { AdminGradeComponent } from './views/admin-grade/admin-grade.component';
+import { AdminImageComponent } from './views/admin-image/admin-image.component';
 import { AdminNewsView } from './views/admin-news/admin-news.view';
 import { AdminParentView } from './views/admin-parent/admin-parent.view';
 import { AdminPeriodComponent } from './views/admin-period/admin-period.component';
@@ -27,7 +28,8 @@ const routes: Routes = [
             { path:'matricula',component:AdminEnrollmentView},
             { path:'añoLectivo',component:AdminSchoolYearView},
             { path:'noticias',component:AdminNewsView},
-     ]
+            { path:'imagenes',component:AdminImageComponent},
+    ]
     }
 ];
 
