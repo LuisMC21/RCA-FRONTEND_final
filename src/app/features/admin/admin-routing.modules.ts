@@ -16,8 +16,8 @@ import { DashboardView } from './views/dashboard/dashboard.view';
 
 
 const routes: Routes = [
-    { 
-        path: '', component: AdminComponent, 
+    {
+        path: '', component: AdminComponent,
         children:[
             { path:'inicio',component:DashboardView},
             { path:'alumno',component:AdminStudentView},
@@ -31,7 +31,8 @@ const routes: Routes = [
             { path:'noticias',component:AdminNewsView},
             { path:'imagenes',component:AdminImageComponent},
             { path:'anioLectivo',component:AdminAniolectivoComponent},
-    ]
+            { path:'rol',component:AdminRoleComponent},
+     ]
     }
 ];
 

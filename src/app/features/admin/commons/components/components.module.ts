@@ -38,8 +38,8 @@ import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/tabl
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
-    
+    TableAnioLectivoComponent,
+    TableRoleComponent,
   ],
   exports:[
     TableComponent,
@@ -56,7 +56,8 @@ import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/tabl
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
+    TableAnioLectivoComponent,
+    TableRoleComponent,
   ],
   imports: [
     CommonModule,
