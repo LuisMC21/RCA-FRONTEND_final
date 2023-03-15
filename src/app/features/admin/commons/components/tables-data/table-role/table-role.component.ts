@@ -64,4 +64,6 @@ export class TableRoleComponent implements OnInit {
     this.roleDelete.emit(id)
     this.modalDelete.hiddenModal();
   }
+  refresh(): void { window.location.reload(); }
+
 }

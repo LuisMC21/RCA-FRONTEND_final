@@ -1,4 +1,4 @@
 export interface IRole{
     code: string
-    name: string
+    name:string
 }

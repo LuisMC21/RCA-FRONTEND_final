@@ -16,6 +16,7 @@ import { TablePeriodComponent } from './tables-data/table-period/table-period.co
 import { TableEnrollmentComponent } from './tables-data/table-enrollment/table-enrollment.component';
 import { TableGradePeriodComponent } from './tables-data/table-grade-period/table-grade-period.component';
 import { TableNewsComponent } from './tables-data/table-news/table-news.component';
+import { TableRoleComponent } from './tables-data/table-role/table-role.component';
 
 
 
@@ -34,13 +35,9 @@ import { TableNewsComponent } from './tables-data/table-news/table-news.componen
     TablePeriodComponent,
     TableEnrollmentComponent,
     TableGradePeriodComponent,
-<<<<<<< HEAD
     TableNewsComponent,
     TableRoleComponent
-=======
-    TableNewsComponent
     
->>>>>>> parent of 0b56484 ("list role in maintenance")
   ],
   exports:[
     TableComponent,
@@ -55,7 +52,8 @@ import { TableNewsComponent } from './tables-data/table-news/table-news.componen
     TablePeriodComponent,
     TableEnrollmentComponent,
     TableGradePeriodComponent,
-    TableNewsComponent
+    TableNewsComponent,
+    TableRoleComponent
   ],
   imports: [
     CommonModule,
