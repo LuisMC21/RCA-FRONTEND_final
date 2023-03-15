@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniolectivo.component';
+import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asistencia.component';
 import { AdminCourseComponent } from './views/admin-course/admin-course.component';
 import { AdminEnrollmentView } from './views/admin-enrollment/admin-enrollment.view';
 import { AdminGradeComponent } from './views/admin-grade/admin-grade.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
             { path:'noticias',component:AdminNewsView},
             { path:'imagenes',component:AdminImageComponent},
             { path:'anioLectivo',component:AdminAniolectivoComponent},
+            { path:'asistencia',component:AdminAsistenciaComponent}
     ]
     }
 ];

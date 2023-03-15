@@ -18,6 +18,7 @@ import { AdminSchoolYearView } from './views/admin-school-year/admin-school-year
 import { AdminNewsView } from './views/admin-news/admin-news.view';
 import { AdminImageComponent } from './views/admin-image/admin-image.component';
 import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniolectivo.component';
+import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asistencia.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniol
     AdminNewsView,
     AdminImageComponent,
     AdminAniolectivoComponent,
+    AdminAsistenciaComponent,
   
   ],
   imports: [

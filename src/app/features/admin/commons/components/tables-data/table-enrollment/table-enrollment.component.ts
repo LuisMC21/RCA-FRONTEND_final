@@ -9,7 +9,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { GradePeriodService } from '../../../services/grade-period.service';
 import { ParentService } from '../../../services/parent.service';
-
+import { AnioLectivoService } from '../../../services/anio-lectivo.service';
 @Component({
   selector: 'app-table-enrollment',
   templateUrl: './table-enrollment.component.html',
@@ -26,7 +26,6 @@ export class TableEnrollmentComponent implements OnInit {
   gradoPeriodoLS:string=localStorage.getItem('gradoPeriodo')||''
   gradePeriodNom:string='';
   nomSearch:string='';
-  
   identiParent:string='';
   identiGradoPeriodo:string='';
   identiStudent:string='';

@@ -18,6 +18,7 @@ import { TableGradePeriodComponent } from './tables-data/table-grade-period/tabl
 import { TableNewsComponent } from './tables-data/table-news/table-news.component';
 import { TableImageComponent } from './tables-data/table-image/table-image.component';
 import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/table-anio-lectivo.component';
+import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
 
 
 
@@ -38,7 +39,8 @@ import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/tabl
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
+    TableAnioLectivoComponent,
+    TableAsistenciaComponent
     
   ],
   exports:[
@@ -56,7 +58,8 @@ import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/tabl
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
+    TableAnioLectivoComponent,
+    TableAsistenciaComponent
   ],
   imports: [
     CommonModule,
