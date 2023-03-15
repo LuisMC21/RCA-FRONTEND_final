@@ -23,4 +23,3 @@ describe('AdminRoleComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

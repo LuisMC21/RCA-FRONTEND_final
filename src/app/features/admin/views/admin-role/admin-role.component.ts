@@ -81,4 +81,3 @@ export class AdminRoleComponent implements OnInit {
    refresh(): void { window.location.reload(); }
 
 }
-

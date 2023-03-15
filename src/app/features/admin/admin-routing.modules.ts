@@ -9,6 +9,7 @@ import { AdminImageComponent } from './views/admin-image/admin-image.component';
 import { AdminNewsView } from './views/admin-news/admin-news.view';
 import { AdminParentView } from './views/admin-parent/admin-parent.view';
 import { AdminPeriodComponent } from './views/admin-period/admin-period.component';
+import { AdminRoleComponent } from './views/admin-role/admin-role.component';
 import { AdminSchoolYearView } from './views/admin-school-year/admin-school-year.view';
 import { AdminStudentView } from './views/admin-student/admin-student.view';
 import { AdminTeacherView } from './views/admin-teacher/admin-teacher.view';
