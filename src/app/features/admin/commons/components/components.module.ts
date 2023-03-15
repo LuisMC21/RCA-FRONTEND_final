@@ -40,7 +40,7 @@ import { TableRoleComponent } from './tables-data/table-role/table-role.componen
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
+    TableAnioLectivoComponent,
     TableRoleComponent
   ],
   exports:[
@@ -58,8 +58,8 @@ import { TableRoleComponent } from './tables-data/table-role/table-role.componen
     TableGradePeriodComponent,
     TableNewsComponent,
     TableImageComponent,
-    TableAnioLectivoComponent
-    TableRoleComponent
+    TableAnioLectivoComponent,
+    TableRoleComponent,
   ],
   imports: [
     CommonModule,
