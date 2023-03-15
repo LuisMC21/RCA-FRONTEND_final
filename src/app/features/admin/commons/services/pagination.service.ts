@@ -19,9 +19,8 @@ export class PaginationService {
     {title:'noticias',page:0,size:5},
     {title:'image',page:0,size:5},
     {title:'anio',page:0,size:5}
-    {title:'role',page:0,size:5}
   ]
-
+  
   getPage(paginationData:string){
     let responsePage:number;
     let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
@@ -29,7 +28,7 @@ export class PaginationService {
     responsePage = objectPagination[0].page;
     return responsePage;
   }
-
+  
   setPage(paginationData:string, page:number){
      let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
      let objectPagination = pagination.filter(pages => pages.title==paginationData);
