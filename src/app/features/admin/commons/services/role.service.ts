@@ -33,3 +33,4 @@ export class RoleService {
     return this.http.delete<IResponse>(`${environment.api}/rol`+id);
   }
 }
+

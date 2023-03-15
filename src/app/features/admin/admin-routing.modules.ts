@@ -32,7 +32,7 @@ const routes: Routes = [
             { path:'noticias',component:AdminNewsView},
             { path:'imagenes',component:AdminImageComponent},
             { path:'anioLectivo',component:AdminAniolectivoComponent},
-            { path:'rol',component:AdminRoleComponent}
+            { path:'rol',component:AdminRoleComponent }
      ]
     }
 ];

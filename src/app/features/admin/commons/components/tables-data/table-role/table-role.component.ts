@@ -65,3 +65,4 @@ export class TableRoleComponent implements OnInit {
     this.modalDelete.hiddenModal();
   }
 }
+

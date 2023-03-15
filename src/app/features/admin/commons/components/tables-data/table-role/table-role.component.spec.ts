@@ -23,3 +23,4 @@ describe('TableRoleComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
