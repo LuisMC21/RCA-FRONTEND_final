@@ -31,6 +31,6 @@ update(image:IImage):Observable<IResponse>{
 
   //Eliminar 
 delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/grado`+id);
+    return this.http.delete<IResponse>(`${environment.api}/imagen`+id);
 }
 }
