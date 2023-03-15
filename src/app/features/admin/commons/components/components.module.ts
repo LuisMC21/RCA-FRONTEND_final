@@ -37,7 +37,6 @@ import { TableRoleComponent } from './tables-data/table-role/table-role.componen
     TableGradePeriodComponent,
     TableNewsComponent,
     TableRoleComponent
-    
   ],
   exports:[
     TableComponent,

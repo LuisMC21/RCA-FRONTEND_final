@@ -11,7 +11,7 @@ import { IRole } from '../../interfaces/role';
 })
 export class AdminRoleComponent implements OnInit {
   
-  roles:IRole[]=[];
+  roles: IRole[]=[];
   tableName: string = 'Roles';
   paginationData = 'role'
   msjResponse:string ='';
@@ -27,7 +27,6 @@ export class AdminRoleComponent implements OnInit {
     this.roleService.getAll('', page,size)
     .subscribe(response =>{
       this.roles = response.data.list;
-    
     });
   }
 

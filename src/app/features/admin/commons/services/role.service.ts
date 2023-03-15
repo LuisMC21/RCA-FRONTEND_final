@@ -15,7 +15,6 @@ export class RoleService {
 
   //Listar Roles
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    
     return this.http.get<IApiResponse>(`${environment.api}/rol?page=${page}&size=${size}`);
   }
   //Agregar Rol
