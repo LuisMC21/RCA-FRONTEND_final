@@ -25,7 +25,7 @@ export class TableParentComponent implements OnInit {
 
   group!: FormGroup;
   groupUpdate!:FormGroup;
-  head=["Codigo","Apoderado","Doc. de identidad","Telefono","Acciones"]
+  head=["Codigo","Apoderado","Doc. de identidad","Telefono","Correo","Acciones"]
   optionsDocumentType = [{title:"DNI",value:'01'},{title:"Pasaporte",value:'02'},{title:"RUC",value:'03'}]
   optionsVac =[{title:'SI',value:'S'},{title:'NO',value:'N'}]
   nom:string='';

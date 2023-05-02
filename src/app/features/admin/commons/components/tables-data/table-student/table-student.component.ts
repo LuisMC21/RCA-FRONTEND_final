@@ -45,7 +45,7 @@ export class TableStudentComponent implements OnInit {
     {title:'Privado',value:'P'},
     {title:'Fuerza Armada',value:'F'}
   ];
-  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","ACCIONES"]
+  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","VACUNA","ACCIONES"]
   msjDeleteok:string='';
 
   constructor(private renderer2:Renderer2,private formBuilder:FormBuilder, private parentService:ParentService) {

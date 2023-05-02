@@ -13,24 +13,21 @@ export class AsistenciaService {
 
   constructor(private http: HttpClient) { }
 //Listar Asistencia
-getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    
-  return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
-}
+  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
+  }
   //Agregar asistencia
-  add(asistencia:IAsistencia):Observable<IResponse>{
+  add(asistencia:IAsistencia):Observable<IApiResponse>{
     console.log(asistencia)
-    return this.http.post<IResponse>(`${environment.api}/asistencia`,asistencia)
+    return this.http.post<IApiResponse>(`${environment.api}/asistencia`,asistencia)
   }
-
   //Modificar asistencia
-  update(asistencia:IAsistencia):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/asistencia`,asistencia);
+  update(asistencia:IAsistencia):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/asistencia`,asistencia);
   }
-
   //Eliminar asistencia
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/asistencia`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/asistencia/`+id);
   }
   
 }

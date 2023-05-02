@@ -32,7 +32,55 @@
         </div>
     </form>
 </app-modal>
+<!-- Actualizar -->
+<app-modal [title]="'Asistencia'" #modalEdit>
+    <form [formGroup]="group" (ngSubmit)="save()">
+        <div class="form__field">
+            <div class="field">
+                <app-label-field [title]="'Nombres'"></app-label-field>
+                <app-field><input formControlName="name" class="input" type="text" ></app-field>
+                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                [text]="'**El campo debe contener mínimo 4 caracteres'"></app-required-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Apellido Paterno'"></app-label-field>
+                <app-field><input formControlName="pa_surname" class="input" type="text"  readonly></app-field>
+                <app-required-field class="px-2"></app-required-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Apellido Materno'"></app-label-field>
+                <app-field><input formControlName="ma_surname" class="input" type="text" ></app-field>
+                <app-required-field class="px-2"></app-required-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Fecha de Clase'"></app-label-field>
+                <app-field><input formControlName="date" class="input" type="date" ></app-field>
+                <app-required-field class="px-2"></app-required-field>
+            </div>
 
+            <div class="field">
+                <app-label-field [title]="'Estado'"></app-label-field>
+                <app-field><input formControlName="state" class="input" type="text" ></app-field>
+                <app-required-field class="px-2"></app-required-field>
+            </div>
+
+
+
+            <!-- <div class="field">
+                <app-label-field [title]="'Estado'"></app-label-field>
+                <select  formControlName="state" class="select cursor-pointer h-10 w-full outline-none px-2">
+                    <option value="{{option.value}}" *ngFor="let option of optionsEst">{{option.title}}</option>
+                </select>
+            </div>-->
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl  text-white" (click)="save()">Guargar</button>
+            <app-btn-cancel (click)="modalEdit.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
+<!-- Tabla donde se muestra los datos -->
 <table class="table bg-gray-50">
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
@@ -40,16 +88,16 @@
     <tbody>
         <tr *ngFor="let item of asistencia, let i=index">
             <td>{{item.code}}</td>
-            <td>{{item.alumnoDTO.namecon_pri+" "+item.alumnoDTO.namecon_sec+" "+item.alumnoDTO.usuarioDTO.name}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.pa_surname+" "+item.alumnoDTO.usuarioDTO.ma_surname+" "+item.alumnoDTO.usuarioDTO.name}}</td>
             <td>{{item.claseDTO.date}}</td>
             <td>{{item.state}}</td>
             <!-- <td class="table__description">{{item.descripcion}}</td> -->
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
-                <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
+                <app-btn-update (click)="form(item)" (click)="modalEdit.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
-            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+            <app-modal [title]="'Eliminar?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
                     <label><b>Estado: </b>{{item.state}}</label>
@@ -58,7 +106,7 @@
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete (click)="delete(item.code)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>

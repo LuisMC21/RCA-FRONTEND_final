@@ -62,10 +62,11 @@ export class AdminAsistenciaComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(asistencia:IAsistencia){
-    if(asistencia.code==null){
+    console.log(asistencia)
+    if(asistencia.id==null){
       this.asistenciaService.add(asistencia).subscribe(data =>{
-        console.log(data.msj)
-        if(data.msj==='OK'){
+        console.log(data.message)
+        if(data.successful===true){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
@@ -75,7 +76,7 @@ export class AdminAsistenciaComponent implements OnInit {
       });
     }else{
       this.asistenciaService.update(asistencia).subscribe(data =>{
-        if(data.msj === 'OK'){
+        if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
@@ -89,7 +90,7 @@ export class AdminAsistenciaComponent implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.asistenciaService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+      if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }

@@ -79,6 +79,7 @@
             <td>{{item.usuarioDTO.pa_surname+ " "+ item.usuarioDTO.ma_surname+" " +item.usuarioDTO.name }}</td>
             <td>{{(item.usuarioDTO.type_doc|uppercase) + "-" + item.usuarioDTO.numdoc}}</td>
             <td>{{item.usuarioDTO.tel}}</td>
+            <td>{{item.email}}</td>
             <td class="actions">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>

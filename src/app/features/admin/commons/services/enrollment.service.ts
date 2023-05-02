@@ -12,15 +12,15 @@ import { IEnrollment } from '../../interfaces/enrollment';
 export class EnrollmentService {
 
   constructor(private http:HttpClient) { }
-getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/matricula?page=${page}&size=${size}`);
+ getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/matricula/?page=${page}&size=${size}`);
   }
   //Listar 
  
 
   //Agregar 
-  add(enrollment:IEnrollment):Observable<IResponse>{
-    return this.http.post<IResponse>(`${environment.api}/matricula`,enrollment)
+  add(enrollment:IEnrollment):Observable<IApiResponse>{
+    return this.http.post<IApiResponse>(`${environment.api}/matricula`,enrollment)
   }
 
   //Modificar 
@@ -30,6 +30,6 @@ getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
 
   //Eliminar 
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/matricula`+id);
+    return this.http.delete<IResponse>(`${environment.api}/matricula/`+id);
   }
 }

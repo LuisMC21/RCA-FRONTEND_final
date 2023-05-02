@@ -28,6 +28,7 @@ export class TableAsistenciaComponent implements OnInit {
 
 head=["Código","Alumno","Clase","Estado","Acciones"]
 group!: FormGroup;
+optionsEst = [{title:"PRESENTE",value:'01'},{title:"AUSENTE",value:'02'}]
 
 msjResponse:string='';
 nomSearch:string='';
@@ -38,23 +39,28 @@ nomSearch:string='';
     this.form();
   
   }
+  get id(){return this.group.get('id')}
   get code(){return this.group.get('code')}
   get est(){return this.group.get('estado')}
   get alumno(){return this.group.get('alumnoDTO')}
   get clas(){return this.group.get('claseDTO')}
-
+  get name(){return this.group.get('name')}
   form(item?:IAsistencia):void{
     this.group = this.formBuilder.group({
+      id:[item?item.id:null],
       code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      state:[item?item.state:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      alumno:[item?item.alumnoDTO:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      clase:[item?item.claseDTO:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]]
+      state:[item?item.state:''],
+      name:[item?item.alumnoDTO.usuarioDTO.name:''],
+      pa_surname:[item?item.alumnoDTO.usuarioDTO.pa_surname:''],
+      ma_surname:[item?item.alumnoDTO.usuarioDTO.ma_surname:''],
+      date:[item?item.claseDTO.date:''],
+   
   });
 }
 
   //BUSCAR
-search(nom:string){
-  this.asistenciaSearch.emit(nom);
+search(name:string){
+  this.asistenciaSearch.emit(name);
 }
 
    // AGREGAR - ACTUALIZAR

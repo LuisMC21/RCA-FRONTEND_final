@@ -36,15 +36,17 @@ export class TableCourseComponent implements OnInit {
     this.form();
   
   }
+
+
   get code(){return this.group.get('code')}
   get nom(){return this.group.get('nom')}
   // get descripcion(){return this.group.get('descripcion')}
   
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
-      code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      // descripcion:[item?item.descripcion:'',]
+      code:[item?item.code:'',[Validators.required]],
+      nom:[item?item.name:'',[Validators.required]],
+    
   });
 }
 
@@ -54,9 +56,15 @@ export class TableCourseComponent implements OnInit {
   }
 
    // AGREGAR - ACTUALIZAR
-  save(){
+  save(courses: ICourse){
+    const index = this.courses.findIndex(c => c.id === courses.id);
+    if (index !== -1) {
+      this.courses[index] = courses;
+      console.log(courses)
+    }
     if(this.group.valid){
     this.courseSave.emit(this.group.value)
+    this.courses.push(this.group.value);
     }
     this.modalAdd.hiddenModal();
   }

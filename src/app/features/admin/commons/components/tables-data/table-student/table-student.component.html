@@ -106,8 +106,9 @@
             <td>{{item.code}}</td>
             <td>{{item.usuarioDTO.pa_surname + " "+ item.usuarioDTO.ma_surname}}</td>
             <td>{{item.usuarioDTO.name}}</td>
-
+            
             <td>{{(item.usuarioDTO.type_doc|uppercase) + "-" + item.usuarioDTO.numdoc}}</td>
+            <td>{{item.vaccine}}</td>
             <td class="actions">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
