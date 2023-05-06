@@ -10,11 +10,7 @@
 
 <table class="table bg-gray-50">
     <thead>
-        <th>TITULO</th>
-        <th>SUMILLA</th>
-        <th>DESCRIPCION</th>
-        <th>FECHA</th>
-        <th>ACCIONES</th>
+        <th *ngFor="let item of head">{{item}}</th>
     </thead>
     <tbody>
         <tr *ngFor="let item of news, let i=index">
@@ -22,8 +18,9 @@
             <td>{{item.sommelier}}</td>
             <td>{{item.descrip}}</td>
             <td>{{item.date}}</td>
+            <td>{{item.image}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalEdit.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"  [title] = "'Eliminar curso'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
@@ -40,7 +37,42 @@
     </tbody>
 </table>
 
+<!-- MODAL EDITAR -->
+<app-modal [title]="'Editar Noticia'" #modalEdit>
+    <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
+        <div class="field">
+            <app-label-field [title]="'Título'"></app-label-field>
+            <app-field><input  formControlName="titulo" class="input" type="text"></app-field>
+            <app-required-field class="px-2" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)" [text]="'**El campo es requerido'"></app-required-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Sumilla'"></app-label-field>
+            <app-field><input formControlName="sumilla" class="input" type="text"></app-field>
+            <app-required-field class="px-2" *ngIf="sumilla?.invalid && (sumilla?.dirty || sumilla?.touched)" [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+        </div>
+        <app-label-field [title]="'Descripción'"></app-label-field>
+        <textarea  formControlName="descripcion" name="textarea" rows="5" class="textArea w-full"></textarea>
+        <app-required-field class="px-2" *ngIf="descripcion?.invalid && (descripcion?.dirty || descripcion?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+        <div class="field">
+            <app-label-field [title]="'**Fecha'"></app-label-field>
+            <app-field><input formControlName="fecha" class="input" type="date"></app-field>
+            <app-required-field class="px-2" *ngIf="fecha?.invalid && (fecha?.dirty || fecha?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+        </div>
+        <div class="">
+            <app-label-field [title]="'Imagen'"></app-label-field>
+            <input formControlName="imagen" (change)="captureFile($event)" class="input" type="file">
+            <!-- <app-required-field class="px-2" *ngIf="imagen?.invalid && (imagen?.dirty || imagen?.touched)" [text]="'*El campo es requerido'"></app-required-field> -->
+        </div>
+        <div class="flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button> 
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
 
+
+
+<!-- MODAL AGREGAR -->
 <app-modal [title]="'Agregar noticia'" #modalAdd>
     <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
         <div class="field">

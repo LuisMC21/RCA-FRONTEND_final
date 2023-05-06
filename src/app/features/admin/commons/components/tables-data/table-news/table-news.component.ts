@@ -12,7 +12,7 @@ export class TableNewsComponent implements OnInit {
 
   group!: FormGroup;
   nomSearch:string='';
-
+  head=["TITULO","SUMILLA","DESCRIPCIÓN","FECHA","IMAGEN","ACCIONES"]
   @Input() news:INews[]=[]
   @Input() tableName!: string;
 
@@ -43,7 +43,7 @@ export class TableNewsComponent implements OnInit {
       titulo:[item?item.title:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       sumilla:[item?item.sommelier:'',[Validators.required]],
       descripcion:[item?item.descrip:'',[Validators.required]],
-      fecha:[item?item.date:'',[Validators.required]],
+      fecha:[item?item.date:''],
       imagen:[item?item.image:'',[Validators.required]]
   });
 }

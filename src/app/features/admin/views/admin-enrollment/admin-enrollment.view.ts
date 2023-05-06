@@ -23,15 +23,15 @@ export class AdminEnrollmentView implements OnInit {
   tableName:string='Matricula'
   msjResponse:string='';
   successful: boolean=false;
-  identiAlumno:string='';
-  idGradoPeriodo:string='';
-  identiParent:string='';
+  // identiAlumno:string='';
+  // idGradoPeriodo:string='';
+  // identiParent:string='';
   identiStudent:string='';
   studentSave!: IStudent;
   enrollmentSave!:IEnrollment;
-  gradePeriods:IGradePeriod[]=[]
+
   students:IStudent[]=[];
-  matGrado:IReportMatGrade[]=[]
+
   paginationData = 'student'
   enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
@@ -40,7 +40,7 @@ export class AdminEnrollmentView implements OnInit {
     private parentService: ParentService,
     private studentService:StudentService,
     private enrollmentService:EnrollmentService,
-    private gradoPeriodoService:GradePeriodService,
+ 
     private reportService:ReportsService
     
     ){ }
@@ -58,11 +58,11 @@ export class AdminEnrollmentView implements OnInit {
     })
   }
   //Reporte matriculados por grado
-  matGradoReport(iden:string){
-    this.reportService.matGrado(iden,0,5,false).subscribe(data =>{
-      this.matGrado = data.content
-    })
-  }
+  // matGradoReport(iden:string){
+  //   this.reportService.matGrado(iden,0,5,false).subscribe(data =>{
+  //     this.matGrado = data.content
+  //   })
+  // }
   matGradoResponseXSL(iden:string){
     const fileName = 'Reporte-alumnos-matriculados.xlsx'
     this.reportService.matGradoExcel(iden,0,5,true).subscribe(data =>{
@@ -74,7 +74,7 @@ export class AdminEnrollmentView implements OnInit {
     enrollment.code = this.studentSave.code;
     if(enrollment.code==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
-          if(data.msj==='OK'){
+          if(data.successful===true){
             this.msjResponse = 'Matricula registrada correctamente'
             this.successful = true;
           }else{
@@ -84,7 +84,7 @@ export class AdminEnrollmentView implements OnInit {
       });
     }else{
       this.enrollmentService.update(enrollment).subscribe(data =>{
-        if(data.msj === 'OK'){
+        if(data.msj==='OK'){
           this.msjResponse = 'Matricula actualizada con éxito';
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
@@ -93,9 +93,9 @@ export class AdminEnrollmentView implements OnInit {
     }
     this.modalOk.showModal();
   }
-  getIdentiParent(identiParent:string){
-    this.identiParent = identiParent;
-  }
+  // getIdentiParent(identiParent:string){
+  //   this.identiParent = identiParent;
+  // }
   getStudentSave(student:IStudent){
     this.studentSave = student;
   }
@@ -103,7 +103,7 @@ export class AdminEnrollmentView implements OnInit {
  //ELIMINAR 
  delete(id:string){
   this.enrollmentService.delete(id).subscribe(data =>{
-    if(data.msj==='OK'){
+    if(data.msj==='ok'){
       this.msjResponse = 'Eliminado correctamente';
       this.successful = true;
     }

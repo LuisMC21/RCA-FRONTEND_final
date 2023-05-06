@@ -29,17 +29,19 @@ export class TableGradeComponent implements OnInit {
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
   constructor(private formBuilder:FormBuilder) { }
-
-  get nombre(){return this.group.get('nombre')}
-
+  
+  get id(){return this.group.get('id')}
+  get name(){return this.group.get('name')}
+  get code(){return this.group.get('code')}
   ngOnInit(): void {
     this.form();
   }
 
   form(item?:IGrade):void{
     this.group = this.formBuilder.group({
-      identi:[item?item.code:null],
-      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
+      id:[item?item.id:null],
+      code:[item?item.code:null],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(1),Validators.maxLength(40)]],
   });
 }
 

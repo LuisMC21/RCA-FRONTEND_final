@@ -3,6 +3,6 @@ import { ISeccion } from "./seccion";
 
 export interface IAula {
    code:string;
-   grade: IGrade;
+   gradoDTO: IGrade;
    seccionDTO:ISeccion
 }

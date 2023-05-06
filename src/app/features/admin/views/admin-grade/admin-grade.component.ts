@@ -43,11 +43,11 @@ export class AdminGradeComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(grade:IGrade){
-
-    if(grade.code==null){
+console.log(grade)
+    if(grade.id==null){
       this.gradeService.add(grade).subscribe(data =>{
-        console.log(data.msj)
-        if(data.msj==='OK'){
+        console.log(data.message)
+        if(data.successful===true){
           this.msjResponse = 'Agregado correctamente';
           this.successful=true;
         }else{
@@ -57,7 +57,7 @@ export class AdminGradeComponent implements OnInit {
       });
     }else{
       this.gradeService.update(grade).subscribe(data =>{
-        if(data.msj === 'OK'){
+        if(data.successful=== true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
@@ -72,7 +72,7 @@ export class AdminGradeComponent implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.gradeService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+      if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful=true;
       }

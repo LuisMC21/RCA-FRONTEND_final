@@ -19,6 +19,7 @@ import { AdminNewsView } from './views/admin-news/admin-news.view';
 import { AdminImageComponent } from './views/admin-image/admin-image.component';
 import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniolectivo.component';
 import { AdminRoleComponent } from './views/admin-role/admin-role.component';
+import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asistencia.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AdminRoleComponent } from './views/admin-role/admin-role.component';
     AdminImageComponent,
     AdminAniolectivoComponent,
     AdminRoleComponent,
+    AdminAsistenciaComponent,
   
   ],
   imports: [

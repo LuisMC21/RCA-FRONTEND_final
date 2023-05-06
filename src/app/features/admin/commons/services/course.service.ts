@@ -24,15 +24,14 @@ export class CourseService {
     console.log(course)
     return this.http.post<IResponse>(`${environment.api}/curso`,course)
   }
-
-  //Modificar curso
+  
   update(course:ICourse):Observable<IResponse>{
     return this.http.put<IResponse>(`${environment.api}/curso`,course);
   }
 
   //Eliminar curso
   delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/curso`+id);
+    return this.http.delete<IResponse>(`${environment.api}/curso/`+id);
   }
   
 }
