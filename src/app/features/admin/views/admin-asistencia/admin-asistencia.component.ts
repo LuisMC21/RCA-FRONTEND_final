@@ -70,7 +70,7 @@ export class AdminAsistenciaComponent implements OnInit {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -80,7 +80,7 @@ export class AdminAsistenciaComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })

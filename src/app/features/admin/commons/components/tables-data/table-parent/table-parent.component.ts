@@ -31,13 +31,19 @@ export class TableParentComponent implements OnInit {
   nom:string='';
 
   constructor(private formBuilder:FormBuilder) {}
-
-  get apelPaterno(){return this.group.get('apelPaterno')}
-  get apelMaterno(){return this.group.get('apelMaterno')}
-  get nombre(){return this.group.get('nombre')}
-  get telefono(){return this.group.get('telefono')}
-  get numDocumento(){return this.group.get('numDocumento')}
-  get vacunas(){return this.group.get('vacunas')}
+  get code(){return this.group.get('code')}
+  get email(){return this.group.get('email')}
+  get nombreUsuario(){return this.group.get('email')}
+  get name(){return this.group.get('name')}
+  get pa_surname(){return this.group.get('pa_surname')}
+  get ma_surname(){return this.group.get('ma_surname')}
+  get birthdate(){return this.group.get('birthdate')}
+  get type_doc(){return this.group.get('type_doc')}
+  get numdoc(){return this.group.get('numdoc')}
+  get tel(){return this.group.get('tel')}
+  get gra_inst(){return this.group.get('gra_inst')}
+  get password(){return this.group.get('password')}
+  get rol(){return this.group.get('rol')}
 
   ngOnInit(): void {
     this.form();
@@ -45,14 +51,20 @@ export class TableParentComponent implements OnInit {
 
   form(item?:IParent):void{
       this.group = this.formBuilder.group({
-        identi:[item?item.identi:null],
-        apelPaterno:[item?item.apelPaterno:'',[Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-        apelMaterno:[item?item.apelMaterno:'',[Validators.required, Validators.minLength(3),Validators.maxLength(20)]],
-        nombre:[item?item.nombre:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-        tipDocumento:[item?item.tipDocumento:'',[Validators.required]],
-        numDocumento:[item?item.numDocumento:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-        telefono:[item?item.telefono:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
-        vacunas:[item?item.vacunas:'',[Validators.required]]
+        id:[item?item.id:null],
+        code:[item?item.code:''],
+        email:[item?item.email:''],
+        nombreUsuario:[item?item.usuarioDTO.nombreUsuario:''],
+        pa_surname:[item?item.usuarioDTO.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+        ma_surname:[item?item.usuarioDTO.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(20)]],
+        birthdate:[item?item.usuarioDTO.birthdate:''],
+        name:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        type_doc:[item?item.usuarioDTO.type_doc:''],
+        numdoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
+        tel:[item?item.usuarioDTO.tel:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
+        gra_inst:[item?item.usuarioDTO.gra_inst:'',[Validators.required,Validators.minLength(5),Validators.maxLength(15)]],
+        password:[item?item.usuarioDTO.password:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
+        rol:[item?item.usuarioDTO.rol:''],
     });
   }
 
