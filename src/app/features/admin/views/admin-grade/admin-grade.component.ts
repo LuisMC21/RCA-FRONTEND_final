@@ -61,7 +61,7 @@ console.log(grade)
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = 'Ha ocurrido un error :(';
           this.successful=false;
         }
       })
@@ -72,10 +72,9 @@ console.log(grade)
   //ELIMINAR 
   delete(id:string){
     this.gradeService.delete(id).subscribe(data =>{
-      
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
-        this.successful===true;
+        this.successful=true;
       }
     });
     this.modalOk.showModal();

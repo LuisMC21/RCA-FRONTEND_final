@@ -20,18 +20,18 @@ export class CourseService {
   }
 
   //Agregar curso
-  add(course:ICourse):Observable<IApiResponse>{
+  add(course:ICourse):Observable<IResponse>{
     console.log(course)
-    return this.http.post<IApiResponse>(`${environment.api}/curso`,course)
+    return this.http.post<IResponse>(`${environment.api}/curso`,course)
   }
   
-  update(course:ICourse):Observable<IApiResponse>{
-    return this.http.put<IApiResponse>(`${environment.api}/curso`,course);
+  update(course:ICourse):Observable<IResponse>{
+    return this.http.put<IResponse>(`${environment.api}/curso`,course);
   }
 
   //Eliminar curso
-  delete(id:string):Observable<IApiResponse>{
-    return this.http.delete<IApiResponse>(`${environment.api}/curso/`+id);
+  delete(id:string):Observable<IResponse>{
+    return this.http.delete<IResponse>(`${environment.api}/curso/`+id);
   }
   
 }

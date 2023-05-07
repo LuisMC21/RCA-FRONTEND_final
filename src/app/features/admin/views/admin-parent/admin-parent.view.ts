@@ -46,10 +46,10 @@ export class AdminParentView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(parent:IParent){
-    if(parent.id==null){
+    if(parent.identi==null){
       this.parentService.add(parent).subscribe(data =>{
-        console.log(data.message)
-        if(data.successful===true){
+        console.log(data.msj)
+        if(data.msj==='OK'){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
@@ -59,7 +59,7 @@ export class AdminParentView implements OnInit {
       });
     }else{
       this.parentService.update(parent).subscribe(data =>{
-        if(data.successful===true){
+        if(data.msj === 'OK'){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
@@ -74,9 +74,9 @@ export class AdminParentView implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.parentService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+      if(data.msj==='OK'){
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
       }
     });
     this.modalOk.showModal();

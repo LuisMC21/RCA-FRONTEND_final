@@ -40,14 +40,14 @@ export class TableGradeComponent implements OnInit {
   form(item?:IGrade):void{
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
-      code:[item?item.code:''],
+      code:[item?item.code:null],
       name:[item?item.name:'',[Validators.required,Validators.minLength(1),Validators.maxLength(40)]],
   });
 }
 
   //BUSCAR
-  search(name:string){
-    this.gradeSearch.emit(name);
+  search(nom:string){
+    this.gradeSearch.emit(nom);
   }
 
    // AGREGAR - ACTUALIZAR

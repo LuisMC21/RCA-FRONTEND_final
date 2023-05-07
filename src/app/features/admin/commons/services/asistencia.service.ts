@@ -12,12 +12,13 @@ import { IAsistencia } from '../../interfaces/asistencia';
 export class AsistenciaService {
 
   constructor(private http: HttpClient) { }
-  //Listar Asistencia
+//Listar Asistencia
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
   }
   //Agregar asistencia
   add(asistencia:IAsistencia):Observable<IApiResponse>{
+    console.log(asistencia)
     return this.http.post<IApiResponse>(`${environment.api}/asistencia`,asistencia)
   }
   //Modificar asistencia
