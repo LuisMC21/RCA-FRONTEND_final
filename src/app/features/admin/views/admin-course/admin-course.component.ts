@@ -67,6 +67,7 @@ export class AdminCourseComponent implements OnInit {
       });
     }else{
       this.courseService.update(course).subscribe(data =>{
+        console.log(data.message);
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;

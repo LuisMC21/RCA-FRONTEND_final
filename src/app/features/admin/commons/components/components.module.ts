@@ -20,6 +20,7 @@ import { TableImageComponent } from './tables-data/table-image/table-image.compo
 import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/table-anio-lectivo.component';
 import { TableRoleComponent } from './tables-data/table-role/table-role.component';
 import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
+import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion.component';
 
 
 
@@ -42,8 +43,8 @@ import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-a
     TableImageComponent,
     TableAnioLectivoComponent,
     TableRoleComponent,
-    TableAsistenciaComponent
-    
+    TableAsistenciaComponent,
+    TableSeccionComponent
   ],
   exports:[
     TableComponent,
@@ -62,7 +63,8 @@ import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-a
     TableImageComponent,
     TableAnioLectivoComponent,
     TableRoleComponent,
-    TableAsistenciaComponent
+    TableAsistenciaComponent,
+    TableSeccionComponent
   ],
   imports: [
     CommonModule,

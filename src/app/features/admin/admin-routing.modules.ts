@@ -15,6 +15,7 @@ import { AdminSchoolYearView } from './views/admin-school-year/admin-school-year
 import { AdminStudentView } from './views/admin-student/admin-student.view';
 import { AdminTeacherView } from './views/admin-teacher/admin-teacher.view';
 import { DashboardView } from './views/dashboard/dashboard.view';
+import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 
 
 const routes: Routes = [
@@ -34,7 +35,8 @@ const routes: Routes = [
             { path:'imagenes',component:AdminImageComponent},
             { path:'anioLectivo',component:AdminAniolectivoComponent},
             { path:'rol',component:AdminRoleComponent},
-            { path:'asistencia',component:AdminAsistenciaComponent}
+            { path:'asistencia',component:AdminAsistenciaComponent},
+            { path: 'seccion', component: AdminSectionComponent}
     ]
     }
 ];

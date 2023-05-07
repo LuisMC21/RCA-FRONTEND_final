@@ -1,51 +1,51 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ISeccion } from '../../interfaces/seccion';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { GradeService } from '../../commons/services/grade.service';
+import { SeccionService } from '../../commons/services/seccion.service';
 import { PaginationService } from '../../commons/services/pagination.service';
-import { IGrade } from '../../interfaces/grade';
+import { sanitizeIdentifier } from '@angular/compiler';
 
 @Component({
-  selector: 'app-admin-grade',
-  templateUrl: './admin-grade.component.html',
-  styleUrls: ['./admin-grade.component.scss']
+  selector: 'app-admin-section',
+  templateUrl: './admin-section.component.html',
+  styleUrls: ['./admin-section.component.scss']
 })
-export class AdminGradeComponent implements OnInit {
+export class AdminSectionComponent implements OnInit {
 
-  grades: IGrade[] = [];
-  tableName: string = 'Grados';
-  paginationData = 'grade';
+  sections: ISeccion[] = [];
+  tableName: string = 'Secciones';
+  paginationData:string = 'grade';
   msjResponse: string = '';
   successful: boolean = false;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
-  constructor(private gradeService: GradeService, private pagination: PaginationService) { }
+  constructor(private sectionService: SeccionService, private pagination: PaginationService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.gradeService.getAll('', page, size)
+    this.sectionService.getAll('', page, size)
       .subscribe(response => {
-        this.grades = response.data.list;
+        this.sections = response.data.list;
 
       });
   }
-
 
   //BUSCAR
   search(nom: string) {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.gradeService.getAll(nom, page, size).subscribe(response => {
-      this.grades = response.data.list;
+    this.sectionService.getAll(nom, page, size).subscribe(response => {
+      this.sections = response.data.list;
     })
   }
 
   // AGREGAR - ACTUALIZAR
-  save(grade: IGrade) {
-    console.log(grade)
-    if (grade.id == null) {
-      this.gradeService.add(grade).subscribe(data => {
+  save(section: ISeccion) {
+    console.log(section)
+    if (section.id == null) {
+      this.sectionService.add(section).subscribe(data => {
         console.log(data.message)
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
@@ -56,7 +56,7 @@ export class AdminGradeComponent implements OnInit {
         }
       });
     } else {
-      this.gradeService.update(grade).subscribe(data => {
+      this.sectionService.update(section).subscribe(data => {
         if (data.successful === true) {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
@@ -71,7 +71,7 @@ export class AdminGradeComponent implements OnInit {
 
   //ELIMINAR 
   delete(id: string) {
-    this.gradeService.delete(id).subscribe(data => {
+    this.sectionService.delete(id).subscribe(data => {
 
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';

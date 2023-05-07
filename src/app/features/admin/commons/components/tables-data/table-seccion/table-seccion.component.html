@@ -7,75 +7,73 @@
     </div>
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div>
-
 <!-- MODAL AGREGAR -->
-<app-modal [title]="'Agregar Año'" #modalAdd>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form">
+<app-modal [title]="'Agregar Sección'" #modalAdd>
+    <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'Nombre'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
-                <app-required-field class="px-2"></app-required-field>
+                <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre" maxlength="1"></app-field>
+                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                [text]="'**El campo debe contener 1 caracter no numérico'"></app-required-field>
             </div>
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guargar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
+
     </form>
 </app-modal>
-
-
-<!-- MODAL EDITAR -->
-<app-modal [title]="'Editar Año'" #modalEdit>
+<!-- MODAL ACTUALIZAR -->
+<app-modal [title]="'Actualizar Sección'" #modalUpdate>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'**Código'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="text" placeholder="Código"></app-field>
-                <app-required-field class="px-2" *ngIf="code?.invalid && (code?.dirty || code?.touched)"
-                    [text]="'**El campo debe contener mínimo 1 caracteres'"></app-required-field>
+                <app-label-field [title]="'Code'"></app-label-field>
+                <app-field><input formControlName="code" class="input" type="text" readonly></app-field> 
             </div>
             <div class="field">
-                <app-label-field [title]="'**Nombre'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
+                <app-label-field [title]="'Nombre'"></app-label-field>
+                <app-field><input formControlName="name" class="input" type="text" maxlength="1" placeholder="Nombre"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                    [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
+                    [text]="'**El campo debe contener 1 caracter no numérico'"></app-required-field>
             </div>
-           
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guargar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+            <app-btn-cancel (click)="modalUpdate.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
+
 <table class="table bg-gray-50">
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
     </thead>
     <tbody>
-        <tr *ngFor="let item of anios, let i=index">
+        <tr *ngFor="let item of sections, let i=index">
             <td>{{item.code}}</td>
             <td>{{item.name}}</td>
-            <!-- <td class="table__description">{{item.descripcion}}</td> -->
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalEdit.showModal()"></app-btn-update>
-                <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
+                <app-btn-update (click)="form(item)" (click)="modalUpdate.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
-            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+
+            <app-modal [title]="'Eliminar grado?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
-                    <label><b>NombrE: </b>{{item.name}}</label>
+                    <label><b>Nombre: </b>{{item.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
+
         </tr>
     </tbody>
 </table>

@@ -18,17 +18,17 @@ export class SeccionService {
   }
 
   //Agregar 
-  add(seccion:ISeccion):Observable<IResponse>{
-    return this.http.post<IResponse>(`${environment.api}/seccion`,seccion)
+  add(seccion:ISeccion):Observable<IApiResponse>{
+    return this.http.post<IApiResponse>(`${environment.api}/seccion`,seccion)
   }
 
   //Modificar 
-  update(seccion:ISeccion):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/seccion`,seccion);
+  update(seccion:ISeccion):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/seccion`,seccion);
   }
 
   //Eliminar 
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/seccion`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/seccion/`+id);
   }
 }
