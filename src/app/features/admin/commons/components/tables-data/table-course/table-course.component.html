@@ -11,21 +11,22 @@
 
 <!-- MODAL AGREGAR -->
 <app-modal [title]="'Agregar Curso'" #modalAdd>
-    <form [formGroup]="group"  class="form">
-        <div class="form__field">
+    <form [formGroup]="group"  class="form" (ngSubmit)="save()"  class="w-full flex flex-wrap justify-between">
+    
             
             <div class="field">
                 <app-label-field [title]="'Curso'"></app-label-field>
-                <app-field><input  class="input" type="text" placeholder="Nombre"></app-field>
-                <app-required-field class="px-2">
+                <app-field><input  class="input" type="text" formControlName="name"  placeholder="Nombre"></app-field>
+                <!-- <app-required-field class="px-2">
                     [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
+            </div> -->
             </div>
-        </div>
-        <div class="btns flex py-7 w-full">
-           
-            <button type="button" [disabled]="!group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Agregar</button>
+    
+     <div class="flex py-7 w-full">
+            <button type="submit"  class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()" >Agregar</button>
+         
             <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
+    </div>
     </form>
 </app-modal>
 
@@ -36,13 +37,13 @@
             
             <div class="field">
                 <app-label-field [title]="'Curso'"></app-label-field>
-                <app-field><input formControlName="nom" class="input"  type="text" placeholder="Nombre"></app-field>
-                <app-required-field class="px-2" *ngIf="nom?.invalid && (nom?.dirty || nom?.touched)"
+                <app-field><input formControlName="name" class="input"  type="text" placeholder="Nombre"></app-field>
+                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                     [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
             </div>
         </div>
         <div class="btns flex py-7 w-full" ngClass="input">
-            <button type="submit" [disabled]="group.invalid" (click)="save(group.value)" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <button type="submit" [disabled]="group.invalid" (click)="save()" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
 
             <app-btn-cancel (click)="modalEdit.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
