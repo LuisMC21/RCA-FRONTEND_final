@@ -45,7 +45,7 @@ export class TableStudentComponent implements OnInit {
     {title:'Privado',value:'P'},
     {title:'Fuerza Armada',value:'F'}
   ];
-  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","ACCIONES"]
+  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","VACUNA","ACCIONES"]
   msjDeleteok:string='';
 
   constructor(private renderer2:Renderer2,private formBuilder:FormBuilder, private parentService:ParentService) {
@@ -129,8 +129,8 @@ export class TableStudentComponent implements OnInit {
   }
   //ASIGNA APODERADO
   asingParent(parent:IParent){
-    this.nomParent = parent.apelPaterno + ' ' + parent.apelMaterno + ' '+parent.nombre;
-    this.identiParent = parent.identi;
+    this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
+    this.identiParent = parent.id;
     this.searchParentModal.hidden();
   }
 

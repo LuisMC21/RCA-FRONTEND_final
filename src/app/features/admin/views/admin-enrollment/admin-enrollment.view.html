@@ -4,12 +4,10 @@
         <app-table-enrollment
         (enrollmentSave)="save($event)" 
         (studentSave)="getStudentSave($event)"
-        (identiParentSave)="getIdentiParent($event)"
-        (identiGradePeriodReport)="matGradoReport($event)"
+     
         (identiGradePeriodReportXLS)="matGradoResponseXSL($event)"
         (studentSearch)="searchStudent($event)"
-        [gradePeriods]="gradePeriods"
-        [matGrado]="matGrado"
+    
         [listStudents]="students"
         [matStudent]="enrollmentList">
     </app-table-enrollment>

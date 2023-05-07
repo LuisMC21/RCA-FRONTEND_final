@@ -36,15 +36,18 @@ export class TableCourseComponent implements OnInit {
     this.form();
   
   }
+
+  get id(){return this.group.get('id')}
   get code(){return this.group.get('code')}
-  get nom(){return this.group.get('nom')}
+  get name(){return this.group.get('name')}
   // get descripcion(){return this.group.get('descripcion')}
   
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
-      code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      // descripcion:[item?item.descripcion:'',]
+      id:[item?item.id:null],
+      code:[item?item.code:''],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(1),Validators.maxLength(30)]],
+    
   });
 }
 
@@ -56,9 +59,9 @@ export class TableCourseComponent implements OnInit {
    // AGREGAR - ACTUALIZAR
   save(){
     if(this.group.valid){
-    this.courseSave.emit(this.group.value)
-    }
-    this.modalAdd.hiddenModal();
+      this.courseSave.emit(this.group.value)
+     }
+     this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR 

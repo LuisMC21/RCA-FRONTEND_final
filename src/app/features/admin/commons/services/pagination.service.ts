@@ -11,6 +11,7 @@ export class PaginationService {
 
   pagination:IPaginationStorage[]=[
     {title:'parent',page:0,size:5},
+    {title:'section',page:0,size:5},
     {title:'teacher',page:0,size:5},
     {title:'course',page:0,size:5},
     {title:'student',page:0,size:5},
@@ -19,7 +20,7 @@ export class PaginationService {
     {title:'noticias',page:0,size:5},
     {title:'image',page:0,size:5},
     {title:'anio',page:0,size:5},
-    {title:'role',page:0,size:5},
+    {title:'role',page:0,size:5}
   ]
 
   getPage(paginationData:string){

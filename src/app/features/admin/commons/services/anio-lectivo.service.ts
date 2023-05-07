@@ -20,17 +20,17 @@ getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
 
 
   //Agregar 
-  add(aniolectivo:IAnioLectivo):Observable<IResponse>{
-    return this.http.post<IResponse>(`${environment.api}/aniolectivo`,aniolectivo)
+  add(aniolectivo:IAnioLectivo):Observable<IApiResponse>{
+    return this.http.post<IApiResponse>(`${environment.api}/aniolectivo`,aniolectivo)
   }
 
-  //Modificar 
-  update(aniolectivo:IAnioLectivo):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/aniolectivo`,aniolectivo);
+  //Modificar  
+  update(aniolectivo:IAnioLectivo):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/aniolectivo`,aniolectivo);
   }
 
   //Eliminar 
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/aniolectivo`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/aniolectivo/`+id);
   }
 }

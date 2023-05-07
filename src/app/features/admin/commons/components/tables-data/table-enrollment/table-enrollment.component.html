@@ -1,6 +1,6 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-    <div class="flex mx-4" (click)="getSizeOption()">
+    <!-- <div class="flex mx-4" (click)="getSizeOption()">
         <label class="px-4">Grado-Periodo:</label>
         <div class="size">
             <div class="flex justify-between px-2">
@@ -12,13 +12,16 @@
                     (click)="matGradoResponse(option.code)">{{option.gradeDTO.name +"-"+ option.anioDTO.name}</div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="flex">
-        <app-btn-report (click)="matGradoResponseXSL()" class="mx-2"></app-btn-report>
+        <!-- <app-btn-report (click)="matGradoResponseXSL()" class="mx-2"></app-btn-report> -->
         <app-button (click)="matricula.showModal()" [title]="'Matricular'"></app-button>
     </div>
 </div>
-<app-modal #matricula [title]="'Ficha de matrícula'">
+
+<!-- tabla de Agregar -->
+
+<app-modal #matricula [title]="'Matricular'">
     <div class="formEnrollment">
         <form [formGroup]="group" (ngSubmit)="save()" class="form">
             <div class="flex justify-between">
@@ -28,7 +31,7 @@
             <div class="form__field">
                 <div class="field">
                     <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
-                    <app-field><input formControlName="apelPat" class="input" type="text"></app-field>
+                    <app-field><input formControlName="" class="input" type="text"></app-field>
                     <app-required-field class="px-2" *ngIf="apelPat?.invalid && (apelPat?.dirty || apelPat?.touched)"
                         [text]="'**El campo es requerido'"></app-required-field>
                 </div>
@@ -59,7 +62,7 @@
                     </app-search>
                 </div> -->
                 <div class="field">
-                    <app-label-field [title]="'**Dirección'"></app-label-field>
+                    <app-label-field [title]="'Dirección'"></app-label-field>
                     <app-field><input formControlName="direcc" class="input" type="text"></app-field>
                     <app-required-field class="px-2" *ngIf="direcc?.invalid && (direcc?.dirty || direcc?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
@@ -110,8 +113,8 @@
                     <app-label-field [title]="'*Grado Periodo'"></app-label-field>
                     <select formControlName="idGradoPeriodo"
                         class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name+" - " +
-                            option.anioDTO}}</option>
+                        <option value="{{option.code}}" *ngFor="let option of aula">{{option.gradoDTO.name+" - " +
+                            option.seccionDTO.name}}</option>
                     </select>
                 </div>
                 <div class="field">
@@ -122,13 +125,140 @@
                 </div>
             </div>
             <div class="btns">
-                <button type="submit" [disabled]="group.invalid"
-                    class="field__input--button mx-2 h-9 rounded-3xl text-white">Efectuar matrícula</button>
+                <button type="submit" [disabled]="group.invalid" (click)="save()" class="field__input--button mx-2 h-9 rounded-3xl text-white">Matricular</button>
                 <app-btn-cancel (click)="matricula.hiddenModal()" class="btn__cancel mx-2"></app-btn-cancel>
             </div>
         </form>
     </div>
 </app-modal>
+
+
+<!-- Tabla de editar-->
+<app-modal #editar [title]="'Editar Matricula'">
+    <div class="formEnrollment">
+        <form [formGroup]="group" (ngSubmit)="save()" class="form">         
+            <div class="form__field">
+                <div class="field">
+                    <app-label-field [title]="'Apellido Paterno'"></app-label-field>
+                    <app-field><input formControlName="apelPat" class="input" type="text"></app-field>
+                    <app-required-field class="px-2" *ngIf="apelPat?.invalid && (apelPat?.dirty || apelPat?.touched)"
+                        [text]="'**El campo es requerido'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'Apellido Materno'"></app-label-field>
+                    <app-field><input formControlName="apelMat" class="input" type="text"></app-field>
+                    <app-required-field class="px-2" *ngIf="apelMat?.invalid && (apelMat?.dirty || apelMat?.touched)"
+                        [text]="'**El campo es requerido'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'Nombre'"></app-label-field>
+                    <app-field><input formControlName="nombre" class="input" type="text"></app-field>
+                    <app-required-field class="px-2" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
+                        [text]="'**El campo es requerido'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'DNI'"></app-label-field>
+                    <app-field><input formControlName="numDoc" class="input" type="text"></app-field>
+                    <app-required-field class="px-2" *ngIf="numDoc?.invalid && (numDoc?.dirty || numDoc?.touched)"
+                        [text]="'*El campo requiere 8 caracteres'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'Correo'"></app-label-field>
+                    <app-field><input formControlName="direcc" class="input" type="text"></app-field>
+                    <app-required-field class="px-2" *ngIf="direcc?.invalid && (direcc?.dirty || direcc?.touched)"
+                        [text]="'*El campo es requerido'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'Telefono de apoderado'"></app-label-field>
+                    <app-field><input formControlName="telConPri" class="input" type="text"></app-field>
+                    <app-required-field class="px-2"
+                        *ngIf="telConPri?.invalid && (telConPri?.dirty || telConPri?.touched)"
+                        [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'Aula'"></app-label-field>
+                    <select formControlName="Aula"
+                        class="select cursor-pointer h-10 w-full outline-none px-2">
+                        <option value="{{option.code}}" *ngFor="let option of aula">{{option.gradoDTO.name+" - " +
+                            option.seccionDTO.name}}</option>
+                    </select>
+                </div>
+                <!-- <div class="field">
+                    <app-label-field [title]="'**Apoderado'"></app-label-field>
+                    <app-field><input [(ngModel)]="nomParent" [ngModelOptions]="{standalone: true}" (ngModelChange)="searchParent($event)"  class="input" type="text" placeholder="Buscar apoderado por nombre" #apoderado></app-field>
+                     <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)" [text]="'*El campo es requerido'"></app-required-field> 
+                    <app-search #searchParentModal *ngIf="nomParent!=''">
+                        <span (click)="asingParent(parent)" *ngFor="let parent of parents" class="parentSearch block w-full h-full">
+                            {{parent.apelPaterno + " " + parent.apelMaterno + " " + parent.nombre}}
+                        </span>
+                        <span *ngIf="parents.length==0" class="newParent">
+                            <label>No se encontraron resultados. </label> 
+                            <app-button [title]="'Agregar nuevo'"></app-button>
+                        </span>
+                    </app-search>
+                </div> -->
+             
+                
+                <!-- <div class="field">
+                    <app-label-field [title]="'*Tipo de documento'"></app-label-field>
+                    <select  formControlName="tipDoc" class="select cursor-pointer h-10 w-full outline-none px-2">
+                        <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}</option>
+                    </select>
+                </div> -->
+             
+                <!--<div class="field">
+                    <app-label-field [title]="'**Vacunas'"></app-label-field>
+                    <select  formControlName="isVacunado" class="select cursor-pointer h-10 w-full outline-none px-2">
+                        <option value="{{option.value}}" *ngFor="let option of optionsVac">{{option.title}}</option>
+                    </select>
+                </div> -->
+                <!-- <div class="field">
+                    <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
+                    <app-field><input formControlName="fecNaci" class="input" type="date"></app-field>
+                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
+                        [text]="'*El campo es requerido'"></app-required-field>
+                </div> -->
+                <!-- <div class="field">
+                    <app-label-field [title]="'**Tipo de Seguro'"></app-label-field>
+                    <select  formControlName="tipSeg" class="select cursor-pointer h-10 w-full outline-none px-2">
+                        <option value="{{option.value}}" *ngFor="let option of optionsInsuraceType">{{option.title}}</option>
+                    </select>
+                </div> -->
+            </div>
+            <!-- <div class="flex justify-between">
+                <h2 class="legend__student">Año lectivo</h2>
+            </div> -->
+            <!-- <div class="form__field" [formGroup]="groupEnrollment">
+                <div class="field">
+                    <app-label-field [title]="'*Grado Periodo'"></app-label-field>
+                    <select formControlName="idGradoPeriodo"
+                        class="select cursor-pointer h-10 w-full outline-none px-2">
+                        <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name+" - " +
+                            option.anioDTO}}</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <app-label-field [title]="'**Fecha de matrícula'"></app-label-field>
+                    <app-field><input formControlName="fecMatri" class="input" type="date"></app-field>
+                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
+                        [text]="'*El campo es requerido'"></app-required-field>
+                </div>
+            </div> -->
+            <div class="btns">
+                <button type="submit" [disabled]="group.invalid"
+                    class="field__input--button mx-2 h-9 rounded-3xl text-white"(click)="save()" >Guardar</button>
+                <app-btn-cancel (click)="matricula.hiddenModal()" class="btn__cancel mx-2"></app-btn-cancel>
+            </div>
+        </form>
+    </div>
+</app-modal>
+
+
+
+
+
+<!-- Buscar Alumno -->
+
 <app-modal #modalStudents [title]="'Alumnos'">
     <div class="list__alumnos">
         <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
@@ -148,7 +278,7 @@
             <tbody *ngIf="listStudents?.length!=0; else empty">
                 <tr class="hover:bg-gray-200" (click)="asingStudent(item)" *ngFor="let item of listStudents">
                     <td>{{item.code}}</td>
-                    <td>{{item.usuarioDTO.ma_surname + " " + item.usuarioDTO.pa_surname+ " "+ item.usuarioDTO.name}}</td>
+                    <td>{{item.usuarioDTO.name}}</td>
                     <td class="flex justify-center">
                         <app-btn-update></app-btn-update>
                     </td>
@@ -160,30 +290,35 @@
         </span>
     </div>
 </app-modal>
+
+<!-- Tabla para mostrar-->
+
 <table class="table bg-gray-50">
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
     </thead>
-    <tbody *ngIf="matStudent?.length!=0; else empty">
+    <tbody>
         <tr *ngFor="let item of matStudent, let i=index">
-            <td>{{item.code}}</td>
-            <td>{{item.alumnoDTO.usuarioDTO.name}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " + item.alumnoDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
             <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
             <td>{{item.alumnoDTO.apoderadoDTO.usuarioDTO.tel}}</td>
-            <td class="flex justify-center">
-                <app-btn-update (click)="matricula.showModal()"></app-btn-update>
-                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar registro'"></app-btn-delete>
+            <td>{{item.date}}</td>
+            <td>{{item.aulaDTO.gradoDTO.name + " " + item.aulaDTO.seccionDTO.name}}</td>
+            <td class="flex justify-center"> 
+                <app-btn-update (click)="editar.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
+
             <!-- MODAL ELIMINAR -->
-            <app-modal [title]="'Eliminar?'" #modalDelete>
+            <app-modal [title]="'Eliminar Matricula?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
-                    <label><b>Codigo: </b>001</label>
-                    <label><b>Nombre: </b>2022</label>
+                    <label><b>Codigo: </b>{{item.code}}</label>
+                    <label><b>Nombre: </b>{{item.alumnoDTO.usuarioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-                    <app-btn-confirm-delete class="w-1/2 mx-2"></app-btn-confirm-delete>
+                    <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
         </tr>

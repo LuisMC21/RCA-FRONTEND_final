@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniolectivo.component';
+import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asistencia.component';
 import { AdminCourseComponent } from './views/admin-course/admin-course.component';
 import { AdminEnrollmentView } from './views/admin-enrollment/admin-enrollment.view';
 import { AdminGradeComponent } from './views/admin-grade/admin-grade.component';
@@ -14,6 +15,7 @@ import { AdminSchoolYearView } from './views/admin-school-year/admin-school-year
 import { AdminStudentView } from './views/admin-student/admin-student.view';
 import { AdminTeacherView } from './views/admin-teacher/admin-teacher.view';
 import { DashboardView } from './views/dashboard/dashboard.view';
+import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 
 
 const routes: Routes = [
@@ -33,7 +35,9 @@ const routes: Routes = [
             { path:'imagenes',component:AdminImageComponent},
             { path:'anioLectivo',component:AdminAniolectivoComponent},
             { path:'rol',component:AdminRoleComponent},
-     ]
+            { path:'asistencia',component:AdminAsistenciaComponent},
+            { path: 'seccion', component: AdminSectionComponent}
+    ]
     }
 ];
 

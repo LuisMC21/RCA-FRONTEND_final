@@ -36,7 +36,7 @@
                 <app-search #searchParentModal *ngIf="nomParent!=''">
                     <span (click)="asingParent(parent)" *ngFor="let parent of parents"
                         class="parentSearch block w-full h-full">
-                        {{parent.apelPaterno + " " + parent.apelMaterno + " " + parent.nombre}}
+                        {{parent.usuarioDTO.pa_surname + " " + parent.usuarioDTO.ma_surname + " " + parent.usuarioDTO.name}}
                     </span>
                     <span *ngIf="parents.length==0" class="newParent">
                         <label>No se encontraron resultados. </label>
@@ -106,8 +106,9 @@
             <td>{{item.code}}</td>
             <td>{{item.usuarioDTO.pa_surname + " "+ item.usuarioDTO.ma_surname}}</td>
             <td>{{item.usuarioDTO.name}}</td>
-
+            
             <td>{{(item.usuarioDTO.type_doc|uppercase) + "-" + item.usuarioDTO.numdoc}}</td>
+            <td>{{item.vaccine}}</td>
             <td class="actions">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>

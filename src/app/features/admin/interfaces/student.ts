@@ -2,6 +2,7 @@ import { IParent } from "./parent";
 import { IUser } from "./user";
 
 export interface IStudent {
+    id:string;
     code:string;
     diseases:string;
     namecon_pri:  string;

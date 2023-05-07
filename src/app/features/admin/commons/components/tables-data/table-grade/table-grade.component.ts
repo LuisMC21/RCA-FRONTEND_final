@@ -9,58 +9,65 @@ import { GradeService } from '../../../services/grade.service';
   templateUrl: './table-grade.component.html',
   styleUrls: ['./table-grade.component.scss']
 })
+
 export class TableGradeComponent implements OnInit {
-  
-  @Input() grades: IGrade[]=[];
+
+  @Input() grades: IGrade[] = [];
   @Input() tableName!: string;
   @Input() title!: string;
 
-  @Output() gradeSave:EventEmitter<IGrade> = new EventEmitter();
-  @Output() gradeDelete:EventEmitter<string> = new EventEmitter();
-  @Output() gradeSearch:EventEmitter<string> = new EventEmitter();
+  @Output() gradeSave: EventEmitter<IGrade> = new EventEmitter();
+  @Output() gradeDelete: EventEmitter<string> = new EventEmitter();
+  @Output() gradeSearch: EventEmitter<string> = new EventEmitter();
 
-  head=["Codigo","Grado","Acciones"]
+  head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
-  
-  msjResponse:string='';
-  nomSearch:string='';
+
+  msjResponse: string = '';
+  nomSearch: string = '';
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
-  get nombre(){return this.group.get('nombre')}
-
+  get id() { return this.group.get('id') }
+  get name() { return this.group.get('name') }
+  get code() { return this.group.get('code') }
   ngOnInit(): void {
     this.form();
   }
 
-  form(item?:IGrade):void{
+  form(item?: IGrade): void {
     this.group = this.formBuilder.group({
-      identi:[item?item.code:null],
-      nom:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(40)]],
-  });
-}
-
-  //BUSCAR
-  search(nom:string){
-    this.gradeSearch.emit(nom);
+      id: [item ? item.id : null],
+      code: [item ? item.code : ''],
+      name: [item ? item.name : '', [Validators.required, Validators.minLength(1), Validators.maxLength(1), Validators.pattern("^[0-9]*$")]],
+    });
   }
 
-   // AGREGAR - ACTUALIZAR
-   save(){
-    if(this.group.valid){
-     this.gradeSave.emit(this.group.value)
+  //BUSCAR
+  search(name: string) {
+    this.gradeSearch.emit(name);
+  }
+
+  // AGREGAR - ACTUALIZAR
+  save() {
+    if (this.group.valid) {
+      this.gradeSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR 
-  delete(id:string){
+  delete(id: string) {
     this.gradeDelete.emit(id)
     this.modalDelete.hiddenModal();
   }
 
   refresh(): void { window.location.reload(); }
+
+  reset() {
+    this.group.reset();
+  }
 }

@@ -9,7 +9,9 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { GradePeriodService } from '../../../services/grade-period.service';
 import { ParentService } from '../../../services/parent.service';
-
+import { AnioLectivoService } from '../../../services/anio-lectivo.service';
+import { AulaService } from '../../../services/aula.service';
+import { IAula } from 'src/app/features/admin/interfaces/aula';
 @Component({
   selector: 'app-table-enrollment',
   templateUrl: './table-enrollment.component.html',
@@ -26,24 +28,25 @@ export class TableEnrollmentComponent implements OnInit {
   gradoPeriodoLS:string=localStorage.getItem('gradoPeriodo')||''
   gradePeriodNom:string='';
   nomSearch:string='';
-  
   identiParent:string='';
   identiGradoPeriodo:string='';
   identiStudent:string='';
   asignStudent!: IStudent;
-  head=["CODIGO","NOMBRE","NÚMERO DE DOC","CORREO APODERADO","TELEFONO APODERADO"]
+  head=["NOMBRE Y APELLIDOS","NÚMERO DE DOC","CORREO APODERADO","TELEFONO APODERADO","FECHA","AULA","ACCIONES"]
 
   @ViewChild('searchParentModal') searchParentModal!:SearchComponent;
   @ViewChild('matricula') matricula!:ModalComponent;
-  @ViewChild('modalStudents') modalStudents!:ModalComponent
+  @ViewChild('modalStudents') modalStudents!:ModalComponent;
+  @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
-  @Input() gradePeriods:IGradePeriod[]=[]
+  @Input() aula:IAula[]=[]
   @Input() listStudents:IStudent[]=[]
   @Input() matGrado:IReportMatGrade[]=[]
   @Input() matStudent:IEnrollment[]=[]
 
   @Output() studentSave:EventEmitter<IStudent> = new EventEmitter();
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
+  @Output() enrollmentDelete:EventEmitter<string> = new EventEmitter();
   @Output() identiParentSave:EventEmitter<string> = new EventEmitter();
   @Output() idGradoPeriodoSave:EventEmitter<string> = new EventEmitter();
   @Output() studentDelete:EventEmitter<string> = new EventEmitter();
@@ -71,6 +74,7 @@ export class TableEnrollmentComponent implements OnInit {
   constructor(
     private parentService:ParentService, 
     private gradePeriod:GradePeriodService,
+    private aulaService:AulaService,
     private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
@@ -79,12 +83,12 @@ export class TableEnrollmentComponent implements OnInit {
     this.form();
   }
   
-  getGradePeriodNom(iden:string){
-    this.gradePeriod.getByIden(iden).subscribe(data =>{
+  getGradePeriodNom(id:string){
+    this.gradePeriod.getByIden(id).subscribe(data =>{
       this.gradePeriodNom = data.gradeDTO.name;
     })
   }
-
+  get id(){return this.group.get('id')}
   get apelPat(){return this.group.get('apelPat')}
   get apelMat(){return this.group.get('apelMat')}
   get nombre(){return this.group.get('nombre')}
@@ -100,7 +104,6 @@ export class TableEnrollmentComponent implements OnInit {
   get telConSec(){return this.group.get('telConSec')}
   get telConPri(){return this.group.get('telConPri')}
   get tipSeg(){return this.group.get('tipSeg')}
-
   get fecMatri(){return this.groupEnrollment.get('fecMatri')}
   get idGradoPeriodo(){return this.groupEnrollment.get('idGradoPeriodo')}
 
@@ -108,20 +111,22 @@ export class TableEnrollmentComponent implements OnInit {
     this.groupEnrollment = this.formBuilder.group({
       fecMatri:[''],
       idGradoPeriodo:[''],
-      idAlumno:[''],
+    
       identi:[null],
+      id:[item?item.id:null],
     })
 
     // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
       identi:[item?item.code:null],
-      apelPat:[item?item.usuarioDTO.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      apelMat:[item?item.usuarioDTO.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
+      apelPat:[item?item.usuarioDTO.pa_surname:''],
+      apelMat:[item?item.usuarioDTO.ma_surname:''],
       nombre:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
       //tipDoc:[item?item.tipDoc:''],
       numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
       direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      // fecNaci:[item?item.fecNaci:'',[Validators.required]],
+      fecNaci:[item?item.fecNaci:'',[Validators.required]],
+      // aulaGrade:[item?item.aulaDTO.gradeDTO.name:'',[Validators.required]],
       //apoderado:[''],
       enferm:[item?item.diseases:''],
       // isVacunado: [''],
@@ -153,8 +158,8 @@ export class TableEnrollmentComponent implements OnInit {
   }
   //ASIGNA APODERADO
   asingParent(parent:IParent){
-    this.nomParent = parent.apelPaterno + ' ' + parent.apelMaterno + ' '+parent.nombre;
-    this.identiParent = parent.identi;
+    this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
+    this.identiParent = parent.id;
     this.searchParentModal.hidden();
   }
   save(){
@@ -167,6 +172,8 @@ export class TableEnrollmentComponent implements OnInit {
   }
    // ELIMINAR 
    delete(id:string){
+    this.enrollmentDelete.emit(id)
+    this.modalDelete.hiddenModal();
   }
 
   //Reporte matriculados por curso

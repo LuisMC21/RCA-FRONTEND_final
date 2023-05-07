@@ -19,18 +19,17 @@ export class GradeService {
   }
 
   //Agregar 
-  add(grade:IGrade):Observable<IResponse>{
-    console.log(grade)
-    return this.http.post<IResponse>(`${environment.api}/grado`,grade)
+  add(grade:IGrade):Observable<IApiResponse>{
+    return this.http.post<IApiResponse>(`${environment.api}/grado`,grade)
   }
 
   //Modificar 
-  update(grade:IGrade):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/grado`,grade);
+  update(grade:IGrade):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/grado`,grade);
   }
 
   //Eliminar 
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/grado`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/grado/`+id);
   }
 }
