@@ -53,11 +53,10 @@ export class AdminCourseComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(course:ICourse){
-    console.log(course)
-    if(course.id==null){
+    if(course.code==null){
       this.courseService.add(course).subscribe(data =>{
-        console.log(data.message)
-        if(data.successful===true){
+        console.log(data.msj)
+        if(data.msj==='OK'){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
@@ -67,7 +66,7 @@ export class AdminCourseComponent implements OnInit {
       });
     }else{
       this.courseService.update(course).subscribe(data =>{
-        if(data.successful===true){
+        if(data.msj === 'OK'){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
@@ -82,7 +81,7 @@ export class AdminCourseComponent implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.courseService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+      if(data.msj==='OK'){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }

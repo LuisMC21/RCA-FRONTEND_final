@@ -48,8 +48,6 @@ nomSearch:string='';
   form(item?:IAsistencia):void{
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
-      alumnoDTO:[item?item.alumnoDTO:''],
-      claseDTO:[item?item.claseDTO:''],
       code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       state:[item?item.state:''],
       name:[item?item.alumnoDTO.usuarioDTO.name:''],

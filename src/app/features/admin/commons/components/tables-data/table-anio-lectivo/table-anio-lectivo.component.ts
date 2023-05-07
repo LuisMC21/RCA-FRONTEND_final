@@ -33,13 +33,12 @@ export class TableAnioLectivoComponent implements OnInit {
   }
 
   get code(){return this.group.get('code')}
-  get name(){return this.group.get('name')}
-  get id(){return this.group.get('id')}
+  get name(){return this.group.get('nom')}
+
   
   form(item?:IAnioLectivo):void{
     this.group = this.formBuilder.group({
-      id:[item?item.id:null],
-      code:[item?item.code:''],
+      code:[item?item.code:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       name:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
       // descripcion:[item?item.descripcion:'',]
   });

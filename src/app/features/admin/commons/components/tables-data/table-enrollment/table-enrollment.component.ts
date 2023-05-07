@@ -158,8 +158,8 @@ export class TableEnrollmentComponent implements OnInit {
   }
   //ASIGNA APODERADO
   asingParent(parent:IParent){
-    this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
-    this.identiParent = parent.id;
+    this.nomParent = parent.apelPaterno + ' ' + parent.apelMaterno + ' '+parent.nombre;
+    this.identiParent = parent.identi;
     this.searchParentModal.hidden();
   }
   save(){

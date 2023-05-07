@@ -69,9 +69,9 @@
             <!-- <div class="field">
                 <app-label-field [title]="'Estado'"></app-label-field>
                 <select  formControlName="state" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.state}}" *ngFor="let option of asistencia">{{option.state}}</option>
+                    <option value="{{option.value}}" *ngFor="let option of optionsEst">{{option.title}}</option>
                 </select>
-            </div> -->
+            </div>-->
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"

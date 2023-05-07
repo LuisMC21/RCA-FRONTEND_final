@@ -36,7 +36,7 @@
                 <app-search #searchParentModal *ngIf="nomParent!=''">
                     <span (click)="asingParent(parent)" *ngFor="let parent of parents"
                         class="parentSearch block w-full h-full">
-                        {{parent.usuarioDTO.pa_surname + " " + parent.usuarioDTO.ma_surname + " " + parent.usuarioDTO.name}}
+                        {{parent.apelPaterno + " " + parent.apelMaterno + " " + parent.nombre}}
                     </span>
                     <span *ngIf="parents.length==0" class="newParent">
                         <label>No se encontraron resultados. </label>

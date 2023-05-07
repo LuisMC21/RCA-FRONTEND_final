@@ -25,18 +25,18 @@ export class ParentService {
     return this.http.get<IParent>(`${environment.api}/apoderado`+id);
   }
   //Agregar apoderado
-  add(parent:IParent):Observable<IApiResponse>{
-    return this.http.post<IApiResponse>(`${environment.api}/apoderado`,parent)
+  add(parent:IParent):Observable<IResponse>{
+    return this.http.post<IResponse>(`${environment.api}/apoderado`,parent)
   }
 
   //Modificar apoderado
-  update(parent:IParent):Observable<IApiResponse>{
-    return this.http.put<IApiResponse>(`${environment.api}/apoderado`,parent);
+  update(parent:IParent):Observable<IResponse>{
+    return this.http.put<IResponse>(`${environment.api}/apoderado`,parent);
   }
 
   //Eliminar apoderado
-  delete(id:string):Observable<IApiResponse>{
-    return this.http.delete<IApiResponse>(`${environment.api}/apoderado/`+id);
+  delete(id:string):Observable<IResponse>{
+    return this.http.delete<IResponse>(`${environment.api}/apoderado/`+id);
   }
 }
 
