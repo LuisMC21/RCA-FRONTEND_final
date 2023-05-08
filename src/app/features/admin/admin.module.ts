@@ -21,6 +21,7 @@ import { AdminAniolectivoComponent } from './views/admin-aniolectivo/admin-aniol
 import { AdminRoleComponent } from './views/admin-role/admin-role.component';
 import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asistencia.component';
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
+import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AdminSectionComponent } from './views/admin-section/admin-section.compo
     AdminRoleComponent,
     AdminAsistenciaComponent,
     AdminSectionComponent,
+    AdminClassroomComponent,
   
   ],
   imports: [
