@@ -21,6 +21,7 @@ import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/tabl
 import { TableRoleComponent } from './tables-data/table-role/table-role.component';
 import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
 import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion.component';
+import { TableClassroomComponent } from './tables-data/table-classroom/table-classroom.component';
 
 
 
@@ -44,7 +45,8 @@ import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion
     TableAnioLectivoComponent,
     TableRoleComponent,
     TableAsistenciaComponent,
-    TableSeccionComponent
+    TableSeccionComponent,
+    TableClassroomComponent
   ],
   exports:[
     TableComponent,
@@ -64,7 +66,8 @@ import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion
     TableAnioLectivoComponent,
     TableRoleComponent,
     TableAsistenciaComponent,
-    TableSeccionComponent
+    TableSeccionComponent,
+    TableClassroomComponent
   ],
   imports: [
     CommonModule,

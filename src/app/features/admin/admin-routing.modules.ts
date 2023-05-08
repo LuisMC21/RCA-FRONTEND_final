@@ -16,29 +16,32 @@ import { AdminStudentView } from './views/admin-student/admin-student.view';
 import { AdminTeacherView } from './views/admin-teacher/admin-teacher.view';
 import { DashboardView } from './views/dashboard/dashboard.view';
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
+import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
 
 
 const routes: Routes = [
-    {
-        path: '', component: AdminComponent,
-        children:[
-            { path:'inicio',component:DashboardView},
-            { path:'alumno',component:AdminStudentView},
-            { path:'docente',component:AdminTeacherView},
-            { path:'curso',component:AdminCourseComponent},
-            { path:'grado',component:AdminGradeComponent},
-            { path:'periodo',component:AdminPeriodComponent},
-            { path:'apoderado',component:AdminParentView},
-            { path:'matricula',component:AdminEnrollmentView},
-            { path:'añoLectivo',component:AdminSchoolYearView},
-            { path:'noticias',component:AdminNewsView},
-            { path:'imagenes',component:AdminImageComponent},
-            { path:'anioLectivo',component:AdminAniolectivoComponent},
-            { path:'rol',component:AdminRoleComponent},
-            { path:'asistencia',component:AdminAsistenciaComponent},
-            { path: 'seccion', component: AdminSectionComponent}
+  {
+    path: '', component: AdminComponent,
+    children: [
+      { path: 'inicio', component: DashboardView },
+      { path: 'alumno', component: AdminStudentView },
+      { path: 'docente', component: AdminTeacherView },
+      { path: 'curso', component: AdminCourseComponent },
+      { path: 'grado', component: AdminGradeComponent },
+      { path: 'periodo', component: AdminPeriodComponent },
+      { path: 'apoderado', component: AdminParentView },
+      { path: 'matricula', component: AdminEnrollmentView },
+      { path: 'añoLectivo', component: AdminSchoolYearView },
+      { path: 'noticias', component: AdminNewsView },
+      { path: 'imagenes', component: AdminImageComponent },
+      { path: 'anioLectivo', component: AdminAniolectivoComponent },
+      { path: 'rol', component: AdminRoleComponent },
+      { path: 'asistencia', component: AdminAsistenciaComponent },
+      { path: 'seccion', component: AdminSectionComponent },
+      { path: 'aula', component: AdminClassroomComponent }
     ]
-    }
+  },
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
-import { IResponse } from 'src/app/core/interfaces/response';
 import { environment } from 'src/environments/environment';
 import { IGrade } from '../../interfaces/grade';
 
