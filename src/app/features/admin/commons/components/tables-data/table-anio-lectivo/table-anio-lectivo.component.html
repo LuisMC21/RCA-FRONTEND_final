@@ -14,8 +14,10 @@
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'Nombre'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
-                <app-required-field class="px-2"></app-required-field>
+                <app-field><input maxlength="4" formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
+                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                    [text]="'**El campo debe contener mínimo 4 caracteres numéricos'"></app-required-field>
+
             </div>
         </div>
         <div class="btns flex py-7 w-full">
@@ -33,7 +35,7 @@
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'**Código'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="text" placeholder="Código"></app-field>
+                <app-field><input maxlength="4" formControlName="code" class="input" type="text" placeholder="Código"></app-field>
                 <app-required-field class="px-2" *ngIf="code?.invalid && (code?.dirty || code?.touched)"
                     [text]="'**El campo debe contener mínimo 1 caracteres'"></app-required-field>
             </div>
@@ -41,7 +43,7 @@
                 <app-label-field [title]="'**Nombre'"></app-label-field>
                 <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                    [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
+                    [text]="'**El campo debe contener mínimo 4 caracteres numéricos'"></app-required-field>
             </div>
            
         </div>

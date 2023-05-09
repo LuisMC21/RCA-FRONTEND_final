@@ -38,7 +38,8 @@ const routes: Routes = [
       { path: 'rol', component: AdminRoleComponent },
       { path: 'asistencia', component: AdminAsistenciaComponent },
       { path: 'seccion', component: AdminSectionComponent },
-      { path: 'aula', component: AdminClassroomComponent }
+      { path: 'aula', component: AdminClassroomComponent },
+      { path: 'periodo', component: AdminPeriodComponent}
     ]
   },
   { path: '**', redirectTo: ''}

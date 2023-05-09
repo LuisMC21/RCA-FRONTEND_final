@@ -9,24 +9,22 @@
 </div>
 <!-- MODAL AGREGAR -->
 <app-modal [title]="'Agregar Aula'" #modalAdd>
-    <form [formGroup]="group" class="form" (ngSubmit)="save()">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'Grado'"></app-label-field>
-                <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
-                        <option *ngFor="let grade of grades" [ngValue]="grade">{{ grade.name }}</option>
-                    </select></app-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Sección'"></app-label-field>
-                <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
-                        <option *ngFor="let section of sections" [ngValue]="section">{{ section.name }}</option>
-                    </select></app-field>
-            </div>
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
+        <div class="field">
+            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
+                    <option *ngFor="let grade of grades" [ngValue]="grade">{{ grade.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
+                    <option *ngFor="let section of sections" [ngValue]="section">{{ section.name }}</option>
+                </select></app-field>
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"  (click)="save()">Agregar</button>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
             <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
 
@@ -34,25 +32,27 @@
 </app-modal>
 <!-- MODAL ACTUALIZAR -->
 <app-modal [title]="'Actualizar Aula'" #modalUpdate>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'Code'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Grado'"></app-label-field>
-                <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO" >
-                        <option *ngFor="let grade of grades" [ngValue]="grade" [selected]="grade.id === item.gradoDTO.id">{{ grade.name }}</option>
-                    </select></app-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Sección'"></app-label-field>
-                <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
-                        <option *ngFor="let section of sections" [ngValue]="section" [selected]="section.id === item.seccionDTO.id">{{ section.name }}</option>
-                    </select></app-field>
-            </div>
+    <form [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
+
+        <div class="field">
+            <app-label-field [title]="'Code'"></app-label-field>
+            <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
         </div>
+        <div class="field">
+            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
+                    <option *ngFor="let grade of grades" [ngValue]="grade" [selected]="grade.id === item.gradoDTO.id">{{
+                        grade.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
+                    <option *ngFor="let section of sections" [ngValue]="section"
+                        [selected]="section.id === item.seccionDTO.id">{{ section.name }}</option>
+                </select></app-field>
+        </div>
+
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
@@ -70,7 +70,7 @@
             <td>{{item.code}}</td>
             <td>{{item.gradoDTO.name}}-{{item.seccionDTO.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)"  (click)="modalUpdate.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalUpdate.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar Aula'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

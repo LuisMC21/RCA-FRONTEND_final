@@ -40,7 +40,7 @@ export class TableAnioLectivoComponent implements OnInit {
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
       code:[item?item.code:''],
-      name:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(4),Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
       // descripcion:[item?item.descripcion:'',]
   });
 
