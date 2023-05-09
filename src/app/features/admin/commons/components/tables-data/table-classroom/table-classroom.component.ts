@@ -23,8 +23,7 @@ export class TableClassroomComponent implements OnInit {
     code: '',
     gradoDTO: { id: '', code: '', name: '' },
     seccionDTO: { id: '', code: '', name: '' }
-  };
-
+  }
   
 
   @Output() classroomSave: EventEmitter<IAula> = new EventEmitter();

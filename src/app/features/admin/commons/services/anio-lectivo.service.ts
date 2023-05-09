@@ -12,25 +12,25 @@ import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 })
 export class AnioLectivoService {
 
-  constructor(private http:HttpClient) { }
-//Listar 
-getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-  return this.http.get<IApiResponse>(`${environment.api}/aniolectivo?page=${page}&size=${size}`);
-}
+  constructor(private http: HttpClient) { }
+  //Listar 
+  getAll(nom?: string, page?: number, size?: number): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/aniolectivo?page=${page}&size=${size}`);
+  }
 
 
   //Agregar 
-  add(aniolectivo:IAnioLectivo):Observable<IApiResponse>{
-    return this.http.post<IApiResponse>(`${environment.api}/aniolectivo`,aniolectivo)
+  add(aniolectivo: IAnioLectivo): Observable<IApiResponse> {
+    return this.http.post<IApiResponse>(`${environment.api}/aniolectivo`, aniolectivo)
   }
 
   //Modificar  
-  update(aniolectivo:IAnioLectivo):Observable<IApiResponse>{
-    return this.http.put<IApiResponse>(`${environment.api}/aniolectivo`,aniolectivo);
+  update(aniolectivo: IAnioLectivo): Observable<IApiResponse> {
+    return this.http.put<IApiResponse>(`${environment.api}/aniolectivo`, aniolectivo);
   }
 
   //Eliminar 
-  delete(id:string):Observable<IApiResponse>{
-    return this.http.delete<IApiResponse>(`${environment.api}/aniolectivo/`+id);
+  delete(id: string): Observable<IApiResponse> {
+    return this.http.delete<IApiResponse>(`${environment.api}/aniolectivo/` + id);
   }
 }
