@@ -17,6 +17,7 @@ import { AdminTeacherView } from './views/admin-teacher/admin-teacher.view';
 import { DashboardView } from './views/dashboard/dashboard.view';
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
+import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-course-teacher.component';
 
 
 const routes: Routes = [
@@ -39,7 +40,8 @@ const routes: Routes = [
       { path: 'asistencia', component: AdminAsistenciaComponent },
       { path: 'seccion', component: AdminSectionComponent },
       { path: 'aula', component: AdminClassroomComponent },
-      { path: 'periodo', component: AdminPeriodComponent}
+      { path: 'periodo', component: AdminPeriodComponent},
+      { path: 'docenteCurso', component: AdminCourseTeacherComponent}
     ]
   },
   { path: '**', redirectTo: ''}

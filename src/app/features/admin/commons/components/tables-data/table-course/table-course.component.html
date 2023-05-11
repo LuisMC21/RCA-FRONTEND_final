@@ -11,17 +11,19 @@
 
 <!-- MODAL AGREGAR -->
 <app-modal [title]="'Agregar Curso'" #modalAdd>
-    <form [formGroup]="group" class="form" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
-        <div class="field">
-            <app-label-field [title]="'Curso'"></app-label-field>
-            <app-field><input class="input" type="text" formControlName="name" placeholder="Nombre"></app-field>
-            <!-- <app-required-field class="px-2">
-                    [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
-            </div> -->
+    <form [formGroup]="group" class="form" (ngSubmit)="save()" class="form">
+        <div class="form__field">
+            <div class="field">
+                <app-label-field [title]="'Curso'"></app-label-field>
+                <app-field><input class="input" type="text" formControlName="name" placeholder="Nombre"></app-field>
+                <!-- <app-required-field class="px-2">
+                        [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
+                </div> -->
+            </div>
         </div>
-        <div class="flex py-7 w-full">
+        <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()">Agregar</button>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
             <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
@@ -29,7 +31,7 @@
 
 <!-- MODAL EDITAR -->
 <app-modal [title]="'Editar Curso'" #modalEdit>
-    <form [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
+    <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
 
             <div class="field">

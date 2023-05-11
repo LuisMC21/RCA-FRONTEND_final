@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ICourse } from 'src/app/features/admin/interfaces/course';
 import { ITeacher } from 'src/app/features/admin/interfaces/teacher';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { CourseService } from '../../../services/course.service';
-import { TeacherService } from '../../../services/teacher.service';
 
 @Component({
   selector: 'app-table-teacher',
@@ -17,9 +14,11 @@ export class TableTeacherComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  @Output() teacherSave:EventEmitter<ITeacher> = new EventEmitter();
-  @Output() teacherDelete:EventEmitter<string> = new EventEmitter();
-  @Output() teacherSearch:EventEmitter<string> = new EventEmitter();
+  titulo: string = 'Agregar Docente';
+
+  @Output() teacherSave: EventEmitter<ITeacher> = new EventEmitter();
+  @Output() teacherDelete: EventEmitter<string> = new EventEmitter();
+  @Output() teacherSearch: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
@@ -27,74 +26,103 @@ export class TableTeacherComponent implements OnInit {
   group!: FormGroup;
 
   optionsDocumentType = [
-    {title:"DNI",value:'01'},
-    {title:"CE",value:'04'},
-    {title:"Pasaporte",value:'07'},
-    {title:"Partida de Nacimiento",value:'11'},
+    { title: "DNI", value: 'DNI' },
+    { title: "CE", value: 'CE' },
+    { title: "Pasaporte", value: 'Pasaporte' },
+    { title: "Partida de Nacimiento", value: 'Partida' },
   ]
-  optionsVac =[
-    {title:'SI',value:'S'},
-    {title:'NO',value:'N'}
+  optionsVac = [
+    { title: 'SI', value: 'S' },
+    { title: 'NO', value: 'N' }
   ]
-  optionsGrade= [
-    {title:'Superior Técnica',value:'T'},
-    {title:'Superior Universitaria',value:'U'}];
-  
-  optionsInsuraceType= [
-    {title:'ESSALUD',value:'E'},
-    {title:'SIS',value:'S'},
-    {title:'Privado',value:'P'},
-    {title:'Fuerza Armada',value:'F'}
-  ];
+  optionsGrade = [
+    { title: 'Superior Técnica', value: 'T' },
+    { title: 'Superior Universitaria', value: 'U' }];
 
-  head=["Codigo","Docente","DNI","Curso","Grado","Acciones"]
-  msjResponse:string='';
+  head = ["Codigo", "Docente", "Documento","n° documento", "Teléfono","Correo", "Especialidad", "Grado", "Acciones"]
+  msjResponse: string = '';
 
-  constructor(private formBuilder:FormBuilder, private teacherService:TeacherService, private cursoService:CourseService) { }
+  constructor(private formBuilder: FormBuilder) { }
 
-  get apelPaterno(){return this.group.get('apelPaterno')}
-  get apelMaterno(){return this.group.get('apelMaterno')}
-  get nombre(){return this.group.get('nombre')}
-  get tipDocumento(){return this.group.get('tipDocumento')}
-  get numDocumento(){return this.group.get('numDocumento')}
-  get gradDoc(){return this.group.get('gradDoc')}
-  get especializacion(){return this.group.get('especializacion')}
-  get tipSeguro(){return this.group.get('tipSeguro')}
+  get pa_surname() { return this.group.get('usuarioDTO.pa_surname') }
+  get ma_surname() { return this.group.get('usuarioDTO.ma_surname') }
+  get name() { return this.group.get('usuarioDTO.name') }
+  get type_doc() { return this.group.get('usuarioDTO.type_doc') }
+  get numdoc() { return this.group.get('usuarioDTO.numdoc') }
+  get gra_inst() { return this.group.get('usuarioDTO.gra_inst') }
+  get experience(){return this.group.get('experience')}
+  get dose(){return this.group.get('dose')}
+  get specialty(){return this.group.get('specialty')}
+  get nombreUsuario(){return this.group.get('nombreUsuario')}
+  get birthdate(){return this.group.get('usuarioDTO.birthdate')}
+  get tel(){return this.group.get('usuarioDTO.tel')}
+  get email(){return this.group.get('usuarioDTO.email')}
+  get password(){return this.group.get('usuarioDTO.password')}
 
   ngOnInit(): void {
     this.form();
   }
 
-  form(item?:ITeacher){
+  form(item?: ITeacher): void {
+    if(item){
+      this.titulo = "Actualizar docente";
+    }
     this.group = this.formBuilder.group({
-      identi:[item?item.identi:null],
-      apelPaterno:[item?item.apelPaterno:'',[Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      apelMaterno:[item?item.apelMaterno:'',[Validators.required, Validators.minLength(3),Validators.maxLength(20)]],
-      nombre:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      tipDocumento:[item?item.tipDocumento:'',[Validators.required]],
-      gradDoc:[item?item.gradDoc:'',[Validators.required]],
-      numDocumento:[item?item.numDocumento:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      especializacion:[item?item.specialty:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
-      tipSeguro:[item?item.tipSeguro:'',Validators.required]
-  });
+      id: [item ? item.id : null],
+      code: [item ? item.code : ''],
+      experience: [item ? item.experience : '', [Validators.required]],
+      dose: [item ? item.dose : '', [Validators.required]],
+      specialty: [item ? item.specialty : '', [Validators.required]],
+      usuarioDTO: this.formBuilder.group({
+        id: [item && item.usuarioDTO ? item.usuarioDTO.id : null],
+        code: [item && item.usuarioDTO ? item.usuarioDTO.code : ''],
+        nombreUsuario: [item && item.usuarioDTO ? item.usuarioDTO.nombreUsuario : '', [Validators.required]],
+        name: [item && item.usuarioDTO ? item.usuarioDTO.name : '', [Validators.required]],
+        pa_surname: [item && item.usuarioDTO ? item.usuarioDTO.pa_surname : '', [Validators.required]],
+        ma_surname: [item && item.usuarioDTO ? item.usuarioDTO.ma_surname : '', [Validators.required]],
+        birthdate: [item && item.usuarioDTO ? item.usuarioDTO.birthdate : null, [Validators.required]],
+        type_doc: [item && item.usuarioDTO ? item.usuarioDTO.type_doc : '', [Validators.required]],
+        numdoc: [item && item.usuarioDTO ? item.usuarioDTO.numdoc : '', [Validators.required]],
+        tel: [item && item.usuarioDTO ? item.usuarioDTO.tel : '', [Validators.required]],
+        gra_inst: [item && item.usuarioDTO ? item.usuarioDTO.gra_inst : '', [Validators.required]],
+        email: [item && item.usuarioDTO ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
+        password: [item && item.usuarioDTO ? item.usuarioDTO.password : ''],
+        rol: ['TEACHER']
+      })
+    });
   }
- // BUSCAR
- search(nom:string){
-  this.teacherSearch.emit(nom);
-}
-
-// AGREGAR - ACTUALIZAR
-save(){
-  if(this.group.valid){
-   this.teacherSave.emit(this.group.value)
+  
+  // BUSCAR
+  search(nom: string) {
+    this.teacherSearch.emit(nom);
   }
-  this.modalAdd.hiddenModal();
-}
 
-// ELIMINAR 
-delete(id:string){
-  this.teacherDelete.emit(id)
-  this.modalDelete.hiddenModal();
-}
+  // AGREGAR - ACTUALIZAR
+  save() {
+    if (this.group.valid) {
+      this.teacherSave.emit(this.group.value)
+    }
+    this.modalAdd.hiddenModal();
+
+    if(this.titulo=="Actualizar Docente"){
+      this.titulo = "Agregar Docente";
+    }
+  }
+
+  // ELIMINAR 
+  delete(id: string) {
+    this.teacherDelete.emit(id)
+    this.modalDelete.hiddenModal();
+  }
+
+  reset(){
+    if(this.titulo=="Actualizar docente"){
+      this.titulo = "Agregar Docente";
+    }
+    console.log(this.group.value);
+    this.group.reset(); 
+    
+  }
+
 
 }

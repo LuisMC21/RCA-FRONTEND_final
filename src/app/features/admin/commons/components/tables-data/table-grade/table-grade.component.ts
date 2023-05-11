@@ -16,6 +16,8 @@ export class TableGradeComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  titulo = 'Agregar grado';
+
   @Output() gradeSave: EventEmitter<IGrade> = new EventEmitter();
   @Output() gradeDelete: EventEmitter<string> = new EventEmitter();
   @Output() gradeSearch: EventEmitter<string> = new EventEmitter();
@@ -39,6 +41,9 @@ export class TableGradeComponent implements OnInit {
   }
 
   form(item?: IGrade): void {
+    if(item){
+      this.titulo = 'Actualizar grado';
+    }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
@@ -57,6 +62,9 @@ export class TableGradeComponent implements OnInit {
       this.gradeSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
+    if(this.titulo = 'Actualizar grado'){
+      this.titulo = 'Agregar grado';
+    }
   }
 
   // ELIMINAR 
@@ -68,6 +76,9 @@ export class TableGradeComponent implements OnInit {
   refresh(): void { window.location.reload(); }
 
   reset() {
+    if(this.titulo = 'Actualizar grado'){
+      this.titulo = 'Agregar grado';
+    }
     this.group.reset();
   }
 }
