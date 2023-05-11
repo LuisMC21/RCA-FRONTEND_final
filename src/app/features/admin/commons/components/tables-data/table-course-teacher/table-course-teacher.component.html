@@ -1,0 +1,72 @@
+<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>{{tableName}}</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
+            type="search" placeholder="Buscar">
+    </div>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+</div>
+<!-- MODAL AGREGAR -->
+<app-modal [title]="titulo" #modalAdd>
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
+        <div class="field">
+            <app-label-field [title]="'Docente'"></app-label-field>
+            <app-field><select id="teacher" class="input" name="teacher" formControlName="docenteDTO">
+                    <option *ngFor="let teacher of teachers" [ngValue]="teacher" [selected]="teacher.id === item.docenteDTO.id">{{ teacher.usuarioDTO.name + ' ' + teacher.usuarioDTO.pa_surname + ' ' + teacher.usuarioDTO.ma_surname}}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Aula'"></app-label-field>
+            <app-field><select id="grade" class="input" name="grade" formControlName="aulaDTO">
+                    <option *ngFor="let classroom of classrooms" [ngValue]="classroom" [selected]="classroom.id === item.aulaDTO.id">{{ classroom.gradoDTO.name  +  ' ' + classroom.seccionDTO.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Curso'"></app-label-field>
+            <app-field><select id="course" class="input" name="course" formControlName="cursoDTO">
+                    <option *ngFor="let course of courses" [ngValue]="course" [selected] = "course.id === item.cursoDTO.id" >{{ course.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+
+    </form>
+</app-modal>
+
+
+<table class="table bg-gray-50">
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of courseTeachers, let i=index">
+            <td>{{item.code}}</td>
+            <td>{{item.docenteDTO.usuarioDTO.name}} {{item.docenteDTO.usuarioDTO.pa_surname}} {{item.docenteDTO.usuarioDTO.ma_surname}}</td>
+            <td>{{item.aulaDTO.gradoDTO.name}} {{item.aulaDTO.seccionDTO.name}}</td>
+            <td>{{item.cursoDTO.name}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar Aula'"></app-btn-delete>
+            </td>
+            <!-- MODAL ELIMINAR -->
+
+            <app-modal [title]="'¿Eliminar Aula?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.code}}</label>
+                    <label><b>Docente: </b>{{item.docenteDTO.usuarioDTO.name}} {{item.docenteDTO.usuarioDTO.pa_surname}} {{item.docenteDTO.usuarioDTO.ma_surname}}</label>
+                    <label><b>Aula: </b>{{item.aulaDTO.gradoDTO.name}} {{item.aulaDTO.seccionDTO.name}}</label>
+                    <label><b>Curso: </b>{{item.cursoDTO.name}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+
+        </tr>
+    </tbody>
+</table>

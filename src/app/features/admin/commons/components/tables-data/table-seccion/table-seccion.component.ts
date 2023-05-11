@@ -14,6 +14,8 @@ export class TableSeccionComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  titulo:string = 'Agregar sección';
+
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
   @Output() sectionSearch: EventEmitter<string> = new EventEmitter();
@@ -39,6 +41,9 @@ export class TableSeccionComponent implements OnInit {
   }
 
   form(item?: ISeccion): void {
+    if(item){
+      this.titulo = 'Actualizar sección';
+    }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
@@ -57,17 +62,24 @@ export class TableSeccionComponent implements OnInit {
       this.sectionSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
+    if(this.titulo == 'Actualizar sección'){
+      this.titulo = 'Agregar sección'
+    }
   }
 
   // ELIMINAR 
   delete(id: string) {
     this.sectionDelete.emit(id)
     this.modalDelete.hiddenModal();
+    console.log(this.group.get('usuarioDTO.name'));
   }
 
   refresh(): void { window.location.reload(); }
 
   reset():void{
+    if(this.titulo == 'Actualizar sección'){
+      this.titulo = 'Agregar sección'
+    }
     this.group.reset(); 
   }
 

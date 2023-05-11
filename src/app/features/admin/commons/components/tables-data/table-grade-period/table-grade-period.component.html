@@ -113,7 +113,7 @@
             <td>{{item.cursoDTO.name}}</td>
             <td>{{item.gradeDTO.name}}</td>
             <td>{{item.periodoDTO.name}}</td>
-            <td>{{item.teacherDTO.name}}</td>
+            <td>{{item.teacherDTO.usuarioDTO.name/td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form2(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
@@ -178,8 +178,8 @@
             <div class="field">
                 <app-label-field [title]="'*Docente'"></app-label-field>
                 <select formControlName="docenteId" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.identi}}" *ngFor="let option of teachers">{{option.apelPaterno +" "+
-                        option.apelMaterno + " "+ option.name}}</option>
+                    <option value="{{option.id}}" *ngFor="let option of teachers">{{option.usuarioDTO.pa_surname +" "+
+                        option.usuarioDTO.ma_surname + " "+ option.usuarioDTO.name}}</option>
                 </select>
             </div>
         </div>

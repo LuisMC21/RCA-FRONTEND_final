@@ -22,6 +22,7 @@ import { TableRoleComponent } from './tables-data/table-role/table-role.componen
 import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
 import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion.component';
 import { TableClassroomComponent } from './tables-data/table-classroom/table-classroom.component';
+import { TableCourseTeacherComponent } from './tables-data/table-course-teacher/table-course-teacher.component';
 
 
 
@@ -46,7 +47,8 @@ import { TableClassroomComponent } from './tables-data/table-classroom/table-cla
     TableRoleComponent,
     TableAsistenciaComponent,
     TableSeccionComponent,
-    TableClassroomComponent
+    TableClassroomComponent,
+    TableCourseTeacherComponent
   ],
   exports:[
     TableComponent,
@@ -67,7 +69,8 @@ import { TableClassroomComponent } from './tables-data/table-classroom/table-cla
     TableRoleComponent,
     TableAsistenciaComponent,
     TableSeccionComponent,
-    TableClassroomComponent
+    TableClassroomComponent,
+    TableCourseTeacherComponent
   ],
   imports: [
     CommonModule,

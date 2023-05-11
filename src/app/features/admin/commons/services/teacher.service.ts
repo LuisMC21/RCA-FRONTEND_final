@@ -20,18 +20,18 @@ export class TeacherService {
   }
 
   //Agregar docente
-  add(teacher:ITeacher):Observable<IResponse>{
+  add(teacher:ITeacher):Observable<IApiResponse>{
     console.log(teacher)
-    return this.http.post<IResponse>(`${environment.api}/docente`,teacher)
+    return this.http.post<IApiResponse>(`${environment.api}/docente`,teacher)
   }
 
   //Modificar docente
-  update(teacher:ITeacher):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/docente`,teacher);
+  update(teacher:ITeacher):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/docente`,teacher);
   }
 
   //Eliminar docente
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/docente`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/docente/`+id);
   }
 }

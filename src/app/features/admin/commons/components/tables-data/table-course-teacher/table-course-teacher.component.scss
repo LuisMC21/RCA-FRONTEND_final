@@ -6,16 +6,15 @@ table{
         text-align: center;
     }
 }
-.select{
-    border: 1px solid rgb(177, 174, 174);
-    border-radius: 0.3rem;
-    color: rgb(105, 105, 105);
-}
 .input{
     outline: none;
     width: 100%;
     padding-left: 1rem;
     background:none;
+}
+
+.field{
+    width: 48.5%;
 }
 .field__input--button{
     background-color: var(--const-color-blue);
@@ -28,24 +27,4 @@ table{
             background-color: var(--const-color-blue-hover);
         }
     }
-}
-
-//Agregar curso
-.form{
-    width: 500px;
-    min-width: 100px;
-}
-.form__field{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 0.2rem 0.4rem;
-}
-.btns{
-    height: 4rem;
-}
-.textArea{
-    width: 100%;
-    border: 1px solid rgb(177, 174, 174);
-    outline: none;
-    padding: 0.6rem;
 }
