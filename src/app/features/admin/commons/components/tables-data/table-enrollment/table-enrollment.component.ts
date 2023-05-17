@@ -125,7 +125,7 @@ export class TableEnrollmentComponent implements OnInit {
       //tipDoc:[item?item.tipDoc:''],
       numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
       direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      fecNaci:[item?item.fecNaci:'',[Validators.required]],
+      // fecNaci:[item?item.:'',[Validators.required]],
       // aulaGrade:[item?item.aulaDTO.gradeDTO.name:'',[Validators.required]],
       //apoderado:[''],
       enferm:[item?item.diseases:''],
@@ -157,11 +157,11 @@ export class TableEnrollmentComponent implements OnInit {
     this.modalStudents.hiddenModal();
   }
   //ASIGNA APODERADO
-  asingParent(parent:IParent){
-    this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
-    this.identiParent = parent.id;
-    this.searchParentModal.hidden();
-  }
+  // asingParent(parent:IParent){
+  //   this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
+  //   this.identiParent = parent.id;
+  //   this.searchParentModal.hidden();
+  // }
   save(){
     if(this.group.valid && this.groupEnrollment.valid){
     this.identiParentSave.emit(this.identiParent)
