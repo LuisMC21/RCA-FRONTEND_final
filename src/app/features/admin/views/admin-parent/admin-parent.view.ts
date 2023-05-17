@@ -5,6 +5,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { PaginationService } from '../../commons/services/pagination.service';
 import { ParentService } from '../../commons/services/parent.service';
 import { IParent } from '../../interfaces/parent';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-admin-parent',
@@ -15,7 +16,7 @@ export class AdminParentView implements OnInit {
 
   parents:IParent[]=[]
   apiResponse!: IApiResponse;
-  response!:IResponse;
+  // response!:IResponse;
   msjResponse:string='';
   paginationData = 'parent'
   successful: boolean=false;
@@ -23,7 +24,9 @@ export class AdminParentView implements OnInit {
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   tableName = "Apoderado"
-  constructor(private parentService:ParentService, private pagination:PaginationService) { }
+  constructor(private parentService:ParentService, private pagination:PaginationService) { 
+    
+  }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
@@ -31,7 +34,7 @@ export class AdminParentView implements OnInit {
     this.parentService.getAll('', page,size)
     .subscribe(response =>{
       this.parents = response.data.list;
-      console.log("Apoderados:"+ response.data.list)
+      console.log(response.data.list)
     });
   }
 
@@ -46,6 +49,7 @@ export class AdminParentView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(parent:IParent){
+    console.log(parent)
     if(parent.id==null){
       this.parentService.add(parent).subscribe(data =>{
         console.log(data.message)
@@ -59,6 +63,7 @@ export class AdminParentView implements OnInit {
       });
     }else{
       this.parentService.update(parent).subscribe(data =>{
+        console.log(parent)
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
@@ -69,7 +74,10 @@ export class AdminParentView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    
   }
+
+
 
   //ELIMINAR 
   delete(id:string){
@@ -82,6 +90,6 @@ export class AdminParentView implements OnInit {
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+refresh(): void { window.location.reload(); }
 
 }

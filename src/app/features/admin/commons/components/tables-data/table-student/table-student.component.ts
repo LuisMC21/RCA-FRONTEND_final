@@ -5,6 +5,7 @@ import { IStudent } from 'src/app/features/admin/interfaces/student';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { ParentService } from '../../../services/parent.service';
+import { IUser } from 'src/app/features/admin/interfaces/user';
 
 @Component({
   selector: 'app-table-student',
@@ -15,6 +16,7 @@ export class TableStudentComponent implements OnInit {
 
   @Input() students!: IStudent[];
   parents:IParent[]=[];
+  usuario:IUser[]=[]
   identiParent:string='';
   nomParent:string='';
   @Input() tableName!: string;
@@ -45,53 +47,97 @@ export class TableStudentComponent implements OnInit {
     {title:'Privado',value:'P'},
     {title:'Fuerza Armada',value:'F'}
   ];
-  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","VACUNA","ACCIONES"]
+  head=["CODIGO","APELLIDOS","NOMBRE","DOC. de IDENTIDAD","CORREO","TELÉFONO","VACUNA","SEGURO","CONTACTO","ACCIONES"]
   msjDeleteok:string='';
 
   constructor(private renderer2:Renderer2,private formBuilder:FormBuilder, private parentService:ParentService) {
-     
-   }
-   ngOnInit(): void {
-     this.form()
+}
+ngOnInit(): void {
+    this.form()
     //  console.log(this.students)
   }
-  
-  get apelPat(){return this.group.get('apelPat')}
-  get apelMat(){return this.group.get('apelMat')}
-  get nombre(){return this.group.get('nombre')}
-  get tipDoc(){return this.group.get('tipDoc')}
-  get numDoc(){return this.group.get('numDoc')}
-  get direcc(){return this.group.get('direcc')}
-  get fecNaci(){return this.group.get('fecNaci')}
+// ALUMNO
+  get id(){return this.group.get('id')}
+  get code(){return this.group.get('code')}
+  get diseases(){return this.group.get('diseases')}
+  get namecon_pri(){return this.group.get('namecon_pri')}
+  get telcon_pri(){return this.group.get('telcon_pri')}
+  get namecon_sec(){return this.group.get('namecon_sec')}
+  get telcon_sec(){return this.group.get('telcon_sec')}
+  get vaccine(){return this.group.get('vaccine')}
+  get type_insurance(){return this.group.get('type_insurance')}
+// USUARIO
+  get idUsuario(){return this.group.get('idUsuario')}
+  get codeUsuario(){return this.group.get('codeUsuario')}
+  get nombreUsuario(){return this.group.get('nombreUsuario')}
+  get name(){return this.group.get('name')}
+  get pa_surname(){return this.group.get('pa_surname')}
+  get ma_surname(){return this.group.get('ma_surname')}
+  get birthdate(){return this.group.get('birthdate')}
+  get type_doc(){return this.group.get('type_doc')}
+  get numdoc(){return this.group.get('numdoc')}
+  get tel(){return this.group.get('tel')}
+  get gra_inst(){return this.group.get('gra_inst')}
+  get email(){return this.group.get('email')}
+  get password(){return this.group.get('password')}
+  get rol(){return this.group.get('rol')}
   get apoderado(){return this.group.get('apoderado')}
   get isVacunado(){return this.group.get('isVacunado')}
-  get enferm(){return this.group.get('enferm')}
-  get nomConPri(){return this.group.get('nomConPri')}
-  get nomConSec(){return this.group.get('nomConSec')}
-  get telConSec(){return this.group.get('telConSec')}
-  get telConPri(){return this.group.get('telConPri')}
-  get tipSeg(){return this.group.get('tipSeg')}
+// APODERADO 
+  get idApoderado(){return this.group.get('idApoderado')}
+  get codeA(){return this.group.get('codeA')}
+  get nameApoderado(){return this.group.get('nameApoderado')}
+  get pa_surnameA(){return this.group.get('pa_surnameA')}
+  get ma_surnameA(){return this.group.get('ma_surnameA')}
 
+  // Modal
+  isEditing: boolean = false;
   form(item?:IStudent){
 
     // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
-      identi:[item?item.code:null],
-      apelPat:[item?item.usuarioDTO.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      apelMat:[item?item.usuarioDTO.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
-      nombre:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      tipDoc:[item?item.usuarioDTO.type_doc:'',[Validators.required]],
-      numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
-      // fecNaci:[item?item.fecNaci:'',[Validators.required]],
-      apoderado:[''],
-      enferm:[item?item.diseases:''],
-      isVacunado: ['',[Validators.required]],
-      nomConPri:  [''],
-      nomConSec:  [''],
-      telConSec:  [''],
-      telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
-      tipSeg: [item?item.type_insurance:'',[Validators.required]]
+      // ALUMNO
+      id:[item?item.id:null],
+      code:[item?item.code:''],
+      diseases:[item?item.diseases:''],
+      namecon_pri:[item?item.namecon_pri:''],
+      telcon_pri:[item?item.telcon_pri:''],
+      namecon_sec:[item?item.namecon_sec:''],
+      telcon_sec:[item?item.telcon_sec:''],
+      vaccine:[item?item.vaccine:''],
+      type_insurance:[item?item.type_insurance:''],
+      // USUARIO
+
+      usuarioDTO:this.formBuilder.group({
+        idUsuario:[item?item.usuarioDTO.id:null],
+        codeUsuario:[item?item.usuarioDTO.code:''],
+        nombreUsuario:[item?item.usuarioDTO.nombreUsuario:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        name:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        pa_surname:[item?item.usuarioDTO.pa_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        ma_surname:[item?item.usuarioDTO.ma_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        birthdate:[item?item.usuarioDTO.birthdate:''],
+        type_doc:[item?item.usuarioDTO.type_doc:'',[Validators.required]],
+        numdoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
+        tel:[item?item.usuarioDTO.tel:''],
+        gra_inst:[item?item.usuarioDTO.gra_inst:''],
+        email:[item?item.usuarioDTO.email:''],
+        password:[item?item.usuarioDTO.password:''],
+        rol:[item?item.usuarioDTO.rol:'STUDENT']
+      }),
+
+      apoderadoDTO:this.formBuilder.group({
+        idApoderado:[item?item.apoderadoDTO.id:null],
+        codeA:[item?item.apoderadoDTO.code:null],
+        nameApoderado:[item?.apoderadoDTO.name + ' ' + item?.apoderadoDTO.pa_surname + ' ' + item?.apoderadoDTO.ma_surname,[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      }),
+      // apoderado:[''],
+      // isVacunado: ['',[Validators.required]],
+      // APODERADO
+     
+      // pa_surnameA:[item?item.apoderadoDTO.pa_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      // ma_surnameA:[item?item.apoderadoDTO.ma_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      // telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
+      // tipSeg: [item?item.type_insurance:'',[Validators.required]]
     });
   }
 
@@ -109,7 +155,7 @@ export class TableStudentComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save(){
     if(this.group.valid){
-    this.identiParentSave.emit(this.identiParent)
+
     this.studentSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
@@ -121,7 +167,6 @@ export class TableStudentComponent implements OnInit {
     this.modalDelete.hiddenModal();
   }
 
- 
   keyUp(string:string){
     if(string===''){
       this.searchParentModal.hidden()
@@ -129,7 +174,7 @@ export class TableStudentComponent implements OnInit {
   }
   //ASIGNA APODERADO
   asingParent(parent:IParent){
-    this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
+    this.nomParent = parent.pa_surname + ' ' + parent.ma_surname + ' '+parent.name;
     this.identiParent = parent.id;
     this.searchParentModal.hidden();
   }
