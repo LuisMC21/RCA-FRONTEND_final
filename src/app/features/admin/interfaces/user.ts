@@ -14,5 +14,6 @@ export interface IUser{
     gra_inst: string;
     email: string;
     password:string;
-    rol:string;
+    rol:string; 
+    
 }

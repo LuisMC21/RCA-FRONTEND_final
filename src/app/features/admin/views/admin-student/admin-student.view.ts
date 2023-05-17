@@ -3,6 +3,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { PaginationService } from '../../commons/services/pagination.service';
 import { StudentService } from '../../commons/services/student.service';
 import { IStudent } from '../../interfaces/student';
+import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 
 @Component({
   selector: 'app-admin-student',
@@ -19,7 +20,9 @@ export class AdminStudentView implements OnInit {
     {title:"Consultas", image:"bi bi-plus-circle"},
   ]
   students:IStudent[]=[];
+  apiResponse!: IApiResponse;
   paginationData = 'student'
+
   msjResponse:string='';
   icon:string='';
   identiParent:string='';
@@ -51,10 +54,12 @@ export class AdminStudentView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(student:IStudent){
+    console.log(student)
     // student.apoderado = this.identiParent;
-    if(student.code==null){
+    if(student.id==null){
       this.studentService.add(student).subscribe(data =>{
-        if(data.msj==='OK'){
+        console.log(data.message)
+        if(data.successful===true){
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
         }else{
@@ -64,10 +69,13 @@ export class AdminStudentView implements OnInit {
       });
     }else{
       this.studentService.update(student).subscribe(data =>{
-        if(data.msj === 'OK'){
+        console.log(student)
+        if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
+          this.successful = true;
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
         }
       })
     }
@@ -80,7 +88,7 @@ export class AdminStudentView implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.studentService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+      if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }
@@ -88,7 +96,7 @@ export class AdminStudentView implements OnInit {
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+refresh(): void { window.location.reload(); }
 
 
 }

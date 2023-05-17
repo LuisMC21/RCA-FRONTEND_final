@@ -13,23 +13,4 @@ export interface IStudent {
     type_insurance: string;
     apoderadoDTO:  IParent;
     usuarioDTO: IUser;
-    // fecCrear:Date;  
-    // estado:string;
-    // ma_surname:    string;
-    // pa_surname:    string;
-   
-    // direcc:     string;
- 
-    fecNaci:    Date;
-    // id:         null;
-    
-   
-    
-    // name:    string;
-    // numDoc:     string;
-  
-    
-    // tipDoc:     string;
-    
-    
 }
