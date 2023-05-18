@@ -106,6 +106,11 @@ ngOnInit(): void {
       telcon_sec:[item?item.telcon_sec:''],
       vaccine:[item?item.vaccine:''],
       type_insurance:[item?item.type_insurance:''],
+      apoderadoDTO:this.formBuilder.group({
+        idApoderado:[item?item.apoderadoDTO.id:null],
+        codeA:[item?item.apoderadoDTO.code:''],
+        nameApoderado:[item?.apoderadoDTO.name + ' ' + item?.apoderadoDTO.pa_surname + ' ' + item?.apoderadoDTO.ma_surname,[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+      }),
       // USUARIO
 
       usuarioDTO:this.formBuilder.group({
@@ -125,11 +130,7 @@ ngOnInit(): void {
         rol:[item?item.usuarioDTO.rol:'STUDENT']
       }),
 
-      apoderadoDTO:this.formBuilder.group({
-        idApoderado:[item?item.apoderadoDTO.id:null],
-        codeA:[item?item.apoderadoDTO.code:null],
-        nameApoderado:[item?.apoderadoDTO.name + ' ' + item?.apoderadoDTO.pa_surname + ' ' + item?.apoderadoDTO.ma_surname,[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      }),
+     
       // apoderado:[''],
       // isVacunado: ['',[Validators.required]],
       // APODERADO

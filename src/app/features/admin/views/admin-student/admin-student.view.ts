@@ -54,8 +54,8 @@ export class AdminStudentView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(student:IStudent){
-    console.log(student)
     // student.apoderado = this.identiParent;
+    console.log(student)
     if(student.id==null){
       this.studentService.add(student).subscribe(data =>{
         console.log(data.message)

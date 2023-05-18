@@ -62,7 +62,7 @@
             </div>
 
             <!-- Usuario -->
-             <div formGroupName="usuarioDTO">
+            <div formGroupName="usuarioDTO">
                 <div class="field">
                     <app-label-field [title]="'Nombre de Usuario'"></app-label-field>
                     <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
@@ -89,7 +89,7 @@
                         [text]="'**El campo es requerido'"></app-required-field>
                 </div>
                 <div class="field">
-                    <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
+                    <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field> 
                     <app-field><input  class="input" formControlName="birthdate"  type="date"></app-field>
                 </div>
                 <div class="field">
@@ -124,8 +124,7 @@
                 </div>
             </div>
                 <!-- Apoderado -->
-            <div class="div" formControlName="apoderadoDTO">
-
+            <div formControlName="apoderadoDTO">
                 <div class="field">
                     <app-label-field [title]="'Código Apoderado'"></app-label-field>
                     <app-field><input formControlName="codeA" class="input" type="text" readonly></app-field>
