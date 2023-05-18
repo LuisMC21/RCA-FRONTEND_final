@@ -5,7 +5,6 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { PaginationService } from '../../commons/services/pagination.service';
 import { ParentService } from '../../commons/services/parent.service';
 import { IParent } from '../../interfaces/parent';
-import { format } from 'date-fns';
 
 @Component({
   selector: 'app-admin-parent',
