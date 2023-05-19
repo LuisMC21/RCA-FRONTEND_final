@@ -1,4 +1,5 @@
-export interface ISeccion{
-  code:string;
+export interface ISeccion {
+  id: string;
+  code: string;
   name: string;
 }

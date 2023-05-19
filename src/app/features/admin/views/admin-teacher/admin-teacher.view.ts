@@ -34,7 +34,7 @@ export class AdminTeacherView implements OnInit {
     this.teacherService.getAll('', page,size)
     .subscribe(response =>{
       this.teachers = response.data.list;
-      // console.log("profesores",response.data.list)
+      console.log(this.teachers);
     });
   }
   //BUSCAR
@@ -48,10 +48,10 @@ export class AdminTeacherView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(teacher:ITeacher){
-    if(teacher.identi==null){
+    if(teacher.id==null){
       this.teacherService.add(teacher).subscribe(data =>{
-        console.log(data.msj)
-        if(data.msj==='OK'){
+        console.log(data.message)
+        if(data.message==='ok'){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
@@ -61,7 +61,8 @@ export class AdminTeacherView implements OnInit {
       });
     }else{
       this.teacherService.update(teacher).subscribe(data =>{
-        if(data.msj === 'OK'){
+        console.log(data)
+        if(data.message === 'ok'){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
@@ -76,7 +77,7 @@ export class AdminTeacherView implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.teacherService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+      if(data.message==='ok'){
         this.msjResponse = 'Eliminado correctamente';
         this.successful=true;
       }

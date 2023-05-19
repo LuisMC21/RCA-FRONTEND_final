@@ -1,0 +1,91 @@
+<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>{{tableName}}</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
+            type="search" placeholder="Buscar">
+    </div>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+</div>
+<!-- MODAL AGREGAR -->
+<app-modal [title]="'Agregar Aula'" #modalAdd>
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
+        <div class="field">
+            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
+                    <option *ngFor="let grade of grades" [ngValue]="grade">{{ grade.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
+                    <option *ngFor="let section of sections" [ngValue]="section">{{ section.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+
+    </form>
+</app-modal>
+<!-- MODAL ACTUALIZAR -->
+<app-modal [title]="'Actualizar Aula'" #modalUpdate>
+    <form [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
+
+        <div class="field">
+            <app-label-field [title]="'Code'"></app-label-field>
+            <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
+                    <option *ngFor="let grade of grades" [ngValue]="grade" [selected]="grade.id === item.gradoDTO.id">{{
+                        grade.name }}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
+                    <option *ngFor="let section of sections" [ngValue]="section"
+                        [selected]="section.id === item.seccionDTO.id">{{ section.name }}</option>
+                </select></app-field>
+        </div>
+
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+            <app-btn-cancel (click)="modalUpdate.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+    </form>
+</app-modal>
+
+<table class="table bg-gray-50">
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of classrooms, let i=index">
+            <td>{{item.code}}</td>
+            <td>{{item.gradoDTO.name}}-{{item.seccionDTO.name}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form(item)" (click)="modalUpdate.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar Aula'"></app-btn-delete>
+            </td>
+            <!-- MODAL ELIMINAR -->
+
+            <app-modal [title]="'¿Eliminar Aula?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.code}}</label>
+                    <label><b>Aula: </b>{{item.gradoDTO.name}}-{{item.seccionDTO.name}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
+
+        </tr>
+    </tbody>
+</table>

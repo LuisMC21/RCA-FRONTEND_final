@@ -12,6 +12,8 @@ export class TableAnioLectivoComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  titulo:string = 'Agregar año lectivo';
+
   @Output() anioSave:EventEmitter<IAnioLectivo> = new EventEmitter();
   @Output() anioDelete:EventEmitter<string> = new EventEmitter();
   @Output() anioSearch:EventEmitter<string> = new EventEmitter();
@@ -37,10 +39,13 @@ export class TableAnioLectivoComponent implements OnInit {
   get id(){return this.group.get('id')}
   
   form(item?:IAnioLectivo):void{
+    if(item){
+      this.titulo = 'Actualizar año lectivo';
+    }
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
       code:[item?item.code:''],
-      name:[item?item.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(4),Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
       // descripcion:[item?item.descripcion:'',]
   });
 
@@ -58,11 +63,21 @@ export class TableAnioLectivoComponent implements OnInit {
     this.anioSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
+    if(this.titulo == 'Actualizar año lectivo'){
+      this.titulo = 'Agregar año lectivo';
+    }
   }
  // ELIMINAR 
  delete(id:string){
   this.anioDelete.emit(id)
   this.modalDelete.hiddenModal();
+}
+
+reset(){
+  if(this.titulo == 'Actualizar año lectivo'){
+    this.titulo = 'Agregar año lectivo';
+  }
+  this.group.reset();
 }
 
 

@@ -1,7 +1,7 @@
 <div class="px-8">
     <!-- <app-card-menu class="cardMenu py-4" [cardMenu]="cardMenu"></app-card-menu> -->
     <app-route></app-route>
-    <app-table [title]="'Agregar docente'" #table [tableName]="tableName">
+    <app-table [title]="'Agregar docente'"  [tableName]="tableName">
         <app-table-teacher 
             (teacherDelete)="delete($event)" 
             (teacherSave)="save($event)" 

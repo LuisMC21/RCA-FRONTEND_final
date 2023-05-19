@@ -4,7 +4,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { ParentService } from '../../../services/parent.service';
-import { format } from 'date-fns';
+
 @Component({
   selector: 'app-table-parent',
   templateUrl: './table-parent.component.html',
