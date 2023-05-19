@@ -106,6 +106,8 @@ ngOnInit(): void {
       telcon_sec:[item?item.telcon_sec:''],
       vaccine:[item?item.vaccine:''],
       type_insurance:[item?item.type_insurance:''],
+
+      
       apoderadoDTO:this.formBuilder.group({
         idApoderado:[item?item.apoderadoDTO.id:null],
         codeA:[item?item.apoderadoDTO.code:''],
@@ -127,7 +129,8 @@ ngOnInit(): void {
         gra_inst:[item?item.usuarioDTO.gra_inst:''],
         email:[item?item.usuarioDTO.email:''],
         password:[item?item.usuarioDTO.password:''],
-        rol:[item?item.usuarioDTO.rol:'STUDENT']
+        rol: ['STUDENT']
+
       }),
 
      

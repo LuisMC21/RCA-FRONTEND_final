@@ -4,7 +4,6 @@
     <app-table #table [tableName]="tableName">
         <app-table-student  
             (studentSave)="save($event)" 
-            (identiParentSave)="getIdentiParent($event)"
             (studentDelete)="delete($event)" 
             (studentSearch)="search($event)"
         [tableName]="tableName" [students]="students"></app-table-student> 
@@ -14,3 +13,5 @@
 
 <!-- MENSAJE DE OPERACION -->
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+
+<!--  (identiParentSave)="getIdentiParent($event)" -->
