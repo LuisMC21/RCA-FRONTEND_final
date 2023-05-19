@@ -70,6 +70,7 @@ export class AdminStudentView implements OnInit {
     }else{
       this.studentService.update(student).subscribe(data =>{
         console.log(student)
+        console.log(data.message)
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
