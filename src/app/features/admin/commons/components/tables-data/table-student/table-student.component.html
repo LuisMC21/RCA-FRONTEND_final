@@ -63,7 +63,15 @@
             <div class="field">
                 <app-label-field [title]="'Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="text"></app-field>
+                <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+                    [text]="'**El campo es obligatorio'"></app-required-field>
 
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Usuario'"></app-label-field>
+                <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
+                <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
+                    [text]="'**El campo requiere 9 caracteres'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Contraseña'"></app-label-field>
@@ -122,11 +130,11 @@
         <div formGroupName="apoderadoDTO" class="form__field">
             <div class="field">
                 <app-label-field [title]="'Código Apoderado'"></app-label-field>
-                <app-field><input formControlName="codeA" class="input" type="text" readonly></app-field>
+                <app-field><input formControlName="code" class="input" type="text"></app-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Apoderado'"></app-label-field>
-                <app-field><input formControlName="nameApoderado" class="input" type="text" readonly></app-field>
+                <app-field><input formControlName="name" class="input" type="text"></app-field>
             </div>
         </div>
 
@@ -172,7 +180,7 @@
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"
                 (click)="save()">Guardar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
 
     </form>
@@ -198,7 +206,7 @@
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <app-modal [title]="'Eliminar alumno?'" #modalDelete>
-                <div class="flex flex-col px-4">
+                <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
                     <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}}
                         {{item.usuarioDTO.name}}</label>
