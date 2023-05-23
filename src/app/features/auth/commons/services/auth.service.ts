@@ -10,7 +10,7 @@ import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { JwtDTO } from '../../interfaces/jwt-dto';
 
 @Injectable({
-  providedIn: AuthServicesModule
+  providedIn: 'root'
 })
 export class AuthService {
 

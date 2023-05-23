@@ -5,30 +5,25 @@ import { TokenService } from 'src/app/features/auth/commons/services/token.servi
 @Component({
   selector: 'app-header-admin',
   templateUrl: './header-admin.component.html',
-  styleUrls: ['./header-admin.component.scss']
+  styleUrls: ['./header-admin.component.scss'],
 })
-
 export class HeaderAdminComponent implements OnInit {
-
-
-  username!: string ;
+  username!: string;
   rol = 'Tutor: ';
 
-
-  constructor(private tokenService: TokenService, private router: Router) { }
-
+  constructor(private tokenService: TokenService, private router: Router) {}
 
   ngOnInit(): void {
-    this.username= this.tokenService.getUserName();
+    this.username = this.tokenService.getUserName();
 
-    if(this.tokenService.isAdmin()){
-      this.rol='Admin: ';
-    } else if(this.tokenService.isTeacher()){
-      this.rol='Docente: ';
+    if (this.tokenService.isAdmin()) {
+      this.rol = 'Admin: ';
+    } else if (this.tokenService.isTeacher()) {
+      this.rol = 'Docente: ';
     }
   }
 
-  onLogOut():void{
+  onLogOut(): void {
     this.tokenService.logOut();
   }
 }

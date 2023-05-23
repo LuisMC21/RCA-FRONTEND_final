@@ -37,6 +37,18 @@ export class TokenService {
     return username;
   }
 
+  public getUserId(): any {
+    if (!this.isLogged()) {
+      return null;
+    }
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const userId = values.userId;
+    return userId;
+  }
+
   public isAdmin(): boolean {
     if (!this.isLogged()) {
       return false;
