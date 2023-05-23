@@ -7,13 +7,12 @@ import { ISignInRequest } from '../../interfaces/sign-in-request.interface';
 import { AuthServicesModule } from './services.module';
 import { LoginUsuario } from '../../interfaces/login-usuario';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
+import { JwtDTO } from '../../interfaces/jwt-dto';
 
 @Injectable({
   providedIn: AuthServicesModule
 })
 export class AuthService {
-
- authURL = 'http://localhost:8080/auth/';
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +21,10 @@ export class AuthService {
   }
 
   public login(loginUsuario: LoginUsuario): Observable<IApiResponse> {
-    return this.http.post<IApiResponse>(this.authURL + 'login', loginUsuario);
+    return this.http.post<IApiResponse>(`${environment.api}/auth/login`, loginUsuario);
+  }
+
+  public refresh(jwtDTO: JwtDTO): Observable<IApiResponse>{
+    return this.http.post<IApiResponse>(`${environment.api}/auth/refresh`, jwtDTO);
   }
 }

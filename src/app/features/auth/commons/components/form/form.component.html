@@ -1,5 +1,5 @@
 <div class="login lg:bg-slate-200 h-full w-full flex flex-col py-10">
-    <legend class="h-1/4 login__rol text-4xl flex justify-center items-center">{{roles}}</legend>
+    <legend class="h-1/4 login__rol text-4xl flex justify-center items-center"></legend>
     <!-- <div class="flex flex-col h-1/4 justify-center py-6">
         <label class="w-full text-center text-sm">Ingresar como:</label>
         <div class="btn__roles flex justify-center items-start">
@@ -23,9 +23,9 @@
             <input class="field__input--check" type="checkbox"><label class="px-2 text-black">Recordar contraseña</label>
         </div>
         <div class="btns flex py-7 w-full">
-        <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-dark" (click)="onLogin()">Agregar</button>
-        <!--<app-button [title] = "btnValue" class="w-full"></app-button>-->
-        </div>
+        <app-button [title] = "btnValue" (click)="onLogin()" class="w-full"></app-button>
+      <!-- MENSAJE DE OPERACION -->
+      <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+      </div>
     </form>
 </div>

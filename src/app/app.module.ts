@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
+import { interceptorProvider } from './interceptors/admin-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -15,9 +16,9 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule
-    
+
   ],
-  providers: [],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

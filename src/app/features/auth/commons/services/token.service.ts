@@ -2,57 +2,73 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'AuthToken';
-const USERNAME_KEY = 'AuthUsername';
-const AUTHORITIES_KEY = 'AuthAuthorities';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
-
-  roles: Array<string> = [];
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   public setToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.setItem(TOKEN_KEY, token);
   }
 
-  public getToken() :any {
-    return sessionStorage.getItem(TOKEN_KEY);
+  public getToken(): any {
+    return localStorage.getItem(TOKEN_KEY);
+  }
+
+  public isLogged(): boolean {
+    if (this.getToken()) {
+      return true;
+    }
+    return false;
   }
 
   public getUserName(): any {
-    return sessionStorage.getItem(USERNAME_KEY);
-  }
-
-  public setUsername(nombreUsuario: string): void {
-    window.sessionStorage.removeItem(USERNAME_KEY);
-    window.sessionStorage.setItem(USERNAME_KEY, nombreUsuario);
-  }
-
-  public getUsername() :any {
-    return sessionStorage.getItem(USERNAME_KEY);
-  }
-
-  public setAuthorities(roles: Array<string>): void {
-    window.sessionStorage.removeItem(AUTHORITIES_KEY);
-    window.sessionStorage.setItem(AUTHORITIES_KEY, JSON.stringify(roles));
-  }
-
-  public getAuthorities(): string[] {
-    this.roles = [];
-    const arrayAuth = sessionStorage.getItem(AUTHORITIES_KEY)
-    if(arrayAuth != null){
-      console.log(arrayAuth);
-      JSON.parse(arrayAuth).forEach((authority: any) => {
-        this.roles.push(authority.authority);
-      });
+    if (!this.isLogged()) {
+      return null;
     }
-    return this.roles;
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const username = values.sub;
+    return username;
   }
 
-  public logOut(): void{
-    window.sessionStorage.clear();
+  public isAdmin(): boolean {
+    if (!this.isLogged()) {
+      return false;
+    }
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const roles = values.roles;
+    if (roles.indexOf('ROLE_ADMIN') < 0) {
+      return false;
+    }
+    return true;
+  }
+
+  public isTeacher(): boolean {
+    if (!this.isLogged()) {
+      return false;
+    }
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const roles = values.roles;
+    if (roles.indexOf('ROLE_TEACHER') < 0) {
+      return false;
+    }
+    return true;
+  }
+
+  public logOut(): void {
+    window.localStorage.clear();
+    this.router.navigate(['/auth/login']);
   }
 }
