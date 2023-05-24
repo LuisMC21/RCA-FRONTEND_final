@@ -80,7 +80,8 @@ export class TokenService {
   }
 
   public logOut(): void {
-    window.localStorage.clear();
+    window.localStorage.removeItem(TOKEN_KEY);
+
     this.router.navigate(['/auth/login']);
   }
 }
