@@ -23,7 +23,6 @@ import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asisten
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
 import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-course-teacher.component';
-import { interceptorProvider } from 'src/app/interceptors/admin-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,7 @@ import { interceptorProvider } from 'src/app/interceptors/admin-interceptor.serv
     AdminSectionComponent,
     AdminClassroomComponent,
     AdminCourseTeacherComponent,
-
+  
   ],
   imports: [
     CommonModule,

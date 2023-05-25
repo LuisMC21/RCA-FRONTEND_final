@@ -12,7 +12,7 @@ export class ModalComponent implements OnInit {
   @ViewChild('modalBack') modalBack!: ElementRef;
   public show = false;
 
-  constructor(private rendered: Renderer2) {
+  constructor(private rendered: Renderer2) { 
     this.rendered.listen('window','click',(e: Event)=>{
       if(this.modalBack && e.target === this.modalBack.nativeElement){
         this.show = false;

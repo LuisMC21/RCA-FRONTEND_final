@@ -1,151 +1,45 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ISignInRequest } from '../../../interfaces/sign-in-request.interface';
-import { TokenService } from '../../services/token.service';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { LoginUsuario } from '../../../interfaces/login-usuario';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  btnValue: string = 'Ingresar';
 
-  loginUsuario!: LoginUsuario;
-  nombreUsuario!: string;
-  password!: string;
-  errMsj!: string;
-
-  msjResponse: string = '';
-  successful: boolean = false;
-
-  @Input() rol: string = '';
-  @Output() formData: EventEmitter<ISignInRequest> = new EventEmitter();
-
+  roles:string = "Docente";
+  btnValue:string = "Ingresar";
+  @Input() rol:string=''; 
+  @Output() formData: EventEmitter<ISignInRequest>= new EventEmitter();
   group!: FormGroup;
-  fields = [
-    {
-      icon: 'bi bi-person-fill',
-      placeholder: 'Correo',
-      type: 'text',
-      formControlName: 'nombreUsuario',
-    },
-    {
-      icon: 'bi bi-key-fill',
-      placeholder: 'Contraseña',
-      type: 'password',
-      formControlName: 'password',
-    },
-  ];
-
-  get emailFormControl() {
-    return this.group.get('nombreUsuario');
+  fields=[
+    { icon :"bi bi-person-fill", placeholder:"Correo", type:"text", formControlName :"email" },
+    { icon :"bi bi-key-fill", placeholder:"Contraseña", type:"password", formControlName :"password" }
+  ]
+  get emailFormControl(): FormControl{
+    return this.group.get('email') as FormControl;
   }
 
-  get passwordFormControl() {
-    return this.group.get('password');
+  get passwordFormControl(): FormControl{
+    return this.group.get('password') as FormControl;
   }
 
-  get recordarCredenciales() {
-    return this.group.get('recordarCredenciales');
-  }
-
-  @ViewChild('modalOk') modalOk!: ModalComponent;
-
-  constructor(
-    private tokenService: TokenService,
-    private authService: AuthService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
-      this.form();
-  }
-
-  form(item?: LoginUsuario): void {
-    this.group = this.formBuilder.group({
-      nombreUsuario: [item ? item.nombreUsuario : null],
-      password: [item ? item.password : null],
-      recordarCredenciales: [item ? item.recordarCredenciales : false]
-    });
-  }
+  constructor(private formBuider: FormBuilder) {
+    this.group = this.formBuider.group({email: '',password: ''});
+   }
 
   ngOnInit(): void {
-    const savedUsername = localStorage.getItem('username');
-    const savedPassword = localStorage.getItem('password');
+  }
 
-    if (savedUsername && savedPassword) {
-      this.group.patchValue({
-        nombreUsuario: savedUsername,
-        password:  this.decryptPassword(savedPassword),
-        recordarCredenciales: true
-      });
+  send():void{
+    if(this.group.valid){
+      this.formData.emit(this.group.value);
     }
   }
 
-  onLogin(): void {
-    console.log(this.group.value.recordarCredenciales);
-    if (this.group.valid) {
-      // Verificar si el checkbox está marcado
-      const recordarCredenciales = this.group.value.recordarCredenciales;
-
-      if (recordarCredenciales) {
-        // Guardar los valores en el localStorage
-        localStorage.setItem('username', this.group.value.nombreUsuario);
-        localStorage.setItem('password', this.encryptPassword(this.group.value.password));
-
-      }
-
-      this.authService.login(this.group.value).subscribe((data) => {
-        if (data.successful) {
-          this.tokenService.setToken(data.data.token);
-          if (this.tokenService.isAdmin()) {
-            this.router.navigate(['/admin']);
-            console.log('Bienvenido Admin');
-          } else if (this.tokenService.isTeacher()) {
-            this.router.navigate(['/teacher']);
-            console.log('Bienvenido Docente');
-          } else {
-            this.router.navigate(['/tutor']);
-            console.log('Bienvenido Estudiante');
-          }
-        } else {
-          this.msjResponse = data.message;
-          this.successful = false;
-          this.modalOk.showModal();
-        }
-      });
-    }
-  }
-
-  onCheckboxChange(event: any) {
-    const isChecked = event.target.checked;
-    this.group.patchValue({
-      recordarCredenciales: isChecked
-    });
-  }
-
-  // Función para cifrar la contraseña
-encryptPassword(password: string): string {
-  const encryptedPassword = btoa(password);
-  return encryptedPassword;
-}
-
-// Función para descifrar la contraseña
-decryptPassword(encryptedPassword: string): string {
-  const decryptedPassword = atob(encryptedPassword);
-  return decryptedPassword;
-}
-
-
+  asingRol(rol:string){
+    this.roles = rol;
+  } 
 }
