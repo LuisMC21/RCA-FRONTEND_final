@@ -3,6 +3,7 @@ import { NewsService } from 'src/app/features/admin/commons/services/news.servic
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { INews } from '../../interfaces/news';
+import { INewsGet } from '../../interfaces/newsGet';
 
 @Component({
   selector: 'app-admin-news',
@@ -11,64 +12,58 @@ import { INews } from '../../interfaces/news';
 })
 export class AdminNewsView implements OnInit {
 
-  constructor(private newsService:NewsService, private pagination:PaginationService) { }
+  constructor(private newsService: NewsService, private pagination: PaginationService) { }
 
-  news:INews[]=[];
-  tableName:string ='Noticias'
-  paginationData:string='noticias'
-  msjResponse:string='';
-  successful:boolean=false;
-  Imgfile:any;
-  nomImg:string ='';
+  news: INewsGet[] = [];
+  tableName: string = 'Noticias'
+  paginationData: string = 'noticias'
+  msjResponse: string = '';
+  successful: boolean = false;
+  Imgfile: any;
+  nomImg: string = '';
 
-  @ViewChild('modalOk') modalOk!:ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalComponent;
 
   ngOnInit(): void {
-     let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.newsService.getAll('', page,size)
-    .subscribe(response =>{
-      this.news = response.data.list;
-      console.log("Noticias:"+ response.data.list)
-    });
-  }
-  search(nom:string){
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.newsService.getAll(nom,page,size).subscribe(response =>{
+    this.newsService.getAll('', page, size)
+      .subscribe(response => {
+        this.news = response.data.list;
+        console.log("Noticias:" + response.data.list)
+      });
+  }
+  search(nom: string) {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.newsService.getAll(nom, page, size).subscribe(response => {
       this.news = response.content;
     })
   }
 
   // AGREGAR - ACTUALIZAR
-  save(noticia:INews){
-    if(noticia.code==null){
-      const formularioImg = new FormData();
-  formularioImg.append('multipartFile',this.Imgfile)
-
-  //Agregar imagen
-  this.newsService.addImg(formularioImg).subscribe(response =>{
-    this.nomImg = response.nom;
-    //Agregar noticia
-  this.newsService.add(noticia,this.nomImg).subscribe(data=>{
-    console.log(data.msj)
-    if(data.msj==='OK'){
-      this.msjResponse = 'Agregado correctamente';
-      this.successful=true;
-    }else{
-      this.msjResponse = 'Ha ocurrido un error :(';
-      this.successful=false;
-    }
-  })
-  })
-    }else{
-      this.newsService.update(noticia).subscribe(data =>{
-        if(data.msj === 'OK'){
+  save(noticia: INews) {
+    if (noticia.id == null) {
+        //Agregar noticia
+        this.newsService.add(noticia).subscribe(data => {
+          console.log(data.message);
+          if (data.message === 'ok') {
+            this.msjResponse = 'Agregado correctamente';
+            this.successful = true;
+          } else {
+            this.msjResponse = 'Ha ocurrido un error :(';
+            this.successful = false;
+          }
+      })
+    } else {
+      this.newsService.update(noticia).subscribe(data => {
+        console.log(data.message);
+        if (data.message === 'ok') {
           this.msjResponse = 'Cambios actualizados con éxito';
-          this.successful=true;
-        }else{
+          this.successful = true;
+        } else {
           this.msjResponse = 'Ha ocurrido un error :(';
-          this.successful=false;
+          this.successful = false;
         }
       })
     }
@@ -76,22 +71,25 @@ export class AdminNewsView implements OnInit {
   }
 
   //ELIMINAR 
-  delete(id:string){
-    this.newsService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+  delete(id: string) {
+    this.newsService.delete(id).subscribe(data => {
+      console.log(data.message);
+      if (data.message === 'ok') {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful=true;
+        this.successful = true;
       }
     });
     this.modalOk.showModal();
   }
 
   //IMAGEN
-captureFile(event: any):string{
-  this.Imgfile = event.target.files[0];
-  return this.Imgfile;
-}
+  captureFile(event: any): string {
+    this.Imgfile = event.target.files[0];
+    const archivo: File = event.target.files[0];
 
- refresh(): void { window.location.reload(); }
+    return this.Imgfile;
+  }
+
+  refresh(): void { window.location.reload(); }
 
 }
