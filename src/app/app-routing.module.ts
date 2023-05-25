@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuardService as GuardService} from './guards/admin-guard.service';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   {path: '', redirectTo:'portal', pathMatch:'full'},
   {path: 'portal', loadChildren:()=> import('./features/portal/portal.module').then(m =>m.PortalModule) },
-  {path: 'auth', loadChildren:()=> import('./features/auth/auth.module').then(m =>m.AuthModule) },
-  {path: 'admin', loadChildren:()=> import('./features/admin/admin.module').then(m =>m.AdminModule) },
+  {path: 'auth', canActivate: [LoginGuard], loadChildren:()=> import('./features/auth/auth.module').then(m =>m.AuthModule) },
+  {path: 'admin', canActivate: [GuardService], data: {expectedRol: ['ADMINISTRADOR']}, loadChildren:()=> import('./features/admin/admin.module').then(m =>m.AdminModule) },
+  {path: 'teacher', canActivate: [GuardService], data: {expectedRol: ['TEACHER']}, loadChildren:()=> import('./features/teacher/teacher.module').then(m =>m.TeacherModule) },
+  {path: 'tutor', canActivate: [GuardService], data: {expectedRol: ['STUDENT']}, loadChildren:()=> import('./features/tutor/tutor.module').then(m =>m.TutorModule) },
 ];
 
 @NgModule({
