@@ -1,13 +1,12 @@
 import { IUser } from "./user";
 
-export interface INews {
+export interface INewsGet {
     id:string;
     code:string;
     title:string;
     sommelier:string;
     descrip:string;
-    image:string;
-    imageBase64:string;
+    route:string
     date:Date;
     usuarioDTO:IUser;
 }

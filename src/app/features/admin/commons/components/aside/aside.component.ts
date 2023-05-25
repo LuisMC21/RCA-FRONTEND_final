@@ -54,29 +54,33 @@ search(nom:string){
   
 }
 
-// AGREGAR - ACTUALIZAR
-save(){
-  const formularioImg = new FormData();
-  formularioImg.append('multipartFile',this.Imgfile)
 
-  //Agregar imagen
-  this.newsService.addImg(formularioImg).subscribe(response =>{
-    this.nomImg = response.nom;
-    //Agregar noticia
-  this.newsService.add(this.group.value,this.nomImg).subscribe(data=>{
-    console.log(data.msj)
-    if(data.msj==='OK'){
-      this.msjResponse = 'Agregado correctamente';
-      this.successful=true;
-    }else{
-      this.msjResponse = 'Ha ocurrido un error :(';
-      this.successful=false;
-    }
-  })
-  })
-  
+// AGREGAR - ACTUALIZAR
+save(noticia: INews) {
+  if (noticia.id == null) {
+      //Agregar noticia
+      this.newsService.add(noticia).subscribe(data => {
+        console.log(data.message)
+        if (data.message === 'ok') {
+          this.msjResponse = 'Agregado correctamente';
+          this.successful = true;
+        } else {
+          this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
+        }
+    })
+  } else {
+    this.newsService.update(noticia).subscribe(data => {
+      if (data.message === 'ok') {
+        this.msjResponse = 'Cambios actualizados con éxito';
+        this.successful = true;
+      } else {
+        this.msjResponse = 'Ha ocurrido un error :(';
+        this.successful = false;
+      }
+    })
+  }
   this.modalOk.showModal();
-  this.modalAdd.hiddenModal();
 }
 
 // ELIMINAR 

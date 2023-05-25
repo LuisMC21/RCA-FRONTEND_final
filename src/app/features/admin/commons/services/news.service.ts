@@ -18,18 +18,17 @@ export class NewsService {
     return this.http.get<IApiResponse>(`${environment.api}/noticia?page=${page}&size=${size}`)
   }
 
-  add(news:INews, imgNew:string):Observable<IResponse>{
-    console.log(`${environment.api}/noticia/noticia?nombre=${imgNew}`)
-    return this.http.post<IResponse>(`${environment.api}/noticia?nombre=${imgNew}`,news);
+  add(news: INews): Observable<IApiResponse> {
+    return this.http.post<IApiResponse>(`${environment.api}/noticia`, news);
   }
 
   update(news:INews){
-    return this.http.put<IResponse>(`${environment.api}/noticia`,news)
+    return this.http.put<IApiResponse>(`${environment.api}/noticia`,news)
   }
 
   //Eliminar 
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/noticia`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/noticia/`+id);
   }
 
   //imagen
