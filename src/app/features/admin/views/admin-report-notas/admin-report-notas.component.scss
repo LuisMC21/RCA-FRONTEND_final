@@ -1,0 +1,30 @@
+table{
+    width: 100%;
+    font-size: var(--font-size-table);
+    & th, tr, td{
+        padding: 0.6rem 1rem;
+        text-align: center;
+    }
+}
+.input{
+    outline: none;
+    width: 100%;
+    padding-left: 1rem;
+    background:none;
+}
+
+.field{
+    width: 48.5%;
+}
+.field__input--button{
+    background-color: var(--const-color-blue);
+    padding: 0 1.4rem;
+    &:disabled{
+        background-color: rgb(126, 162, 229);
+    }
+    &:enabled{
+        &:hover{
+            background-color: var(--const-color-blue-hover);
+        }
+    }
+}
