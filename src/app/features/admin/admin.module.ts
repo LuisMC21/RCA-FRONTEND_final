@@ -23,6 +23,8 @@ import { AdminAsistenciaComponent } from './views/admin-asistencia/admin-asisten
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
 import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-course-teacher.component';
+import { AdminReportMatriculaComponent } from './views/admin-report-matricula/admin-report-matricula.component';
+import { AdminReportNotasComponent } from './views/admin-report-notas/admin-report-notas.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-
     AdminSectionComponent,
     AdminClassroomComponent,
     AdminCourseTeacherComponent,
+    AdminReportMatriculaComponent,
+    AdminReportNotasComponent,
   
   ],
   imports: [

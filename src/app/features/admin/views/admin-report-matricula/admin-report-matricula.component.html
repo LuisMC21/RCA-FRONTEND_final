@@ -1,0 +1,29 @@
+<div class="px-10" style="background-color: #ffffff; margin: 0px 20px; padding: 10px 20px;">
+    <div style="width: 350px; margin: 20px 0px;">
+        <select  class="input" [(ngModel)]="selectedOption" (change)="onChangeSelect()">
+            <option>Alumnos matriculados por aula</option>
+            <option>Apoderados por aula</option>
+        </select>
+    </div>
+
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between">
+        <div class="field">
+            <app-label-field [title]="'Aula'"></app-label-field>
+            <app-field><select id="classroom" class="input" name="classroom" formControlName="aulaDTO" (change)="onClassroomChange()" #classroomSelect>
+                    <option *ngFor="let classroom of classrooms" [value]="classroom.id">{{classroom.gradoDTO.name}}-{{classroom.seccionDTO.name}}</option>
+            </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Año lectivo'"></app-label-field>
+            <app-field><select id="period" class="input" name="period" (change)="onAnioChange()" formControlName="periodoDTO" #anioSelect>
+                    <option *ngFor="let anio of anios"  [value]="anio.id"
+                       >{{anio.name}}</option>
+            </select></app-field>
+        </div>
+
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid" (click)="redirectToMatriculaAula()">Generar PDF</button>
+        </div>
+    </form>
+
+</div>
