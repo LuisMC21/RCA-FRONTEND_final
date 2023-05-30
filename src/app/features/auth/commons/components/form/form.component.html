@@ -1,5 +1,5 @@
 <div class="login lg:bg-slate-200 h-full w-full flex flex-col py-10">
-    <legend class="h-1/4 login__rol text-4xl flex justify-center items-center">{{roles}}</legend>
+    <legend class="h-1/4 login__rol text-4xl flex justify-center items-center"></legend>
     <!-- <div class="flex flex-col h-1/4 justify-center py-6">
         <label class="w-full text-center text-sm">Ingresar como:</label>
         <div class="btn__roles flex justify-center items-start">
@@ -8,18 +8,24 @@
             <button (click)="asingRol('Administrador')" class="btn__roles__student bg-gray-500 mx-1">Admin</button>
         </div>
     </div> -->
-    <form [formGroup]="group" (ngSubmit)="send()" class="form h-3/4 flex flex-col justify-evenly px-8">
+    <form [formGroup]="group" (ngSubmit)="onLogin()" class="form h-3/4 flex flex-col justify-evenly px-8">
         <div class="form__field lg:bg-slate-200">
             <span class="field__icon"><i class="bi bi-person-fill"></i></span>
-            <input formControlName="email" class="field__input" type="text" placeholder="Correo">
+            <input formControlName="nombreUsuario" class="field__input" type="text" placeholder="Correo"
+            required>
         </div>
         <div class="form__field lg:bg-slate-200">
             <span class="field__icon"><i class="bi bi-key-fill"></i></span>
-            <input formControlName="password" class="field__input" type="password" placeholder="Password">
+            <input formControlName="password" class="field__input" type="password" placeholder="Password"
+            required>
         </div>
         <div class="form__field--check w-full py-1">
-            <input class="field__input--check" type="checkbox"><label class="px-2 text-black">Recordar contraseña</label>
+            <input formControlName="recordarCredenciales" (change)="onCheckboxChange($event)" class="field__input--check" type="checkbox"><label class="px-2 text-black">Recordar contraseña</label>
         </div>
-        <app-button [title] = "btnValue" class="w-full"></app-button> 
+        <div class="btns flex py-7 w-full">
+        <app-button [title] = "btnValue" (click)="onLogin()" class="w-full"></app-button>
+      <!-- MENSAJE DE OPERACION -->
+      <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+      </div>
     </form>
 </div>
