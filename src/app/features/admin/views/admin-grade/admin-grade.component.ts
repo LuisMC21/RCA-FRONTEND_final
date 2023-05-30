@@ -69,7 +69,7 @@ export class AdminGradeComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.gradeService.delete(id).subscribe(data => {
 
