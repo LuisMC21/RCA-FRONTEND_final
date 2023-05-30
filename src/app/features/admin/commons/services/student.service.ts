@@ -11,7 +11,9 @@ import { IStudent } from '../../interfaces/student';
 })
 export class StudentService {
   constructor(private http: HttpClient) { }
-
+  getOne(filter:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`);
+  }
   //Listar alumnos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/alumno?page=${page}&size=${size}`);

@@ -14,252 +14,58 @@
         </div>
     </div> -->
     <div class="flex">
-        <!-- <app-btn-report (click)="matGradoResponseXSL()" class="mx-2"></app-btn-report> -->
-        <app-button (click)="matricula.showModal()" [title]="'Matricular'"></app-button>
+        <app-btn-report  class="mx-2"></app-btn-report>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
     </div>
 </div>
+<app-modal [title]="titulo" #modalAdd>
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+        <div class="form__field">
+            <h2 class="legend__student">Matricula</h2>
+            <div class="field">
+                <app-label-field [title]="'Código Matricula'"></app-label-field>
+                <app-field><input formControlName="code" class="input" type="code"></app-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Fecha'"></app-label-field>
+                <app-field><input formControlName="date" class="input" type="date"></app-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Grado'"></app-label-field>
+                <app-field><select id="grado" class="input" name="grado" formControlName="aulaDTO">
+                        <option *ngFor="let aula of aulas"  [ngValue]="aula"
+                            [selected]="aula.id === item.aulaDTO.id">{{aula.gradoDTO.name}}</option>
+                    </select></app-field>
+            </div>   
+            <div class="field">
+                <app-label-field [title]="'Sección'"></app-label-field>
+                <app-field><select id="seccion" class="input" name="seccion" formControlName="aulaDTO">
+                        <option *ngFor="let aula of aulas" [ngValue]="aula"
+                            [selected]="aula.id === item.aulaDTO.id">{{aula.seccionDTO.name}}</option>
+                    </select></app-field>
+            </div>     
+            <div class="field">
+                <app-label-field [title]="'Año Lectivo'"></app-label-field>
+                <app-field><select id="anio" class="input" name="anio" formControlName="anioLectivoDTO">
+                        <option *ngFor="let anio of anioL" [ngValue]="anio"
+                            [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
+                    </select></app-field>
+            </div>
+            <h2 class="legend__student">Alumno</h2>
+            <div class="field">
+                <app-label-field [title]="'Código'"></app-label-field>
+                <app-field><input formControlName="codeA" class="input" type="text" ></app-field>
+            </div>
+                </div>
+                <div class="btns flex py-7 w-full">
+                    <button type="submit"  class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"
+                        (click)="save()">Guardar</button>
+                    <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+                </div>
+    </form>
 
-<!-- tabla de Agregar -->
-
-<app-modal #matricula [title]="'Matricular'">
-    <div class="formEnrollment">
-        <form [formGroup]="group" (ngSubmit)="save()" class="form">
-            <div class="flex justify-between">
-                <h2 class="legend__student">Alumno</h2>
-                <app-btn-search [title]="'Buscar alumno'" (click)="modalStudents.showModal()"></app-btn-search>
-            </div>
-            <div class="form__field">
-                <div class="field">
-                    <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
-                    <app-field><input formControlName="" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="apelPat?.invalid && (apelPat?.dirty || apelPat?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'**Apellido Materno'"></app-label-field>
-                    <app-field><input formControlName="apelMat" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="apelMat?.invalid && (apelMat?.dirty || apelMat?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'**Nombre'"></app-label-field>
-                    <app-field><input formControlName="nombre" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <!-- <div class="field">
-                    <app-label-field [title]="'**Apoderado'"></app-label-field>
-                    <app-field><input [(ngModel)]="nomParent" [ngModelOptions]="{standalone: true}" (ngModelChange)="searchParent($event)"  class="input" type="text" placeholder="Buscar apoderado por nombre" #apoderado></app-field>
-                     <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)" [text]="'*El campo es requerido'"></app-required-field> 
-                    <app-search #searchParentModal *ngIf="nomParent!=''">
-                        <span (click)="asingParent(parent)" *ngFor="let parent of parents" class="parentSearch block w-full h-full">
-                            {{parent.apelPaterno + " " + parent.apelMaterno + " " + parent.nombre}}
-                        </span>
-                        <span *ngIf="parents.length==0" class="newParent">
-                            <label>No se encontraron resultados. </label> 
-                            <app-button [title]="'Agregar nuevo'"></app-button>
-                        </span>
-                    </app-search>
-                </div> -->
-                <div class="field">
-                    <app-label-field [title]="'Dirección'"></app-label-field>
-                    <app-field><input formControlName="direcc" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="direcc?.invalid && (direcc?.dirty || direcc?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'*Telefono de contacto'"></app-label-field>
-                    <app-field><input formControlName="telConPri" class="input" type="text"></app-field>
-                    <app-required-field class="px-2"
-                        *ngIf="telConPri?.invalid && (telConPri?.dirty || telConPri?.touched)"
-                        [text]="'**El campo requiere 9 caracteres'"></app-required-field>
-                </div>
-                <!-- <div class="field">
-                    <app-label-field [title]="'*Tipo de documento'"></app-label-field>
-                    <select  formControlName="tipDoc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}</option>
-                    </select>
-                </div> -->
-                <div class="field">
-                    <app-label-field [title]="'**Número de documento'"></app-label-field>
-                    <app-field><input formControlName="numDoc" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="numDoc?.invalid && (numDoc?.dirty || numDoc?.touched)"
-                        [text]="'*El campo requiere 8 caracteres'"></app-required-field>
-                </div>
-                <!--<div class="field">
-                    <app-label-field [title]="'**Vacunas'"></app-label-field>
-                    <select  formControlName="isVacunado" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsVac">{{option.title}}</option>
-                    </select>
-                </div> -->
-                <div class="field">
-                    <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
-                    <app-field><input formControlName="fecNaci" class="input" type="date"></app-field>
-                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div>
-                <!-- <div class="field">
-                    <app-label-field [title]="'**Tipo de Seguro'"></app-label-field>
-                    <select  formControlName="tipSeg" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsInsuraceType">{{option.title}}</option>
-                    </select>
-                </div> -->
-            </div>
-            <div class="flex justify-between">
-                <h2 class="legend__student">Año lectivo</h2>
-            </div>
-            <div class="form__field" [formGroup]="groupEnrollment">
-                <div class="field">
-                    <app-label-field [title]="'*Grado Periodo'"></app-label-field>
-                    <select formControlName="idGradoPeriodo"
-                        class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.code}}" *ngFor="let option of aula">{{option.gradoDTO.name+" - " +
-                            option.seccionDTO.name}}</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'**Fecha de matrícula'"></app-label-field>
-                    <app-field><input formControlName="fecMatri" class="input" type="date"></app-field>
-                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div>
-            </div>
-            <div class="btns">
-                <button type="submit" [disabled]="group.invalid" (click)="save()" class="field__input--button mx-2 h-9 rounded-3xl text-white">Matricular</button>
-                <app-btn-cancel (click)="matricula.hiddenModal()" class="btn__cancel mx-2"></app-btn-cancel>
-            </div>
-        </form>
-    </div>
 </app-modal>
-
-
-<!-- Tabla de editar-->
-<app-modal #editar [title]="'Editar Matricula'">
-    <div class="formEnrollment">
-        <form [formGroup]="group" (ngSubmit)="save()" class="form">         
-            <div class="form__field">
-                <div class="field">
-                    <app-label-field [title]="'Apellido Paterno'"></app-label-field>
-                    <app-field><input formControlName="apelPat" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="apelPat?.invalid && (apelPat?.dirty || apelPat?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'Apellido Materno'"></app-label-field>
-                    <app-field><input formControlName="apelMat" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="apelMat?.invalid && (apelMat?.dirty || apelMat?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'Nombre'"></app-label-field>
-                    <app-field><input formControlName="nombre" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
-                        [text]="'**El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'DNI'"></app-label-field>
-                    <app-field><input formControlName="numDoc" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="numDoc?.invalid && (numDoc?.dirty || numDoc?.touched)"
-                        [text]="'*El campo requiere 8 caracteres'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'Correo'"></app-label-field>
-                    <app-field><input formControlName="direcc" class="input" type="text"></app-field>
-                    <app-required-field class="px-2" *ngIf="direcc?.invalid && (direcc?.dirty || direcc?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'Telefono de apoderado'"></app-label-field>
-                    <app-field><input formControlName="telConPri" class="input" type="text"></app-field>
-                    <app-required-field class="px-2"
-                        *ngIf="telConPri?.invalid && (telConPri?.dirty || telConPri?.touched)"
-                        [text]="'**El campo requiere 9 caracteres'"></app-required-field>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'Aula'"></app-label-field>
-                    <select formControlName="Aula"
-                        class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.code}}" *ngFor="let option of aula">{{option.gradoDTO.name+" - " +
-                            option.seccionDTO.name}}</option>
-                    </select>
-                </div>
-                <!-- <div class="field">
-                    <app-label-field [title]="'**Apoderado'"></app-label-field>
-                    <app-field><input [(ngModel)]="nomParent" [ngModelOptions]="{standalone: true}" (ngModelChange)="searchParent($event)"  class="input" type="text" placeholder="Buscar apoderado por nombre" #apoderado></app-field>
-                     <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)" [text]="'*El campo es requerido'"></app-required-field> 
-                    <app-search #searchParentModal *ngIf="nomParent!=''">
-                        <span (click)="asingParent(parent)" *ngFor="let parent of parents" class="parentSearch block w-full h-full">
-                            {{parent.apelPaterno + " " + parent.apelMaterno + " " + parent.nombre}}
-                        </span>
-                        <span *ngIf="parents.length==0" class="newParent">
-                            <label>No se encontraron resultados. </label> 
-                            <app-button [title]="'Agregar nuevo'"></app-button>
-                        </span>
-                    </app-search>
-                </div> -->
-             
-                
-                <!-- <div class="field">
-                    <app-label-field [title]="'*Tipo de documento'"></app-label-field>
-                    <select  formControlName="tipDoc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}</option>
-                    </select>
-                </div> -->
-             
-                <!--<div class="field">
-                    <app-label-field [title]="'**Vacunas'"></app-label-field>
-                    <select  formControlName="isVacunado" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsVac">{{option.title}}</option>
-                    </select>
-                </div> -->
-                <!-- <div class="field">
-                    <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
-                    <app-field><input formControlName="fecNaci" class="input" type="date"></app-field>
-                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div> -->
-                <!-- <div class="field">
-                    <app-label-field [title]="'**Tipo de Seguro'"></app-label-field>
-                    <select  formControlName="tipSeg" class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.value}}" *ngFor="let option of optionsInsuraceType">{{option.title}}</option>
-                    </select>
-                </div> -->
-            </div>
-            <!-- <div class="flex justify-between">
-                <h2 class="legend__student">Año lectivo</h2>
-            </div> -->
-            <!-- <div class="form__field" [formGroup]="groupEnrollment">
-                <div class="field">
-                    <app-label-field [title]="'*Grado Periodo'"></app-label-field>
-                    <select formControlName="idGradoPeriodo"
-                        class="select cursor-pointer h-10 w-full outline-none px-2">
-                        <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name+" - " +
-                            option.anioDTO}}</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <app-label-field [title]="'**Fecha de matrícula'"></app-label-field>
-                    <app-field><input formControlName="fecMatri" class="input" type="date"></app-field>
-                    <app-required-field class="px-2" *ngIf="fecNaci?.invalid && (fecNaci?.dirty || fecNaci?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
-                </div>
-            </div> -->
-            <div class="btns">
-                <button type="submit" [disabled]="group.invalid"
-                    class="field__input--button mx-2 h-9 rounded-3xl text-white"(click)="save()" >Guardar</button>
-                <app-btn-cancel (click)="matricula.hiddenModal()" class="btn__cancel mx-2"></app-btn-cancel>
-            </div>
-        </form>
-    </div>
-</app-modal>
-
-
-
-
-
-<!-- Buscar Alumno -->
-
-<app-modal #modalStudents [title]="'Alumnos'">
+<!-- <app-modal #modalStudents [title]="'Alumnos'">
     <div class="list__alumnos">
         <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
             <label class="mx-4"><b>Buscar</b></label>
@@ -270,11 +76,14 @@
             </div>
         </div>
         <table class="table bg-gray-50">
-            <thead>
-                <th>CODIGO</th>
-                <th>ALUMNO</th>
-                <th>SELECCIONAR</th>
-            </thead>
+            
+                <thead>
+                    <th>CODIGO</th>
+                    <th>ALUMNO</th>
+                    <th>SELECCIONAR</th>
+                </thead>
+        
+            
             <tbody *ngIf="listStudents?.length!=0; else empty">
                 <tr class="hover:bg-gray-200" (click)="asingStudent(item)" *ngFor="let item of listStudents">
                     <td>{{item.code}}</td>
@@ -286,12 +95,10 @@
             </tbody>
         </table>
         <span class="btn_ok block">
-            <app-btn-ok (click)="asignStudentForm()" [title]="'Aceptar'"></app-btn-ok>
+            <app-btn-ok  [title]="'Aceptar'" (click)="asignStudentForm()" ></app-btn-ok>
         </span>
     </div>
-</app-modal>
-
-<!-- Tabla para mostrar-->
+</app-modal> -->
 
 <table class="table bg-gray-50">
     <thead>
@@ -301,12 +108,14 @@
         <tr *ngFor="let item of matStudent, let i=index">
             <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " + item.alumnoDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
-            <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
-            <td>{{item.alumnoDTO.apoderadoDTO.tel}}</td>
+            <!-- <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
+            <td>{{item.alumnoDTO.apoderadoDTO.tel}}</td> -->
             <td>{{item.date}}</td>
+            <td>{{item.anioLectivoDTO.name}}</td>
             <td>{{item.aulaDTO.gradoDTO.name + " " + item.aulaDTO.seccionDTO.name}}</td>
+            
             <td class="flex justify-center"> 
-                <app-btn-update (click)="editar.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
 
@@ -321,9 +130,11 @@
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>
+            
         </tr>
     </tbody>
 </table>
+
 <ng-template #empty>
     <div class="empty">No hay alumnos matriculados en este año</div>
 </ng-template>
