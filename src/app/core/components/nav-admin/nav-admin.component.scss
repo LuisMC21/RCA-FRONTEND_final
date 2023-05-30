@@ -3,7 +3,8 @@
     color: var(--text-color-secondary);
     // background-color: #fff;
     // color: #000;
-    height: calc(100vh - 8vh);
+    height: inherit;
+    min-height: calc(100vh - 8vh);
     font-size: 0.8rem;
     font-family: var(--font-family-primary-Montserrat);
     // box-shadow: 0.5px 5px 4px 1px rgb(188, 188, 188);
