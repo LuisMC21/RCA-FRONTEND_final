@@ -94,18 +94,7 @@ export class FormComponent implements OnInit {
   }
 
   onLogin(): void {
-    console.log(this.group.value.recordarCredenciales);
     if (this.group.valid) {
-      // Verificar si el checkbox está marcado
-      const recordarCredenciales = this.group.value.recordarCredenciales;
-
-      if (recordarCredenciales) {
-        // Guardar los valores en el localStorage
-        localStorage.setItem('username', this.group.value.nombreUsuario);
-        localStorage.setItem('password', this.encryptPassword(this.group.value.password));
-
-      }
-
       this.authService.login(this.group.value).subscribe((data) => {
         if (data.successful) {
           this.tokenService.setToken(data.data.token);
@@ -126,13 +115,6 @@ export class FormComponent implements OnInit {
         }
       });
     }
-  }
-
-  onCheckboxChange(event: any) {
-    const isChecked = event.target.checked;
-    this.group.patchValue({
-      recordarCredenciales: isChecked
-    });
   }
 
   // Función para cifrar la contraseña
