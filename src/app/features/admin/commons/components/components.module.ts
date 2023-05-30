@@ -18,7 +18,11 @@ import { TableGradePeriodComponent } from './tables-data/table-grade-period/tabl
 import { TableNewsComponent } from './tables-data/table-news/table-news.component';
 import { TableImageComponent } from './tables-data/table-image/table-image.component';
 import { TableAnioLectivoComponent } from './tables-data/table-anio-lectivo/table-anio-lectivo.component';
+import { TableRoleComponent } from './tables-data/table-role/table-role.component';
 import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
+import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion.component';
+import { TableClassroomComponent } from './tables-data/table-classroom/table-classroom.component';
+import { TableCourseTeacherComponent } from './tables-data/table-course-teacher/table-course-teacher.component';
 
 
 
@@ -40,8 +44,11 @@ import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-a
     TableNewsComponent,
     TableImageComponent,
     TableAnioLectivoComponent,
-    TableAsistenciaComponent
-    
+    TableRoleComponent,
+    TableAsistenciaComponent,
+    TableSeccionComponent,
+    TableClassroomComponent,
+    TableCourseTeacherComponent
   ],
   exports:[
     TableComponent,
@@ -59,7 +66,11 @@ import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-a
     TableNewsComponent,
     TableImageComponent,
     TableAnioLectivoComponent,
-    TableAsistenciaComponent
+    TableRoleComponent,
+    TableAsistenciaComponent,
+    TableSeccionComponent,
+    TableClassroomComponent,
+    TableCourseTeacherComponent
   ],
   imports: [
     CommonModule,

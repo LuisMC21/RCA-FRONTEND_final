@@ -11,58 +11,58 @@ import { IGrade } from '../../interfaces/grade';
 })
 export class AdminGradeComponent implements OnInit {
 
-  grades:IGrade[]=[];
+  grades: IGrade[] = [];
   tableName: string = 'Grados';
-  paginationData = 'grade'
-  msjResponse:string ='';
-  successful: boolean=false;
-  
-  @ViewChild('modalOk') modalOk!:ModalComponent;
+  paginationData = 'grade';
+  msjResponse: string = '';
+  successful: boolean = false;
 
-  constructor(private gradeService:GradeService, private pagination:PaginationService) { }
+  @ViewChild('modalOk') modalOk!: ModalComponent;
+
+  constructor(private gradeService: GradeService, private pagination: PaginationService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.gradeService.getAll('', page,size)
-    .subscribe(response =>{
-      this.grades = response.data.list;
-    
-    });
+    this.gradeService.getAll('', page, size)
+      .subscribe(response => {
+        this.grades = response.data.list;
+
+      });
   }
 
-  
+
   //BUSCAR
-  search(nom:string){
+  search(nom: string) {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.gradeService.getAll(nom,page,size).subscribe(response =>{
+    this.gradeService.getAll(nom, page, size).subscribe(response => {
       this.grades = response.data.list;
     })
   }
 
   // AGREGAR - ACTUALIZAR
-  save(grade:IGrade){
-console.log(grade)
-    if(grade.id==null){
-      this.gradeService.add(grade).subscribe(data =>{
+  save(grade: IGrade) {
+    console.log(grade)
+    if (grade.id == null) {
+      this.gradeService.add(grade).subscribe(data => {
         console.log(data.message)
-        if(data.successful===true){
+        if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
-          this.successful=true;
-        }else{
+          this.successful = true;
+        } else {
           this.msjResponse = 'Ha ocurrido un error :(';
-          this.successful=false;
+          this.successful = false;
         }
       });
-    }else{
-      this.gradeService.update(grade).subscribe(data =>{
-        if(data.successful=== true){
+    } else {
+      this.gradeService.update(grade).subscribe(data => {
+        if (data.successful === true) {
           this.msjResponse = 'Cambios actualizados con éxito';
-          this.successful=true;
-        }else{
+          this.successful = true;
+        } else {
           this.msjResponse = 'Ha ocurrido un error :v';
-          this.successful=false;
+          this.successful = false;
         }
       })
     }
@@ -70,17 +70,17 @@ console.log(grade)
   }
 
   //ELIMINAR 
-  delete(id:string){
-    this.gradeService.delete(id).subscribe(data =>{
-      
-      if(data.successful===true){
+  delete(id: string) {
+    this.gradeService.delete(id).subscribe(data => {
+
+      if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful===true;
+        this.successful === true;
       }
     });
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+  refresh(): void { window.location.reload(); }
 
 }

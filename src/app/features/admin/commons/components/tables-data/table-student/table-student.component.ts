@@ -21,6 +21,8 @@ export class TableStudentComponent implements OnInit {
   nomParent:string='';
   @Input() tableName!: string;
   @Input() title!: string;
+
+  titulo:string = 'Agregar Alumno';
   
   @Output() studentSave:EventEmitter<IStudent> = new EventEmitter();
   @Output() identiParentSave:EventEmitter<string> = new EventEmitter();
@@ -67,25 +69,25 @@ ngOnInit(): void {
   get vaccine(){return this.group.get('vaccine')}
   get type_insurance(){return this.group.get('type_insurance')}
 // USUARIO
-  get idUsuario(){return this.group.get('idUsuario')}
-  get codeUsuario(){return this.group.get('codeUsuario')}
-  get nombreUsuario(){return this.group.get('nombreUsuario')}
-  get name(){return this.group.get('name')}
-  get pa_surname(){return this.group.get('pa_surname')}
-  get ma_surname(){return this.group.get('ma_surname')}
-  get birthdate(){return this.group.get('birthdate')}
-  get type_doc(){return this.group.get('type_doc')}
-  get numdoc(){return this.group.get('numdoc')}
-  get tel(){return this.group.get('tel')}
-  get gra_inst(){return this.group.get('gra_inst')}
-  get email(){return this.group.get('email')}
-  get password(){return this.group.get('password')}
-  get rol(){return this.group.get('rol')}
+  get idUsuario(){return this.group.get('usuarioDTO.id')}
+  get codeUsuario(){return this.group.get('usuarioDTO.code')}
+  get nombreUsuario(){return this.group.get('usuarioDTO.nombreUsuario')}
+  get name(){return this.group.get('usuarioDTO.name')}
+  get pa_surname(){return this.group.get('usuarioDTO.pa_surname')}
+  get ma_surname(){return this.group.get('usuarioDTO.ma_surname')}
+  get birthdate(){return this.group.get('usuarioDTO.birthdate')}
+  get type_doc(){return this.group.get('usuarioDTO.type_doc')}
+  get numdoc() { return this.group.get('usuarioDTO.numdoc') }
+  get tel(){return this.group.get('usuarioDTO.tel')}
+  get gra_inst(){return this.group.get('usuarioDTO.gra_inst')}
+  get email(){return this.group.get('usuarioDTO.email')}
+  get password(){return this.group.get('usuarioDTO.password')}
+  get rol(){return this.group.get('usuarioDTO.rol')}
   get apoderado(){return this.group.get('apoderado')}
   get isVacunado(){return this.group.get('isVacunado')}
 // APODERADO 
-  get idApoderado(){return this.group.get('idApoderado')}
-  get codeA(){return this.group.get('codeA')}
+  get idApoderado(){return this.group.get('apoderadoDTO.id')}
+  get codeA(){return this.group.get('apoderadoDTO.code')}
   get nameApoderado(){return this.group.get('nameApoderado')}
   get pa_surnameA(){return this.group.get('pa_surnameA')}
   get ma_surnameA(){return this.group.get('ma_surnameA')}
@@ -93,6 +95,10 @@ ngOnInit(): void {
   // Modal
   isEditing: boolean = false;
   form(item?:IStudent){
+
+    if(item){
+      this.titulo = "Actualizar Alumno";
+    }
 
     // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
@@ -109,15 +115,15 @@ ngOnInit(): void {
 
       
       apoderadoDTO:this.formBuilder.group({
-        idApoderado:[item?item.apoderadoDTO.id:null],
-        codeA:[item?item.apoderadoDTO.code:''],
-        nameApoderado:[item?.apoderadoDTO.name + ' ' + item?.apoderadoDTO.pa_surname + ' ' + item?.apoderadoDTO.ma_surname,[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+        id:[item?item.apoderadoDTO.id:null],
+        code:[item?item.apoderadoDTO.code:''],
+        name:[item?item.apoderadoDTO.name + ' ' + item.apoderadoDTO.pa_surname + ' ' + item.apoderadoDTO.ma_surname:''],
       }),
       // USUARIO
 
       usuarioDTO:this.formBuilder.group({
-        idUsuario:[item?item.usuarioDTO.id:null],
-        codeUsuario:[item?item.usuarioDTO.code:''],
+        id:[item?item.usuarioDTO.id:null],
+        code:[item?item.usuarioDTO.code:''],
         nombreUsuario:[item?item.usuarioDTO.nombreUsuario:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
         name:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
         pa_surname:[item?item.usuarioDTO.pa_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
@@ -126,11 +132,10 @@ ngOnInit(): void {
         type_doc:[item?item.usuarioDTO.type_doc:'',[Validators.required]],
         numdoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
         tel:[item?item.usuarioDTO.tel:''],
-        gra_inst:[item?item.usuarioDTO.gra_inst:''],
-        email:[item?item.usuarioDTO.email:''],
-        password:[item?item.usuarioDTO.password:''],
+        gra_inst:[item?item.usuarioDTO.gra_inst:'',[Validators.required,]],
+        email:[item?item.usuarioDTO.email:'', [Validators.required,]],
+        password:[item?item.usuarioDTO.password:'', [Validators.required,]],
         rol: ['STUDENT']
-
       }),
 
      
@@ -163,6 +168,10 @@ ngOnInit(): void {
     this.studentSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
+
+    if(this.titulo=="Actualizar Alumno"){
+      this.titulo = "Agregar Alumno";
+    }
   }
 
   // ELIMINAR 
@@ -181,6 +190,15 @@ ngOnInit(): void {
     this.nomParent = parent.pa_surname + ' ' + parent.ma_surname + ' '+parent.name;
     this.identiParent = parent.id;
     this.searchParentModal.hidden();
+  }
+
+  reset(){
+    if(this.titulo=="Actualizar Alumno"){
+      this.titulo = "Agregar Alumno";
+    }
+    console.log(this.group.value);
+    this.group.reset(); 
+    
   }
 
 }

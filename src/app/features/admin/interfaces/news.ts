@@ -1,6 +1,7 @@
 import { IUser } from "./user";
 
 export interface INews {
+    id:string;
     code:string;
     title:string;
     sommelier:string;
@@ -8,13 +9,4 @@ export interface INews {
     image:string;
     date:Date;
     usuarioDTO:IUser;
-    // identi:string;
-    // titulo:string;
-    // sumilla:string;
-    // descripcion:string;
-    // fecha:Date;
-    // imagen:string;
-    // imagenName:string;
-    // imagenLow:string;
-    // administrativoId:string;
 }

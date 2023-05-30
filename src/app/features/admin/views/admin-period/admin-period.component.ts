@@ -3,6 +3,8 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { PaginationService } from '../../commons/services/pagination.service';
 import { PeriodService } from '../../commons/services/period.service';
 import { IPeriod } from '../../interfaces/period';
+import { IAnioLectivo } from '../../interfaces/anio-lectivo';
+import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 
 @Component({
   selector: 'app-admin-period',
@@ -12,13 +14,17 @@ import { IPeriod } from '../../interfaces/period';
 export class AdminPeriodComponent implements OnInit {
 
   periods:IPeriod[]=[];
+  anios:IAnioLectivo[] = [];
   tableName: string = 'Periodos';
   paginationData:string ='period';
+  paginationDataAnio:string = 'anio';
   msjResponse:string='';
 
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
-  constructor(private periodService:PeriodService, private pagination:PaginationService) { }
+  constructor(private periodService:PeriodService, 
+              private pagination:PaginationService,
+              private anioService: AnioLectivoService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
@@ -26,7 +32,15 @@ export class AdminPeriodComponent implements OnInit {
     this.periodService.getAll('', page,size)
     .subscribe(response =>{
       this.periods = response.data.list;
-      console.log("Periodo" + response.data.list);
+      console.log(this.periods);
+    });
+
+    let pageAnio = this.pagination.getPage(this.paginationDataAnio);
+    let sizeAnio = this.pagination.getSize(this.paginationDataAnio);
+    this.anioService.getAll('', pageAnio,sizeAnio)
+    .subscribe(response =>{
+      this.anios = response.data.list;
+      console.log(this.anios);
     });
   }
 
@@ -40,19 +54,19 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   // AGREGAR - ACTUALIZAR
-  save(course:IPeriod){
-    if(course.code==null){
-      this.periodService.add(course).subscribe(data =>{
-        console.log(data.msj)
-        if(data.msj==='OK'){
+  save(period:IPeriod){
+    if(period.id==null){
+      this.periodService.add(period).subscribe(data =>{
+        console.log(data.message)
+        if(data.message==='ok'){
           this.msjResponse = 'Agregado correctamente'
         }else{
           this.msjResponse = 'Ha ocurrido un error :('
         }
       });
     }else{
-      this.periodService.update(course).subscribe(data =>{
-        if(data.msj === 'OK'){
+      this.periodService.update(period).subscribe(data =>{
+        if(data.message === 'ok'){
           this.msjResponse = 'Cambios actualizados con éxito'
         }else{
           this.msjResponse = 'Ha ocurrido un error :('
@@ -65,7 +79,7 @@ export class AdminPeriodComponent implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.periodService.delete(id).subscribe(data =>{
-      if(data.msj==='OK'){
+      if(data.message==='ok'){
         this.msjResponse = 'Eliminado correctamente';
       }
     });

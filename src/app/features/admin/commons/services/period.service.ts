@@ -19,18 +19,18 @@ export class PeriodService {
   }
 
   //Agregar 
-  add(period:IPeriod):Observable<IResponse>{
+  add(period:IPeriod):Observable<IApiResponse>{
     console.log(period)
-    return this.http.post<IResponse>(`${environment.api}/periodo`,period)
+    return this.http.post<IApiResponse>(`${environment.api}/periodo`,period)
   }
 
   //Modificar 
-  update(period:IPeriod):Observable<IResponse>{
-    return this.http.put<IResponse>(`${environment.api}/periodo`,period);
+  update(period:IPeriod):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/periodo`,period);
   }
 
   //Eliminar 
-  delete(id:string):Observable<IResponse>{
-    return this.http.delete<IResponse>(`${environment.api}/periodo`+id);
+  delete(id:string):Observable<IApiResponse>{
+    return this.http.delete<IApiResponse>(`${environment.api}/periodo/`+id);
   }
 }

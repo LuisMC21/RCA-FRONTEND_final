@@ -44,9 +44,9 @@ export class TableCourseComponent implements OnInit {
   
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
-      id:[item?item:null],
+      id:[item?item.id:null],
       code:[item?item.code:''],
-      name:[item?item.name:'',[Validators.required]],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(1),Validators.maxLength(30)]],
     
   });
 }

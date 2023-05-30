@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PeriodService } from '../../../services/period.service';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 
 @Component({
   selector: 'app-table-period',
@@ -12,14 +13,24 @@ import { PeriodService } from '../../../services/period.service';
 export class TablePeriodComponent implements OnInit {
 
   @Input() periods: IPeriod[]=[];
+  @Input() anios: IAnioLectivo[] = []
   @Input() tableName!: string;
   @Input() title!: string;
 
+  item: IPeriod={
+    id:'',
+    code: '',
+    name:'',
+    date_start: new Date(),
+    date_end: new Date(),
+    anio_lectivoDTO:  { id: '', code: '', name: '' }
+  }
+  
   @Output() periodSave:EventEmitter<IPeriod> = new EventEmitter();
   @Output() periodDelete:EventEmitter<string> = new EventEmitter();
   @Output() periodSearch:EventEmitter<string> = new EventEmitter();
 
-  head=["Fecha de Inicio","Fecha de término","Año lectivo","Acciones"]
+  head=["Code","Nombre","Fecha de Inicio","Fecha de término","Año lectivo","Acciones"]
   group!: FormGroup;
   
   msjResponse:string='';
@@ -30,20 +41,26 @@ export class TablePeriodComponent implements OnInit {
 
   constructor(private formBuilder:FormBuilder, private periodService:PeriodService) { }
 
-  get fecInic(){return this.group.get('fecInic')}
-  get fecTer(){return this.group.get('fecTer')}
-  get anioElec(){return this.group.get('anioElec')}
+  get fecInic(){return this.group.get('date_start')}
+  get name(){return this.group.get('name')}
+  get fecTer(){return this.group.get('date_end')}
+  get anioElec(){return this.group.get('anio_lectivoDTO')}
 
   ngOnInit(): void {
     this.form();
   }
 
   form(item?:IPeriod):void{
+    if(item){
+      this.item = item;
+    }
     this.group = this.formBuilder.group({
-      identi:[item?item.code:null],
-      fecInic:[item?item.date_start:'',[Validators.required]],
-      fecTer:[item?item.date_end:'',[Validators.required]],
-      anioElec:[item?item.anio_lectivoDTO:'',[Validators.required, Validators.minLength(4), Validators.minLength(4)]],
+      id:[item?item.id:null],
+      code:[item?item.code:''],
+      name:[item?item.name:'', [Validators.required]],
+      date_start:[item?item.date_start:'',[Validators.required]],
+      date_end:[item?item.date_end:'',[Validators.required]],
+      anio_lectivoDTO:[item?item.anio_lectivoDTO:'',[Validators.required]],
   });
 }
 
@@ -67,5 +84,17 @@ export class TablePeriodComponent implements OnInit {
   }
 
   refresh(): void { window.location.reload(); }
+
+  reset() {
+    this.group.reset();
+    this.item = {
+      id:'',
+      code: '',
+      name:'',
+      date_start: new Date(),
+      date_end: new Date(),
+      anio_lectivoDTO:  { id: '', code: '', name: '' }
+    };
+  }
 
 }
