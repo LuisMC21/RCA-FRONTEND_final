@@ -8,12 +8,10 @@ table{
     width: 100%;
     font-size: var(--font-size-table);
     & th, tr, td{
-        padding: 0.6rem 1rem;
+        padding: 0.2rem;
         text-align: center;
     }
-    & tr{
-        cursor: pointer;
-    }
+  
 }
 .empty{
     display: flex;

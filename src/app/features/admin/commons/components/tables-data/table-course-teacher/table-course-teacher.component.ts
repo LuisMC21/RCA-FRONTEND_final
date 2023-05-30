@@ -82,6 +82,7 @@ export class TableCourseTeacherComponent implements OnInit {
       this.item = item;
       this.titulo = 'Actualizar asignatura';
     }
+    
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
