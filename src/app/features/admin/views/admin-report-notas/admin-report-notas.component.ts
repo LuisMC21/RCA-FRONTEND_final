@@ -34,7 +34,7 @@ export class AdminReportNotasComponent implements OnInit {
   @ViewChild('classroomSelect') classroomSelect!: ElementRef;
   selectedClassroomId: string = '';
   @ViewChild('anioSelect') anioSelect!: ElementRef;
-  selectedAnioId: string = '1970ee3c-d611-4343-9b24-7a3ac4da5af0';
+  selectedAnioName: string = '';
   @ViewChild('periodSelect') periodSelect!: ElementRef;
   selectedPeriodId: string = '';
   @ViewChild('courseSelect') courseSelect!: ElementRef;
@@ -73,14 +73,6 @@ export class AdminReportNotasComponent implements OnInit {
         this.courses = response.data.list;
         console.log(this.anios);
       });
-
-    let pagePe = this.pagination.getPage(this.paginationData);
-    let sizePe = this.pagination.getSize(this.paginationData);
-    this.periodoService.getAll('', pagePe, sizePe)
-      .subscribe(response => {
-        this.periods = response.data.list;
-        console.log(this.anios);
-      });
   }
 
   form(): void {
@@ -104,9 +96,23 @@ export class AdminReportNotasComponent implements OnInit {
     console.log(this.selectedOption);
   }
 
+  onAnioChange(){
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioName = selectedOption.value;
+    
+    let pagePe = this.pagination.getPage(this.paginationData);
+    let sizePe = this.pagination.getSize(this.paginationData);
+    this.periodoService.getAll(this.selectedAnioName.toString(), pagePe, sizePe)
+      .subscribe(response => {
+        this.periods = response.data.list;
+        console.log(this.periods);
+      });
+  }
+
   onPeriodChange() {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
+
   }
 
   onCourseChange() {
@@ -121,12 +127,12 @@ export class AdminReportNotasComponent implements OnInit {
 
   redirectToNotas() {
     if (this.selectedOption === this.opciones[0]) {
-      const url = `http://localhost:8080/evaluacion/cursoNotas?periodo=${this.selectedPeriodId}&anio=${this.selectedAnioId}&curso=${this.selectedCourseId}&aula=${this.selectedClassroomId}`;
+      const url = `http://localhost:8080/evaluacion/cursoNotas?periodo=${this.selectedPeriodId}&curso=${this.selectedCourseId}&aula=${this.selectedClassroomId}`;
       window.location.href = url;
     }
     
     if (this.selectedOption === this.opciones[1]) {
-      const url = `http://localhost:8080/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&anio=${this.selectedAnioId}&alumno=${this.codeAlumno}`;
+      const url = `http://localhost:8080/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.codeAlumno}`;
       window.location.href = url;
     }
   }

@@ -15,7 +15,7 @@ export class PeriodService {
 
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/periodo?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/periodo?filter=${nom}&page=${page}&size=${size}`);
   }
 
   //Agregar 
