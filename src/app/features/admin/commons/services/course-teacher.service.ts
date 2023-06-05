@@ -14,7 +14,7 @@ export class CourseTeacherService {
 
   //Get
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/asignatura?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/asignatura?filter=${nom}&page=${page}&size=${size}`);
   }
 
   //add

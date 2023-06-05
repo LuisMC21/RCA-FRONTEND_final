@@ -20,7 +20,6 @@ export class PeriodService {
 
   //Agregar 
   add(period:IPeriod):Observable<IApiResponse>{
-    console.log(period)
     return this.http.post<IApiResponse>(`${environment.api}/periodo`,period)
   }
 

@@ -7,6 +7,8 @@ import { HeaderAdminComponent } from './header-admin/header-admin.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SharedComponentsModule } from 'src/app/shared/components/components.module';
 import { NavAdminComponent } from './nav-admin/nav-admin.component';
+import { NavTeacherComponent } from './nav-teacher/nav-teacher.component';
+import { HeaderTeacherComponent } from './header-teacher/header-teacher.component';
 
 
 
@@ -16,13 +18,17 @@ import { NavAdminComponent } from './nav-admin/nav-admin.component';
     NavComponent,
     HeaderComponent,
     HeaderAdminComponent,
-    NavAdminComponent
+    NavAdminComponent,
+    NavTeacherComponent,
+    HeaderTeacherComponent
   ],
   exports:[
     NavComponent,
     FooterComponent,
     HeaderComponent,
     HeaderAdminComponent,
+    HeaderTeacherComponent,
+    NavTeacherComponent,
     NavAdminComponent
   ],
   imports: [
