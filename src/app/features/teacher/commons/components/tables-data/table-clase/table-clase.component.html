@@ -12,6 +12,10 @@
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
+                <app-label-field [title]="'Título'"></app-label-field>
+                <app-field><input formControlName="name" class="input" type="text"></app-field>
+            </div>
+            <div class="field">
                 <app-label-field [title]="'Date'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date"></app-field>
             </div>

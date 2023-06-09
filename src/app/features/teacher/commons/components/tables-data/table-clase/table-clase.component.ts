@@ -26,7 +26,7 @@ export class TableClaseComponent implements OnInit {
 
   titulo = 'Agregar Clase';
 
-  head = ["Codigo", "Fecha"];
+  head = ["Codigo", "Título", "Fecha"];
   group!: FormGroup;
 
   msjResponse: string = '';
@@ -50,6 +50,7 @@ export class TableClaseComponent implements OnInit {
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       date: [item ? item.date:null, Validators.required],
+      name:[item?item.name:'', Validators.required],
       docentexCursoDTO: [item?item.docentexCursoDTO:null],
       periodoDTO:[item?item.periodoDTO:null]
 
