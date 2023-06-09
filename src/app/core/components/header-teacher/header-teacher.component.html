@@ -3,7 +3,7 @@
     <div class="header__user hidden lg:flex justify-end w-1/2 items-center px-4">
         <label class="user__item">Teacher: </label>
         <label class="user__item mx-1">Arquímedes Muñoz</label>
-        <app-button [title]="'Salir'"></app-button>
+        <app-button [title]="'Salir'" (click)="onLogOut()"></app-button>
         <!-- <a><i class="bi bi-box-arrow-right"></i></a> -->
     </div>
 </header>
