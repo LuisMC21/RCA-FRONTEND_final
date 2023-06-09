@@ -25,7 +25,6 @@ export class TeacherAsignacionesComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
     this.courseTeacherService.getAll(this.code,page,size).subscribe(response =>{
       this.asignaciones = response.data.list;
-      console.log(response)
     })
   }
 
