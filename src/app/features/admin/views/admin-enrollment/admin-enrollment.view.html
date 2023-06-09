@@ -3,11 +3,11 @@
     <app-table [title]="'Agregar curso'" [tableName]="tableName">
         <app-table-enrollment
         (enrollmentSave)="save($event)" 
-        (studentSave)="getStudentSave($event)"
-     
+        (enrollmentDelete)="delete($event)" 
         (identiGradePeriodReportXLS)="matGradoResponseXSL($event)"
         (studentSearch)="searchStudent($event)"
-    
+        [aulas]="aulas"
+        [anioL]="aniosL"
         [listStudents]="students"
         [matStudent]="enrollmentList">
     </app-table-enrollment>

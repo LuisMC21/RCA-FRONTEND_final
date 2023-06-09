@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { LocalStorageModule } from 'angular-2-local-storage';
 
+import { interceptorProvider } from './interceptors/admin-interceptor.service';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,10 +23,10 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     LocalStorageModule.forRoot({
       prefix: 'my-app',
       storageType: 'localStorage'
-    })
-    
+    }),
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

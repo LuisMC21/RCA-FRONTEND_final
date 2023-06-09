@@ -1,8 +1,8 @@
     /*MENU <ul>*/
     .nav__options{
-        display: flex; 
+        display: flex;
     }
-    
+
     /*ITEMS*/
         .nav__option{
             flex-grow: 1;
@@ -27,13 +27,23 @@
         .nav__option__text{
             cursor: pointer;
         }
-        
+
     /*SUBMENU*/
     .nav__options__secondary{
-        background-color: rgba(0, 0, 0, 0.309);
         position: absolute;
         display: none;
+        font-weight: 300;
     }
+    .nav__option__secondary{
+      padding: 1% 20%;
+      background-color: var(--const-color-blue-hover);
+      color: white;
+    }
+    .nav__option__secondary:hover{
+      background-color: rgb(80, 80, 80);
+      color: white;
+
+  }
 
     // //li--login
     // .nav__option--login{
@@ -41,14 +51,14 @@
     //     align-items: center;
     //     height: 100%;
     // }
-   
+
     //     //li secondary
     //     .nav__option__secondary{
     //         padding: 0 1rem;
     //     }
     //     //ul secondary login
     //     .nav__options__secondary--login{
-    //      position: relative;   
+    //      position: relative;
     //     }
     //     //li secondary login
     //     .nav__option__secondary--login{
@@ -58,4 +68,3 @@
 
 
 
-    

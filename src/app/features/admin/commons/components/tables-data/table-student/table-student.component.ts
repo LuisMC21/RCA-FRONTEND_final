@@ -105,6 +105,7 @@ export class TableStudentComponent implements OnInit {
     // this.nomParent = item?item.apoderado:'';
     this.group = this.formBuilder.group({
       // ALUMNO
+
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : ''],
@@ -118,6 +119,7 @@ export class TableStudentComponent implements OnInit {
         id: [item ? item.apoderadoDTO.id : null],
         code: [item ? item.apoderadoDTO.code : ''],
         name: [item ? item.apoderadoDTO.name + ' ' + item.apoderadoDTO.pa_surname + ' ' + item.apoderadoDTO.ma_surname : ''],
+
       }),
       // USUARIO
 

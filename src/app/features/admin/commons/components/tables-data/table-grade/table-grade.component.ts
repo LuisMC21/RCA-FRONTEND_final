@@ -59,6 +59,7 @@ export class TableGradeComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
+      console.log(this.group.value)
       this.gradeSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();

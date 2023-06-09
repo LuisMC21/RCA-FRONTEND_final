@@ -12,7 +12,10 @@ import { IGradePeriod } from '../../interfaces/grade-period';
 import { IParent } from '../../interfaces/parent';
 import { IReportMatGrade } from '../../interfaces/reportMatGrade';
 import { IStudent } from '../../interfaces/student';
-
+import {IAula} from '../../interfaces/aula';
+import { AulaService } from '../../commons/services/aula.service';
+import { IAnioLectivo } from '../../interfaces/anio-lectivo';
+import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -29,20 +32,22 @@ export class AdminEnrollmentView implements OnInit {
   identiStudent:string='';
   studentSave!: IStudent;
   enrollmentSave!:IEnrollment;
-
+  aniosL:IAnioLectivo[]=[]
+  aulas:IAula[]=[];
   students:IStudent[]=[];
 
   paginationData = 'student'
   enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
-  
+
   constructor(
     private parentService: ParentService,
     private studentService:StudentService,
     private enrollmentService:EnrollmentService,
- 
+    private aulaService:AulaService,
+    private anioService:AnioLectivoService,
     private reportService:ReportsService
-    
+
     ){ }
 
   ngOnInit(): void {
@@ -51,8 +56,23 @@ export class AdminEnrollmentView implements OnInit {
       console.log(response.data.list)
     })
     this.searchStudent();
+    this.aulaService.getAll("",0,5).subscribe(response =>{
+      this.aulas= response.data.list;
+      console.log(response.data.list)
+    })
+
+    this.anioService.getAll("",0,5).subscribe(response =>{
+      this.aniosL= response.data.list;
+      console.log(response.data.list)
+    })
+
   }
   searchStudent(nom?:string){
+    this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
+      this.students = response.data.list;
+    })
+  }
+  searchAula(nom?:string){
     this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
       this.students = response.data.list;
     })
@@ -71,23 +91,25 @@ export class AdminEnrollmentView implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save(enrollment:IEnrollment){
-    enrollment.code = this.studentSave.code;
-    if(enrollment.code==null){
+
+    if(enrollment.id==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
           if(data.successful===true){
             this.msjResponse = 'Matricula registrada correctamente'
             this.successful = true;
           }else{
-            this.msjResponse = 'Error, el registro de matricula ya existe';
+            this.msjResponse = data.message;
             this.successful = false;
           }
       });
     }else{
       this.enrollmentService.update(enrollment).subscribe(data =>{
-        if(data.msj==='OK'){
+        if(data.successful===true){
           this.msjResponse = 'Matricula actualizada con éxito';
+          this.successful = true;
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
         }
       })
     }
@@ -100,10 +122,10 @@ export class AdminEnrollmentView implements OnInit {
     this.studentSave = student;
   }
 
- //ELIMINAR 
+ //ELIMINAR
  delete(id:string){
   this.enrollmentService.delete(id).subscribe(data =>{
-    if(data.msj==='ok'){
+    if(data.successful===true){
       this.msjResponse = 'Eliminado correctamente';
       this.successful = true;
     }

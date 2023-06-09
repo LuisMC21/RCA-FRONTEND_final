@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IEnrollment } from 'src/app/features/admin/interfaces/enrollment';
 import { IGradePeriod } from 'src/app/features/admin/interfaces/grade-period';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
@@ -12,18 +12,44 @@ import { ParentService } from '../../../services/parent.service';
 import { AnioLectivoService } from '../../../services/anio-lectivo.service';
 import { AulaService } from '../../../services/aula.service';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
+import { StudentService } from '../../../services/student.service';
 @Component({
   selector: 'app-table-enrollment',
   templateUrl: './table-enrollment.component.html',
   styleUrls: ['./table-enrollment.component.scss']
 })
 export class TableEnrollmentComponent implements OnInit {
-  
+
   group!:FormGroup;
-  groupEnrollment!:FormGroup
+  saving: boolean = false;
+  // studentForm!:FormGroup
   nomParent:string='';
-  parents:IParent[]=[];
-  parent!:IParent;
+  alumno: IStudent[] = [];
+  estudiante: IStudent = {
+    id:'',code:'', diseases:'',namecon_pri:'',telcon_pri:'', namecon_sec:'',telcon_sec:'',vaccine:'',type_insurance:'',
+    apoderadoDTO:{
+      id:'', code:'', name:'', pa_surname:'',ma_surname:'',birthdate:new Date(), type_doc:'', numdoc:'', email:'', tel:''
+    },
+    usuarioDTO:{
+      id:'',
+      code:'',
+      nombreUsuario:'',
+      name:'',
+      pa_surname:'',
+      ma_surname:'',
+      birthdate: new Date(),
+      type_doc:'',
+      numdoc:'',
+      tel:'',
+      gra_inst:'',
+      email:'',
+      password:'',
+      rol:''
+    }
+    // Agrega más propiedades según la interfaz IStudent
+  };
+  anios:IAnioLectivo[]=[];
   sizeOption:boolean=false;
   gradoPeriodoLS:string=localStorage.getItem('gradoPeriodo')||''
   gradePeriodNom:string='';
@@ -31,168 +57,330 @@ export class TableEnrollmentComponent implements OnInit {
   identiParent:string='';
   identiGradoPeriodo:string='';
   identiStudent:string='';
+  asignEnrrollment!:IEnrollment;
+
   asignStudent!: IStudent;
-  head=["NOMBRE Y APELLIDOS","NÚMERO DE DOC","CORREO APODERADO","TELEFONO APODERADO","FECHA","AULA","ACCIONES"]
+  head=["NOMBRE Y APELLIDOS","NÚMERO DE DOC","FECHA","AÑO LECTIVO","AULA","ACCIONES"]
 
   @ViewChild('searchParentModal') searchParentModal!:SearchComponent;
-  @ViewChild('matricula') matricula!:ModalComponent;
+
   @ViewChild('modalStudents') modalStudents!:ModalComponent;
+  @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
-  @Input() aula:IAula[]=[]
+  @Input() aulas:IAula[]=[]
+  @Input() anioL:IAnioLectivo[]=[]
   @Input() listStudents:IStudent[]=[]
-  @Input() matGrado:IReportMatGrade[]=[]
+  // @Input() matGrado:IReportMatGrade[]=[]
   @Input() matStudent:IEnrollment[]=[]
+  @Input() title!: string;
+  item: IEnrollment={
+    id:'',
+    code:'',
+    date: new Date(),
+    anioLectivoDTO:{
+      id: '',
+      code: '',
+      name:''
+    },
+    aulaDTO:{
+      id:'', code:'', gradoDTO:{
+        id: '', code: '', name: ''
+      }, seccionDTO:{id: '', code: '', name: ''}
+    },
+    alumnoDTO:{
+      id:'',code:'', diseases:'',namecon_pri:'',telcon_pri:'', namecon_sec:'',telcon_sec:'',vaccine:'',type_insurance:'',
+      apoderadoDTO:{
+        id:'', code:'', name:'', pa_surname:'',ma_surname:'',birthdate:new Date(), type_doc:'', numdoc:'', email:'', tel:''
+      },
+      usuarioDTO:{
+        id:'',
+        code:'',
+        nombreUsuario:'',
+        name:'',
+        pa_surname:'',
+        ma_surname:'',
+        birthdate: new Date(),
+        type_doc:'',
+        numdoc:'',
+        tel:'',
+        gra_inst:'',
+        email:'',
+        password:'',
+        rol:''
+      }
+    }
 
-  @Output() studentSave:EventEmitter<IStudent> = new EventEmitter();
+  }
+  // classroom: IAula = {
+  //   id: '',
+  //   code: '',
+  //   gradoDTO: { id: '', code: '', name: '' },
+  //   seccionDTO: { id: '', code: '', name: '' }
+  // }
+  // aniosL: IAnioLectivo = {
+  //   id: '',
+  //   code: '',
+  //   name:''
+  // }
+
+
+
+  titulo:string = 'Matricular';
+
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
   @Output() enrollmentDelete:EventEmitter<string> = new EventEmitter();
-  @Output() identiParentSave:EventEmitter<string> = new EventEmitter();
-  @Output() idGradoPeriodoSave:EventEmitter<string> = new EventEmitter();
-  @Output() studentDelete:EventEmitter<string> = new EventEmitter();
   @Output() studentSearch:EventEmitter<string> = new EventEmitter();
 
   // Reportes
   @Output() identiGradePeriodReport:EventEmitter<string> = new EventEmitter();
   @Output() identiGradePeriodReportXLS:EventEmitter<string> = new EventEmitter();
 
-  optionsDocumentType = [
-    {title:"DNI",value:'01'},
-    {title:"Pasaporte",value:'02'},
-    {title:"RUC",value:'03'},
-  ]
-  optionsVac =[
-    {title:'SI',value:'S'},
-    {title:'NO',value:'N'}
-  ]
-  optionsInsuraceType= [
-    {title:'ESSALUD',value:'E'},
-    {title:'SIS',value:'S'},
-    {title:'Privado',value:'P'},
-    {title:'Fuerza Armada',value:'F'}
-  ];
+
   constructor(
-    private parentService:ParentService, 
-    private gradePeriod:GradePeriodService,
-    private aulaService:AulaService,
+
+    private studentService:StudentService,
     private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
-    this.getGradePeriodNom(this.gradoPeriodoLS)
-    this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
     this.form();
+    // this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
+
   }
-  
-  getGradePeriodNom(id:string){
-    this.gradePeriod.getByIden(id).subscribe(data =>{
-      this.gradePeriodNom = data.gradeDTO.name;
-    })
-  }
+
+
+
+  // Matricula
   get id(){return this.group.get('id')}
-  get apelPat(){return this.group.get('apelPat')}
-  get apelMat(){return this.group.get('apelMat')}
-  get nombre(){return this.group.get('nombre')}
-  get tipDoc(){return this.group.get('tipDoc')}
-  get numDoc(){return this.group.get('numDoc')}
-  get direcc(){return this.group.get('direcc')}
-  get fecNaci(){return this.group.get('fecNaci')}
+  get code(){return this.group.get('codeM')}
+  get date(){return this.group.get('date')}
+  // Aula
+  get codeAu(){return this.group.get('codeAu')}
+  get grado(){return this.group.get('grado')}
+  get seccion(){return this.group.get('seccion')}
+  // Año lectivo
+  get codeAL(){return this.group.get('codeAL')}
+  get nameAL(){return this.group.get('nameAL')}
+
+  // Alumno
+  get codeStudent(){return this.group.get('codeStudent')}
+  get diseases(){return this.group.get('diseases')}
+  get namecon_pri(){return this.group.get('namecon_pri')}
+  get telcon_pri(){return this.group.get('telcon_pri')}
+  get namecon_sec(){return this.group.get('namecon_sec')}
+  get telcon_sec(){return this.group.get('telcon_sec')}
+  get vaccine(){return this.group.get('vaccine')}
+  get type_insurance(){return this.group.get('type_insurance')}
+
+
+  // USUARIO
+  get idUsuario(){return this.group.get('usuarioDTO.id')}
+  get codeUsuario(){return this.group.get('usuarioDTO.code')}
+  get nombreUsuario(){return this.group.get('usuarioDTO.nombreUsuario')}
+  get name(){return this.group.get('usuarioDTO.name')}
+  get pa_surname(){return this.group.get('usuarioDTO.pa_surname')}
+  get ma_surname(){return this.group.get('usuarioDTO.ma_surname')}
+  get birthdate(){return this.group.get('usuarioDTO.birthdate')}
+  get type_doc(){return this.group.get('usuarioDTO.type_doc')}
+  get numdoc() { return this.group.get('usuarioDTO.numdoc') }
+  get tel(){return this.group.get('usuarioDTO.tel')}
+  get gra_inst(){return this.group.get('usuarioDTO.gra_inst')}
+  get email(){return this.group.get('usuarioDTO.email')}
+  get password(){return this.group.get('usuarioDTO.password')}
+  get rol(){return this.group.get('usuarioDTO.rol')}
   get apoderado(){return this.group.get('apoderado')}
   get isVacunado(){return this.group.get('isVacunado')}
-  get enferm(){return this.group.get('enferm')}
-  get nomConPri(){return this.group.get('nomConPri')}
-  get nomConSec(){return this.group.get('nomConSec')}
-  get telConSec(){return this.group.get('telConSec')}
-  get telConPri(){return this.group.get('telConPri')}
-  get tipSeg(){return this.group.get('tipSeg')}
-  get fecMatri(){return this.groupEnrollment.get('fecMatri')}
-  get idGradoPeriodo(){return this.groupEnrollment.get('idGradoPeriodo')}
+// APODERADO
+  // get idApoderado(){return this.group.get('apoderadoDTO.id')}
+  // get codeA(){return this.group.get('apoderadoDTO.code')}
+  // get nameApoderado(){return this.group.get('nameApoderado')}
+  // get pa_surnameA(){return this.group.get('pa_surnameA')}
+  // get ma_surnameA(){return this.group.get('ma_surnameA')}
+  // get telA(){return this.group.get('telA')}
 
-  form(item?:IStudent){
-    this.groupEnrollment = this.formBuilder.group({
-      fecMatri:[''],
-      idGradoPeriodo:[''],
-    
-      identi:[null],
-      id:[item?item.id:null],
-    })
-
+  // get fecMatri(){return this.groupEnrollment.get('fecMatri')}
+  // get idGradoPeriodo(){return this.groupEnrollment.get('idGradoPeriodo')}
+  // Modal
+  isEditing: boolean = false;
+  form(item?:IEnrollment){
+    if(item){
+      this.item = item;
+    }
+    if(item){
+      this.titulo = 'Actualizar Matricula';
+    }
+    // if(item){
+    //   this.item.aulaDTO = item?.aulaDTO
+    // }
+    // if(item){
+    //   this.item.anioLectivoDTO = item?.anioLectivoDTO
+    // }
     // this.nomParent = item?item.apoderado:'';
+
+
+
     this.group = this.formBuilder.group({
-      identi:[item?item.code:null],
-      apelPat:[item?item.usuarioDTO.pa_surname:''],
-      apelMat:[item?item.usuarioDTO.ma_surname:''],
-      nombre:[item?item.usuarioDTO.name:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
+
+      id:[item?item.id:null],
+      code:[item?item.code:''],
+      date:[item?item.date:''],
+      //  AULA
+      aulaDTO:[item ? item.aulaDTO : '', [Validators.required]],
+      // AÑO LECTIVO
+      anioLectivoDTO:[item ? item.anioLectivoDTO : '', [Validators.required]],
+
+      codeA:[item?item.alumnoDTO.code:'']
+
+      // anioLectivoDTO:this.formBuilder.group({
+      // id:[item?item.anioLectivoDTO.id:null],
+      // code:[item?item.anioLectivoDTO.code:''],
+      // name:[item?item.anioLectivoDTO.name:'']
+      // }),
+      // ALUMNO
+
+
       //tipDoc:[item?item.tipDoc:''],
-      numDoc:[item?item.usuarioDTO.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-      direcc:[item?item.usuarioDTO.email:'',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       // fecNaci:[item?item.:'',[Validators.required]],
       // aulaGrade:[item?item.aulaDTO.gradeDTO.name:'',[Validators.required]],
       //apoderado:[''],
-      enferm:[item?item.diseases:''],
+
       // isVacunado: [''],
-      nomConPri:  [''],
-      nomConSec:  [''],
-      telConSec:  [''],
-      telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
       //tipSeg: [item?item.tipSeg:'']
     });
   }
-  searchParent(nom:string){
-    this.nomParent = nom;
-    this.parentService.getAll(nom,0,5).subscribe(data =>{
-      this.parents = data.content;
-    })
-  }
+
+  // searchParent(name:string){
+  //   this.nomParent = name;
+  //   this.parentService.getAll(name,0,5).subscribe(data =>{
+
+  //   })
+  // }
   //BUSCAR Estudiante
-  search(nom:string){
-    this.studentSearch.emit(nom);
+  search(name:string){
+    this.studentSearch.emit(name);
+    console.log(this.search)
   }
   //Asignar estudiante
-  asingStudent(student:IStudent){
-    this.nomSearch= ' '+student.usuarioDTO.name + ' ' +student.usuarioDTO.pa_surname +' '+student.usuarioDTO.ma_surname;
-    this.asignStudent = student
+  asingStudent(alumnoDTO:IStudent){
+    this.nomSearch= ' '+alumnoDTO.usuarioDTO.name + ' ' +alumnoDTO.usuarioDTO.pa_surname +' '+alumnoDTO.usuarioDTO.ma_surname;
+    this.asignStudent = alumnoDTO;
+    console.log(this.asignStudent)
   }
+  obtenerAlumno(filter: string) {
+    return new Promise<void>((resolve, reject) => {
+      this.studentService.getOne(filter).subscribe(response => {
+        this.alumno = response.data.list;
+        this.estudiante = this.alumno[0];
+        console.log(this.estudiante);
+        resolve();
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+
+  // obtenerAlumno(filter: string){
+  // this.studentService.getOne(filter).subscribe(response =>{
+  //   this.alumno=response.data.list;
+  //   this.estudiante=this.alumno[0];
+  //   console.log(this.estudiante)
+  // });
+  // }
+
+
   asignStudentForm(){
-    this.form(this.asignStudent);
+    this.form(this.asignEnrrollment);
     this.modalStudents.hiddenModal();
+    console.log(this.asignStudentForm)
+     // Obtén los valores ingresados en el formulario
+  // const studentData = this.studentForm.value;
+
+  // Utiliza los datos ingresados según sea necesario (por ejemplo, puedes imprimirlos en la consola)
+  // console.log(studentData);
+
+  // Resto de tu lógica o acciones necesarias
+
+  // Limpia el formulario después de su uso (opcional)
+  // this.studentForm.reset();
   }
-  //ASIGNA APODERADO
+
   // asingParent(parent:IParent){
-  //   this.nomParent = parent.usuarioDTO.pa_surname + ' ' + parent.usuarioDTO.ma_surname + ' '+parent.usuarioDTO.name;
+  //   this.nomParent = parent.pa_surname + ' ' + parent.ma_surname + ' '+parent.name;
   //   this.identiParent = parent.id;
   //   this.searchParentModal.hidden();
   // }
-  save(){
-    if(this.group.valid && this.groupEnrollment.valid){
-    this.identiParentSave.emit(this.identiParent)
-    this.studentSave.emit(this.group.value)
-    this.enrollmentSave.emit(this.groupEnrollment.value)
+
+
+
+  async save() {
+    if (this.group.valid && !this.saving) {
+      try {
+        this.saving = true; // Deshabilitar el guardado adicional
+
+        await this.obtenerAlumno(this.group.get('codeA')?.value);
+        console.log(this.alumno);
+        this.group.addControl('alumnoDTO', new FormControl(this.estudiante, [Validators.required]));
+        this.enrollmentSave.emit(this.group.value);
+        console.log(this.group.value);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.saving = false; // Habilitar nuevamente el guardado
+      }
     }
-    this.matricula.hiddenModal()
+
+    this.modalAdd.hiddenModal();
+
+    if (this.titulo == "Actualizar Alumno") {
+      this.titulo = "Agregar Alumno";
+    }
   }
-   // ELIMINAR 
-   delete(id:string){
+
+  // save(){
+  //   if(this.group.valid){
+  //   this.obtenerAlumno(this.group.get('codeA')?.value)
+  //   console.log(this.alumno)
+  //   this.group.addControl('alumnoDTO', new FormControl(this.estudiante, [Validators.required]));
+  //   this.enrollmentSave.emit(this.group.value)
+  //   console.log(this.group.value)
+  //   }
+  //   this.modalAdd.hiddenModal();
+  //   if(this.titulo=="Actualizar Alumno"){
+  //     this.titulo = "Agregar Alumno"
+  //   }
+  // }
+   // ELIMINAR
+  delete(id:string){
     this.enrollmentDelete.emit(id)
     this.modalDelete.hiddenModal();
   }
 
   //Reporte matriculados por curso
-  matGradoResponse(identi:string){
-    localStorage.setItem('gradoPeriodo',identi)
-    this.getGradePeriodNom(identi)
-    this.identiGradePeriodReport.emit(identi)
-  }
-  matGradoResponseXSL(){
-    let iden = localStorage.getItem('gradoPeriodo')||''
-    this.identiGradePeriodReportXLS.emit(iden)
-  }
-  
+  // matGradoResponse(identi:string){
+  //   localStorage.setItem('gradoPeriodo',identi)
+  //   this.identiGradePeriodReport.emit(identi)
+  // }
+  // matGradoResponseXSL(){
+  //   let iden = localStorage.getItem('gradoPeriodo')||''
+  //   this.identiGradePeriodReportXLS.emit(iden)
+  // }
+
   getSizeOption(){
     if(this.sizeOption==false){
       this.sizeOption = true;
     }else{
       this.sizeOption = false;
     }
+  }
+
+  reset(){
+    if(this.titulo=="Actualizar Matricula"){
+      this.titulo = "Agregar Matricula";
+    }
+    console.log(this.group.value);
+    this.group.reset();
+
   }
 }
 

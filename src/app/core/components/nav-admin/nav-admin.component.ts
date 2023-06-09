@@ -76,6 +76,7 @@ export class NavAdminComponent implements OnInit {
     this.renderer2.setStyle(this.confALectivo.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.operaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
+
   redirectTo(index:string):void{
     this.router.navigateByUrl('admin/'+ index);
   }
