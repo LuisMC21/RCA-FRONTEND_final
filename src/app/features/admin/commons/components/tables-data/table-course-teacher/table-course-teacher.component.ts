@@ -55,7 +55,13 @@ export class TableCourseTeacherComponent implements OnInit {
       code: '',
       gradoDTO: { id: '', code: '', name: '' },
       seccionDTO: { id: '', code: '', name: '' }
+    },
+    anioLectivoDTO:{
+      id:'',
+      code:'',
+      name: ''
     }
+
   }
 
   @Output() courseTeacherSave: EventEmitter<ICourseTeacher> = new EventEmitter();
@@ -150,6 +156,11 @@ export class TableCourseTeacherComponent implements OnInit {
         code: '',
         gradoDTO: { id: '', code: '', name: '' },
         seccionDTO: { id: '', code: '', name: '' }
+      },
+      anioLectivoDTO:{
+        id:'',
+        code:'',
+        name: ''
       }
     }
     this.group.reset();

@@ -61,7 +61,6 @@ export class AdminClassroomComponent implements OnInit {
       });
   }
 
-
   //BUSCAR
   search(nom: string) {
     let page = this.pagination.getPage(this.paginationData);
