@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { TeacherNotasComponent } from './views/teacher-notas/teacher-notas.component';
 import { TeacherClasesComponent } from './views/teacher-clases/teacher-clases.component';
 import { TeacherAsignacionesComponent } from './views/teacher-asignaciones/teacher-asignaciones.component';
+import { TeacherDatosComponent } from './views/teacher-datos/teacher-datos.component';
 
 const routes: Routes = [
     {
@@ -13,6 +14,7 @@ const routes: Routes = [
             { path: 'asignaciones', component: TeacherAsignacionesComponent },
             { path: 'notas', component: TeacherNotasComponent },
             { path: 'clases', component: TeacherClasesComponent },
+            { path: 'datos', component: TeacherDatosComponent},
         ]
     },
     { path: '**', redirectTo: ''}

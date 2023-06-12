@@ -9,6 +9,7 @@ import { TeacherNotasComponent } from './views/teacher-notas/teacher-notas.compo
 import { TeacherClasesComponent } from './views/teacher-clases/teacher-clases.component';
 import { TeacherComponent } from './teacher.component';
 import { TeacherAsignacionesComponent } from './views/teacher-asignaciones/teacher-asignaciones.component';
+import { TeacherDatosComponent } from './views/teacher-datos/teacher-datos.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TeacherAsignacionesComponent } from './views/teacher-asignaciones/teach
     TeacherComponent,
     TeacherNotasComponent,
     TeacherClasesComponent,
-    TeacherAsignacionesComponent
+    TeacherAsignacionesComponent,
+    TeacherDatosComponent
   ],
   imports: [
     CommonModule,

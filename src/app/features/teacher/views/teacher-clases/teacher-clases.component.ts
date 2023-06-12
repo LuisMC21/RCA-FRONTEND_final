@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AulaService } from 'src/app/features/admin/commons/services/aula.service';
 import { ClaseService } from 'src/app/features/admin/commons/services/clase.service';
 import { CourseTeacherService } from 'src/app/features/admin/commons/services/course-teacher.service';
+import { CourseService } from 'src/app/features/admin/commons/services/course.service';
 import { PaginationService } from 'src/app/features/admin/commons/services/pagination.service';
 import { PeriodService } from 'src/app/features/admin/commons/services/period.service';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
@@ -8,7 +10,9 @@ import { IClase } from 'src/app/features/admin/interfaces/clase';
 import { ICourse } from 'src/app/features/admin/interfaces/course';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
+import { TableClaseComponent } from '../../commons/components/tables-data/table-clase/table-clase.component';
 
 @Component({
   selector: 'app-teacher-clases',
@@ -23,7 +27,7 @@ export class TeacherClasesComponent implements OnInit {
   courseTeachers: ICourseTeacher[] = [];
   clases: IClase[] = [];
 
-  periodo!:IPeriod;
+  periodo!: IPeriod;
   courseTeacher!: ICourseTeacher;
 
   @ViewChild('periodSelect') periodSelect!: ElementRef;
@@ -35,11 +39,12 @@ export class TeacherClasesComponent implements OnInit {
   @ViewChild('courseSelect') courseSelect!: ElementRef;
   selectedCourseId: string = '';
 
+  @ViewChild(TableClaseComponent) tableComponent!: TableClaseComponent;
+
   tableName: string = 'Clases';
   selectedAnioName = '2022';
 
   code: string = 'DCN005';
-  id: string = '5f4fd454-2eaa-4be7-81b7-8276de3a6f92';
 
   title!: string;
 
@@ -56,9 +61,13 @@ export class TeacherClasesComponent implements OnInit {
   constructor(private pagination: PaginationService,
     private periodoService: PeriodService,
     private courseTeacherService: CourseTeacherService,
-    private claseService: ClaseService) { }
+    private claseService: ClaseService,
+    private tokenService: TokenService) { }
 
   ngOnInit(): void {
+
+    //obtener codigo docente
+    //this.code = this.tokenService.getUserId();
 
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
@@ -68,6 +77,7 @@ export class TeacherClasesComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationDataDxC);
     this.courseTeacherService.getAll(this.code, 0, 10).subscribe(response => {
       this.courseTeachers = response.data.list;
+      console.log(this.courseTeachers);
 
       this.aulas = this.courseTeachers.map((courseTeacher) => courseTeacher.aulaDTO).filter((aula, index, self) => {
         return index === self.findIndex((a) => (
@@ -92,13 +102,19 @@ export class TeacherClasesComponent implements OnInit {
     this.periodoService.getAll(this.selectedAnioName.toString(), pagePe, sizePe)
       .subscribe(response => {
         this.periods = response.data.list;
-
         this.filtered();
       });
 
     this.claseService.getAllPeriodoAulaCurso('', pagePe, sizePe, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
+
+    this.performFiltering();
+
+  }
+
+  async performFiltering(): Promise<void> {
+    await this.filtered();
   }
 
   onPeriodoChange() {
@@ -147,22 +163,25 @@ export class TeacherClasesComponent implements OnInit {
 
   }
 
-  filtered():void{
-    const filteredPeriod: IPeriod | undefined = this.periods.find(period => period.id === this.selectedPeriodId);
-
-    if (filteredPeriod !== undefined) {
-      this.periodo = filteredPeriod;
-    }
+  async filtered(): Promise<void> {
 
     const filteredCourseTeacher: ICourseTeacher | undefined = this.courseTeachers.find(courseTeacher =>
       courseTeacher.aulaDTO.id === this.selectedAulaId &&
       courseTeacher.cursoDTO.id === this.selectedCourseId &&
       courseTeacher.docenteDTO.code === this.code
     );
-    
+
     if (filteredCourseTeacher !== undefined) {
       this.courseTeacher = filteredCourseTeacher;
     }
+
+    const filteredPeriod: IPeriod | undefined = this.periods.find(period => period.id === this.selectedPeriodId);
+
+    if (filteredPeriod !== undefined) {
+      this.periodo = filteredPeriod;
+    }
+
+
   }
 
   //BUSCAR

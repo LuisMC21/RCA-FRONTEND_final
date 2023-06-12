@@ -1,10 +1,18 @@
 <nav class="nav w-full">
     <!-- Icono hamburguesa deshabilitado -->
     <label for="menuDesabled" class="logo-menu flex justify-start items-center p-3" id="fig_menu">
-        <i class="px-2 bi bi-list"></i>
+        <i class="px-2 bi bi-list" (click)="toggleMenu()"></i>
     </label>
     <input type="checkbox" id="menu" class="hidden nav__input">
-    <ul class="nav__options py-4">
+    <ul class="nav__options py-4" [hidden]="!menuVisible">
+        <li (click)="redirectTo('datos')" class="nav__option flex flex-col" #datos>
+            <div class="flex" (click)="Optdatos()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Datos</label>
+                </span>
+            </div>
+        </li>
         <li (click)="redirectTo('asignaciones')" class="nav__option flex flex-col" #asignaciones>
             <div class="flex" (click)="Optasignaciones()">
                 <i class="bi bi-people"></i>
