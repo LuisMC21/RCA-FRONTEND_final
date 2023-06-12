@@ -5,9 +5,9 @@
     </div>
     <div class="pb-2" *ngFor="let new of news" (click)="form(new)" (click)="modalAdd.showModal()">
         <div class="event h-16 w-full">
-            <img class="img" src={{new.image}}> 
+            <img class="img" > 
             <div class="event_absolute absolute flex items-center">
-                <div class="event__desc">{{new.title}}</div> 
+                <div class="event__desc"></div> 
                 <!-- <span class="span__btn--update"><i class="bi bi-pen"></i></span>  -->
             </div>
         </div>
@@ -17,7 +17,7 @@
 
 <!-- MODAL AGREGAR NOTICIA -->
 <app-modal [title]="'Agregar noticia'" #modalAdd>
-    <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
+    <form  [formGroup]="group" class="form w-full flex flex-wrap justify-between">
         <div class="field">
             <app-label-field [title]="'**Título'"></app-label-field>
             <app-field><input  formControlName="titulo" class="input" type="text"></app-field>

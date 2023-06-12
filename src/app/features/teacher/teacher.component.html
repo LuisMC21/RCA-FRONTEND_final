@@ -1,1 +1,15 @@
-<p>teacher works!</p>
+<app-header-teacher class="header"></app-header-teacher>
+<div class="dashboard">
+    <app-nav-teacher></app-nav-teacher>
+    <div class="dashboard__cont">
+        <header class="header_dashboard bg-slate-500">
+            <legend>INTRANET DOCENTE</legend> 
+            <div class="header__icon">
+                <span><i class="bi bi-bell-fill"></i></span>
+                <span><i class="bi bi-chat-dots-fill"></i></span>
+            </div>
+        </header>
+        
+        <router-outlet class="router__outlet p-2"></router-outlet>
+    </div>
+</div>

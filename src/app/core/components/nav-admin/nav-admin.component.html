@@ -15,44 +15,44 @@
             <!--<ul class="sub__menu hidden bg-red-500 ml-7 py-1">
                 <li class="py-1">Submenu</li>
             </ul>  -->
-    </li>
-    <li class="nav__option flex flex-col" #operaciones>
-        <div class="flex"  (click)="submenuOper()">
-            <i class="bi bi-people"></i>
-            <span class="nav__option__toggle">
-                <label class="option__label">Operaciones</label>
-                <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
-            </span>
-        </div>
-        <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuOper">
-            <li (click)="redirectTo('matricula')" class="nav__option__sub flex flex-col">
-                <div class="flex">
-                    <i class="bi bi-people"></i>
-                    <span class="nav__option__toggle">
-                        <label class="option__label">Matricula</label>
-                    </span>
-                </div>
-            </li>
-            <li (click)="redirectTo('asistencia')" class="nav__option__sub flex flex-col">
-                <div class="flex">
-                    <i class="bi bi-people-fill"></i>
-                    <span class="nav__option__toggle">
-                        <label class="option__label">Asistencia</label>
-                    </span>
-                </div>
-            </li>    
-            <li (click)="redirectTo('noticias')" class="nav__option__sub flex flex-col">
-                <div class="flex">
-                    <i class="bi bi-newspaper"></i>
-                    <span class="nav__option__toggle">
-                        <label class="option__label">Noticias</label>
-                    </span>
-                </div>
-            </li>         
-        </ul>
-    </li>
-    <li class="nav__option flex flex-col" #mantenimiento>
-            <div class="flex"  (click)="submenuMant()">
+        </li>
+        <li class="nav__option flex flex-col" #operaciones>
+            <div class="flex" (click)="submenuOper()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Operaciones</label>
+                    <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
+                </span>
+            </div>
+            <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuOper">
+                <li (click)="redirectTo('matricula')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Matricula</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('asistencia')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people-fill"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Asistencia</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('noticias')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-newspaper"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Noticias</label>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li class="nav__option flex flex-col" #mantenimiento>
+            <div class="flex" (click)="submenuMant()">
                 <i class="bi bi-tools"></i>
                 <span class="nav__option__toggle">
                     <label class="option__label">Mantenimiento</label>
@@ -144,93 +144,46 @@
                         </span>
                     </div>
                 </li>
-                <li (click)="redirectTo('rol')" class="nav__option__sub flex flex-col">
-                    <div class="flex">
-                        <i class="bi bi-journal-album"></i>
-                        <span class="nav__option__toggle">
-                            <label class="option__label">Roles</label>
-                        </span>
-                    </div>
-                </li>
 
-                
+
+
             </ul>
         </li>
-        <!-- <li class="nav__option flex flex-col" #confALectivo>
-            <div class="flex" (click)="submenuALectivo()">
-                <i class="bi bi-calendar2-range-fill"></i>
+
+        <li class="nav__option flex flex-col" #reportes>
+            <div class="flex" (click)="submenuRepor()">
+                <i class="bi bi-tools"></i>
                 <span class="nav__option__toggle">
-                    <label class="option__label">Año lectivo</label>
+                    <label class="option__label">Reportes</label>
                     <label class="iconDesp"><i class="bi bi-caret-down-fill"></i></label>
                 </span>
             </div>
-            <ul class="nav__submenu" *ngIf="showSubmenuConfALectivo">
-                <li (click)="redirectTo('grado')" class="nav__option__sub flex flex-col">
+            <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuRepor">
+                <li (click)="redirectTo('reportesMatricula')" class="nav__option__sub flex flex-col">
                     <div class="flex">
-                        <i class="bi bi-bar-chart-steps"></i>
+                        <i class="bi bi-people"></i>
                         <span class="nav__option__toggle">
-                            <label class="option__label">Grado</label>
+                            <label class="option__label">Matrícula</label>
                         </span>
                     </div>
                 </li>
-                <li (click)="redirectTo('periodo')" class="nav__option__sub flex flex-col">
+                <li (click)="redirectTo('apoderado')" class="nav__option__sub flex flex-col">
                     <div class="flex">
-                        <i class="bi bi-calendar"></i>
+                        <i class="bi bi-people"></i>
                         <span class="nav__option__toggle">
-                            <label class="option__label">Periodo</label>
+                            <label class="option__label">Asistencia</label>
                         </span>
                     </div>
                 </li>
-                <li (click)="redirectTo('seccion')" class="nav__option__sub flex flex-col">
+                <li (click)="redirectTo('reportesNotas')" class="nav__option__sub flex flex-col">
                     <div class="flex">
-                        <i class="bi bi-calendar"></i>
+                        <i class="bi bi-people"></i>
                         <span class="nav__option__toggle">
-                            <label class="option__label">Sección</label>
-                        </span>
-                    </div>
-                </li>
-                <li (click)="redirectTo('aula')" class="nav__option__sub flex flex-col">
-                    <div class="flex">
-                        <i class="bi bi-calendar"></i>
-                        <span class="nav__option__toggle">
-                            <label class="option__label">Aula</label>
-                        </span>
-                    </div>
-                </li>
-                <li (click)="redirectTo('asignatura')" class="nav__option__sub flex flex-col">
-                    <div class="flex">
-                        <i class="bi bi-calendar"></i>
-                        <span class="nav__option__toggle">
-                            <label class="option__label">Asignatura</label>
+                            <label class="option__label">Notas</label>
                         </span>
                     </div>
                 </li>
             </ul>
-        </li> -->
-
-        <!-- <li (click)="redirectTo('imagenes')" class="nav__option flex flex-col">
-            <div class="flex">
-                <i class="bi bi-image"></i>
-                <span class="nav__option__toggle">
-                    <label class="option__label">Imagenes</label>
-                </span>
-            </div>
-        </li>
-        <li class="nav__option flex flex-col">
-            <div class="flex">
-                <i class="bi bi-gear-fill"></i>
-                <span class="nav__option__toggle">
-                    <label class="option__label">configuración</label>
-                </span>
-            </div>
-        </li> -->
-        <li class="nav__option flex flex-col">
-            <div class="flex">
-                <i class="bi bi-gear-fill"></i>
-                <span class="nav__option__toggle">
-                    <label class="option__label">Reportes</label>
-                </span>
-            </div>
         </li>
     </ul>
 </nav>

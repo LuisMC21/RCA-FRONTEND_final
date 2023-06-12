@@ -1,4 +1,3 @@
-
 import { ICourseTeacher } from "./course-teacher";
 import { IPeriod } from "./period";
 

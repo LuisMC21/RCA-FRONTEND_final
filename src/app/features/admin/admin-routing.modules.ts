@@ -18,6 +18,8 @@ import { DashboardView } from './views/dashboard/dashboard.view';
 import { AdminSectionComponent } from './views/admin-section/admin-section.component';
 import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom.component';
 import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-course-teacher.component';
+import { AdminReportMatriculaComponent } from './views/admin-report-matricula/admin-report-matricula.component';
+import { AdminReportNotasComponent } from './views/admin-report-notas/admin-report-notas.component';
 
 
 const routes: Routes = [
@@ -41,7 +43,9 @@ const routes: Routes = [
       { path: 'seccion', component: AdminSectionComponent },
       { path: 'aula', component: AdminClassroomComponent },
       { path: 'periodo', component: AdminPeriodComponent},
-      { path: 'docenteCurso', component: AdminCourseTeacherComponent}
+      { path: 'docenteCurso', component: AdminCourseTeacherComponent},
+      { path: 'reportesMatricula', component: AdminReportMatriculaComponent},
+      { path: 'reportesNotas', component: AdminReportNotasComponent}
     ]
   },
   { path: '**', redirectTo: ''}

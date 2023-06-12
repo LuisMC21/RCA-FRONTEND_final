@@ -20,7 +20,7 @@ import { StudentService } from '../../../services/student.service';
   styleUrls: ['./table-enrollment.component.scss']
 })
 export class TableEnrollmentComponent implements OnInit {
-  
+
   group!:FormGroup;
   saving: boolean = false;
   // studentForm!:FormGroup
@@ -58,12 +58,12 @@ export class TableEnrollmentComponent implements OnInit {
   identiGradoPeriodo:string='';
   identiStudent:string='';
   asignEnrrollment!:IEnrollment;
-  
+
   asignStudent!: IStudent;
   head=["CÓDIGO","NOMBRE Y APELLIDOS","NÚMERO DE DOC","FECHA","AÑO LECTIVO","AULA","ACCIONES"]
 
   @ViewChild('searchParentModal') searchParentModal!:SearchComponent;
-  
+
   @ViewChild('modalStudents') modalStudents!:ModalComponent;
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
@@ -85,7 +85,7 @@ export class TableEnrollmentComponent implements OnInit {
     },
     aulaDTO:{
       id:'', code:'', gradoDTO:{
-        id: '', code: '', name: '' 
+        id: '', code: '', name: ''
       }, seccionDTO:{id: '', code: '', name: ''}
     },
     alumnoDTO:{
@@ -125,9 +125,9 @@ export class TableEnrollmentComponent implements OnInit {
   // }
 
 
-  
+
   titulo:string = 'Matricular';
- 
+
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
   @Output() enrollmentDelete:EventEmitter<string> = new EventEmitter();
   @Output() studentSearch:EventEmitter<string> = new EventEmitter();
@@ -136,21 +136,6 @@ export class TableEnrollmentComponent implements OnInit {
   @Output() identiGradePeriodReport:EventEmitter<string> = new EventEmitter();
   @Output() identiGradePeriodReportXLS:EventEmitter<string> = new EventEmitter();
 
-  optionsDocumentType = [
-    {title:"DNI",value:'01'},
-    {title:"Pasaporte",value:'02'},
-    {title:"RUC",value:'03'},
-  ]
-  optionsVac =[
-    {title:'SI',value:'S'},
-    {title:'NO',value:'N'}
-  ]
-  optionsInsuraceType= [
-    {title:'ESSALUD',value:'E'},
-    {title:'SIS',value:'S'},
-    {title:'Privado',value:'P'},
-    {title:'Fuerza Armada',value:'F'}
-  ];
 
   constructor(
 
@@ -160,9 +145,9 @@ export class TableEnrollmentComponent implements OnInit {
   ngOnInit(): void {
     this.form();
     // this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
-    
+
   }
-  
+
 
 
   // Matricula
@@ -205,7 +190,7 @@ export class TableEnrollmentComponent implements OnInit {
   get rol(){return this.group.get('usuarioDTO.rol')}
   get apoderado(){return this.group.get('apoderado')}
   get isVacunado(){return this.group.get('isVacunado')}
-// APODERADO 
+// APODERADO
   // get idApoderado(){return this.group.get('apoderadoDTO.id')}
   // get codeA(){return this.group.get('apoderadoDTO.code')}
   // get nameApoderado(){return this.group.get('nameApoderado')}
@@ -231,11 +216,11 @@ export class TableEnrollmentComponent implements OnInit {
     //   this.item.anioLectivoDTO = item?.anioLectivoDTO
     // }
     // this.nomParent = item?item.apoderado:'';
-    
-    
-   
+
+
+
     this.group = this.formBuilder.group({
-      
+
       id:[item?item.id:null],
       code:[item?item.code:''],
       date:[item?item.date:''],
@@ -252,13 +237,13 @@ export class TableEnrollmentComponent implements OnInit {
       // name:[item?item.anioLectivoDTO.name:'']
       // }),
       // ALUMNO
-      
-    
+
+
       //tipDoc:[item?item.tipDoc:''],
       // fecNaci:[item?item.:'',[Validators.required]],
       // aulaGrade:[item?item.aulaDTO.gradeDTO.name:'',[Validators.required]],
       //apoderado:[''],
-  
+
       // isVacunado: [''],
       //tipSeg: [item?item.tipSeg:'']
     });
@@ -267,7 +252,7 @@ export class TableEnrollmentComponent implements OnInit {
   // searchParent(name:string){
   //   this.nomParent = name;
   //   this.parentService.getAll(name,0,5).subscribe(data =>{
-  
+
   //   })
   // }
   //BUSCAR Estudiante
@@ -293,7 +278,7 @@ export class TableEnrollmentComponent implements OnInit {
       });
     });
   }
-  
+
 
   // obtenerAlumno(filter: string){
   // this.studentService.getOne(filter).subscribe(response =>{
@@ -310,12 +295,12 @@ export class TableEnrollmentComponent implements OnInit {
     console.log(this.asignStudentForm)
      // Obtén los valores ingresados en el formulario
   // const studentData = this.studentForm.value;
-  
+
   // Utiliza los datos ingresados según sea necesario (por ejemplo, puedes imprimirlos en la consola)
   // console.log(studentData);
-  
+
   // Resto de tu lógica o acciones necesarias
-  
+
   // Limpia el formulario después de su uso (opcional)
   // this.studentForm.reset();
   }
@@ -341,14 +326,14 @@ export class TableEnrollmentComponent implements OnInit {
         this.saving = false;
       }
     }
-  
+
     this.modalAdd.hiddenModal();
-  
+
     if (this.titulo == "Actualizar Alumno") {
       this.titulo = "Agregar Alumno";
     }
   }
-  
+
   // save(){
   //   if(this.group.valid){
   //   this.obtenerAlumno(this.group.get('codeA')?.value)
@@ -362,7 +347,7 @@ export class TableEnrollmentComponent implements OnInit {
   //     this.titulo = "Agregar Alumno"
   //   }
   // }
-   // ELIMINAR 
+   // ELIMINAR
   delete(id:string){
     this.enrollmentDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -377,7 +362,7 @@ export class TableEnrollmentComponent implements OnInit {
   //   let iden = localStorage.getItem('gradoPeriodo')||''
   //   this.identiGradePeriodReportXLS.emit(iden)
   // }
-  
+
   getSizeOption(){
     if(this.sizeOption==false){
       this.sizeOption = true;
@@ -391,8 +376,8 @@ export class TableEnrollmentComponent implements OnInit {
       this.titulo = "Agregar Matricula";
     }
     console.log(this.group.value);
-    this.group.reset(); 
-    
+    this.group.reset();
+
   }
 }
 

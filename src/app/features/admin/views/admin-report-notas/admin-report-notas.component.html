@@ -1,0 +1,45 @@
+<div class="px-10" style="background-color: #ffffff; margin: 0px 20px; padding: 10px 20px;">
+
+    <div style="width: 350px; margin: 20px 0px;">
+        <select class="input" [(ngModel)]="selectedOption" (change)="onChangeSelect()">
+            <option *ngFor="let item of opciones">{{item}}</option>
+        </select>
+    </div>
+
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between">
+        <div class="field">
+            <app-label-field [title]="'Año lectivo'"></app-label-field>
+            <app-field><select class="input" (change)="onAnioChange()" #anioSelect>
+                    <option value="" selected disabled>--Seleccione--</option>
+                    <option *ngFor="let anio of anios" [value]="anio.name">{{anio.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Periodo'"></app-label-field>
+            <app-field><select class="input" (change)="onPeriodChange()" #periodSelect formControlName="periodoDTO">
+                    <option *ngFor="let period of periods" [value]="period.id">{{period.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="field" *ngIf="selectedOption === opciones[0]">
+            <app-label-field [title]="'Aula'" ></app-label-field>
+            <app-field><select class="input" (change)="onClassroomChange()" #classroomSelect formControlName="aulaDTO">
+                    <option *ngFor="let classroom of classrooms" [value]="classroom.id">{{classroom.gradoDTO.name}}-{{classroom.seccionDTO.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="field" *ngIf="selectedOption === opciones[1]">
+            <app-label-field [title]="'Alumno'"></app-label-field>
+            <app-field><input type="text" class="input" [(ngModel)]="codeAlumno" formControlName="alumno"/></app-field>
+        </div>
+        <div class="field" *ngIf="selectedOption === opciones[0]">
+            <app-label-field [title]="'Cursos'" ></app-label-field>
+            <app-field><select class="input" (change)="onCourseChange()" #courseSelect formControlName="cursoDTO">
+                    <option *ngFor="let course of courses" [value]="course.id">{{course.name}}</option>
+                </select></app-field>
+        </div>
+
+        <div class="btns flex py-7 w-full">
+            <button type="submit" class="field__input--button w-1/4 mx-2 h-9 rounded-3xl text-white" [disabled]="group.invalid" (click)="redirectToNotas()">Generar PDF</button>
+        </div>
+    </form>
+
+</div>

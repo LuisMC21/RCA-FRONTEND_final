@@ -1,0 +1,44 @@
+<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>{{tableName}}</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
+            type="search" placeholder="Buscar">
+    </div>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+</div>
+<!-- MODAL AGREGAR -->
+<app-modal [title]="titulo" #modalAdd>
+    <form [formGroup]="group" class="form" (ngSubmit)="save()">
+        <div class="form__field">
+            <div class="field">
+                <app-label-field [title]="'Título'"></app-label-field>
+                <app-field><input formControlName="name" class="input" type="text"></app-field>
+            </div>
+            <div class="field">
+                <app-label-field [title]="'Date'"></app-label-field>
+                <app-field><input formControlName="date" class="input" type="date"></app-field>
+            </div>
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
+
+    </form>
+</app-modal>
+<table class="table bg-gray-50">
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of clases, let i=index">
+            <td>{{item.code}}</td>
+            <td>{{item.date}}</td>
+            <td class="flex justify-center">
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -14,10 +14,12 @@ export class NavAdminComponent implements OnInit {
   @ViewChild('mantenimiento') mant!: ElementRef;
   @ViewChild('confALectivo') confALectivo!: ElementRef;
   @ViewChild('operaciones') operaciones!: ElementRef;
+  @ViewChild('reportes') reportes!: ElementRef;
 
   showSubmenuMant:boolean=false;
   showSubmenuConfALectivo:boolean=false;
   showSubmenuOper:boolean=false;
+  showSubmenuRepor:boolean = false;
   
   ngOnInit(): void {
   }
@@ -34,6 +36,7 @@ export class NavAdminComponent implements OnInit {
   submenuOper(){
     this.showSubmenuConfALectivo=false;
     this.showSubmenuMant = false;
+    this.showSubmenuRepor = false;
     this.showSubmenuOper = !this.showSubmenuOper;
     this.renderer2.setStyle( this.operaciones.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.inicio.nativeElement, 'background-color', 'rgb(11, 13, 24)');
@@ -45,6 +48,7 @@ export class NavAdminComponent implements OnInit {
   submenuMant(){
     this.showSubmenuConfALectivo=false;
     this.showSubmenuOper = false;
+    this.showSubmenuRepor = false;
     this.showSubmenuMant = !this.showSubmenuMant;
     this.renderer2.setStyle( this.mant.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.inicio.nativeElement, 'background-color', 'rgb(11, 13, 24)');
@@ -52,15 +56,27 @@ export class NavAdminComponent implements OnInit {
     this.renderer2.setStyle(this.operaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
-  // submenuALectivo(){
-  //   this.showSubmenuMant = false;
-  //   this.showSubmenuOper = false;
-  //   this.showSubmenuConfALectivo=!this.showSubmenuConfALectivo;
-  //   this.renderer2.setStyle( this.mant.nativeElement, 'background-color', 'rgb(11, 13, 24)');
-  //   this.renderer2.setStyle(this.inicio.nativeElement, 'background-color', 'rgb(11, 13, 24)');
-  //   // this.renderer2.setStyle(this.confALectivo.nativeElement, 'background-color', 'rgb(32, 36, 59)');
-  //   this.renderer2.setStyle(this.operaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
-  // }
+  submenuRepor(){
+    this.showSubmenuConfALectivo=false;
+    this.showSubmenuOper = false;
+    this.showSubmenuMant = false;
+    this.showSubmenuRepor = !this.showSubmenuRepor;
+    this.renderer2.setStyle( this.mant.nativeElement, 'background-color', 'rgb(32, 36, 59)');
+    this.renderer2.setStyle(this.inicio.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.confALectivo.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.operaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+  }
+
+  submenuALectivo(){
+    this.showSubmenuMant = false;
+    this.showSubmenuOper = false;
+    this.showSubmenuConfALectivo=!this.showSubmenuConfALectivo;
+    this.renderer2.setStyle( this.mant.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.inicio.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.confALectivo.nativeElement, 'background-color', 'rgb(32, 36, 59)');
+    this.renderer2.setStyle(this.operaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+  }
+
   redirectTo(index:string):void{
     this.router.navigateByUrl('admin/'+ index);
   }

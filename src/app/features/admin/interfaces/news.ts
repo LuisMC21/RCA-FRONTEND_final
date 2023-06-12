@@ -7,6 +7,7 @@ export interface INews {
     sommelier:string;
     descrip:string;
     image:string;
+    imageBase64:string;
     date:Date;
     usuarioDTO:IUser;
 }

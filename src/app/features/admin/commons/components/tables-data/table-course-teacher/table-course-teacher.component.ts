@@ -64,6 +64,7 @@ export class TableCourseTeacherComponent implements OnInit {
     anioLectivoDTO:{
       id:'',code:'',name:''
     }
+
   }
 
   @Output() courseTeacherSave: EventEmitter<ICourseTeacher> = new EventEmitter();

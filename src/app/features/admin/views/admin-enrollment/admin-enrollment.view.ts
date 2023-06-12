@@ -39,7 +39,7 @@ export class AdminEnrollmentView implements OnInit {
   paginationData = 'student'
   enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
-  
+
   constructor(
     private parentService: ParentService,
     private studentService:StudentService,
@@ -47,7 +47,7 @@ export class AdminEnrollmentView implements OnInit {
     private aulaService:AulaService,
     private anioService:AnioLectivoService,
     private reportService:ReportsService
-    
+
     ){ }
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class AdminEnrollmentView implements OnInit {
       this.aniosL= response.data.list;
       console.log(response.data.list)
     })
-    
+
   }
   searchStudent(nom?:string){
     this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
@@ -91,14 +91,14 @@ export class AdminEnrollmentView implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save(enrollment:IEnrollment){
-  
+
     if(enrollment.id==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
           if(data.successful===true){
             this.msjResponse = 'Matricula registrada correctamente'
             this.successful = true;
           }else{
-            this.msjResponse = 'Error, el registro de matricula ya existe';
+            this.msjResponse = data.message;
             this.successful = false;
           }
       });
@@ -122,7 +122,7 @@ export class AdminEnrollmentView implements OnInit {
     this.studentSave = student;
   }
 
- //ELIMINAR 
+ //ELIMINAR
  delete(id:string){
   this.enrollmentService.delete(id).subscribe(data =>{
     if(data.successful===true){

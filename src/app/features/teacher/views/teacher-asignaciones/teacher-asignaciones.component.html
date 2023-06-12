@@ -1,0 +1,9 @@
+<div class="px-8">
+    <app-table [title]="'Agregar grado'" [tableName]="tableName">
+        <app-table-asignaciones 
+            (asignacionesSearch)="search($event)"
+            [asignaciones]="asignaciones" 
+        [tableName]="tableName"></app-table-asignaciones> 
+    <app-pagination [paginationData]="paginationData"></app-pagination> 
+    </app-table>
+</div>
