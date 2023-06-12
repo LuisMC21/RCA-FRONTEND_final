@@ -60,7 +60,7 @@ export class TableEnrollmentComponent implements OnInit {
   asignEnrrollment!:IEnrollment;
   
   asignStudent!: IStudent;
-  head=["NOMBRE Y APELLIDOS","NÚMERO DE DOC","FECHA","AÑO LECTIVO","AULA","ACCIONES"]
+  head=["CÓDIGO","NOMBRE Y APELLIDOS","NÚMERO DE DOC","FECHA","AÑO LECTIVO","AULA","ACCIONES"]
 
   @ViewChild('searchParentModal') searchParentModal!:SearchComponent;
   
@@ -326,13 +326,10 @@ export class TableEnrollmentComponent implements OnInit {
   //   this.searchParentModal.hidden();
   // }
 
-
-
   async save() {
     if (this.group.valid && !this.saving) {
       try {
-        this.saving = true; // Deshabilitar el guardado adicional
-  
+        this.saving = true;
         await this.obtenerAlumno(this.group.get('codeA')?.value);
         console.log(this.alumno);
         this.group.addControl('alumnoDTO', new FormControl(this.estudiante, [Validators.required]));
@@ -341,7 +338,7 @@ export class TableEnrollmentComponent implements OnInit {
       } catch (error) {
         console.error(error);
       } finally {
-        this.saving = false; // Habilitar nuevamente el guardado
+        this.saving = false;
       }
     }
   

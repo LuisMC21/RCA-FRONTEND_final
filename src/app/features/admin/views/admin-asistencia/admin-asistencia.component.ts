@@ -7,6 +7,11 @@ import { StudentService } from '../../commons/services/student.service';
 import { IAsistencia } from '../../interfaces/asistencia';
 import { IClase } from '../../interfaces/clase';
 import { IStudent } from '../../interfaces/student';
+import { IAula } from '../../interfaces/aula';
+import { AulaService } from '../../commons/services/aula.service';
+import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
+import { ICourse } from '../../interfaces/course';
+import { IPeriod } from '../../interfaces/period';
 
 @Component({
   selector: 'app-admin-asistencia',
@@ -14,13 +19,20 @@ import { IStudent } from '../../interfaces/student';
   styleUrls: ['./admin-asistencia.component.scss']
 })
 export class AdminAsistenciaComponent implements OnInit {
- asistencia:IAsistencia[]=[];
- student:IStudent[]=[];
- clase:IClase[]=[];
- tableName!: string;
- paginationData = 'course'
- msjResponse:string='';
- successful: boolean=false;
+asistencia:IAsistencia[]=[];
+student:IStudent[]=[];
+clase:IClase[]=[];
+
+classrooms: IAula[] = [];
+courses:ICourse[]=[];
+periodos:IPeriod[]=[];
+
+tableName!: string;
+paginationData = 'course'
+msjResponse:string='';
+successful: boolean=false;
+
+
   
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
@@ -31,35 +43,53 @@ export class AdminAsistenciaComponent implements OnInit {
     private pagination:PaginationService,
     private alumnoService:StudentService,
     private claseService:ClaseService,
+    private aulaService:AulaService
   ) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
+
     this.asistenciaService.getAll('', page,size)
     .subscribe(response =>{
-      this.asistencia = response.data.list;
-      
+      this.asistencia = response.data;
     });
-    this.alumnoService.getAll('',0,10).subscribe(response =>{
-      this.student = response.data.list;
+    this.alumnoService.getAll('',0,5).subscribe(response =>{
+      this.student = response.data;
     })
 
-    this.claseService.getAll('',0,10).subscribe(response =>{
-      this.clase = response.data.list;
+    this.claseService.getAll('',0,5).subscribe(response =>{
+      this.clase = response.data;
     })
+    this.aulaService.getAll('',0,5).subscribe(response =>{
+      this.classrooms = response.data;
+    })
+
+    this.asistenciaService.getAsistenciasByFilters('periodo', 'aula', 'curso')
+    .subscribe((response: IApiResponse) => {
+      this.asistencia = response.data.list;
+      console.log(this.asistencia)
+    });
   }
-
+    //Filtrar
+    filtrarAsistencias(periodo: string, aula: string, curso: string): void {
+      this.asistenciaService.getAsistenciasByFilters(periodo, aula, curso)
+        .subscribe((response: IApiResponse) => {
+          this.asistencia = response.data.list;
+          console.log(this.asistencia);
+        });
+    }
+    
     //BUSCAR
     search(nom:string){
       let page = this.pagination.getPage(this.paginationData);
       let size = this.pagination.getSize(this.paginationData);
       this.alumnoService.getAll(nom,page,size).subscribe(response =>{
         this.student = response.data.list;
-        console.log(response.data.list)
       })
     }
 
+    
   // AGREGAR - ACTUALIZAR
   save(asistencia:IAsistencia){
     console.log(asistencia)
@@ -98,5 +128,5 @@ export class AdminAsistenciaComponent implements OnInit {
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+refresh(): void { window.location.reload(); }
 }

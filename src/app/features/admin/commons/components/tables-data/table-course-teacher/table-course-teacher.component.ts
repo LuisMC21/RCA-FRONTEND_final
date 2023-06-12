@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
 import { ICourse } from 'src/app/features/admin/interfaces/course';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
@@ -15,18 +16,20 @@ export class TableCourseTeacherComponent implements OnInit {
 
   @Input() classrooms: IAula[] = [];
   @Input() courseTeachers: ICourseTeacher[] = [];
+  
   @Input() teachers: ITeacher[] = [];
   @Input() courses: ICourse[] = [];
-
+  @Input() anios: IAnioLectivo[] = [];
+  
   @Input() tableName!: string;
   @Input() title!: string;
+
 
   titulo:string = 'Agregar asignatura';
 
   item: ICourseTeacher = {
     id: '',
     code: '',
-    cursoDTO: { id: '', code: '', name: '' },
     docenteDTO: {
       id: '',
       code: '',
@@ -50,11 +53,16 @@ export class TableCourseTeacherComponent implements OnInit {
         rol: ''
       }
     },
+    cursoDTO: { id: '', code: '', name: '' },
+    
     aulaDTO: {
       id: '',
       code: '',
       gradoDTO: { id: '', code: '', name: '' },
       seccionDTO: { id: '', code: '', name: '' }
+    },
+    anioLectivoDTO:{
+      id:'',code:'',name:''
     }
   }
 
@@ -62,7 +70,7 @@ export class TableCourseTeacherComponent implements OnInit {
   @Output() courseTeacherDelete: EventEmitter<string> = new EventEmitter();
   @Output() courseTeacherSearch: EventEmitter<string> = new EventEmitter();
 
-  head = ["Codigo", "Docente", "Aula", "Curso"];
+  head = ["Codigo", "Docente", "Aula","Año", "Curso","Acciones"];
   group!: FormGroup;
 
   msjResponse: string = '';
@@ -76,7 +84,8 @@ export class TableCourseTeacherComponent implements OnInit {
   ngOnInit(): void {
     this.form();
   }
-
+  get id(){return this.group.get('id')}
+  get code(){return this.group.get('code')}
   form(item?: ICourseTeacher): void {
     if(item){
       this.item = item;
@@ -86,11 +95,11 @@ export class TableCourseTeacherComponent implements OnInit {
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
-      aulaDTO: [item ? item.aulaDTO : '', [Validators.required]],
       docenteDTO: [item ? item.docenteDTO : '', [Validators.required]],
       cursoDTO: [item ? item.cursoDTO : '', [Validators.required]],
+      aulaDTO: [item ? item.aulaDTO : '', [Validators.required]],
+      anioLectivoDTO:[item ? item.anioLectivoDTO : '', [Validators.required]],
     });
-
   }
 
   search(name: string) {
@@ -121,7 +130,6 @@ export class TableCourseTeacherComponent implements OnInit {
     this.item={
       id: '',
       code: '',
-      cursoDTO: { id: '', code: '', name: '' },
       docenteDTO: {
         id: '',
         code: '',
@@ -145,11 +153,15 @@ export class TableCourseTeacherComponent implements OnInit {
           rol: ''
         }
       },
+      cursoDTO: { id: '', code: '', name: '' },
       aulaDTO: {
         id: '',
         code: '',
         gradoDTO: { id: '', code: '', name: '' },
         seccionDTO: { id: '', code: '', name: '' }
+      },
+      anioLectivoDTO:{
+        id:'',code:'',name:''
       }
     }
     this.group.reset();

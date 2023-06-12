@@ -19,7 +19,7 @@ export class AdminCourseComponent implements OnInit {
   paginationData = 'course'
   msjResponse:string='';
   successful: boolean=false;
-  
+  totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   constructor(
@@ -38,7 +38,13 @@ export class AdminCourseComponent implements OnInit {
 
     this.gradeService.getAll('',0,10).subscribe(response =>{
       this.grades = response.data.list;
-    })
+    });
+
+    this.courseService.getCursoCount('')
+    .subscribe(count => {
+      this.totalTeachers = count;
+      console.log(this.totalTeachers);
+    });
   }
 
   //BUSCAR
@@ -91,5 +97,5 @@ export class AdminCourseComponent implements OnInit {
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+refresh(): void { window.location.reload(); }
 }

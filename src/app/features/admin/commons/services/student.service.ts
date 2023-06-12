@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
-import { IResponse } from 'src/app/core/interfaces/response';
 import { environment } from 'src/environments/environment';
 import { IStudent } from '../../interfaces/student';
 
@@ -13,6 +12,11 @@ export class StudentService {
   constructor(private http: HttpClient) { }
   getOne(filter:string):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`);
+  }
+  getAlumnosCount(filter: string): Observable<number> {
+    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`).pipe(
+      map(response => response.data.countFilter)
+    );
   }
   //Listar alumnos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
@@ -34,4 +38,5 @@ export class StudentService {
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/alumno/`+id);
   }
+
 }

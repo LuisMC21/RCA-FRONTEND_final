@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { IResponse } from 'src/app/core/interfaces/response';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,12 @@ import { ITeacher } from '../../interfaces/teacher';
 export class TeacherService {
 
   constructor(private http: HttpClient) { }
+  //Cantidad de profesores:
+  getTeacherCount(filter: string): Observable<number> {
+    return this.http.get<IApiResponse>(`${environment.api}/docente?filter=${filter}`).pipe(
+      map(response => response.data.countFilter)
+    );
+  }
 
    //Listar Docente
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{

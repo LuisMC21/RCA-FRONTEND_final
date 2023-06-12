@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable,map } from 'rxjs';
+
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { environment } from 'src/environments/environment';
 import { IAula } from '../../interfaces/aula';
@@ -11,7 +12,11 @@ import { IAula } from '../../interfaces/aula';
 export class AulaService {
 
   constructor(private http: HttpClient) { }
-
+  getAulaCount(filter: string): Observable<number> {
+    return this.http.get<IApiResponse>(`${environment.api}/aula?filter=${filter}`).pipe(
+      map(response => response.data.countFilter)
+    );
+  }
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/aula?page=${page}&size=${size}`);

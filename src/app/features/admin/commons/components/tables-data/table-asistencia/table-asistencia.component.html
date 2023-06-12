@@ -1,4 +1,4 @@
-<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+<!-- <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
     <label class="mx-4"><b>{{tableName}}</b></label>
     <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
         <i class="bi bi-search"></i>
@@ -6,82 +6,39 @@
             type="search" placeholder="Buscar">
     </div>
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
-</div>
-<!-- MODAL AGREGAR -->
-<app-modal [title]="'Asistencia'" #modalAdd>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'**Nombre'"></app-label-field>
-                <app-field><input formControlName="nom" class="input" type="text" placeholder="Code"></app-field>
-                <app-required-field class="px-2" *ngIf="code?.invalid && (code?.dirty || code?.touched)"
-                    [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'*Grado'"></app-label-field>
-                <select  formControlName="tipDoc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.code}}" *ngFor="let option of asistencia">{{option.state}}</option>
-                </select>
-            </div>
-            
-        </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guargar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
-    </form>
-</app-modal>
-<!-- Actualizar -->
-<app-modal [title]="'Asistencia'" #modalEdit>
-    <form [formGroup]="group" (ngSubmit)="save()">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'Nombres'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text" ></app-field>
-                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                [text]="'**El campo debe contener mínimo 4 caracteres'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Apellido Paterno'"></app-label-field>
-                <app-field><input formControlName="pa_surname" class="input" type="text"  readonly></app-field>
-                <app-required-field class="px-2"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Apellido Materno'"></app-label-field>
-                <app-field><input formControlName="ma_surname" class="input" type="text" ></app-field>
-                <app-required-field class="px-2"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Fecha de Clase'"></app-label-field>
-                <app-field><input formControlName="date" class="input" type="date" ></app-field>
-                <app-required-field class="px-2"></app-required-field>
-            </div>
+</div> -->
+<!-- SELECCION -->
+<form [formGroup]="group" class="w-full flex flex-wrap justify-between" >
+    <div class="field">
+        <app-label-field [title]="'Periodo'"></app-label-field>
+        <app-field><select id="periodo" class="input" name="periodo" formControlName="periodoDTO">
+                <option *ngFor="let periodo of periodos" [ngValue]="periodo" [selected]="periodo.id === item.claseDTO.periodoDTO.id">{{periodo.name}}</option>
+            </select></app-field>
+    </div>
+    <div class="field">
+        <app-label-field [title]="'Aula'"></app-label-field>
+        <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO">
+                <option *ngFor="let classroom of classrooms" [ngValue]="classroom" [selected]="classroom.id === item.claseDTO.docentexcursoDTO.aulaDTO.id">{{ classroom.gradoDTO.name  +  '-' + classroom.seccionDTO.name}}</option>
+            </select></app-field>
+    </div>
+    <div class="field">
+        <app-label-field [title]="'Curso'"></app-label-field>
+        <app-field><select id="curso" class="input" name="curso" formControlName="cursoDTO">
+                <option *ngFor="let curso of courses" [ngValue]="curso" [selected]="curso.id === item.claseDTO.docentexcursoDTO.cursoDTO.id">{{curso.name}}</option>
+            </select></app-field>
+    </div>
 
-            <div class="field">
-                <app-label-field [title]="'Estado'"></app-label-field>
-                <app-field><input formControlName="state" class="input" type="text" ></app-field>
-                <app-required-field class="px-2"></app-required-field>
-            </div>
+    <div class="btns flex py-7 w-full">
+        <button type="submit" [disabled]="group.invalid"
+            class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" >Filtrar</button>
+    </div>
+
+</form>
 
 
-
-            <!-- <div class="field">
-                <app-label-field [title]="'Estado'"></app-label-field>
-                <select  formControlName="state" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.state}}" *ngFor="let option of asistencia">{{option.state}}</option>
-                </select>
-            </div> -->
-        </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl  text-white" (click)="save()">Guargar</button>
-            <app-btn-cancel (click)="modalEdit.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
-    </form>
-</app-modal>
 <!-- Tabla donde se muestra los datos -->
-<table class="table bg-gray-50">
+
+<!-- <table class="table bg-gray-50">
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
     </thead>
@@ -89,14 +46,13 @@
         <tr *ngFor="let item of asistencia, let i=index">
             <td>{{item.code}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.pa_surname+" "+item.alumnoDTO.usuarioDTO.ma_surname+" "+item.alumnoDTO.usuarioDTO.name}}</td>
-            <td>{{item.claseDTO.date}}</td>
             <td>{{item.state}}</td>
-            <!-- <td class="table__description">{{item.descripcion}}</td> -->
+    
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalEdit.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" ></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar'"></app-btn-delete>
             </td>
-            <!-- MODAL ELIMINAR -->
+
             <app-modal [title]="'Eliminar?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
@@ -111,4 +67,4 @@
             </app-modal>
         </tr>
     </tbody>
-</table>
+</table> -->

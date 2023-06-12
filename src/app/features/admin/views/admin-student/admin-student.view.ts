@@ -22,7 +22,7 @@ export class AdminStudentView implements OnInit {
   students:IStudent[]=[];
   apiResponse!: IApiResponse;
   paginationData = 'student'
-
+  totalStudents: number=0;
   msjResponse:string='';
   icon:string='';
   identiParent:string='';
@@ -38,7 +38,12 @@ export class AdminStudentView implements OnInit {
     this.studentService.getAll('', page,size)
     .subscribe(response =>{
       this.students = response.data.list;
-      // console.log(response.data.list[0].usuarioDTO.pa_surname)
+    });
+ 
+    this.studentService.getAlumnosCount('')
+    .subscribe(count => {
+      this.totalStudents = count;
+      console.log(this.totalStudents);
     });
   }
 
