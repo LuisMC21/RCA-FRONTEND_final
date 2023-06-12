@@ -15,8 +15,7 @@ export class CourseService {
   constructor(private http: HttpClient) { }
 //Listar Cursos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    
-    return this.http.get<IApiResponse>(`${environment.api}/curso?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/curso?filter=${nom}&page=${page}&size=${size}`);
   }
 
   //Agregar curso
