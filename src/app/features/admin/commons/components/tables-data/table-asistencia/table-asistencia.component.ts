@@ -22,9 +22,11 @@ export class TableAsistenciaComponent implements OnInit {
 @Input() asistencia:IAsistencia[]=[]
 @Input() teachers:ITeacher[]=[];
 @Input() students:IStudent[]=[];
+
 @Input() periodos: IPeriod[] = [];
 @Input() classrooms: IAula[] = [];
 @Input() courses: ICourse[] = [];
+asistenciasFiltradas: IAsistencia[] = [];
 
 @Input() anios: IAnioLectivo[] = [];
 @Input() clase:IClase[]=[];
@@ -128,18 +130,104 @@ nomSearch:string='';
   constructor(private formBuilder:FormBuilder) { }
 
   ngOnInit(): void {
+    this.filtrarAsistencias.subscribe((resultados: any) => {
+      if (Array.isArray(resultados)) {
+        this.asistenciasFiltradas = [...resultados];
+      } else {
+        this.asistenciasFiltradas = [];
+      }
+      console.log('Resultados filtrados:', this.asistenciasFiltradas);
+      console.log('Resultados filtrados:', resultados);
+
+    });
+    
+  
+    const item: IAsistencia = {
+      id:'', code:'',state:'',
+      alumnoDTO:{
+        id:'',code:'', diseases:'',namecon_pri:'',telcon_pri:'', namecon_sec:'',telcon_sec:'',vaccine:'',type_insurance:'',
+        apoderadoDTO:{
+          id:'', code:'', name:'', pa_surname:'',ma_surname:'',birthdate:new Date(), type_doc:'', numdoc:'', email:'', tel:''
+        },
+        usuarioDTO:{
+          id:'',
+          code:'',
+          nombreUsuario:'',
+          name:'',
+          pa_surname:'',
+          ma_surname:'',
+          birthdate: new Date(),
+          type_doc:'',
+          numdoc:'',
+          tel:'',
+          gra_inst:'',
+          email:'',
+          password:'',
+          rol:''
+        }
+      
+      },
+      claseDTO:{
+          id:'',code:'',date: new Date(), name:'',
+          periodoDTO:{
+            id:'', code:'', name:'', date_start: new Date(),date_end:new Date(),
+            anio_lectivoDTO:{
+              id:'',code:'', name:''
+            }
+          },
+        docentexcursoDTO:{
+          id:'',code:'',
+          docenteDTO:{
+            id: '',
+            code: '',
+            experience: '',
+            dose: '',
+            specialty: '',
+            usuarioDTO: {
+              id: '',
+              code: '',
+              nombreUsuario: '',
+              name: '',
+              pa_surname: '',
+              ma_surname: '',
+              birthdate: new Date(),
+              type_doc: '',
+              numdoc: '',
+              tel: '',
+              gra_inst: '',
+              email: '',
+              password: '',
+              rol: ''
+            }
+          },
+          cursoDTO:{
+            id: '', code: '', name: ''
+          },
+          aulaDTO:{
+            id: '',
+            code: '',
+            gradoDTO: { id: '', code: '', name: '' },
+            seccionDTO: { id: '', code: '', name: '' }
+          },
+          anioLectivoDTO:{
+            id:'',code:'',name:''
+          }
+        }
+      }
+
+    }
     this.form();
     
   }
 
   get id(){return this.group.get('id')}
   get code(){return this.group.get('code')}
-  get state(){return this.group.get('estado')}
+  get state(){return this.group.get('state')}
   // get alumnoDTO(){return this.group.get('alumnoDTO')}
   // get claseDTO(){return this.group.get('claseDTO')}
-  // get periodoDTO(){return this.group.get('periodoDTO')}
-  // get aulaDTO(){return this.group.get('aulaDTO')}
-  // get cursoDTO(){return this.group.get('cursoDTO')}
+  get periodoDTO(){return this.group.get('periodoDTO')}
+  get aulaDTO(){return this.group.get('aulaDTO')}
+  get cursoDTO(){return this.group.get('cursoDTO')}
   // get aulaId(){return this.group.get('aulaId')}
   // get aulaCode(){return this.group.get('aulaCode')}
   // get gradoDTO(){return this.group.get('gradoDTO')}
@@ -163,9 +251,20 @@ nomSearch:string='';
 
 
 //FILTRAR
-filtrar(periodo: string, aula: string, curso: string): void {
-    this.filtrarAsistencias.emit({ periodo, aula, curso });
+filtrar(periodoId: string | undefined, aulaId: string | undefined, cursoId: string | undefined): void {
+  if (periodoId !== undefined && aulaId !== undefined && cursoId !== undefined) {
+    console.log('Filtrando con los siguientes valores:');
+    console.log('Periodo ID:', periodoId);
+    console.log('Aula ID:', aulaId);
+    console.log('Curso ID:', cursoId);
+    this.filtrarAsistencias.emit({ periodo: periodoId, aula: aulaId, curso: cursoId });
+  }
 }
+
+
+
+
+
 
 
 //BUSCAR

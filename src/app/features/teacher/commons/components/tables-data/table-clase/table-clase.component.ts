@@ -51,7 +51,7 @@ export class TableClaseComponent implements OnInit {
       code: [item ? item.code : ''],
       date: [item ? item.date:null, Validators.required],
       name:[item?item.name:'', Validators.required],
-      docentexCursoDTO: [item?item.docentexCursoDTO:null],
+      docentexCursoDTO: [item?item.docentexcursoDTO:null],
       periodoDTO:[item?item.periodoDTO:null]
 
     });

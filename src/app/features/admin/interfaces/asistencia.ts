@@ -6,5 +6,5 @@ id:string;
 code: string;
 state: string;
 alumnoDTO: IStudent;
-claseDTO: IClase  
+claseDTO: IClase;
 } 

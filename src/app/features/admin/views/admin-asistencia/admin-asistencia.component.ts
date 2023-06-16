@@ -12,6 +12,8 @@ import { AulaService } from '../../commons/services/aula.service';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { ICourse } from '../../interfaces/course';
 import { IPeriod } from '../../interfaces/period';
+import { PeriodService } from '../../commons/services/period.service';
+import { CourseService } from '../../commons/services/course.service';
 
 @Component({
   selector: 'app-admin-asistencia',
@@ -19,13 +21,14 @@ import { IPeriod } from '../../interfaces/period';
   styleUrls: ['./admin-asistencia.component.scss']
 })
 export class AdminAsistenciaComponent implements OnInit {
-asistencia:IAsistencia[]=[];
+asistencias:IAsistencia[]=[];
 student:IStudent[]=[];
 clase:IClase[]=[];
 
 classrooms: IAula[] = [];
 courses:ICourse[]=[];
 periodos:IPeriod[]=[];
+asistenciasFiltradas: any[] = [];
 
 tableName!: string;
 paginationData = 'course'
@@ -43,7 +46,9 @@ successful: boolean=false;
     private pagination:PaginationService,
     private alumnoService:StudentService,
     private claseService:ClaseService,
-    private aulaService:AulaService
+    private aulaService:AulaService,
+    private periodoService:PeriodService,
+    private cursoService:CourseService
   ) { }
 
   ngOnInit(): void {
@@ -52,33 +57,42 @@ successful: boolean=false;
 
     this.asistenciaService.getAll('', page,size)
     .subscribe(response =>{
-      this.asistencia = response.data;
+      this.asistencias = response.data.list;
     });
     this.alumnoService.getAll('',0,5).subscribe(response =>{
-      this.student = response.data;
+      this.student = response.data.list;
     })
 
     this.claseService.getAll('',0,5).subscribe(response =>{
-      this.clase = response.data;
+      this.clase = response.data.list;
     })
     this.aulaService.getAll('',0,5).subscribe(response =>{
-      this.classrooms = response.data;
+      this.classrooms = response.data.list;
+    })
+    this.periodoService.getAll('',0,5).subscribe(response =>{
+      this.periodos = response.data.list;
+    })
+    this.cursoService.getAll('',0,5).subscribe(response =>{
+      this.courses = response.data.list;
     })
 
     this.asistenciaService.getAsistenciasByFilters('periodo', 'aula', 'curso')
     .subscribe((response: IApiResponse) => {
-      this.asistencia = response.data.list;
-      console.log(this.asistencia)
+      this.asistencias = response.data.list;
+      console.log(this.asistencias)
     });
   }
     //Filtrar
-    filtrarAsistencias(periodo: string, aula: string, curso: string): void {
-      this.asistenciaService.getAsistenciasByFilters(periodo, aula, curso)
+    filtrarAsistencias(periodoId: string, aulaId: string, cursoId: string): void {
+      this.asistenciaService.getAsistenciasByFilters(periodoId, aulaId, cursoId)
         .subscribe((response: IApiResponse) => {
-          this.asistencia = response.data.list;
-          console.log(this.asistencia);
+          this.asistenciasFiltradas = response.data.list;
+          console.log(this.asistenciasFiltradas);
         });
     }
+    
+    
+    
     
     //BUSCAR
     search(nom:string){

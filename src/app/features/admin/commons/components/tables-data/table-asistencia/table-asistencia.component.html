@@ -8,11 +8,13 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div> -->
 <!-- SELECCION -->
-<form [formGroup]="group" class="w-full flex flex-wrap justify-between" >
+
+
+<form [formGroup]="group" class="w-full flex flex-wrap justify-between"  (ngSubmit)="filtrar(periodoDTO?.value?.id ?? null, aulaDTO?.value?.id ?? null, cursoDTO?.value?.id ?? null)" >
     <div class="field">
         <app-label-field [title]="'Periodo'"></app-label-field>
         <app-field><select id="periodo" class="input" name="periodo" formControlName="periodoDTO">
-                <option *ngFor="let periodo of periodos" [ngValue]="periodo" [selected]="periodo.id === item.claseDTO.periodoDTO.id">{{periodo.name}}</option>
+                <option *ngFor="let periodo of periodos" [ngValue]="periodo" [selected]="periodo.id === item.claseDTO.periodoDTO.id">{{periodo.name+' '+ periodo.anio_lectivoDTO.name}}</option>
             </select></app-field>
     </div>
     <div class="field">
@@ -36,6 +38,34 @@
 </form>
 
 
+<table>
+  <thead>
+    <tr>
+      <th>Asistencia ID</th>
+      <th>Fecha</th>
+      <th>Alumno</th>
+      <!-- Agrega más columnas según tus datos de asistencia -->
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="asistenciasFiltradas && asistenciasFiltradas.length > 0; else noData">
+      <tr *ngFor="let asistencia of asistenciasFiltradas">
+        <td>{{ asistencia.id }}</td>
+        <td>{{ asistencia.code }}</td>
+        <td>{{ asistencia.alumnoDTO.usuarioDTO.name }}</td>
+        <!-- Agrega más celdas según tus datos de asistencia -->
+      </tr>
+    </ng-container>
+    <ng-template #noData>
+      <tr>
+        <td colspan="3">No hay datos disponibles</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
+
+  
+  
 <!-- Tabla donde se muestra los datos -->
 
 <!-- <table class="table bg-gray-50">
