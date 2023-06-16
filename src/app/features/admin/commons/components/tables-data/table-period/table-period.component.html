@@ -98,11 +98,14 @@
                 <app-btn-update (click)="form(item)" (click)="modalUpdate.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
+            <td>
+                <app-btn-report (click)="ejecutarEvaluaciones(item.code)"></app-btn-report>
+            </td>
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar periodo?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
-                    <label><b>Nombre: </b>{{item.date_start}}</label>
-                    <label><b>Nombre: </b>{{item.date_end}}</label>
+                    <label><b>Inicio: </b>{{item.date_start}}</label>
+                    <label><b>Fin: </b>{{item.date_end}}</label>
                 </div>
                 <div class="flex py-7 w-full">
                     <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>

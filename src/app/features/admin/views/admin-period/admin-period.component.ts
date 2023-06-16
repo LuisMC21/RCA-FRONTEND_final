@@ -23,8 +23,10 @@ export class AdminPeriodComponent implements OnInit {
   periods: IPeriod[] = [];
   anios: IAnioLectivo[] = [];
   student: IStudent[] = [];
+
   courseTeachers: ICourseTeacher[] = [];
   aulas: IAula[] = []
+
   tableName: string = 'Periodos';
   paginationData: string = 'period';
   paginationStudent = 'student';
@@ -55,6 +57,8 @@ export class AdminPeriodComponent implements OnInit {
     private evaluacionService: EvaluacionService) { }
 
   ngOnInit(): void {
+
+    //listar periodos
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.periodService.getAll('', page, size)
@@ -62,6 +66,7 @@ export class AdminPeriodComponent implements OnInit {
         this.periods = response.data.list;
       });
 
+    //listar años
     let pageAnio = this.pagination.getPage(this.paginationDataAnio);
     let sizeAnio = this.pagination.getSize(this.paginationDataAnio);
     this.anioService.getAll('', pageAnio, sizeAnio)
@@ -70,6 +75,7 @@ export class AdminPeriodComponent implements OnInit {
         console.log(this.anios);
       });
 
+    //obtener todas las aulas activas por año
     let pageCourseT = this.pagination.getPage(this.paginationStudent);
     let sizeCourseT = this.pagination.getSize(this.paginationStudent);
     this.courseTeacherService.getAll('', pageCourseT, sizeCourseT)
@@ -82,7 +88,6 @@ export class AdminPeriodComponent implements OnInit {
             a.id === aula.id
           ));
         });
-
         console.log(this.aulas)
       });
 
@@ -102,8 +107,6 @@ export class AdminPeriodComponent implements OnInit {
     if (period.id == null) {
       this.periodService.add(period).subscribe(data => {
         if (data.message === 'ok') {
-          this.period = data.data;
-          this.generarEvaluaciones();
           this.msjResponse = 'Agregado correctamente'
         } else {
           this.msjResponse = 'Ha ocurrido un error :('
@@ -120,8 +123,6 @@ export class AdminPeriodComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
-
-
   }
 
   //ELIMINAR 
@@ -136,19 +137,28 @@ export class AdminPeriodComponent implements OnInit {
 
   refresh(): void { window.location.reload(); }
 
-  generarEvaluaciones() {
+  generarEvaluaciones(id:string) {
+    
+    //periodo para el que se agregarán las evaluaciones
+    this.periodService.getAll(id, 0,5).subscribe(response=>{
+      this.period = response.data.list[0];
+      console.log(this.period);
+    })
+
+
     for (let index = 0; index < this.aulas.length; index++) {
       const element = this.aulas[index];
 
+
+      //filtramos todos los cursos por aula
       const filteredCourseTeachers = this.courseTeachers.filter((courseTeacher) => {
         return courseTeacher.aulaDTO === element;
       });
 
       console.log(filteredCourseTeachers);
 
-      let pageStudent = this.pagination.getPage(this.paginationStudent);
-      let sizeStudent = this.pagination.getSize(this.paginationStudent);
-      this.studentService.getAllAnioCursoAula('', pageStudent, sizeStudent, this.anio, element.id, '')
+      //obtener alumnos por anio, curso y aula
+      this.studentService.getAllAnioCursoAula('', 0, 100, this.anio, element.id, '')
         .subscribe(response => {
           this.student = response.data.list;
           console.log(this.student) // Acá sí me imprime todos los datos
@@ -181,8 +191,6 @@ export class AdminPeriodComponent implements OnInit {
             }
           }
         });
-
-      
     }
   }
 

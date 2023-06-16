@@ -5,6 +5,7 @@
             (periodDelete)="delete($event)" 
             (periodSave)="save($event)" 
             (periodSearch)="search($event)"
+            (idperiodo)="generarEvaluaciones($event)"
             [periods]="periods" [anios]="anios"
         [tableName]="tableName"></app-table-period> 
     <app-pagination [paginationData]="paginationData"></app-pagination> 

@@ -28,6 +28,7 @@
 
     </form>
 </app-modal>
+
 <table class="table bg-gray-50">
     <thead>
         <th *ngFor="let item of head">{{item}}</th>
@@ -35,6 +36,7 @@
     <tbody>
         <tr *ngFor="let item of clases, let i=index">
             <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
             <td>{{item.date}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
