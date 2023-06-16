@@ -33,6 +33,7 @@ export class AdminCourseComponent implements OnInit {
     this.courseService.getAll('', page,size)
     .subscribe(response =>{
       this.courses = response.data.list;
+      console.log(response.data.list)
       
     });
 
