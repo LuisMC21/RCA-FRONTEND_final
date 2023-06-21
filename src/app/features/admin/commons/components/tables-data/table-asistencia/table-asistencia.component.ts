@@ -124,7 +124,7 @@ claseDTO:{
 @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
 
-head=["Código","Alumno","Clase","Docente","Estado"]
+head=["Código","Alumno","Clase","Estado"]
 group!: FormGroup;
 optionsEst = [{title:"PRESENTE",value:'01'},{title:"AUSENTE",value:'02'}]
 
@@ -254,11 +254,7 @@ nomSearch:string='';
 
 
 //FILTRAR
-onEstadoChange(asistencia: IAsistencia) {
-  console.log('Estado changed:', asistencia.state);
-  // Perform any additional logic or actions based on the changed state
-  // For example, you can emit an event or make an API call to update the state in the backend
-}
+
 filtrarAsistencias(): void {
   const periodoId = this.group.get('periodoDTO')?.value?.id;
   const aulaId = this.group.get('aulaDTO')?.value?.id;
