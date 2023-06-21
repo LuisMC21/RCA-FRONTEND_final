@@ -25,6 +25,7 @@ asistencias:IAsistencia[]=[];
 student:IStudent[]=[];
 clase:IClase[]=[];
 
+
 classrooms: IAula[] = [];
 courses:ICourse[]=[];
 periodos:IPeriod[]=[];
@@ -79,20 +80,26 @@ successful: boolean=false;
     this.asistenciaService.getAsistenciasByFilters('periodo', 'aula', 'curso')
     .subscribe((response: IApiResponse) => {
       this.asistencias = response.data.list;
-      console.log(this.asistencias)
+   
     });
   }
     //Filtrar
+
+    
+    
+    
     filtrarAsistencias(periodoId: string, aulaId: string, cursoId: string): void {
       this.asistenciaService.getAsistenciasByFilters(periodoId, aulaId, cursoId)
-        .subscribe((response: IApiResponse) => {
-          this.asistenciasFiltradas = response.data.list;
-          console.log(this.asistenciasFiltradas);
-        });
+        .subscribe(
+          (response: IApiResponse) => {
+            this.asistenciasFiltradas = response.data.list;
+            console.log(this.asistenciasFiltradas);
+          },
+          (error: any) => {
+            console.error('Error al filtrar asistencias:', error);
+          }
+        );
     }
-    
-    
-    
     
     //BUSCAR
     search(nom:string){

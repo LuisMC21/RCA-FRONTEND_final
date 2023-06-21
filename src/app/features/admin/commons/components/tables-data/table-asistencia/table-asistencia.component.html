@@ -10,7 +10,7 @@
 <!-- SELECCION -->
 
 
-<form [formGroup]="group" class="w-full flex flex-wrap justify-between"  (ngSubmit)="filtrar(periodoDTO?.value?.id ?? null, aulaDTO?.value?.id ?? null, cursoDTO?.value?.id ?? null)" >
+<form [formGroup]="group" class="w-full flex flex-wrap justify-between" (submit)="filtrarAsistencias()" >
     <div class="field">
         <app-label-field [title]="'Periodo'"></app-label-field>
         <app-field><select id="periodo" class="input" name="periodo" formControlName="periodoDTO">
@@ -31,42 +31,31 @@
     </div>
 
     <div class="btns flex py-7 w-full">
-        <button type="submit" [disabled]="group.invalid"
-            class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" >Filtrar</button>
+        <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Filtrar</button>
     </div>
 
 </form>
 
-
-<table>
-  <thead>
-    <tr>
-      <th>Asistencia ID</th>
-      <th>Fecha</th>
-      <th>Alumno</th>
-      <!-- Agrega más columnas según tus datos de asistencia -->
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngIf="asistenciasFiltradas && asistenciasFiltradas.length > 0; else noData">
-      <tr *ngFor="let asistencia of asistenciasFiltradas">
-        <td>{{ asistencia.id }}</td>
-        <td>{{ asistencia.code }}</td>
-        <td>{{ asistencia.alumnoDTO.usuarioDTO.name }}</td>
-        <!-- Agrega más celdas según tus datos de asistencia -->
-      </tr>
-    </ng-container>
-    <ng-template #noData>
-      <tr>
-        <td colspan="3">No hay datos disponibles</td>
-      </tr>
-    </ng-template>
-  </tbody>
-</table>
-
-  
-  
 <!-- Tabla donde se muestra los datos -->
+<table>
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asistencia of asistenciasFiltradas">
+        <td>{{ asistencia.code }}</td> 
+        <td>{{ asistencia.alumnoDTO.usuarioDTO.name}} {{asistencia.alumnoDTO.usuarioDTO.pa_surname}} {{asistencia.alumnoDTO.usuarioDTO.ma_surname}}</td>
+        <td>{{ asistencia.claseDTO.date}}</td>
+        <td>{{ asistencia.claseDTO?.docentexcursoDTO?.docenteDTO.usuarioDTO.name}}</td>
+        <td>{{ asistencia.state}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+
 
 <!-- <table class="table bg-gray-50">
     <thead>

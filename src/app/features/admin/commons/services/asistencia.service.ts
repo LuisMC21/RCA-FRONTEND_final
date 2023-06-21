@@ -19,7 +19,7 @@ export class AsistenciaService {
     let params = new HttpParams();
     params = params.append('filter', '');
     params = params.append('page', '0');
-    params = params.append('size', '10');
+    params = params.append('size', '5');
     params = params.append('periodo', periodo);
     params = params.append('aula', aula);
     params = params.append('curso', curso);
