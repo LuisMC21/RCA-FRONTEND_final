@@ -1,0 +1,41 @@
+<nav class="nav w-full">
+    <!-- Icono hamburguesa deshabilitado -->
+    <label for="menuDesabled" class="logo-menu flex justify-start items-center p-3" id="fig_menu">
+        <i class="px-2 bi bi-list" (click)="toggleMenu()"></i>
+    </label>
+    <input type="checkbox" id="menu" class="hidden nav__input">
+    <ul class="nav__options py-4" [hidden]="!menuVisible">
+        <li (click)="redirectTo('datos')" class="nav__option flex flex-col" #datos>
+            <div class="flex" (click)="Optdatos()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Datos</label>
+                </span>
+            </div>
+        </li>
+        <li (click)="redirectTo('asignaciones')" class="nav__option flex flex-col" #asignaciones>
+            <div class="flex" (click)="Optasignaciones()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Asignaciones</label>
+                </span>
+            </div>
+        </li>
+        <li (click)="redirectTo('notas')" class="nav__option flex flex-col" #notas>
+            <div class="flex" (click)="Optnotas()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Notas</label>
+                </span>
+            </div>
+        </li>
+        <li (click)="redirectTo('asistencias')" class="nav__option flex flex-col" #asistencias>
+            <div class="flex" (click)="Optasistencias()">
+                <i class="bi bi-tools"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Asistencias</label>
+                </span>
+            </div>
+        </li>
+    </ul>
+</nav>

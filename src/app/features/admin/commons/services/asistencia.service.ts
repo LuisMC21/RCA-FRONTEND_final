@@ -16,6 +16,11 @@ export class AsistenciaService {
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
   }
+
+  getAllPeriodoAlumnoCurso(nom?:string,page?:number,size?:number, periodo?:string, alumno?:string,curso?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asfc?page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}&curso=${curso}`);
+  }
+
   //Agregar asistencia
   add(asistencia:IAsistencia):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/asistencia`,asistencia)

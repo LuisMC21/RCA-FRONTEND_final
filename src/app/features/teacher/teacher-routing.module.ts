@@ -1,4 +1,3 @@
-
 import { RouterModule, Routes } from '@angular/router';
 import { TeacherComponent } from './teacher.component';
 import { NgModule } from '@angular/core';
