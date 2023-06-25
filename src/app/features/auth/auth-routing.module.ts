@@ -5,9 +5,9 @@ import { LoginView } from './views/login/login.view';
 
 
 const routes: Routes = [
-    {path: '', redirectTo: 'login', pathMatch: 'full'},
-    { 
-        path: '', component: AuthComponent, 
+    {path: '', redirectTo: 'auth', pathMatch: 'full'},
+    {
+        path: '', component: AuthComponent,
         children:[
             { path:'login',component:LoginView},
      ]
