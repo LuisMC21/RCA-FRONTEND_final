@@ -6,7 +6,10 @@
             (asistenciaDelete)="delete($event)" 
             (asistenciaSave)="save($event)" 
             (asistenciaSearch)="search($event)"
-            [asistencia]="asistencia" [tableName]="tableName">
+            [classrooms]="classrooms"
+            [courses]="courses"
+            [periodos]="periodos"
+            [asistencias]="asistencias" [tableName]="tableName">
         </app-table-asistencia> 
         <app-pagination [paginationData]="paginationData"></app-pagination>    
     </app-table>

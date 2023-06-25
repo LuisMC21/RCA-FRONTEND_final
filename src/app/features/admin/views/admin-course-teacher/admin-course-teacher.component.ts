@@ -9,6 +9,8 @@ import { PaginationService } from '../../commons/services/pagination.service';
 import { TeacherService } from '../../commons/services/teacher.service';
 import { CourseTeacherService } from '../../commons/services/course-teacher.service';
 import { CourseService } from '../../commons/services/course.service';
+import { IAnioLectivo } from '../../interfaces/anio-lectivo';
+import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 
 @Component({
   selector: 'app-admin-course-teacher',
@@ -19,6 +21,7 @@ export class AdminCourseTeacherComponent implements OnInit {
 
   courseTeachers: ICourseTeacher[] = [];
   classrooms: IAula[] = [];
+  anios:IAnioLectivo[]=[];
   teachers: ITeacher[] = [];
   courses: ICourse[] = [];
 
@@ -28,7 +31,7 @@ export class AdminCourseTeacherComponent implements OnInit {
   paginationDataClassroom = 'classroom';
   paginationDataTeachers = 'teacher';
   paginationDataCourse = 'course';
-
+  paginationDataAnio='anio';
   msjResponse: string = '';
   successful: boolean = false;
 
@@ -38,6 +41,7 @@ export class AdminCourseTeacherComponent implements OnInit {
     private pagination: PaginationService,
     private teacherService: TeacherService,
     private courseService: CourseService,
+    private anioService:AnioLectivoService,
     private courseTeacherService: CourseTeacherService) { }
 
   ngOnInit(): void {
@@ -53,6 +57,7 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.courseTeacherService.getAll('', page, size)
       .subscribe(response => {
         this.courseTeachers = response.data.list;
+        console.log(this.courseTeachers)
       });
 
     let pageTeacher = this.pagination.getPage(this.paginationDataTeachers);
@@ -69,6 +74,14 @@ export class AdminCourseTeacherComponent implements OnInit {
         this.courses = response.data.list;
         console.log(this.courses);
       });
+
+    let pageAnio = this.pagination.getPage(this.paginationDataAnio);
+    let sizeAnio = this.pagination.getSize(this.paginationDataAnio);
+    this.anioService.getAll('', pageAnio, sizeAnio)
+        .subscribe(response => {
+          this.anios = response.data.list;
+          console.log(this.anios);
+        });
   }
 
   //BUSCAR

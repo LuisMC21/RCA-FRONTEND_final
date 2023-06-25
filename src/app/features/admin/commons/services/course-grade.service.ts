@@ -12,6 +12,7 @@ import { ICourseGrade } from '../../interfaces/course-grade';
 export class CourseGradeService {
 
   constructor(private http:HttpClient) { }
+  
   //Listar 
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asignatura?page=${page}&size=${size}`);

@@ -19,7 +19,13 @@
         <div class="field">
             <app-label-field [title]="'Aula'"></app-label-field>
             <app-field><select id="grade" class="input" name="grade" formControlName="aulaDTO">
-                    <option *ngFor="let classroom of classrooms" [ngValue]="classroom" [selected]="classroom.id === item.aulaDTO.id">{{ classroom.gradoDTO.name  +  ' ' + classroom.seccionDTO.name}}</option>
+                    <option *ngFor="let classroom of classrooms" [ngValue]="classroom" [selected]="classroom.id === item.aulaDTO.id">{{ classroom.gradoDTO.name  +  '-' + classroom.seccionDTO.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="field">
+            <app-label-field [title]="'Año'"></app-label-field>
+            <app-field><select id="anios" class="input" name="anio" formControlName="anioLectivoDTO">
+                    <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
         <div class="field">
@@ -47,6 +53,7 @@
             <td>{{item.code}}</td>
             <td>{{item.docenteDTO.usuarioDTO.name}} {{item.docenteDTO.usuarioDTO.pa_surname}} {{item.docenteDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.aulaDTO.gradoDTO.name}} {{item.aulaDTO.seccionDTO.name}}</td>
+            <td>{{item.anioLectivoDTO.name}}</td>
             <td>{{item.cursoDTO.name}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>

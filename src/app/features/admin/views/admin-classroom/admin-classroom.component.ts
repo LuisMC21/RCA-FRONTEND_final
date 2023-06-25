@@ -20,7 +20,7 @@ export class AdminClassroomComponent implements OnInit {
   grades: IGrade[] = [];
 
   tableName: string = 'Aulas';
-
+  totalAulas: number=0;
   paginationData = 'classroom';
   paginationDataGrade = 'grade';
   paginationDataSection = 'section';
@@ -29,6 +29,7 @@ export class AdminClassroomComponent implements OnInit {
   successful: boolean = false;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
+  
 
   constructor(private classroomService: AulaService,
     private pagination: PaginationService,
@@ -58,6 +59,11 @@ export class AdminClassroomComponent implements OnInit {
       .subscribe(response => {
         this.sections = response.data.list;
 
+      });
+      this.classroomService.getAulaCount('')
+      .subscribe(count => {
+        this.totalAulas = count;
+        console.log(this.totalAulas);
       });
   }
 
@@ -110,8 +116,5 @@ export class AdminClassroomComponent implements OnInit {
     });
     this.modalOk.showModal();
   }
-
   refresh(): void { window.location.reload(); }
-
-
 }

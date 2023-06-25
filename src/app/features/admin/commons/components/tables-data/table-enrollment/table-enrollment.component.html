@@ -24,7 +24,7 @@
             <h2 class="legend__student">Matricula</h2>
             <div class="field">
                 <app-label-field [title]="'Código Matricula'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="code"></app-field>
+                <app-field><input formControlName="code" class="input" type="code" readonly></app-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Fecha'"></app-label-field>
@@ -99,6 +99,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of matStudent, let i=index">
+            <td>{{item.code}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " + item.alumnoDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
             <!-- <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>

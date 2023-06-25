@@ -3,6 +3,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { PaginationService } from '../../commons/services/pagination.service';
 import { TeacherService } from '../../commons/services/teacher.service';
 import { ITeacher } from '../../interfaces/teacher';
+import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 
 @Component({
   selector: 'app-admin-teacher',
@@ -15,10 +16,11 @@ export class AdminTeacherView implements OnInit {
 
   tableName = "Docente"
   teachers:ITeacher[]=[];
+  anios: IAnioLectivo[]=[];
   paginationData:string='teacher';
   msjResponse:string='';
   successful: boolean=false;
-
+  totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   cardMenu=[
@@ -35,6 +37,12 @@ export class AdminTeacherView implements OnInit {
     .subscribe(response =>{
       this.teachers = response.data.list;
       console.log(this.teachers);
+    });
+
+    this.teacherService.getTeacherCount('')
+    .subscribe(count => {
+      this.totalTeachers = count;
+      console.log(this.totalTeachers);
     });
   }
   //BUSCAR

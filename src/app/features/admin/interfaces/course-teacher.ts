@@ -9,5 +9,5 @@ export interface ICourseTeacher {
     docenteDTO: ITeacher;
     aulaDTO: IAula;
     cursoDTO: ICourse;
-    anioLectivoDTO: IAnioLectivo;
+    anioLectivoDTO: IAnioLectivo
 }

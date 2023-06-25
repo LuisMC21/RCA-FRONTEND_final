@@ -27,7 +27,7 @@ export class AdminGuardService implements CanActivate{
       }
     };
 
-    if(!this.tokenService.isLogged || expectedRol.indexOf(this.realRol) < 0){
+    if(!this.tokenService.isLogged() || expectedRol.indexOf(this.realRol) < 0){
       this.router.navigate(['/auth/login']);
       return false;
     }

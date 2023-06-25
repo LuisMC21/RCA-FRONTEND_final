@@ -1,1 +1,24 @@
-<p>dashboard</p>
+
+<app-table>
+
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-blue-500 p-6 rounded-lg">
+            <h2 class="text-white text-2xl font-bold mb-2">Alumnos</h2>
+            <p class="text-white text-4xl font-bold">{{ totalStudents }}</p>
+        </div>
+        <div class="bg-green-500 p-6 rounded-lg">
+            <h2 class="text-white text-2xl font-bold mb-2">Profesores</h2>
+            <p class="text-white text-4xl font-bold">{{ totalTeachers }}</p>
+        </div>
+        <div class="bg-yellow-500 p-6 rounded-lg">
+            <h2 class="text-white text-2xl font-bold mb-2">Aulas</h2>
+            <p class="text-white text-4xl font-bold">{{totalAulas}}</p>
+        </div>
+        <div class="bg-red-500 p-6 rounded-lg">
+            <h2 class="text-white text-2xl font-bold mb-2">Cursos</h2>
+            <p class="text-white text-4xl font-bold">{{totalCursos}}</p>
+        </div>
+        </div>
+    </div>
+</app-table>
