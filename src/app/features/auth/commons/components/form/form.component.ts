@@ -105,7 +105,7 @@ export class FormComponent implements OnInit {
             this.router.navigate(['/teacher']);
             console.log('Bienvenido Docente');
           } else {
-            this.router.navigate(['/tutor']);
+            this.router.navigate(['/student']);
             console.log('Bienvenido Estudiante');
           }
         } else {
