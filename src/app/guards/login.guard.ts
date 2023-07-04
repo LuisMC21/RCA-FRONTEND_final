@@ -19,7 +19,7 @@ export class LoginGuard implements CanActivate {
         if (this.tokenService.isTeacher()) {
           this.router.navigate(['/teacher']);
         } else {
-            this.router.navigate(['/tutor']);
+            this.router.navigate(['/student']);
         }
       }
       return false;
