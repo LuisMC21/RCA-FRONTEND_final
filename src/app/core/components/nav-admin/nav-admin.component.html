@@ -1,10 +1,10 @@
 <nav class="nav w-full">
     <!-- Icono hamburguesa deshabilitado -->
     <label for="menuDesabled" class="logo-menu flex justify-start items-center p-3" id="fig_menu">
-        <i class="px-2 bi bi-list"></i>
+        <i class="px-2 bi bi-list" (click)="toggleMenu()"></i>
     </label>
     <input type="checkbox" id="menu" class="hidden nav__input">
-    <ul class="nav__options py-4">
+    <ul class="nav__options py-4" [hidden]="!menuVisible">
         <li (click)="redirectTo('inicio')" class="nav__option flex flex-col" #inicio>
             <div class="flex" (click)="Optinicio()">
                 <i class="bi bi-house-fill"></i>

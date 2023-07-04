@@ -9,6 +9,8 @@ import { SharedComponentsModule } from 'src/app/shared/components/components.mod
 import { NavAdminComponent } from './nav-admin/nav-admin.component';
 import { NavTeacherComponent } from './nav-teacher/nav-teacher.component';
 import { HeaderTeacherComponent } from './header-teacher/header-teacher.component';
+import { HeaderStudentComponent } from './header-student/header-student.component';
+import { NavStudentComponent } from './nav-student/nav-student.component';
 
 
 
@@ -20,7 +22,11 @@ import { HeaderTeacherComponent } from './header-teacher/header-teacher.componen
     HeaderAdminComponent,
     NavAdminComponent,
     NavTeacherComponent,
-    HeaderTeacherComponent
+    HeaderTeacherComponent,
+    HeaderStudentComponent,
+    NavStudentComponent,
+    HeaderStudentComponent,
+    NavStudentComponent
   ],
   exports:[
     NavComponent,
@@ -29,7 +35,9 @@ import { HeaderTeacherComponent } from './header-teacher/header-teacher.componen
     HeaderAdminComponent,
     HeaderTeacherComponent,
     NavTeacherComponent,
-    NavAdminComponent
+    NavAdminComponent,
+    HeaderStudentComponent,
+    NavStudentComponent
   ],
   imports: [
     CommonModule,

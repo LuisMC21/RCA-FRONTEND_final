@@ -15,20 +15,18 @@ export class AsistenciaService {
   constructor(private http: HttpClient) { }
 
 
-  getAsistenciasByFilters(periodo: string, aula: string, curso: string): Observable<IApiResponse> {
-    let params = new HttpParams();
-    params = params.append('filter', '');
-    params = params.append('page', '0');
-    params = params.append('size', '5');
-    params = params.append('periodo', periodo);
-    params = params.append('aula', aula);
-    params = params.append('curso', curso);
-    return this.http.get<IApiResponse>(`${environment.api}/asistencia/apac`, { params });
+  getAsistenciasByFilters(nom?:string,page?:number,size?:number, periodo?: string, aula?: string, curso?:string): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/apac?filter=${nom}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
   //Listar Asistencia
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
   }
+
+  getAllPeriodoAlumnoCurso(nom?:string,page?:number,size?:number, periodo?:string, alumno?:string,curso?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asfc?page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}&curso=${curso}`);
+  }
+
   //Agregar asistencia
   add(asistencia?:IAsistencia):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/asistencia`,asistencia)

@@ -55,23 +55,17 @@ export class AdminReportNotasComponent implements OnInit {
     this.classroomService.getAll('', page, size)
       .subscribe(response => {
         this.classrooms = response.data.list;
-        console.log(this.classrooms);
       });
 
-    let pageP = this.pagination.getPage(this.paginationDataP);
-    let sizeP = this.pagination.getSize(this.paginationDataP);
-    this.anioService.getAll('', pageP, sizeP)
+    this.anioService.getAll('', page, size)
       .subscribe(response => {
         this.anios = response.data.list;
-        console.log(this.anios);
       });
 
-    let pageC = this.pagination.getPage(this.paginationDataC);
-    let sizeC = this.pagination.getSize(this.paginationDataC);
-    this.courseService.getAll('', pageC, sizeC)
+    this.courseService.getAll('', page, size)
       .subscribe(response => {
         this.courses = response.data.list;
-        console.log(this.anios);
+        console.log(this.courses);
       });
   }
 

@@ -17,6 +17,10 @@ export class CourseTeacherService {
     return this.http.get<IApiResponse>(`${environment.api}/asignatura?filter=${nom}&page=${page}&size=${size}`);
   }
 
+  getAllAlumnoAnio(nom?:string,alumno?:string, anio?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asignatura/alau?filter=${nom}&alumno=${alumno}&anio=${anio}&page=${page}&size=${size}`);
+  }
+
   //add
   add(courseTeacher?: ICourseTeacher):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/asignatura`, courseTeacher);

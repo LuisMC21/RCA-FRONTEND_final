@@ -20,6 +20,10 @@ export class EvaluacionService {
     return this.http.get<IApiResponse>(`${environment.api}/evaluacion/epac?page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
 
+  getAllPeriodoAlumno(nom?:string, page?:number, size?: number, periodo?:string, alumno?:string): Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/evaluacion/epwal?filter=${nom}&page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}`);
+  }
+
   //add
   add(evaluacion?: IEvaluacion):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/evaluacion`, evaluacion);

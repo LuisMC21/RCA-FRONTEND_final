@@ -20,6 +20,8 @@ export class NavAdminComponent implements OnInit {
   showSubmenuConfALectivo:boolean=false;
   showSubmenuOper:boolean=false;
   showSubmenuRepor:boolean = false;
+
+  menuVisible = true;
   
   ngOnInit(): void {
   }
@@ -79,5 +81,9 @@ export class NavAdminComponent implements OnInit {
 
   redirectTo(index:string):void{
     this.router.navigateByUrl('admin/'+ index);
+  }
+
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
   }
 }
