@@ -7,6 +7,7 @@ import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
 import { IEvaluacion } from 'src/app/features/admin/interfaces/evaluacion';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 
 @Component({
   selector: 'app-student-notas',
@@ -29,19 +30,24 @@ export class StudentNotasComponent implements OnInit {
   title!: string;
   tableName: string = 'Notas';
 
-  paginationDataStudent = 'student';
+  paginationData = 'student';
   paginationDataPeriod = 'period';
 
   msjResponse: string = '';
   successful: boolean = false;
 
+  idAlumno = '';
+
   constructor(
     private pagination: PaginationService,
     private periodoService: PeriodService,
     private evaluacionService: EvaluacionService,
-    private anioService: AnioLectivoService) { }
+    private anioService: AnioLectivoService,
+    private tokenService: TokenService) { }
 
   ngOnInit(): void {
+
+    this.idAlumno = this.tokenService.getUserId() || '';
 
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
@@ -50,7 +56,11 @@ export class StudentNotasComponent implements OnInit {
       this.anios = response.data.list;
     })
 
-    this.evaluacionService.getAll('').subscribe(response => {
+    this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
+      this.periods = response.data.list;
+    }) 
+
+    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -64,6 +74,11 @@ export class StudentNotasComponent implements OnInit {
       this.periods = response.data.list;
     })  
 
+    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
+      this.evaluaciones = response.data.list;
+    })
+
+    localStorage.setItem('selectedAnio', this.selectedAnioId);
 
   }
 
@@ -71,12 +86,11 @@ export class StudentNotasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    /*this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, '', '').subscribe(response => {
+    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
-    */
+
     localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
   }
-
 
 }

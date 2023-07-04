@@ -4,7 +4,7 @@
             <app-label-field [title]="'Año'"></app-label-field>
             <app-field><select class="input" (change)="onAnioChange()" [(ngModel)]="selectedAnioId" #anioSelect>
                     <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let anio of anios" [value]="anio.name">{{anio.name}}</option>
+                    <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
     </div>
@@ -16,6 +16,7 @@
             [asignaciones]="asignaciones"
         >
         </app-table-asignaciones>
+        <app-pagination [paginationData]="paginationData"></app-pagination> 
     </app-table>
 </div>
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>

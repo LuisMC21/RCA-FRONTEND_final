@@ -23,7 +23,7 @@ export class StudentAsignacionesComponent implements OnInit {
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
 
-  paginationDataStudent = 'student';
+  paginationData = 'student';
   paginationDataPeriod = 'period';
 
   msjResponse: string = '';
@@ -38,16 +38,19 @@ export class StudentAsignacionesComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.alumno = this.tokenService.getUserId() || '';
+
+    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
+    console.log(this.alumno);
+
     this.anioService.getAll('', 0, 5).subscribe(response=>{
       this.anios = response.data.list;
     });
 
-    this.courseTeacherService.getAll('',0,5).subscribe(response=>{
-      
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,0,5).subscribe(response=>{
       console.log(response);
+      this.asignaciones = response.data.list;
     })
-
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
 
   }
 
@@ -55,7 +58,7 @@ export class StudentAsignacionesComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
     
-    this.courseTeacherService.getAll('',0,5).subscribe(response=>{
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,0,5).subscribe(response=>{
       this.asignaciones = response.data.list;
     })
 

@@ -4,7 +4,7 @@
             <app-label-field [title]="'Año'"></app-label-field>
             <app-field><select class="input" (change)="onAnioChange()" [(ngModel)]="selectedAnioId" #anioSelect>
                     <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let anio of anios" [value]="anio.name">{{anio.name}}</option>
+                    <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
         <div class="w-1/4" style="display: inline-block; margin-right: 20px;">

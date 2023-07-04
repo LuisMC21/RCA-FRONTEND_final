@@ -67,10 +67,10 @@ export class AdminCourseTeacherComponent implements OnInit {
         this.teachers = response.data.list;
       });
 
-    let pageCourse = this.pagination.getPage(this.paginationDataCourse);
-    let sizeCourse = this.pagination.getSize(this.paginationDataCourse);
-    this.courseService.getAll('', pageCourse, sizeCourse)
+  
+    this.courseService.getAll('', page, size)
       .subscribe(response => {
+        console.log(response);
         this.courses = response.data.list;
         console.log(this.courses);
       });
