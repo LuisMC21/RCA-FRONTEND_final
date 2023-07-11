@@ -9,6 +9,7 @@ import { PaginationService } from '../../commons/services/pagination.service';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 import { CourseService } from '../../commons/services/course.service';
 import { PeriodService } from '../../commons/services/period.service';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 
 @Component({
   selector: 'app-admin-report-notas',
@@ -44,7 +45,7 @@ export class AdminReportNotasComponent implements OnInit {
 
   constructor(private classroomService: AulaService, private pagination: PaginationService,
     private formBuilder: FormBuilder, private anioService: AnioLectivoService,
-    private courseService: CourseService, private periodoService: PeriodService) { }
+    private courseService: CourseService, private periodoService: PeriodService, private tokenService: TokenService) { }
 
   ngOnInit(): void {
 
@@ -121,10 +122,23 @@ export class AdminReportNotasComponent implements OnInit {
 
   redirectToNotas() {
     if (this.selectedOption === this.opciones[0]) {
+      const token = this.tokenService.getToken();
       const url = `http://localhost:8080/evaluacion/cursoNotas?periodo=${this.selectedPeriodId}&curso=${this.selectedCourseId}&aula=${this.selectedClassroomId}`;
-      window.location.href = url;
-    }
     
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        // Redireccionar después de la respuesta exitosa (si corresponde)
+        window.location.href = response.url;
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+    }
+
     if (this.selectedOption === this.opciones[1]) {
       const url = `http://localhost:8080/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.codeAlumno}`;
       window.location.href = url;
