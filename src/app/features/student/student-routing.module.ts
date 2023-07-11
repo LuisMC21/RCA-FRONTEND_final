@@ -4,6 +4,8 @@ import { StudentAsignacionesComponent } from "./views/student-asignaciones/stude
 import { StudentAsistenciasComponent } from "./views/student-asistencias/student-asistencias.component";
 import { NgModule } from "@angular/core";
 import { StudentNotasComponent } from "./views/student-notas/student-notas.component";
+import { StudentDatosAlumnoComponent } from "./views/student-datos-alumno/student-datos-alumno.component";
+import { StudentDatosApoderadoComponent } from "./views/student-datos-apoderado/student-datos-apoderado.component";
 
 const routes:Routes = [
     {
@@ -11,7 +13,9 @@ const routes:Routes = [
         children:[
             { path: 'asignaciones', component: StudentAsignacionesComponent},
             { path: 'notas', component: StudentNotasComponent },
-            { path: 'asistencias', component: StudentAsistenciasComponent }
+            { path: 'asistencias', component: StudentAsistenciasComponent },
+            { path: 'datosAlumno', component: StudentDatosAlumnoComponent},
+            { path: 'datosApoderado', component: StudentDatosApoderadoComponent}
         ]
     },
     { path: '**', redirectTo: ''}

@@ -9,13 +9,17 @@ import { StudentComponent } from "./student.component";
 import { StudentNotasComponent } from "./views/student-notas/student-notas.component";
 import { StudentAsignacionesComponent } from "./views/student-asignaciones/student-asignaciones.component";
 import { StudentAsistenciasComponent } from "./views/student-asistencias/student-asistencias.component";
+import { StudentDatosAlumnoComponent } from './views/student-datos-alumno/student-datos-alumno.component';
+import { StudentDatosApoderadoComponent } from './views/student-datos-apoderado/student-datos-apoderado.component';
 
 @NgModule({
     declarations:[
         StudentComponent,
         StudentNotasComponent,
         StudentAsignacionesComponent,
-        StudentAsistenciasComponent
+        StudentAsistenciasComponent,
+        StudentDatosAlumnoComponent,
+        StudentDatosApoderadoComponent
     ],
     imports:[
         CommonModule,

@@ -14,6 +14,7 @@ export class NavStudentComponent implements OnInit {
   @ViewChild('datos') datos!: ElementRef;
 
   menuVisible = true;
+  showSubmenuDatos:boolean=false;
 
   constructor(private router: Router, private renderer2: Renderer2) { }
 
@@ -42,6 +43,7 @@ export class NavStudentComponent implements OnInit {
   }
 
   Optdatos(){
+    this.showSubmenuDatos = !this.showSubmenuDatos;
     this.renderer2.setStyle(this.notas.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');

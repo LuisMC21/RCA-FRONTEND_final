@@ -5,13 +5,31 @@
     </label>
     <input type="checkbox" id="menu" class="hidden nav__input">
     <ul class="nav__options py-4" [hidden]="!menuVisible">
-        <li (click)="redirectTo('datos')" class="nav__option flex flex-col" #datos>
+        <li class="nav__option flex flex-col" #datos>
             <div class="flex" (click)="Optdatos()">
                 <i class="bi bi-people"></i>
                 <span class="nav__option__toggle">
                     <label class="option__label">Datos</label>
                 </span>
             </div>
+            <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuDatos">
+                <li (click)="redirectTo('datosAlumno')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Alumno</label>
+                        </span>
+                    </div>
+                </li>
+                <li (click)="redirectTo('datosApoderado')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people-fill"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Apoderado</label>
+                        </span>
+                    </div>
+                </li>
+                </ul>
         </li>
         <li (click)="redirectTo('asignaciones')" class="nav__option flex flex-col" #asignaciones>
             <div class="flex" (click)="Optasignaciones()">
