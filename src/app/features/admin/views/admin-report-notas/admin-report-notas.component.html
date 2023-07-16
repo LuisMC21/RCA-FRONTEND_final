@@ -11,7 +11,7 @@
             <app-label-field [title]="'Año lectivo'"></app-label-field>
             <app-field><select class="input" (change)="onAnioChange()" #anioSelect>
                     <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let anio of anios" [value]="anio.name">{{anio.name}}</option>
+                    <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
         <div class="field">

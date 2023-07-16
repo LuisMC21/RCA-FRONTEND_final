@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { AsistenciaService } from 'src/app/features/admin/commons/services/asistencia.service';
@@ -25,6 +26,8 @@ export class StudentAsistenciasComponent implements OnInit {
   anios: IAnioLectivo[] = [];
   asistencias: IAsistencia[] = [];
 
+  asignaciones: ICourseTeacher[] = [];
+
   @ViewChild('periodSelect') periodSelect!: ElementRef;
   selectedPeriodId: string = '';
 
@@ -44,6 +47,7 @@ export class StudentAsistenciasComponent implements OnInit {
   successful: boolean = false;
 
   idAlumno = '';
+  anioName = '';
 
   constructor(
     private pagination: PaginationService,
@@ -51,12 +55,12 @@ export class StudentAsistenciasComponent implements OnInit {
     private asistenciaService: AsistenciaService,
     private anioService: AnioLectivoService, 
     private tokenService: TokenService,
-    private courseTeacherService: CourseTeacherService) { }
+    private courseTeacherService: CourseTeacherService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
 
     this.idAlumno = this.tokenService.getUserId();
-    console.log(this.idAlumno);
 
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedCursoId = localStorage.getItem('selectedCurso') || '';
@@ -66,12 +70,17 @@ export class StudentAsistenciasComponent implements OnInit {
       this.anios = response.data.list;
     })
 
-    this.periodoService.getAll(this.selectedAnioId,0,5).subscribe(response=>{
+    this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
       this.periods = response.data.list;
-    })
+    }) 
 
     this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+      console.log(response);
       this.asistencias = response.data.list;
+    })
+
+    this.courseTeacherService.getAllAlumnoAnio('',this.idAlumno,this.selectedAnioId,0,10).subscribe(response=>{
+      this.asignaciones = response.data.list;
     })
   }
 
@@ -79,16 +88,10 @@ export class StudentAsistenciasComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    const anioName = this.anios.find((a)=>a.id = this.selectedAnioId)?.name;
-
-    this.periodoService.getAll(anioName, 0,10).subscribe(response =>{
+    this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
       this.periods = response.data.list;
     })  
 
-    this.courseTeacherService.getAllAlumnoAnio('',this.idAlumno, this.selectedAnioId, 0,5).subscribe(response=>{
-      const lista: ICourseTeacher[] = response.data.list;
-        this.cursos = lista.map((ct) => ct.cursoDTO);
-    })
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
   }
@@ -97,11 +100,8 @@ export class StudentAsistenciasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.asistenciaService.getAll('', 0, 5).subscribe(response => {
-      this.asistencias = response.data.list;
-    })
-
     this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+      console.log(response)
       this.asistencias = response.data.list;
     })
 
@@ -117,6 +117,30 @@ export class StudentAsistenciasComponent implements OnInit {
     })
 
     localStorage.setItem('selectedCurso', this.selectedCursoId);
+  }
+
+  redirectToAsistencia(){
+    const token = this.tokenService.getToken();
+      const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.idAlumno}&id_periodo=${this.selectedPeriodId}&id_aniolectivo=${this.selectedAnioId}`;
+      
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe(
+        (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      );
   }
   
 

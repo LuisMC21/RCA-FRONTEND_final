@@ -5,12 +5,15 @@ import { PaginationService } from '../../commons/services/pagination.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-report-matricula',
   templateUrl: './admin-report-matricula.component.html',
   styleUrls: ['./admin-report-matricula.component.scss']
 })
+
 export class AdminReportMatriculaComponent implements OnInit {
 
   classrooms: IAula[] = [];
@@ -32,7 +35,7 @@ export class AdminReportMatriculaComponent implements OnInit {
 
 
   constructor(private classroomService: AulaService, private pagination: PaginationService,
-    private formBuilder: FormBuilder, private anioService: AnioLectivoService) { }
+    private formBuilder: FormBuilder, private anioService: AnioLectivoService, private tokenService: TokenService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.form();
@@ -79,13 +82,52 @@ export class AdminReportMatriculaComponent implements OnInit {
 
   redirectToMatriculaAula() {
     if (this.selectedOption == this.opciones[0]) {
+      const token = this.tokenService.getToken();
       const url = `http://localhost:8080/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedClassroomId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
-      window.location.href = url;
+      
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe(
+        (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      );
     }
 
     if(this.selectedOption == this.opciones[1]){
+      const token = this.tokenService.getToken();
       const url = `http://localhost:8080/aula/exportApoderados?id_aula=${this.selectedClassroomId}&id_aniolectivo=${this.selectedAnioId}`;
-      window.location.href = url;
+      
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe(
+        (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      );
+      
     }
   }
 }

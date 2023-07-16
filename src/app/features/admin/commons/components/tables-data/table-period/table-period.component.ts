@@ -103,6 +103,8 @@ export class TablePeriodComponent implements OnInit {
 
   ejecutarEvaluaciones(id:string) {
     this.idperiodo.emit(id);
+    this.modalAdd.hiddenModal();
+    
   }
 
 }

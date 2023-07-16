@@ -13,7 +13,7 @@ export class EvaluacionService {
   constructor(private http: HttpClient) { }
 
   getAll(nom?:string, page?:number, size?: number): Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/evaluacion?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/evaluacion?filter=${nom}&page=${page}&size=${size}`);
   }
 
   getAllPeriodoAulaCurso(nom?:string, page?:number, size?: number, periodo?:string, aula?:string, curso?:string): Observable<IApiResponse>{

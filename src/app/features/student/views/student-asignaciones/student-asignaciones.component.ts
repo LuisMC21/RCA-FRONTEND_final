@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { AsistenciaService } from 'src/app/features/admin/commons/services/asistencia.service';
@@ -34,16 +35,17 @@ export class StudentAsignacionesComponent implements OnInit {
   constructor(private pagination: PaginationService,
     private anioService: AnioLectivoService, 
     private tokenService: TokenService,
-    private courseTeacherService: CourseTeacherService) { }
+    private courseTeacherService: CourseTeacherService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
 
     this.alumno = this.tokenService.getUserId() || '';
 
     this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
-    console.log(this.alumno);
 
     this.anioService.getAll('', 0, 5).subscribe(response=>{
+      console.log(response)
       this.anios = response.data.list;
     });
 
@@ -63,6 +65,31 @@ export class StudentAsignacionesComponent implements OnInit {
     })
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
+  }
+
+
+  redirectToMatricula() {
+      const token = this.tokenService.getToken();
+      const url = `http://localhost:8080/matricula/exportMatricula?id_alumno=${this.alumno}&id_aniolectivo=${this.selectedAnioId}`;
+      
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe(
+        (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      );
   }
 
 }
