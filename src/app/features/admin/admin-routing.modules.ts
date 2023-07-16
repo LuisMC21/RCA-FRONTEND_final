@@ -20,6 +20,7 @@ import { AdminClassroomComponent } from './views/admin-classroom/admin-classroom
 import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-course-teacher.component';
 import { AdminReportMatriculaComponent } from './views/admin-report-matricula/admin-report-matricula.component';
 import { AdminReportNotasComponent } from './views/admin-report-notas/admin-report-notas.component';
+import { AdminReportAsistenciaComponent } from './views/admin-report-asistencia/admin-report-asistencia.component';
 
 
 const routes: Routes = [
@@ -45,7 +46,8 @@ const routes: Routes = [
       { path: 'periodo', component: AdminPeriodComponent},
       { path: 'docenteCurso', component: AdminCourseTeacherComponent},
       { path: 'reportesMatricula', component: AdminReportMatriculaComponent},
-      { path: 'reportesNotas', component: AdminReportNotasComponent}
+      { path: 'reportesNotas', component: AdminReportNotasComponent},
+      { path: 'reportesAsistencia', component: AdminReportAsistenciaComponent}
     ]
   },
   { path: '**', redirectTo: ''}
