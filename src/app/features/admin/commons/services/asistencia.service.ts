@@ -5,6 +5,7 @@ import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { IResponse } from 'src/app/core/interfaces/response';
 import { environment } from 'src/environments/environment';
 import { IAsistencia } from '../../interfaces/asistencia';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { IAsistencia } from '../../interfaces/asistencia';
 })
 export class AsistenciaService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenService:TokenService) { }
 
 
   getAsistenciasByFilters(nom?:string,page?:number,size?:number, periodo?: string, aula?: string, curso?:string): Observable<IApiResponse> {
@@ -39,5 +40,27 @@ export class AsistenciaService {
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/asistencia/`+id);
   }
-  
+
+  exportAsistAula(id_curso:string, id_aula:string, id_aniolectivo:string){
+    const token = this.tokenService.getToken();
+    const url = `${environment.api}/asistencia/exportAsistAula?id_curso=${id_curso}&id_aula=${id_aula}&id_aniolectivo=${id_aniolectivo}`;
+    this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    }).subscribe({
+      next: (response) => {
+        // Crear una URL del objeto Blob
+        const fileURL = URL.createObjectURL(response);
+        // Abrir el archivo PDF en una nueva pestaña o ventana
+        window.open(fileURL);
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error(error);
+      }
+    });
+  }
+
 }

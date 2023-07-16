@@ -8,6 +8,13 @@ import { PaginationService } from '../../commons/services/pagination.service';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 import { IAsistencia } from '../../interfaces/asistencia';
 import { StudentService } from '../../commons/services/student.service';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
+import { HttpClient } from '@angular/common/http';
+import { AulaService } from '../../commons/services/aula.service';
+import { IAula } from '../../interfaces/aula';
+import { ICourse } from '../../interfaces/course';
+import { CourseService } from '../../commons/services/course.service';
+import { AsistenciaService } from '../../commons/services/asistencia.service';
 
 @Component({
   selector: 'app-admin-report-asistencia',
@@ -18,8 +25,11 @@ export class AdminReportAsistenciaComponent implements OnInit {
   students:IStudent[]=[];
   periodos:IPeriod[]=[];
   anios:IAnioLectivo[]=[];
+  aulas:IAula[]=[];
+  cursos:ICourse[]=[];
   asistencias:IAsistencia[]=[]
   group!:FormGroup;
+  group2!:FormGroup;
   selectedOption: string | undefined; // La opción seleccionada se almacenará en esta variable
   paginationData='period';
   nameStudent: string = '';
@@ -34,7 +44,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   ];
   period:string='';
   anio:string='';
- 
+
 
   @ViewChild('studentSelect') studentSelect!: ElementRef;
   selectedStudentId: string = '';
@@ -42,45 +52,71 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selectedPeriodoId: string = '';
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
+  @ViewChild('aulaSelect') aulaSelect!: ElementRef;
+  selectedAulaId: string = '';
+  @ViewChild('cursoSelect') cursoSelect!: ElementRef;
+  selectedCursoId: string = '';
 
-  constructor(private studentService: StudentService, private periodService:PeriodService, private pagination:PaginationService, private anioService:AnioLectivoService,private formBuilder:FormBuilder) { }
+  constructor(private studentService: StudentService,
+    private periodService:PeriodService,
+    private aulaService:AulaService,
+    private pagination:PaginationService,
+    private anioService:AnioLectivoService,
+    private cursoService:CourseService,
+    private asistenciaService:AsistenciaService,
+    private formBuilder:FormBuilder,
+    private tokenService:TokenService,
+    private http:HttpClient) { }
 
   ngOnInit(): void {
-    this.selectedOption = this.options[0];                           
+    this.selectedOption = this.options[0];
     this.form();
-    
+
     let page=this.pagination.getPage(this.paginationData);
     let size=this.pagination.getSize(this.paginationData);
     this.studentService.getAll('', page, size)
     .subscribe(response => {
       this.students = response.data.list;
-      console.log(this.students);
     });
     this.periodService.getAll('',page,size)
     .subscribe(response=>{
       this.periodos=response.data.list;
-      console.log(this.periodos)
     })
 
     this.anioService.getAll('',page,size)
     .subscribe(response=>{
       this.anios=response.data.list;
-      console.log(this.anios)
     })
 
+    this.aulaService.getAll('',page,100)
+    .subscribe(response=>{
+      this.aulas=response.data.list;
+    })
+    this.cursoService.getAll('',page,100)
+    .subscribe(response=>{
+      this.cursos=response.data.list;
+    })
   }
 
   form():void{
-    this.group=this.formBuilder.group(
+      this.group=this.formBuilder.group(
       {
         alumnoDTO: ['', [Validators.required]],
         periodoDTO:['',[Validators.required]],
         anioLectivoDTO:['',[Validators.required]]
-      }
-    );
-    this.searchForm = this.formBuilder.group({
-      searchStudent: ['', [Validators.required]]
-    });
+        }
+      );
+      this.searchForm = this.formBuilder.group({
+        searchStudent: ['', [Validators.required]]
+      });
+
+      this.group2=this.formBuilder.group(
+        {
+          cursoDTO: ['', [Validators.required]],
+          aulaDTO:['',[Validators.required]],
+          anioLectivoDTO:['',[Validators.required]]
+        }
+      );
   }
   searchStudent(value: string | undefined) {
     if (value !== undefined) {
@@ -104,35 +140,65 @@ export class AdminReportAsistenciaComponent implements OnInit {
         const fullName = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
         return fullName === event;
       });
-    
+
       if (selectedStudent) {
         this.selectedStudentId = selectedStudent.id;
-        console.log(this.selectedStudentId);
       }
     }
-    
-    
-  
+
+
+
   onChangeSelect() {
     console.log(this.selectedOption);
   }
   onPeriodoChange(){
     const selectedOption=this.periodoSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodoId=selectedOption.value;
-    console.log(this.selectedPeriodoId);
+  }
+  onAulaChange(){
+    const selectedOption=this.aulaSelect.nativeElement.selectedOptions[0];
+    this.selectedAulaId=selectedOption.value;
+  }
+  onCursoChange(){
+    const selectedOption=this.cursoSelect.nativeElement.selectedOptions[0];
+    this.selectedCursoId=selectedOption.value;
   }
   onAnioChange(){
     const selectedOption=this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId=selectedOption.value;
-    console.log(this.selectedAnioId);
-  }
-redirectToAsistenciaAlumno(){
-  if (this.selectedOption == this.options[0]) {
-    const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.selectedStudentId}&id_periodo=${this.selectedPeriodoId}&id_aniolectivo=${this.selectedAnioId}`;
-    window.location.href = url;
-    this.resetForm();
   }
 
+  onAnioChange2(){
+    const selectedOption=this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId=selectedOption.value;
+  }
+
+redirectToAsistenciaAlumno(){
+
+  if (this.selectedOption === this.options[0]) {
+    const token = this.tokenService.getToken();
+    const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.selectedStudentId}&id_periodo=${this.selectedPeriodoId}&id_aniolectivo=${this.selectedAnioId}`;
+    this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    }).subscribe({
+      next: (response) => {
+        // Crear una URL del objeto Blob
+        const fileURL = URL.createObjectURL(response);
+        // Abrir el archivo PDF en una nueva pestaña o ventana
+        window.open(fileURL);
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error(error);
+      }
+    });
+  }
+  if (this.selectedOption === this.options[1]) {
+    this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selectedAnioId)
+  }
 }
 
 resetForm() {
@@ -141,4 +207,3 @@ resetForm() {
   this.selectedStudentId = ''; // Limpia el ID del estudiante seleccionado
 }
 }
- 

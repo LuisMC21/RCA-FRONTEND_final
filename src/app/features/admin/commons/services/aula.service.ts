@@ -17,9 +17,9 @@ export class AulaService {
       map(response => response.data.countFilter)
     );
   }
-  //Listar 
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/aula?page=${page}&size=${size}`);
+  //Listar
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/aula?page=${page}&size=${size}&filter=${filter}`);
   }
 
   //agregar
