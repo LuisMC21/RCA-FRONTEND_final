@@ -65,12 +65,6 @@ export class StudentDatosAlumnoComponent implements OnInit {
   get rol() { return this.group.get('usuarioDTO.rol') }
   get apoderado() { return this.group.get('apoderado') }
   get isVacunado() { return this.group.get('isVacunado') }
-  // APODERADO 
-  get idApoderado() { return this.group.get('apoderadoDTO.id') }
-  get codeA() { return this.group.get('apoderadoDTO.code') }
-  get nameApoderado() { return this.group.get('nameApoderado') }
-  get pa_surnameA() { return this.group.get('pa_surnameA') }
-  get ma_surnameA() { return this.group.get('ma_surnameA') }
 
   ngOnInit(): void {
     this.codeT = this.tokenService.getUserId();
@@ -86,7 +80,6 @@ export class StudentDatosAlumnoComponent implements OnInit {
   form(item?: IStudent): void {
     this.group = this.formBuilder.group({
       // ALUMNO
-
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : ''],
@@ -102,8 +95,6 @@ export class StudentDatosAlumnoComponent implements OnInit {
         name: [item ? item.apoderadoDTO.name + ' ' + item.apoderadoDTO.pa_surname + ' ' + item.apoderadoDTO.ma_surname : ''],
 
       }),
-      // USUARIO
-
       usuarioDTO: this.formBuilder.group({
         id: [item ? item.usuarioDTO.id : null],
         code: [item ? item.usuarioDTO.code : ''],

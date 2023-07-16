@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { EvaluacionService } from 'src/app/features/admin/commons/services/evaluacion.service';
@@ -43,7 +44,8 @@ export class StudentNotasComponent implements OnInit {
     private periodoService: PeriodService,
     private evaluacionService: EvaluacionService,
     private anioService: AnioLectivoService,
-    private tokenService: TokenService) { }
+    private tokenService: TokenService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
 
@@ -58,7 +60,7 @@ export class StudentNotasComponent implements OnInit {
 
     this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
       this.periods = response.data.list;
-    }) 
+    })  
 
     this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
@@ -91,6 +93,30 @@ export class StudentNotasComponent implements OnInit {
     })
 
     localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
+  }
+
+  redirectToNotas(){
+      const token = this.tokenService.getToken();
+      const url = `http://localhost:8080/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.idAlumno}`;
+      
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe(
+        (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      );
   }
 
 }

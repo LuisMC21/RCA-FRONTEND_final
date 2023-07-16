@@ -73,6 +73,15 @@ export class AdminAsistenciaComponent implements OnInit {
     });
 
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
+    this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
+
+    if(this.selectedAnioId != '' && this.selectedAulaId != ''){
+      this.cursoService.getAulaAnio('', this.selectedAulaId, this.selectedAnioId, 0,5).subscribe(response=>{
+        console.log(response);
+        this.courses = response.data.list
+      })
+    }
+
 
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
@@ -126,6 +135,11 @@ export class AdminAsistenciaComponent implements OnInit {
 
     this.asistenciaService.getAsistenciasByFilters('',0,5,this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.asistencias = response.data.list;
+    })
+
+    this.cursoService.getAulaAnio('', this.selectedAulaId, this.selectedAnioId, 0,5).subscribe(response=>{
+      console.log(response);
+      this.courses = response.data.list
     })
 
     localStorage.setItem('selectedAula', this.selectedAulaId);

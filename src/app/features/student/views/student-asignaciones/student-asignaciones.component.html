@@ -7,6 +7,9 @@
                     <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
+        <div class="w-1/4" style="display: inline-block; margin-right: 20px;">
+            <button type="submit" class="field__input--button mx-2 h-9 rounded-3xl text-white" [disabled]="selectedAnioId == ''" (click)="redirectToMatricula()">Generar PDF</button>
+        </div>
     </div>
 </div>
 
