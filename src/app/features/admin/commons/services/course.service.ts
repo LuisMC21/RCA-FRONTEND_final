@@ -18,9 +18,14 @@ export class CourseService {
       map(response => response.data.countFilter)
     );
   }
+  
 //Listar Cursos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/curso?filter=${nom}&page=${page}&size=${size}`);
+  }
+
+  getAulaAnio(nom?:string, aula?:string, anio?:string, page?:number, size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/curso/aulaanio?filter=${nom}&aula=${aula}&anio=${anio}&page=${page}&size=${size}`)
   }
 
   //Agregar curso

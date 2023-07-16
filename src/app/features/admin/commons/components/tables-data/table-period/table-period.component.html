@@ -36,7 +36,7 @@
         </div>
         <div class="flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()" >Guargar</button>
+                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()">Guargar</button>
             <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
@@ -77,7 +77,7 @@
 
         <div class="flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()" >Guargar</button>
+                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()">Guargar</button>
             <app-btn-cancel (click)="modalUpdate.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
@@ -99,8 +99,20 @@
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <td>
-                <app-btn-report (click)="ejecutarEvaluaciones(item.code)"></app-btn-report>
+                <app-btn-report (click)="modalPromedios.showModal()"></app-btn-report>
             </td>
+
+            <app-modal [title]="'¿GenerarPromedios?'" #modalPromedios>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Se generarán promedios para el periodo: </b>{{item.name}}-{{item.anio_lectivoDTO.name}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <button
+                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="ejecutarEvaluaciones(item.id)">Aceptar</button>
+                    <app-btn-cancel (click)="modalPromedios.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                </div>
+            </app-modal>
+
             <!-- MODAL ELIMINAR -->
             <app-modal [title]="'Eliminar periodo?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
