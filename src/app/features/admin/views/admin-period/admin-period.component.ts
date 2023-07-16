@@ -148,67 +148,28 @@ export class AdminPeriodComponent implements OnInit {
     })
   }
 
-  countEvaluciones(totalevaluaciones: number, id:string) {
-    if (totalevaluaciones == 0) {
-      //periodo para el que se agregarán las evaluaciones
-      this.periodService.getAll(id, 0, 5).subscribe(response => {
-        this.period = response.data.list[0];
-        console.log(this.period);
-      })
-
+  async countEvaluciones(totalevaluaciones: number, id:string) {
+    try{
+      if (totalevaluaciones == 0) {
+        //periodo para el que se agregarán las evaluaciones
+        const response = await this.periodService.getOne(id).toPromise();
+        if (response && response.data) {
+          this.period = response.data;
+        } else {
+          console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+        }
+      } else {
+        this.msjResponse = 'Promedios ya han sigo generados anteriormente';
+      }
 
       for (let index = 0; index < this.aulas.length; index++) {
-        const element = this.aulas[index];
-
-
-        //filtramos todos los cursos por aula
-        const filteredCourseTeachers = this.courseTeachers.filter((courseTeacher) => {
-          return courseTeacher.aulaDTO === element;
-        });
-
-        console.log(filteredCourseTeachers);
-
-        //obtener alumnos por anio, curso y aula
-        this.studentService.getAllAnioCursoAula('', 0, 100, this.anio, element.id, '')
-          .subscribe(response => {
-            this.student = response.data.list;
-            console.log(this.student) // Acá sí me imprime todos los datos
-
-            if (filteredCourseTeachers !== undefined && this.student !== undefined) {
-
-              for (let index = 0; index < filteredCourseTeachers.length; index++) {
-                const courseTeacher = filteredCourseTeachers[index];
-
-                console.log(this.student)  // aquí está vacío
-                for (let index = 0; index < this.student.length; index++) {
-
-                  console.log("Ciclo student" + index);
-
-                  const element = this.student[index];
-                  const evaluacion: IEvaluacion = {
-                    id: '',
-                    code: '',
-                    date: null,
-                    note: "",
-                    periodoDTO: this.period,
-                    docentexCursoDTO: courseTeacher,
-                    alumnoDTO: element
-                  };
-                  console.log(evaluacion)
-                  this.evaluacionService.add(evaluacion).subscribe(data => {
-                    console.log(data.message)
-                  });;
-                }
-              }
-            }
-          });
-        this.msjResponse = 'Promedios generados exitosamente';
+        console.log(this.aulas[index]);
       }
-    } else {
-      this.msjResponse = 'Promedios ya han sigo generados anteriormente';
+  
+      this.modalOk.showModal();
+    }catch(error){
+      console.log("Error:", error)
     }
-
-    this.modalOk.showModal();
   }
 
 }

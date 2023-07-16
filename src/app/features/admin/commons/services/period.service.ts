@@ -18,6 +18,10 @@ export class PeriodService {
     return this.http.get<IApiResponse>(`${environment.api}/periodo?filter=${nom}&page=${page}&size=${size}`);
   }
 
+  getOne(id?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/periodo/`+id)
+  }
+
   //Agregar 
   add(period:IPeriod):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/periodo`,period)
