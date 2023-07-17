@@ -62,5 +62,26 @@ export class AsistenciaService {
       }
     });
   }
+  exportAsistClase(id_clase:string){
+const token=this.tokenService.getToken();
+const url=`${environment.api}/asistencia/exportAsistClase?id_clase=${id_clase}`
+this.http.get(url,{
+  headers: {
+    Authorization: `Bearer ${token}`
+  },
+  responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+}).subscribe({
+  next: (response) => {
+    // Crear una URL del objeto Blob 
+    const fileURL = URL.createObjectURL(response);
+    // Abrir el archivo PDF en una nueva pestaña o ventana
+    window.open(fileURL);
+  },
+  error: (error) => {
+    // Manejar cualquier error que ocurra durante la solicitud
+    console.error(error);
+  }
+})
+  }
 
 }

@@ -15,6 +15,8 @@ import { IAula } from '../../interfaces/aula';
 import { ICourse } from '../../interfaces/course';
 import { CourseService } from '../../commons/services/course.service';
 import { AsistenciaService } from '../../commons/services/asistencia.service';
+import { IClase } from '../../interfaces/clase';
+import { ClaseService } from '../../commons/services/clase.service';
 
 @Component({
   selector: 'app-admin-report-asistencia',
@@ -27,15 +29,17 @@ export class AdminReportAsistenciaComponent implements OnInit {
   anios:IAnioLectivo[]=[];
   aulas:IAula[]=[];
   cursos:ICourse[]=[];
-  asistencias:IAsistencia[]=[]
+  asistencias:IAsistencia[]=[];
+  clases:IClase[]=[];
   group!:FormGroup;
   group2!:FormGroup;
+  group3!:FormGroup;
   selectedOption: string | undefined; // La opción seleccionada se almacenará en esta variable
   paginationData='period';
   nameStudent: string = '';
   identiStudent: string = '';
   studentident:string='';
- selectedStudent:string='';
+  selectedStudent:string='';
   searchForm!:FormGroup;
   options: string[] = [
     'Asistencia por Alumnos',
@@ -44,7 +48,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   ];
   period:string='';
   anio:string='';
-
+  
 
   @ViewChild('studentSelect') studentSelect!: ElementRef;
   selectedStudentId: string = '';
@@ -56,10 +60,12 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selectedAulaId: string = '';
   @ViewChild('cursoSelect') cursoSelect!: ElementRef;
   selectedCursoId: string = '';
-
+  @ViewChild('claseSelect') claseSelect!: ElementRef;
+  selectedClaseId: string = '';
   constructor(private studentService: StudentService,
     private periodService:PeriodService,
     private aulaService:AulaService,
+    private claseService:ClaseService,
     private pagination:PaginationService,
     private anioService:AnioLectivoService,
     private cursoService:CourseService,
@@ -95,7 +101,14 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.cursoService.getAll('',page,100)
     .subscribe(response=>{
       this.cursos=response.data.list;
+      console.log(this.cursos)
     })
+    this.claseService.getAll('', page, size).subscribe(response => {
+      this.clases = response.data.list;
+      console.log(this.clases);
+    })
+    
+
   }
 
   form():void{
@@ -115,6 +128,12 @@ export class AdminReportAsistenciaComponent implements OnInit {
           cursoDTO: ['', [Validators.required]],
           aulaDTO:['',[Validators.required]],
           anioLectivoDTO:['',[Validators.required]]
+        }
+      );
+
+      this.group3=this.formBuilder.group(
+        {
+          claseDTO:['',[Validators.required]]
         }
       );
   }
@@ -172,6 +191,10 @@ export class AdminReportAsistenciaComponent implements OnInit {
     const selectedOption=this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId=selectedOption.value;
   }
+  onClaseChange(){
+    const selectedOption=this.claseSelect.nativeElement.selectedOptions[0];
+    this.selectedClaseId=selectedOption.value;
+  }
 
 redirectToAsistenciaAlumno(){
 
@@ -199,6 +222,10 @@ redirectToAsistenciaAlumno(){
   if (this.selectedOption === this.options[1]) {
     this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selectedAnioId)
   }
+  if (this.selectedOption === this.options[2]) {
+    this.asistenciaService.exportAsistClase(this.selectedClaseId)
+  }
+  
 }
 
 resetForm() {
