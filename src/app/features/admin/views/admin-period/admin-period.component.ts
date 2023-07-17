@@ -145,7 +145,7 @@ export class AdminPeriodComponent implements OnInit {
           console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
         }
 
-        const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id, 0, 5).toPromise();
+        const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id, 0, 100).toPromise();
 
         if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
           this.aulas = response2.data.list;
@@ -158,13 +158,14 @@ export class AdminPeriodComponent implements OnInit {
         for (const aula of this.aulas) {
 
           //Obtener todos los cursos por año y aula
-          const response2 = await this.courseService.getAulaAnio('', aula.id, this.period.anio_lectivoDTO.id, 0, 20).toPromise();
+          const response2 = await this.courseService.getAulaAnio('', aula.id, this.period.anio_lectivoDTO.id, 0, 100).toPromise();
           if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
             this.courses = response2.data.list;
           } else {
             console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
           }
-            
+          
+          
           console.log("Cursos por aula")
           console.log(this.courses.length);
 
