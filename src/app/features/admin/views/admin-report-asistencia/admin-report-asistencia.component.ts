@@ -94,6 +94,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
 
     this.anioService.getAll('',page,size)
     .subscribe(response=>{
+      console.log(response)
       this.anios=response.data.list;
       this.anios2=response.data.list;
     })

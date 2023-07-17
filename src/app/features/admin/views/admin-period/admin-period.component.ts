@@ -14,6 +14,7 @@ import { EvaluacionService } from '../../commons/services/evaluacion.service';
 import { IEvaluacion } from '../../interfaces/evaluacion';
 import { AulaService } from '../../commons/services/aula.service';
 import { CourseService } from '../../commons/services/course.service';
+import { ICourse } from '../../interfaces/course';
 
 @Component({
   selector: 'app-admin-period',
@@ -25,6 +26,7 @@ export class AdminPeriodComponent implements OnInit {
   periods: IPeriod[] = [];
   anios: IAnioLectivo[] = [];
   student: IStudent[] = [];
+  courses: ICourse[] = [];
 
   courseTeachers: ICourseTeacher[] = [];
   aulas: IAula[] = []
@@ -34,6 +36,8 @@ export class AdminPeriodComponent implements OnInit {
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
+
+  courseTeacher!: ICourseTeacher;
 
   period: IPeriod = {
     id: '',
@@ -48,7 +52,6 @@ export class AdminPeriodComponent implements OnInit {
     }
   };
 
-  anio = '2022'
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private periodService: PeriodService,
@@ -57,8 +60,8 @@ export class AdminPeriodComponent implements OnInit {
     private courseService:CourseService,
     private anioService: AnioLectivoService,
     private studentService: StudentService,
-    private courseTeacherService: CourseTeacherService,
-    private evaluacionService: EvaluacionService) { }
+    private evaluacionService: EvaluacionService,
+    private courseTeacherService: CourseTeacherService) { }
 
   ngOnInit(): void {
 
@@ -70,30 +73,9 @@ export class AdminPeriodComponent implements OnInit {
         this.periods = response.data.list;
       });
 
-    //listar años
-    let pageAnio = this.pagination.getPage(this.paginationDataAnio);
-    let sizeAnio = this.pagination.getSize(this.paginationDataAnio);
-    this.anioService.getAll('', pageAnio, sizeAnio)
-      .subscribe(response => {
-        this.anios = response.data.list;
-        console.log(this.anios);
-      });
-
-    //obtener todas las aulas activas por año
-    let pageCourseT = this.pagination.getPage(this.paginationStudent);
-    let sizeCourseT = this.pagination.getSize(this.paginationStudent);
-    this.courseTeacherService.getAll('', pageCourseT, sizeCourseT)
-      .subscribe(response => {
-        this.courseTeachers = response.data.list;
-        console.log(this.courseTeachers);
-
-        this.aulas = this.courseTeachers.map((courseTeacher) => courseTeacher.aulaDTO).filter((aula, index, self) => {
-          return index === self.findIndex((a) => (
-            a.id === aula.id
-          ));
-        });
-        console.log(this.aulas)
-      });
+    this.anioService.getAll('',0,5).subscribe(response=>{
+      this.anios = response.data.list;
+    })
 
   }
 
@@ -152,26 +134,29 @@ export class AdminPeriodComponent implements OnInit {
     })
   }
 
-  countEvaluciones(totalevaluaciones: number, id:string) {
-    if (totalevaluaciones == 0) {
-      //periodo para el que se agregarán las evaluaciones
-      this.periodService.getAll(id, 0, 5).subscribe(response => {
-        this.period = response.data.list[0];
-        console.log(this.period);
-      })
+  async countEvaluciones(totalevaluaciones: number, id: string) {
+    try {
+      if (totalevaluaciones == 0) {
+        //periodo para el que se agregarán las evaluaciones
+        const response = await this.periodService.getOne(id).toPromise();
+        if (response && response.data) {
+          this.period = response.data;
+        } else {
+          console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+        }
 
       const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id).toPromise();
 
-      for (let index = 0; index < this.aulas.length; index++) {
-        const element = this.aulas[index];
+        if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
+          this.aulas = response2.data.list;
+        } else {
+          console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+        };
 
+        console.log("Ciclo aulas")
 
-        //filtramos todos los cursos por aula
-        const filteredCourseTeachers = this.courseTeachers.filter((courseTeacher) => {
-          return courseTeacher.aulaDTO === element;
-        });
+        for (const aula of this.aulas) {
 
-        console.log(filteredCourseTeachers);
           //Obtener todos los cursos por año y aula
           const response2 = await this.courseService.getAulaAnio('', aula.id, this.period.anio_lectivoDTO.id, 0, 100).toPromise();
           if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
@@ -180,51 +165,56 @@ export class AdminPeriodComponent implements OnInit {
             console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
           }
 
-
-          console.log("Cursos por aula")
           console.log(this.courses.length);
 
-        //obtener alumnos por anio, curso y aula
-        this.studentService.getAllAnioCursoAula('', 0, 100, this.anio, element.id, '')
-          .subscribe(response => {
+          //Obtener todos los alumnos por año, curso y aula
+          const response = await this.studentService.getAllAnioCursoAula('', 0, 100, this.period.anio_lectivoDTO.id, aula.id, '').toPromise();
+          if (response && response.data && response.data.list && response.data.list.length > 0) {
             this.student = response.data.list;
-            console.log(this.student) // Acá sí me imprime todos los datos
+          } else {
+            console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+          }
+          console.log("Student por aula")
+          console.log(this.student.length);
 
-            if (filteredCourseTeachers !== undefined && this.student !== undefined) {
-
-              for (let index = 0; index < filteredCourseTeachers.length; index++) {
-                const courseTeacher = filteredCourseTeachers[index];
-
-                console.log(this.student)  // aquí está vacío
-                for (let index = 0; index < this.student.length; index++) {
-
-                  console.log("Ciclo student" + index);
-
-                  const element = this.student[index];
-                  const evaluacion: IEvaluacion = {
-                    id: '',
-                    code: '',
-                    date: null,
-                    note: "",
-                    periodoDTO: this.period,
-                    docentexCursoDTO: courseTeacher,
-                    alumnoDTO: element
-                  };
-                  console.log(evaluacion)
-                  this.evaluacionService.add(evaluacion).subscribe(data => {
-                    console.log(data.message)
-                  });;
-                }
+          if (this.courses.length > 0 && this.student.length > 0) {
+            console.log("Dentro de ciclo IF")
+            for (const course of this.courses) {
+              const response = await this.courseTeacherService.getAulaCurso('', aula.id, course.id, 0,5).toPromise();
+              if (response && response.data && response.data.list && response.data.list.length > 0) {
+                this.courseTeacher = response.data.list[0];
+              } else {
+                console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+              }
+              console.log(this.courseTeacher);
+              for (const student of this.student) {
+                const evaluacion: IEvaluacion = {
+                  id: '',
+                  code: '',
+                  date: null,
+                  note: "",
+                  periodoDTO: this.period,
+                  docentexCursoDTO: this.courseTeacher,
+                  alumnoDTO: student
+                };
+                await this.evaluacionService.add(evaluacion).toPromise();
+                console.log("Nota creada");
               }
             }
-          });
-        this.msjResponse = 'Promedios generados exitosamente';
-      }
-    } else {
-      this.msjResponse = 'Promedios ya han sigo generados anteriormente';
-    }
+          }
+        }
 
-    this.modalOk.showModal();
+        this.msjResponse = "Promedios generados correctamente"
+
+      } else {
+        this.msjResponse = 'Promedios ya han sigo generados anteriormente';
+      }
+
+      this.modalOk.showModal()
+
+    } catch (error) {
+      console.log("Error:", error)
+    }
   }
 
 }
