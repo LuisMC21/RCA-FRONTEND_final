@@ -15,6 +15,8 @@ import { IAula } from '../../interfaces/aula';
 import { ICourse } from '../../interfaces/course';
 import { CourseService } from '../../commons/services/course.service';
 import { AsistenciaService } from '../../commons/services/asistencia.service';
+import { IClase } from '../../interfaces/clase';
+import { ClaseService } from '../../commons/services/clase.service';
 
 @Component({
   selector: 'app-admin-report-asistencia',
@@ -25,17 +27,20 @@ export class AdminReportAsistenciaComponent implements OnInit {
   students:IStudent[]=[];
   periodos:IPeriod[]=[];
   anios:IAnioLectivo[]=[];
+  anios2:IAnioLectivo[]=[];
   aulas:IAula[]=[];
   cursos:ICourse[]=[];
-  asistencias:IAsistencia[]=[]
+  asistencias:IAsistencia[]=[];
+  clases:IClase[]=[];
   group!:FormGroup;
   group2!:FormGroup;
+  group3!:FormGroup;
   selectedOption: string | undefined; // La opción seleccionada se almacenará en esta variable
   paginationData='period';
   nameStudent: string = '';
   identiStudent: string = '';
   studentident:string='';
- selectedStudent:string='';
+  selectedStudent:string='';
   searchForm!:FormGroup;
   options: string[] = [
     'Asistencia por Alumnos',
@@ -52,14 +57,18 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selectedPeriodoId: string = '';
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
+  @ViewChild('anio2Select') anio2Select!: ElementRef;
+  selected2AnioId: string = '';
   @ViewChild('aulaSelect') aulaSelect!: ElementRef;
   selectedAulaId: string = '';
   @ViewChild('cursoSelect') cursoSelect!: ElementRef;
   selectedCursoId: string = '';
-
+  @ViewChild('claseSelect') claseSelect!: ElementRef;
+  selectedClaseId: string = '';
   constructor(private studentService: StudentService,
     private periodService:PeriodService,
     private aulaService:AulaService,
+    private claseService:ClaseService,
     private pagination:PaginationService,
     private anioService:AnioLectivoService,
     private cursoService:CourseService,
@@ -86,16 +95,20 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.anioService.getAll('',page,size)
     .subscribe(response=>{
       this.anios=response.data.list;
+      this.anios2=response.data.list;
     })
 
-    this.aulaService.getAll('',page,100)
-    .subscribe(response=>{
-      this.aulas=response.data.list;
-    })
+
     this.cursoService.getAll('',page,100)
     .subscribe(response=>{
       this.cursos=response.data.list;
     })
+
+    this.claseService.getAll('', page, size).subscribe(response => {
+      this.clases = response.data.list;
+    })
+
+    this.getAulas();
   }
 
   form():void{
@@ -114,7 +127,13 @@ export class AdminReportAsistenciaComponent implements OnInit {
         {
           cursoDTO: ['', [Validators.required]],
           aulaDTO:['',[Validators.required]],
-          anioLectivoDTO:['',[Validators.required]]
+          anioLectivo2DTO:['',[Validators.required]]
+        }
+      );
+
+      this.group3=this.formBuilder.group(
+        {
+          claseDTO:['',[Validators.required]]
         }
       );
   }
@@ -169,8 +188,13 @@ export class AdminReportAsistenciaComponent implements OnInit {
   }
 
   onAnioChange2(){
-    const selectedOption=this.anioSelect.nativeElement.selectedOptions[0];
-    this.selectedAnioId=selectedOption.value;
+    const selectedOption=this.anio2Select.nativeElement.selectedOptions[0];
+    this.selected2AnioId=selectedOption.value;
+    this.getAulas();
+  }
+  onClaseChange(){
+    const selectedOption=this.claseSelect.nativeElement.selectedOptions[0];
+    this.selectedClaseId=selectedOption.value;
   }
 
 redirectToAsistenciaAlumno(){
@@ -199,6 +223,10 @@ redirectToAsistenciaAlumno(){
   if (this.selectedOption === this.options[1]) {
     this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selectedAnioId)
   }
+  if (this.selectedOption === this.options[2]) {
+    this.asistenciaService.exportAsistClase(this.selectedClaseId)
+  }
+
 }
 
 resetForm() {
@@ -206,4 +234,11 @@ resetForm() {
   this.nameStudent = ''; // Limpia el campo de búsqueda de estudiantes
   this.selectedStudentId = ''; // Limpia el ID del estudiante seleccionado
 }
+
+  getAulas(){
+    this.aulaService.getAllAnio('', this.selected2AnioId)
+      .subscribe(response=>{
+        this.aulas=response.data;
+      })
+  }
 }

@@ -62,5 +62,8 @@ export class AsistenciaService {
       }
     });
   }
+  exportAsistClase(id_clase:string){
+
+  }
 
 }

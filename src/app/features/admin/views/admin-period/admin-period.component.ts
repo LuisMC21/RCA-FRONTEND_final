@@ -12,6 +12,8 @@ import { ICourseTeacher } from '../../interfaces/course-teacher';
 import { CourseTeacherService } from '../../commons/services/course-teacher.service';
 import { EvaluacionService } from '../../commons/services/evaluacion.service';
 import { IEvaluacion } from '../../interfaces/evaluacion';
+import { AulaService } from '../../commons/services/aula.service';
+import { CourseService } from '../../commons/services/course.service';
 
 @Component({
   selector: 'app-admin-period',
@@ -51,6 +53,8 @@ export class AdminPeriodComponent implements OnInit {
 
   constructor(private periodService: PeriodService,
     private pagination: PaginationService,
+    private aulaService:AulaService,
+    private courseService:CourseService,
     private anioService: AnioLectivoService,
     private studentService: StudentService,
     private courseTeacherService: CourseTeacherService,
@@ -125,7 +129,7 @@ export class AdminPeriodComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.periodService.delete(id).subscribe(data => {
       if (data.message === 'ok') {
@@ -156,6 +160,7 @@ export class AdminPeriodComponent implements OnInit {
         console.log(this.period);
       })
 
+      const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id).toPromise();
 
       for (let index = 0; index < this.aulas.length; index++) {
         const element = this.aulas[index];
@@ -167,6 +172,17 @@ export class AdminPeriodComponent implements OnInit {
         });
 
         console.log(filteredCourseTeachers);
+          //Obtener todos los cursos por año y aula
+          const response2 = await this.courseService.getAulaAnio('', aula.id, this.period.anio_lectivoDTO.id, 0, 100).toPromise();
+          if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
+            this.courses = response2.data.list;
+          } else {
+            console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
+          }
+
+
+          console.log("Cursos por aula")
+          console.log(this.courses.length);
 
         //obtener alumnos por anio, curso y aula
         this.studentService.getAllAnioCursoAula('', 0, 100, this.anio, element.id, '')
