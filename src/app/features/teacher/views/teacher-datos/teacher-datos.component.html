@@ -5,7 +5,7 @@
             <div formGroupName="usuarioDTO" class="form__field">
                 <div class="field">
                     <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
-                    <app-field><input formControlName="pa_surname" class="input" type="text" readonly></app-field>
+                    <app-field><input formControlName="pa_surname" class="input" type="text" [disabled]="isFieldDisabled"></app-field>
                     <app-required-field class="px-2"
                         *ngIf="pa_surname?.invalid && (pa_surname?.dirty || pa_surname?.touched)"
                         [text]="'**El campo es requerido'"></app-required-field>
@@ -94,10 +94,14 @@
             <div class="btns flex py-7 w-full">
                 <button type="submit" [disabled]="group.invalid"
                     class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-                <app-btn-cancel class="w-1/2 mx-2"></app-btn-cancel>
             </div>
         </form>
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
+        </div>
     </div>
+
+    
 </div>
 
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>

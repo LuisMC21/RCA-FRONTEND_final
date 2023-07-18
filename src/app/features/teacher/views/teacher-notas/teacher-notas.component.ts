@@ -1,6 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
+import { AulaService } from 'src/app/features/admin/commons/services/aula.service';
 import { CourseTeacherService } from 'src/app/features/admin/commons/services/course-teacher.service';
+import { CourseService } from 'src/app/features/admin/commons/services/course.service';
 import { EvaluacionService } from 'src/app/features/admin/commons/services/evaluacion.service';
 import { PaginationService } from 'src/app/features/admin/commons/services/pagination.service';
 import { PeriodService } from 'src/app/features/admin/commons/services/period.service';
@@ -49,7 +51,6 @@ export class TeacherNotasComponent implements OnInit {
   selectedAnioName = '2022';
 
   code:string = 'DCN005';
-  id:string = '5f4fd454-2eaa-4be7-81b7-8276de3a6f92';
 
   title!: string;
 
@@ -66,53 +67,46 @@ export class TeacherNotasComponent implements OnInit {
   constructor(private studentService: StudentService,
     private pagination: PaginationService,
     private periodoService: PeriodService,
-    private courseTeacherService: CourseTeacherService,
     private evaluacionService: EvaluacionService,
-    private anioService: AnioLectivoService) {
+    private anioService: AnioLectivoService,
+    private aulaService: AulaService,
+    private courseService: CourseService) {
   }
 
   ngOnInit(): void {
 
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
-    this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
-    this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
-    this.selectedAulaId = localStorage.getItem('selectedAula') || '';
+    this.selectedAnioId = localStorage.getItem('selectedAnioN') || '';
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodoN') || '';
+    this.selectedCourseId = localStorage.getItem('selectedCursoN') || '';
+    this.selectedAulaId = localStorage.getItem('selectedAulaN') || '';
 
     this.anioService.getAll('', 0, 10).subscribe(response=>{
       console.log(response)
       this.anios = response.data.list;
     });
 
+    if(this.selectedAnioId != ''){
+      this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
+        console.log(response.data.list)
+        this.periods = response.data.list;
+      })
+
+      this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+        this.aulas = response.data.list;
+      })
+    }
+
+    if(this.selectedAulaId != '' && this.selectedAnioId != ''){
+      this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
+        console.log(response)
+        this.courses = response.data.list;
+      })
+    }
+
     let page = this.pagination.getPage(this.paginationDataDxC);
     let size = this.pagination.getSize(this.paginationDataDxC);
-    this.courseTeacherService.getAll(this.code, 0, 10).subscribe(response => {
-        this.courseTeachers = response.data.list;
 
-        this.aulas = this.courseTeachers.map((courseTeacher) => courseTeacher.aulaDTO).filter((aula, index, self) => {
-            return index === self.findIndex((a) => (
-              a.id === aula.id
-            ));
-          });
-
-          const registrosFiltrados = this.courseTeachers.filter((courseTeacher) => {
-            return (
-              courseTeacher.aulaDTO.id === this.selectedAulaId &&
-              courseTeacher.docenteDTO.code === this.code
-            );
-          });
-          
-          // Obtener solo los atributos cursoDTO de los registros filtrados en un nuevo arreglo
-          this.courses = registrosFiltrados.map((courseTeacher) => courseTeacher.cursoDTO);
-      });
-
-    let pagePe = this.pagination.getPage(this.paginationDataPeriod);
-    let sizePe = this.pagination.getSize(this.paginationDataPeriod);
-    this.periodoService.getAll(this.selectedAnioName.toString(), pagePe, sizePe)
-      .subscribe(response => {
-        this.periods = response.data.list;
-      });
-
-    this.evaluacionService.getAllPeriodoAulaCurso('', pagePe, sizePe, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
   }
@@ -125,9 +119,13 @@ export class TeacherNotasComponent implements OnInit {
       this.periods = response.data.list;
     })
 
+    this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+      this.aulas = response.data.list;
+    })
+
     console.log(this.selectedAnioId);
 
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.setItem('selectedAnioN', this.selectedAnioId);
   }
 
   onPeriodoChange() {
@@ -138,27 +136,23 @@ export class TeacherNotasComponent implements OnInit {
       this.evaluaciones = response.data.list;
     })
 
-    localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
+    localStorage.setItem('selectedPeriodoN', this.selectedPeriodId);
   }
 
   onAulasChange() {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
+    this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
+      console.log(response)
+      this.courses = response.data.list;
+    })
+
     this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
-    const registrosFiltrados = this.courseTeachers.filter((courseTeacher) => {
-      return (
-        courseTeacher.aulaDTO.id === this.selectedAulaId &&
-        courseTeacher.docenteDTO.code === this.code
-      );
-    });
-    
-    // Obtener solo los atributos cursoDTO de los registros filtrados en un nuevo arreglo
-    this.courses = registrosFiltrados.map((courseTeacher) => courseTeacher.cursoDTO);
-    localStorage.setItem('selectedAula', this.selectedAulaId);
+    localStorage.setItem('selectedAulaN', this.selectedAulaId);
 
   }
 
@@ -169,10 +163,8 @@ export class TeacherNotasComponent implements OnInit {
     this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
-
     
-    localStorage.setItem('selectedCurso', this.selectedCourseId);
-
+    localStorage.setItem('selectedCursoN', this.selectedCourseId);
   }
 
   //BUSCAR

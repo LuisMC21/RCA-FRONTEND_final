@@ -34,7 +34,7 @@ export class TeacherAsignacionesComponent implements OnInit {
 
     this.teacher = this.tokenService.getUserId() || '';
     console.log(this.teacher);
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
+    this.selectedAnioId = localStorage.getItem('selectedAnioA') || '';
 
     this.anioService.getAll('', 0, 5).subscribe(response=>{
       console.log(response)
@@ -58,7 +58,7 @@ export class TeacherAsignacionesComponent implements OnInit {
 
     console.log(this.selectedAnioId);
 
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.setItem('selectedAnioA', this.selectedAnioId);
   }
 
   //BUSCAR
