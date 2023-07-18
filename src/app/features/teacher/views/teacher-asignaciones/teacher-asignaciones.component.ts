@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { CourseTeacherService } from 'src/app/features/admin/commons/services/course-teacher.service';
 import { PaginationService } from 'src/app/features/admin/commons/services/pagination.service';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 
@@ -11,23 +13,52 @@ import { TokenService } from 'src/app/features/auth/commons/services/token.servi
 })
 export class TeacherAsignacionesComponent implements OnInit {
 
+  anios: IAnioLectivo[] = [];
   asignaciones:ICourseTeacher[]=[];
   tableName: string = 'Asignaciones';
   paginationData:string ='course';
 
-  code:string = 'DCN005';
+  teacher = '';
+
+  @ViewChild('anioSelect') anioSelect!: ElementRef;
+  selectedAnioId: string = '';
+
 
   constructor(private courseTeacherService: CourseTeacherService, 
     private pagination: PaginationService,
-    private tokenService: TokenService){
+    private tokenService: TokenService,
+    private anioService: AnioLectivoService){
     }
 
   ngOnInit(){
+
+    this.teacher = this.tokenService.getUserId() || '';
+    console.log(this.teacher);
+    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
+
+    this.anioService.getAll('', 0, 5).subscribe(response=>{
+      console.log(response)
+      this.anios = response.data.list;
+    });
+
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAll(this.code,page,size).subscribe(response =>{
+    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,page,size).subscribe(response =>{
       this.asignaciones = response.data.list;
     })
+  }
+
+  onAnioChange(){
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId = selectedOption.value;
+    
+    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,0,5).subscribe(response =>{
+      this.asignaciones = response.data.list;
+    })
+
+    console.log(this.selectedAnioId);
+
+    localStorage.setItem('selectedAnio', this.selectedAnioId);
   }
 
   //BUSCAR
