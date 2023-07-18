@@ -6,15 +6,15 @@
   </div>
   <!--Reporte asistencia de alumno, por periodo y año-->
   <div *ngIf="selectedOption=== options[0]">
-    <app-modal [title]="'BUSCAR ALUMNO'" #searchStudentModal>
+    <app-modal #searchStudentModal>
       <app-field>
-        <input [(ngModel)]="nameStudent" (ngModelChange)="searchStudent($event)" class="input" type="text"
-          placeholder="Buscar alumno por nombre" #searchParentModal>
+        <input [(ngModel)]="numdoc" (ngModelChange)="searchStudent($event)" class="input" type="text"
+          placeholder="Buscar alumno por DNI, nombre o apellidos" #searchParentModal>
       </app-field>
       <div class="field">
-        <app-search *ngIf="nameStudent !== ''">
+        <app-search *ngIf="numdoc !== ''">
           <span (click)="selectStudent(student)" *ngFor="let student of students" class=" block w-full h-full">
-            {{ student.usuarioDTO.pa_surname + ' ' + student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
+            {{ student.usuarioDTO.numdoc +'-'+ student.usuarioDTO.pa_surname + ' ' + student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
           </span>
           <span *ngIf="students && students.length === 0" class="newStudent">
             <label>No se encontraron resultados.</label>
@@ -28,10 +28,9 @@
         <app-field>
           <input id="student" class="input" name="student" type="text" [(ngModel)]="selectedStudent"
             (ngModelChange)="updateStudentId($event)" formControlName="alumnoDTO" #studentSelect
-            (input)="searchStudent(studentSelect.value)">
+            (input)="searchStudent(studentSelect.value)" ><app-btn-search (click)="searchStudentModal.showModal()"></app-btn-search>
 
         </app-field>
-        <app-btn-search (click)="searchStudentModal.showModal()"></app-btn-search>
       </div>
       <div class="field">
         <app-label-field [title]="'Periodo'"></app-label-field>

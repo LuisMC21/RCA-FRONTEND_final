@@ -36,7 +36,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   group3!:FormGroup;
   selectedOption: string | undefined; // La opción seleccionada se almacenará en esta variable
   paginationData='period';
-  nameStudent: string = '';
+  numdoc: string = '';
   identiStudent: string = '';
   studentident:string='';
   selectedStudent:string='';
@@ -139,31 +139,35 @@ export class AdminReportAsistenciaComponent implements OnInit {
   }
   searchStudent(value: string | undefined) {
     if (value !== undefined) {
-      this.nameStudent = value;
+      this.numdoc = value; // Asignamos el valor del DNI a la variable numdoc
       this.studentService.getAll(value, 0, 5).subscribe(response => {
-        this.students = response.data.list.filter((student: { usuarioDTO: { pa_surname: string; ma_surname: string; name: string; }; }) =>
+        this.students = response.data.list.filter((student: { usuarioDTO: { pa_surname: string; ma_surname: string; name: string; numdoc: string; }; }) =>
           student.usuarioDTO.pa_surname.toLowerCase().includes(value.toLowerCase()) ||
           student.usuarioDTO.ma_surname.toLowerCase().includes(value.toLowerCase()) ||
           student.usuarioDTO.name.toLowerCase().includes(value.toLowerCase()) ||
-          `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`.toLowerCase().includes(value.toLowerCase())
+          student.usuarioDTO.numdoc.includes(value) // Buscar por el número de DNI
         );
         console.log(this.students);
       });
-    }}
-    selectStudent(student: IStudent) {
-      this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
-      this.selectedStudentId = student.id;
     }
-    updateStudentId(event: any) {
-      const selectedStudent = this.students.find(student => {
-        const fullName = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
-        return fullName === event;
-      });
-
-      if (selectedStudent) {
-        this.selectedStudentId = selectedStudent.id;
-      }
+  }
+  
+  selectStudent(student: IStudent) {
+    this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
+    this.selectedStudentId = student.id;
+  }
+  
+  updateStudentId(event: any) {
+    const selectedStudent = this.students.find(student => {
+      const fullName = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
+      return fullName === event;
+    });
+  
+    if (selectedStudent) {
+      this.selectedStudentId = selectedStudent.id;
     }
+  }
+  
 
 
 
@@ -230,7 +234,7 @@ redirectToAsistenciaAlumno(){
 
 resetForm() {
   this.group.reset(); // Restablece los valores del formulario a su estado inicial
-  this.nameStudent = ''; // Limpia el campo de búsqueda de estudiantes
+  this.numdoc = ''; // Limpia el campo de búsqueda de estudiantes
   this.selectedStudentId = ''; // Limpia el ID del estudiante seleccionado
 }
 }
