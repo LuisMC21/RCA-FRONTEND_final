@@ -12,13 +12,12 @@ export class ClaseService {
 
   constructor(private http: HttpClient) { }
   //Listar Clases
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    
-    return this.http.get<IApiResponse>(`${environment.api}/clase?page=${page}&size=${size}`);
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/clase?filter=${filter}&page=${page}&size=${size}`);
   }
 
   getAllPeriodoAulaCurso(nom?:string,page?:number,size?:number, periodo?:string, aula?:string, curso?:string):Observable<IApiResponse>{
-    
+
     return this.http.get<IApiResponse>(`${environment.api}/clase/cpau?page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
 
@@ -32,7 +31,7 @@ export class ClaseService {
       return this.http.put<IApiResponse>(`${environment.api}/clase`,clase);
     }
 
-    
+
   //Eliminar clase
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/clase/`+id);

@@ -103,13 +103,14 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.cursoService.getAll('',page,100)
     .subscribe(response=>{
       this.cursos=response.data.list;
+      console.log(this.cursos)
     })
 
     this.claseService.getAll('', page, size).subscribe(response => {
       this.clases = response.data.list;
+      console.log(this.clases);
     })
 
-    this.getAulas();
   }
 
   form():void{
@@ -129,6 +130,12 @@ export class AdminReportAsistenciaComponent implements OnInit {
           cursoDTO: ['', [Validators.required]],
           aulaDTO:['',[Validators.required]],
           anioLectivo2DTO:['',[Validators.required]]
+        }
+      );
+
+      this.group3=this.formBuilder.group(
+        {
+          claseDTO:['',[Validators.required]]
         }
       );
 
@@ -227,9 +234,7 @@ redirectToAsistenciaAlumno(){
   if (this.selectedOption === this.options[2]) {
     this.asistenciaService.exportAsistClase(this.selectedClaseId)
   }
-
 }
-
 resetForm() {
   this.group.reset(); // Restablece los valores del formulario a su estado inicial
   this.nameStudent = ''; // Limpia el campo de búsqueda de estudiantes
