@@ -13,6 +13,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 export class TeacherDatosComponent implements OnInit {
 
   group!: FormGroup;
+  isFieldDisabled: boolean = true;
   item!: ITeacher;
   code: string = '';
 
@@ -54,14 +55,9 @@ export class TeacherDatosComponent implements OnInit {
 
   ngOnInit(): void {
     this.code = this.tokenService.getUserId();
-
-    this.teacherService.getAll(this.code,0,5).subscribe(response=>{
-      this.item = response.data.list[0];
-      console.log(this.item);
-
-      this.form(this.item);
-    })
-
+    this.form(); // Move the form() call here
+    this.obtenerDatos();
+    
   }
 
   form(item?: ITeacher): void {
@@ -88,6 +84,19 @@ export class TeacherDatosComponent implements OnInit {
         rol: ['TEACHER']
       })
     });
+  }
+
+  async obtenerDatos(){
+    try {
+      const response = await this.teacherService.getAll(this.code,0,5).toPromise();
+      if (response && response.data && response.data.list) {
+        this.item = response.data.list[0];
+      }
+
+      this.form(this.item);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   save() {
