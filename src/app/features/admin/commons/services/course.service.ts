@@ -18,14 +18,14 @@ export class CourseService {
       map(response => response.data.countFilter)
     );
   }
-  
+
 //Listar Cursos
   getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/curso?filter=${nom}&page=${page}&size=${size}`);
   }
 
-  getAulaAnio(nom?:string, aula?:string, anio?:string, page?:number, size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/curso/aulaanio?filter=${nom}&aula=${aula}&anio=${anio}&page=${page}&size=${size}`)
+  getAulaAnio(aula?:string, anio?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/curso/aulaanio?aula=${aula}&anio=${anio}`)
   }
 
   //Agregar curso
@@ -33,7 +33,7 @@ export class CourseService {
     console.log(course)
     return this.http.post<IApiResponse>(`${environment.api}/curso`,course)
   }
-  
+
   update(course:ICourse):Observable<IApiResponse>{
     return this.http.put<IApiResponse>(`${environment.api}/curso`,course);
   }
@@ -42,5 +42,5 @@ export class CourseService {
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/curso/`+id);
   }
-  
+
 }

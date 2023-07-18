@@ -123,7 +123,7 @@ export class AdminReportNotasComponent implements OnInit {
     this.selectedClassroomId = selectedOption.value;
 
     if(this.selectedAnioName != '' && this.selectedClassroomId != ''){
-      this.courseService.getAulaAnio('', this.selectedClassroomId, this.selectedAnioName, 0,5).subscribe(response=>{
+      this.courseService.getAulaAnio(this.selectedClassroomId, this.selectedAnioName).subscribe(response=>{
         console.log(response);
         this.courses = response.data.list
       })

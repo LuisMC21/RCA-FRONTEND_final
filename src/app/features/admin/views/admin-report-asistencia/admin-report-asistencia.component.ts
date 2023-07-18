@@ -24,31 +24,31 @@ import { ClaseService } from '../../commons/services/clase.service';
   styleUrls: ['./admin-report-asistencia.component.scss']
 })
 export class AdminReportAsistenciaComponent implements OnInit {
-  students:IStudent[]=[];
-  periodos:IPeriod[]=[];
-  anios:IAnioLectivo[]=[];
-  anios2:IAnioLectivo[]=[];
-  aulas:IAula[]=[];
-  cursos:ICourse[]=[];
-  asistencias:IAsistencia[]=[];
-  clases:IClase[]=[];
-  group!:FormGroup;
-  group2!:FormGroup;
-  group3!:FormGroup;
+  students: IStudent[] = [];
+  periodos: IPeriod[] = [];
+  anios: IAnioLectivo[] = [];
+  anios2: IAnioLectivo[] = [];
+  aulas: IAula[] = [];
+  cursos: ICourse[] = [];
+  asistencias: IAsistencia[] = [];
+  clases: IClase[] = [];
+  group!: FormGroup;
+  group2!: FormGroup;
+  group3!: FormGroup;
   selectedOption: string | undefined; // La opción seleccionada se almacenará en esta variable
-  paginationData='period';
+  paginationData = 'period';
   nameStudent: string = '';
   identiStudent: string = '';
-  studentident:string='';
-  selectedStudent:string='';
-  searchForm!:FormGroup;
+  studentident: string = '';
+  selectedStudent: string = '';
+  searchForm!: FormGroup;
   options: string[] = [
     'Asistencia por Alumnos',
     'Asistencia por Curso',
     'Asistencia por Clase'
   ];
-  period:string='';
-  anio:string='';
+  period: string = '';
+  anio: string = '';
 
 
   @ViewChild('studentSelect') studentSelect!: ElementRef;
@@ -66,84 +66,77 @@ export class AdminReportAsistenciaComponent implements OnInit {
   @ViewChild('claseSelect') claseSelect!: ElementRef;
   selectedClaseId: string = '';
   constructor(private studentService: StudentService,
-    private periodService:PeriodService,
-    private aulaService:AulaService,
-    private claseService:ClaseService,
-    private pagination:PaginationService,
-    private anioService:AnioLectivoService,
-    private cursoService:CourseService,
-    private asistenciaService:AsistenciaService,
-    private formBuilder:FormBuilder,
-    private tokenService:TokenService,
-    private http:HttpClient) { }
+    private periodService: PeriodService,
+    private aulaService: AulaService,
+    private claseService: ClaseService,
+    private pagination: PaginationService,
+    private anioService: AnioLectivoService,
+    private cursoService: CourseService,
+    private asistenciaService: AsistenciaService,
+    private formBuilder: FormBuilder,
+    private tokenService: TokenService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.selectedOption = this.options[0];
-    this.form();
 
-    let page=this.pagination.getPage(this.paginationData);
-    let size=this.pagination.getSize(this.paginationData);
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
     this.studentService.getAll('', page, size)
-    .subscribe(response => {
-      this.students = response.data.list;
-    });
-    this.periodService.getAll('',page,size)
-    .subscribe(response=>{
-      this.periodos=response.data.list;
-    })
+      .subscribe(response => {
+        this.students = response.data.list;
+      });
+    this.periodService.getAll('', page, size)
+      .subscribe(response => {
+        this.periodos = response.data.list;
+      })
 
-    this.anioService.getAll('',page,size)
-    .subscribe(response=>{
-      console.log(response)
-      this.anios=response.data.list;
-      this.anios2=response.data.list;
-    })
+    this.anioService.getAll('', page, size)
+      .subscribe(response => {
+        this.anios = response.data.list;
+      })
 
-
-    this.cursoService.getAll('',page,100)
-    .subscribe(response=>{
-      this.cursos=response.data.list;
-      console.log(this.cursos)
-    })
-
+    //Funciones para reporte asistencia por curso
+    this.getAnios2();
+    //---
     this.claseService.getAll('', page, size).subscribe(response => {
       this.clases = response.data.list;
-      console.log(this.clases);
     })
+    this.form();
 
   }
 
-  form():void{
-      this.group=this.formBuilder.group(
+  form(): void {
+    this.group = this.formBuilder.group(
       {
         alumnoDTO: ['', [Validators.required]],
-        periodoDTO:['',[Validators.required]],
-        anioLectivoDTO:['',[Validators.required]]
-        }
-      );
-      this.searchForm = this.formBuilder.group({
-        searchStudent: ['', [Validators.required]]
-      });
+        periodoDTO: ['', [Validators.required]],
+        anioLectivoDTO: ['', [Validators.required]]
+      }
+    );
+    this.searchForm = this.formBuilder.group({
+      searchStudent: ['', [Validators.required]]
+    });
 
-      this.group2=this.formBuilder.group(
-        {
-          cursoDTO: ['', [Validators.required]],
-          aulaDTO:['',[Validators.required]],
-          anioLectivo2DTO:['',[Validators.required]]
-        }
-      );
+    this.group2 = this.formBuilder.group(
+      {
+        cursoDTO: [this.selectedCursoId, [Validators.required]],
+        aulaDTO: [this.selectedAulaId, [Validators.required]],
+        anioLectivo2DTO: [this.selected2AnioId, [Validators.required]]
+      }
+    );
 
-      this.group3=this.formBuilder.group(
-        {
-          claseDTO:['',[Validators.required]]
-        }
-      );
+    this.group3 = this.formBuilder.group(
+      {
+        claseDTO: ['', [Validators.required]]
+      }
+    );
 
-      this.group3=this.formBuilder.group(
-        {
-          claseDTO:['',[Validators.required]]
-        }
-      );
+    this.group3 = this.formBuilder.group(
+      {
+        claseDTO: ['', [Validators.required]]
+      }
+    );
   }
   searchStudent(value: string | undefined) {
     if (value !== undefined) {
@@ -155,96 +148,122 @@ export class AdminReportAsistenciaComponent implements OnInit {
           student.usuarioDTO.name.toLowerCase().includes(value.toLowerCase()) ||
           `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`.toLowerCase().includes(value.toLowerCase())
         );
-        console.log(this.students);
       });
-    }}
-    selectStudent(student: IStudent) {
-      this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
-      this.selectedStudentId = student.id;
     }
-    updateStudentId(event: any) {
-      const selectedStudent = this.students.find(student => {
-        const fullName = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
-        return fullName === event;
-      });
+  }
+  selectStudent(student: IStudent) {
+    this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
+    this.selectedStudentId = student.id;
+  }
+  updateStudentId(event: any) {
+    const selectedStudent = this.students.find(student => {
+      const fullName = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
+      return fullName === event;
+    });
 
-      if (selectedStudent) {
-        this.selectedStudentId = selectedStudent.id;
-      }
+    if (selectedStudent) {
+      this.selectedStudentId = selectedStudent.id;
     }
+  }
 
 
 
   onChangeSelect() {
     console.log(this.selectedOption);
   }
-  onPeriodoChange(){
-    const selectedOption=this.periodoSelect.nativeElement.selectedOptions[0];
-    this.selectedPeriodoId=selectedOption.value;
+  onPeriodoChange() {
+    const selectedOption = this.periodoSelect.nativeElement.selectedOptions[0];
+    this.selectedPeriodoId = selectedOption.value;
   }
-  onAulaChange(){
-    const selectedOption=this.aulaSelect.nativeElement.selectedOptions[0];
-    this.selectedAulaId=selectedOption.value;
+  onAulaChange() {
+    const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
+    this.selectedAulaId = selectedOption.value;
   }
-  onCursoChange(){
-    const selectedOption=this.cursoSelect.nativeElement.selectedOptions[0];
-    this.selectedCursoId=selectedOption.value;
+  onCursoChange() {
+    const selectedOption = this.cursoSelect.nativeElement.selectedOptions[0];
+    this.selectedCursoId = selectedOption.value;
   }
-  onAnioChange(){
-    const selectedOption=this.anioSelect.nativeElement.selectedOptions[0];
-    this.selectedAnioId=selectedOption.value;
+  onAnioChange() {
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId = selectedOption.value;
   }
 
-  onAnioChange2(){
-    const selectedOption=this.anio2Select.nativeElement.selectedOptions[0];
-    this.selected2AnioId=selectedOption.value;
+  onAnioChange2() {
+    const selectedOption = this.anio2Select.nativeElement.selectedOptions[0];
+    this.selected2AnioId = selectedOption.value;
     this.getAulas();
   }
-  onClaseChange(){
-    const selectedOption=this.claseSelect.nativeElement.selectedOptions[0];
-    this.selectedClaseId=selectedOption.value;
+  onClaseChange() {
+    const selectedOption = this.claseSelect.nativeElement.selectedOptions[0];
+    this.selectedClaseId = selectedOption.value;
   }
 
-redirectToAsistenciaAlumno(){
+  redirectToAsistenciaAlumno() {
 
-  if (this.selectedOption === this.options[0]) {
-    const token = this.tokenService.getToken();
-    const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.selectedStudentId}&id_periodo=${this.selectedPeriodoId}&id_aniolectivo=${this.selectedAnioId}`;
-    this.http.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-    }).subscribe({
-      next: (response) => {
-        // Crear una URL del objeto Blob
-        const fileURL = URL.createObjectURL(response);
-        // Abrir el archivo PDF en una nueva pestaña o ventana
-        window.open(fileURL);
-      },
-      error: (error) => {
-        // Manejar cualquier error que ocurra durante la solicitud
-        console.error(error);
-      }
-    });
+    if (this.selectedOption === this.options[0]) {
+      const token = this.tokenService.getToken();
+      const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.selectedStudentId}&id_periodo=${this.selectedPeriodoId}&id_aniolectivo=${this.selectedAnioId}`;
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe({
+        next: (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        error: (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      });
+    }
+    if (this.selectedOption === this.options[1]) {
+      console.log(this.selectedCursoId)
+      console.log(this.selectedAulaId)
+      console.log(this.selectedAnioId)
+      this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selected2AnioId)
+    }
+    if (this.selectedOption === this.options[2]) {
+      this.asistenciaService.exportAsistClase(this.selectedClaseId)
+    }
   }
-  if (this.selectedOption === this.options[1]) {
-    this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selectedAnioId)
+  resetForm() {
+    this.group.reset(); // Restablece los valores del formulario a su estado inicial
+    this.nameStudent = ''; // Limpia el campo de búsqueda de estudiantes
+    this.selectedStudentId = ''; // Limpia el ID del estudiante seleccionado
   }
-  if (this.selectedOption === this.options[2]) {
-    this.asistenciaService.exportAsistClase(this.selectedClaseId)
-  }
-}
-resetForm() {
-  this.group.reset(); // Restablece los valores del formulario a su estado inicial
-  this.nameStudent = ''; // Limpia el campo de búsqueda de estudiantes
-  this.selectedStudentId = ''; // Limpia el ID del estudiante seleccionado
-}
 
-  getAulas(){
-    this.aulaService.getAllAnio('', this.selected2AnioId)
-      .subscribe(response=>{
-        this.aulas=response.data;
+  //Funciones para reporte asistencia por curso
+  getAnios2() {
+    this.anioService.getAll('', 0, 100)
+      .subscribe(response => {
+        this.anios2 = response.data.list;
+        this.selected2AnioId = this.anios2[this.anios2.length-1].id
+        this.getAulas();
       })
   }
+
+  getAulas() {
+    this.aulaService.getAllAnio('', this.selected2AnioId)
+      .subscribe(response => {
+        this.aulas = response.data;
+        this.selectedAulaId= this.aulas[0].id;
+        this.getCursos();
+      })
+  }
+
+  getCursos(){
+    this.cursoService.getAulaAnio(this.selectedAulaId, this.selected2AnioId)
+        .subscribe(response => {
+          this.cursos = response.data;
+          this.selectedCursoId = this.cursos[0].id;
+          this.form();
+
+        })
+  }
+  //-----
 }

@@ -76,7 +76,7 @@ export class AdminAsistenciaComponent implements OnInit {
     this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
 
     if(this.selectedAnioId != '' && this.selectedAulaId != ''){
-      this.cursoService.getAulaAnio('', this.selectedAulaId, this.selectedAnioId, 0,5).subscribe(response=>{
+      this.cursoService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
         console.log(response);
         this.courses = response.data.list
       })
@@ -137,7 +137,7 @@ export class AdminAsistenciaComponent implements OnInit {
       this.asistencias = response.data.list;
     })
 
-    this.cursoService.getAulaAnio('', this.selectedAulaId, this.selectedAnioId, 0,5).subscribe(response=>{
+    this.cursoService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
       console.log(response);
       this.courses = response.data.list
     })
@@ -195,7 +195,7 @@ export class AdminAsistenciaComponent implements OnInit {
     }
     this.modalOk.showModal();
   }
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.asistenciaService.delete(id).subscribe(data => {
       if (data.successful === true) {
