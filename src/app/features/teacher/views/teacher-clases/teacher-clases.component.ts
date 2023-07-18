@@ -90,13 +90,13 @@ export class TeacherClasesComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+      this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
         this.aulas = response.data.list;
       })
     }
 
     if(this.selectedAulaId != '' && this.selectedAnioId != ''){
-      this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
+      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
         console.log(response)
         this.courses = response.data.list;
       })
@@ -109,7 +109,7 @@ export class TeacherClasesComponent implements OnInit {
     if(this.selectedCourseId != ''){
       this.obtenerCourseTeacher();
     }
-    
+
 
     let pagePe = this.pagination.getPage(this.paginationDataPeriod);
     let sizePe = this.pagination.getSize(this.paginationDataPeriod);
@@ -123,12 +123,12 @@ export class TeacherClasesComponent implements OnInit {
   onAnioChange(){
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
-    
+
     this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
       this.periods = response.data.list;
     })
 
-    this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+    this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
       this.aulas = response.data.list;
     });
 
@@ -156,7 +156,7 @@ export class TeacherClasesComponent implements OnInit {
         this.periodo = response.data;
       }
     }catch(error){
-    
+
     }
   }
 
@@ -164,7 +164,7 @@ export class TeacherClasesComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
+    this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
       console.log(response)
       this.courses = response.data.list;
     })
@@ -241,7 +241,7 @@ export class TeacherClasesComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.claseService.delete(id).subscribe(data => {
       console.log(data)

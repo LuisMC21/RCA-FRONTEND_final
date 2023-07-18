@@ -91,13 +91,13 @@ export class TeacherNotasComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+      this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
         this.aulas = response.data.list;
       })
     }
 
     if(this.selectedAulaId != '' && this.selectedAnioId != ''){
-      this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
+      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
         console.log(response)
         this.courses = response.data.list;
       })
@@ -114,12 +114,12 @@ export class TeacherNotasComponent implements OnInit {
   onAnioChange(){
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
-    
+
     this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
       this.periods = response.data.list;
     })
 
-    this.aulaService.getAllAnio("", this.selectedAnioId,0,20).subscribe(response=>{
+    this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
       this.aulas = response.data.list;
     })
 
@@ -143,8 +143,7 @@ export class TeacherNotasComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.courseService.getAulaAnio('',this.selectedAulaId, this.selectedAnioId,0,10).subscribe(response=>{
-      console.log(response)
+    this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
       this.courses = response.data.list;
     })
 
@@ -163,7 +162,7 @@ export class TeacherNotasComponent implements OnInit {
     this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
-    
+
     localStorage.setItem('selectedCursoN', this.selectedCourseId);
   }
 
@@ -206,7 +205,7 @@ export class TeacherNotasComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.evaluacionService.delete(id).subscribe(data => {
       if (data.successful === true) {
