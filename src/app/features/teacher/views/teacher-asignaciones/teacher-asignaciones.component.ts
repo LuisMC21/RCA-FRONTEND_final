@@ -24,7 +24,7 @@ export class TeacherAsignacionesComponent implements OnInit {
   selectedAnioId: string = '';
 
 
-  constructor(private courseTeacherService: CourseTeacherService, 
+  constructor(private courseTeacherService: CourseTeacherService,
     private pagination: PaginationService,
     private tokenService: TokenService,
     private anioService: AnioLectivoService){
@@ -51,7 +51,7 @@ export class TeacherAsignacionesComponent implements OnInit {
   onAnioChange(){
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
-    
+
     this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,0,5).subscribe(response =>{
       this.asignaciones = response.data.list;
     })

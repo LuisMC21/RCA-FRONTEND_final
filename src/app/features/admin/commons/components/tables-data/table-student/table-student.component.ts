@@ -53,7 +53,7 @@ export class TableStudentComponent implements OnInit {
   head = ["CODIGO", "APELLIDOS", "NOMBRE", "DOC. de IDENTIDAD", "CORREO", "TELÉFONO", "VACUNA", "SEGURO", "CONTACTO", "ACCIONES"]
   msjDeleteok: string = '';
 
-  constructor(private renderer2: Renderer2, private formBuilder: FormBuilder, 
+  constructor(private renderer2: Renderer2, private formBuilder: FormBuilder,
     private parentService: ParentService, private router: Router) {
   }
   ngOnInit(): void {
@@ -87,7 +87,7 @@ export class TableStudentComponent implements OnInit {
   get rol() { return this.group.get('usuarioDTO.rol') }
   get apoderado() { return this.group.get('apoderado') }
   get isVacunado() { return this.group.get('isVacunado') }
-  // APODERADO 
+  // APODERADO
   get idApoderado() { return this.group.get('apoderadoDTO.id') }
   get codeA() { return this.group.get('apoderadoDTO.code') }
   get nameApoderado() { return this.group.get('nameApoderado') }
@@ -176,7 +176,7 @@ export class TableStudentComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.studentDelete.emit(id)
     this.modalDelete.hiddenModal();

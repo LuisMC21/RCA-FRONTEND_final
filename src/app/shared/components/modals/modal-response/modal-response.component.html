@@ -9,7 +9,7 @@
             </div>
             <div class="modal__container" *ngIf="title!=''">
                 <div class="btn-ok"  >
-                    <app-button (click)="refresh()" (click)="hiddenModal()" [title]="'OK'"></app-button>
+                    <app-button (click)="hiddenModal()" [title]="'OK'"></app-button>
                 </div>
             </div>
         </div>
@@ -19,8 +19,8 @@
 <ng-template #failed>
     <div class="icon">
         <i class="icon_failed bi bi-x-circle-fill"></i>
-    </div> 
-</ng-template> 
+    </div>
+</ng-template>
 <ng-template #iconLoading>
     <div class="loader">
         <app-loader-operation></app-loader-operation>

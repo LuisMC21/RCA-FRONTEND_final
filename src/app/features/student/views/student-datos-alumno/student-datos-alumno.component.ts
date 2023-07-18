@@ -68,16 +68,13 @@ export class StudentDatosAlumnoComponent implements OnInit {
 
   ngOnInit(): void {
     this.codeT = this.tokenService.getUserId();
-
-    this.studentService.getAll(this.codeT,0,5).subscribe(response=>{
-      this.item = response.data.list[0];
-
-      this.form(this.item);
-    })
+    this.form();
+    this.obtenerDatos();
 
   }
 
-  form(item?: IStudent): void {
+  form(item?: any): void {
+    console.log(item?.usuarioDTO.pa_surname);
     this.group = this.formBuilder.group({
       // ALUMNO
       id: [item ? item.id : null],
@@ -130,5 +127,15 @@ export class StudentDatosAlumnoComponent implements OnInit {
       this.modalOk.showModal();
     }
   }
-
+  async obtenerDatos(){
+    try {
+      const response = await this.studentService.getOne(this.codeT).toPromise();
+      if (response && response.data) {
+        this.item = response.data;
+      }
+      this.form(this.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

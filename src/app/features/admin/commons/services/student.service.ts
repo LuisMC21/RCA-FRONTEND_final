@@ -10,8 +10,8 @@ import { IStudent } from '../../interfaces/student';
 })
 export class StudentService {
   constructor(private http: HttpClient) { }
-  getOne(filter:string):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`);
+  getOne(id:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno/${id}`);
   }
   getAlumnosCount(filter: string): Observable<number> {
     return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`).pipe(
@@ -27,7 +27,7 @@ export class StudentService {
     return this.http.get<IApiResponse>(`${environment.api}/alumno/auc?page=${page}&size=${size}&anio=${anio}&aula=${aula}&curso=${curso}`);
   }
 
-  
+
   //Agregar alumno
   add(student:IStudent):Observable<IApiResponse>{
     console.log(student)
