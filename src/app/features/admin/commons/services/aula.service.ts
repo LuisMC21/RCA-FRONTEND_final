@@ -22,8 +22,8 @@ export class AulaService {
     return this.http.get<IApiResponse>(`${environment.api}/aula?page=${page}&size=${size}&filter=${filter}`);
   }
 
-  getAllAnio(nom?:string, anio?:string, page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/aula?anio=${anio}&page=${page}&size=${size}`);
+  getAllAnio(filter?:string, anio?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/aula/anio?filter=${filter}&anio=${anio}`);
   }
 
   //agregar

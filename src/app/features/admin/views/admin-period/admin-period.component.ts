@@ -56,11 +56,11 @@ export class AdminPeriodComponent implements OnInit {
 
   constructor(private periodService: PeriodService,
     private pagination: PaginationService,
+    private aulaService:AulaService,
+    private courseService:CourseService,
     private anioService: AnioLectivoService,
     private studentService: StudentService,
     private evaluacionService: EvaluacionService,
-    private aulaService: AulaService,
-    private courseService: CourseService,
     private courseTeacherService: CourseTeacherService) { }
 
   ngOnInit(): void {
@@ -111,7 +111,7 @@ export class AdminPeriodComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.periodService.delete(id).subscribe(data => {
       if (data.message === 'ok') {
@@ -145,7 +145,7 @@ export class AdminPeriodComponent implements OnInit {
           console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
         }
 
-        const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id, 0, 100).toPromise();
+      const response2 = await this.aulaService.getAllAnio('', this.period.anio_lectivoDTO.id).toPromise();
 
         if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
           this.aulas = response2.data.list;
@@ -164,9 +164,7 @@ export class AdminPeriodComponent implements OnInit {
           } else {
             console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
           }
-          
-          
-          console.log("Cursos por aula")
+
           console.log(this.courses.length);
 
           //Obtener todos los alumnos por año, curso y aula

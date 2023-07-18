@@ -24,8 +24,8 @@ export class AsistenciaService {
     return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
   }
 
-  getAllPeriodoAlumnoCurso(nom?:string,page?:number,size?:number, periodo?:string, alumno?:string,curso?:string):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asfc?page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}&curso=${curso}`);
+  getAllPeriodoAlumnoCurso(filter?:string,page?:number,size?:number, periodo?:string, alumno?:string,curso?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asfc?filter=${filter}&page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}&curso=${curso}`);
   }
 
   //Agregar asistencia
@@ -61,6 +61,9 @@ export class AsistenciaService {
         console.error(error);
       }
     });
+  }
+  exportAsistClase(id_clase:string){
+
   }
 
 }
