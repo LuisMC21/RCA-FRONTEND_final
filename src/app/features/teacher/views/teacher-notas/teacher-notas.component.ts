@@ -1,9 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { CourseTeacherService } from 'src/app/features/admin/commons/services/course-teacher.service';
 import { EvaluacionService } from 'src/app/features/admin/commons/services/evaluacion.service';
 import { PaginationService } from 'src/app/features/admin/commons/services/pagination.service';
 import { PeriodService } from 'src/app/features/admin/commons/services/period.service';
 import { StudentService } from 'src/app/features/admin/commons/services/student.service';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
 import { ICourse } from 'src/app/features/admin/interfaces/course';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
@@ -19,6 +21,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 })
 export class TeacherNotasComponent implements OnInit {
 
+  anios: IAnioLectivo[] = [];
   alumnos: IStudent[] = [];
   periods: IPeriod[] = [];
   aulas: IAula[] = [];
@@ -29,6 +32,9 @@ export class TeacherNotasComponent implements OnInit {
   periodo?:IPeriod;
   courseTeacher?: ICourseTeacher;
 
+
+  @ViewChild('anioSelect') anioSelect!: ElementRef;
+  selectedAnioId: string = '';
 
   @ViewChild('periodSelect') periodSelect!: ElementRef;
   selectedPeriodId: string = '';
@@ -61,14 +67,21 @@ export class TeacherNotasComponent implements OnInit {
     private pagination: PaginationService,
     private periodoService: PeriodService,
     private courseTeacherService: CourseTeacherService,
-    private evaluacionService: EvaluacionService) {
+    private evaluacionService: EvaluacionService,
+    private anioService: AnioLectivoService) {
   }
 
   ngOnInit(): void {
 
+    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
     this.selectedAulaId = localStorage.getItem('selectedAula') || '';
+
+    this.anioService.getAll('', 0, 10).subscribe(response=>{
+      console.log(response)
+      this.anios = response.data.list;
+    });
 
     let page = this.pagination.getPage(this.paginationDataDxC);
     let size = this.pagination.getSize(this.paginationDataDxC);
@@ -102,6 +115,19 @@ export class TeacherNotasComponent implements OnInit {
     this.evaluacionService.getAllPeriodoAulaCurso('', pagePe, sizePe, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
+  }
+
+  onAnioChange(){
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId = selectedOption.value;
+    
+    this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
+      this.periods = response.data.list;
+    })
+
+    console.log(this.selectedAnioId);
+
+    localStorage.setItem('selectedAnio', this.selectedAnioId);
   }
 
   onPeriodoChange() {

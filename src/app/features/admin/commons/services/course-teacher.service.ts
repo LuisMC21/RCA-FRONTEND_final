@@ -21,6 +21,10 @@ export class CourseTeacherService {
     return this.http.get<IApiResponse>(`${environment.api}/asignatura/alau?filter=${nom}&alumno=${alumno}&anio=${anio}&page=${page}&size=${size}`);
   }
 
+  getAllDocenteAnio(nom?:string,docente?:string, anio?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asignatura/aldc?filter=${nom}&docente=${docente}&anio=${anio}&page=${page}&size=${size}`);
+  }
+
   getAulaCurso(nom?:string,aula?:string, curso?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asignatura/ac?filter=${nom}&aula=${aula}&curso=${curso}&page=${page}&size=${size}`);
   }

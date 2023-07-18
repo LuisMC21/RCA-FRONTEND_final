@@ -1,13 +1,20 @@
 <div class="px-8">
     <div class="bg-gray-50 p-3 rounded-xl" style="margin-bottom: 10px;">
-        <div class="w-1/4" style="display: inline-block; margin-right: 20px;">
+        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
+            <app-label-field [title]="'Año'"></app-label-field>
+            <app-field><select class="input" (change)="onAnioChange()" [(ngModel)]="selectedAnioId" #anioSelect>
+                    <option value="" selected disabled>--Seleccione--</option>
+                    <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
+                </select></app-field>
+        </div>
+        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
             <app-label-field [title]="'Periodo'"></app-label-field>
             <app-field><select class="input" (change)="onPeriodoChange()" [(ngModel)]="selectedPeriodId" #periodSelect>
                     <option value="" selected disabled>--Seleccione--</option>
                     <option *ngFor="let period of periods" [value]="period.id">{{period.name}}</option>
                 </select></app-field>
         </div>
-        <div class="w-1/4" style="display: inline-block; margin-right: 20px;">
+        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
             <app-label-field [title]="'Aulas'"></app-label-field>
             <app-field><select class="input" (change)="onAulasChange()" [(ngModel)]="selectedAulaId" #aulaSelect>
                     <option value="" selected disabled>--Seleccione--</option>
@@ -15,7 +22,7 @@
                     </option>
                 </select></app-field>
         </div>
-        <div class="w-1/4" style="display: inline-block;">
+        <div class="w-1/5" style="display: inline-block;">
             <app-label-field [title]="'Cursos'"></app-label-field>
             <app-field><select class="input" (change)="onCourseChange()" [(ngModel)]="selectedCourseId" #courseSelect>
                     <option value="" selected disabled>--Seleccione--</option>
