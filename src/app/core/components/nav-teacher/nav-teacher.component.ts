@@ -12,6 +12,7 @@ export class NavTeacherComponent implements OnInit {
   @ViewChild('clases') clases!: ElementRef;
   @ViewChild('asignaciones') asignaciones!: ElementRef;
   @ViewChild('datos') datos!: ElementRef;
+  @ViewChild('asistencias') asistencias!: ElementRef;
 
   menuVisible = true;
 
@@ -24,6 +25,7 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.notas.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
@@ -32,11 +34,13 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
   Optasignaciones(){
     this.renderer2.setStyle(this.notas.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(32, 36, 59)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
@@ -46,6 +50,15 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(32, 36, 59)');
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+  }
+
+  Optasistencias(){
+    this.renderer2.setStyle(this.notas.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(32, 36, 59)');
   }
 
   redirectTo(index:string):void{

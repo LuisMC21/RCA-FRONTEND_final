@@ -37,5 +37,13 @@
                 </span>
             </div>
         </li>
+        <li (click)="redirectTo('asistencias')" class="nav__option flex flex-col" #asistencias>
+            <div class="flex" (click)="Optasistencias()">
+                <i class="bi bi-tools"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Asistencias</label>
+                </span>
+            </div>
+        </li>
     </ul>
 </nav>

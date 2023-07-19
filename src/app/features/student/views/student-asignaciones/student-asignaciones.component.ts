@@ -18,6 +18,7 @@ export class StudentAsignacionesComponent implements OnInit {
 
   anios: IAnioLectivo[] = [];
   asignaciones: ICourseTeacher[] = [];
+  route = 'Asignaciones'
 
   tableName = 'Cursos';
 
@@ -42,7 +43,7 @@ export class StudentAsignacionesComponent implements OnInit {
 
     this.alumno = this.tokenService.getUserId() || '';
 
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
+    this.selectedAnioId = localStorage.getItem('selectedAnioA') || '';
 
     this.anioService.getAll('', 0, 5).subscribe(response=>{
       console.log(response)
@@ -64,7 +65,7 @@ export class StudentAsignacionesComponent implements OnInit {
       this.asignaciones = response.data.list;
     })
 
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.setItem('selectedAnioA', this.selectedAnioId);
   }
 
 

@@ -45,16 +45,11 @@ export class TeacherClasesComponent implements OnInit {
   @ViewChild('courseSelect') courseSelect!: ElementRef;
   selectedCourseId: string = '';
 
-  @ViewChild(TableClaseComponent) tableComponent!: TableClaseComponent;
-
   tableName: string = 'Clases';
 
   title!: string;
 
-  paginationData = 'grade';
-  paginationDataStudent = 'student';
-  paginationDataPeriod = 'period';
-  paginationDataDxC = 'grade';
+  paginationData:string ='course';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -91,14 +86,14 @@ export class TeacherClasesComponent implements OnInit {
       })
 
       this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
-        this.aulas = response.data.list;
+        this.aulas = response.data;
       })
     }
 
     if(this.selectedAulaId != '' && this.selectedAnioId != ''){
       this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
         console.log(response)
-        this.courses = response.data.list;
+        this.courses = response.data;
       })
     }
 
@@ -110,11 +105,9 @@ export class TeacherClasesComponent implements OnInit {
       this.obtenerCourseTeacher();
     }
 
-
-    let pagePe = this.pagination.getPage(this.paginationDataPeriod);
-    let sizePe = this.pagination.getSize(this.paginationDataPeriod);
-
-    this.claseService.getAllPeriodoAulaCurso('', pagePe, sizePe, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.claseService.getAllPeriodoAulaCurso('',page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
 
@@ -129,7 +122,7 @@ export class TeacherClasesComponent implements OnInit {
     })
 
     this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
-      this.aulas = response.data.list;
+      this.aulas = response.data;
     });
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
@@ -166,7 +159,7 @@ export class TeacherClasesComponent implements OnInit {
 
     this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
       console.log(response)
-      this.courses = response.data.list;
+      this.courses = response.data;
     })
 
     this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
@@ -247,7 +240,7 @@ export class TeacherClasesComponent implements OnInit {
       console.log(data)
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful === false;
       }
     });
     this.modalOk.showModal();
