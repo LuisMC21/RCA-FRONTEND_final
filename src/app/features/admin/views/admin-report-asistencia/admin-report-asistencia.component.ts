@@ -142,12 +142,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     if (value !== undefined) {
       this.nameStudent = value;
       this.studentService.getAll(value, 0, 5).subscribe(response => {
-        this.students = response.data.list.filter((student: { usuarioDTO: { pa_surname: string; ma_surname: string; name: string; }; }) =>
-          student.usuarioDTO.pa_surname.toLowerCase().includes(value.toLowerCase()) ||
-          student.usuarioDTO.ma_surname.toLowerCase().includes(value.toLowerCase()) ||
-          student.usuarioDTO.name.toLowerCase().includes(value.toLowerCase()) ||
-          `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`.toLowerCase().includes(value.toLowerCase())
-        );
+        this.students = response.data.list;
       });
     }
   }

@@ -19,8 +19,8 @@ export class StudentService {
     );
   }
   //Listar alumnos
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno?page=${page}&size=${size}`);
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}&page=${page}&size=${size}`);
   }
 
   getAllAnioCursoAula(nom?:string,page?:number,size?:number, anio?:string, aula?:string, curso?:string):Observable<IApiResponse>{
