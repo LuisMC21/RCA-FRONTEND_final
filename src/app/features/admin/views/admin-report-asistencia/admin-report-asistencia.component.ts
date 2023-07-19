@@ -91,9 +91,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     //----
 
 
-    this.claseService.getAll('', page, size).subscribe(response => {
-      this.clases = response.data.list;
-    })
+    this.getClases();
     this.form();
 
   }
@@ -291,4 +289,15 @@ export class AdminReportAsistenciaComponent implements OnInit {
       })
   }
   //--
+
+  //Funciones para reporte de asistencias de una clase
+  getClases(){
+    this.claseService.getAll('', 0, 50).subscribe(response => {
+      if(response.successful && response.data.list){
+        this.clases = response.data.list;
+      } else {
+        this.clases = [];
+      }
+    })
+  }
 }
