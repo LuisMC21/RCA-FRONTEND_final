@@ -82,19 +82,16 @@ export class AdminReportAsistenciaComponent implements OnInit {
 
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
+
     this.studentService.getAll('', page, size)
       .subscribe(response => {
         this.students = response.data.list;
       });
-    this.periodService.getAll('', page, size)
-      .subscribe(response => {
-        this.periodos = response.data.list;
-      })
 
-    this.anioService.getAll('', page, size)
-      .subscribe(response => {
-        this.anios = response.data.list;
-      })
+
+
+    //Funciones para reporte asistencia por alumno
+    this.getAnios();
 
     //Funciones para reporte asistencia por curso
     this.getAnios2();
@@ -110,8 +107,8 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.group = this.formBuilder.group(
       {
         alumnoDTO: ['', [Validators.required]],
-        periodoDTO: ['', [Validators.required]],
-        anioLectivoDTO: ['', [Validators.required]]
+        periodoDTO: [this.selectedPeriodoId , [Validators.required]],
+        anioLectivoDTO: [this.selectedAnioId, [Validators.required]]
       }
     );
     this.searchForm = this.formBuilder.group({
@@ -141,8 +138,13 @@ export class AdminReportAsistenciaComponent implements OnInit {
   searchStudent(value: string | undefined) {
     if (value !== undefined) {
       this.nameStudent = value;
-      this.studentService.getAll(value, 0, 5).subscribe(response => {
-        this.students = response.data.list;
+      console.log(this.selectedAnioId)
+      this.studentService.getAllAnioCursoAula(value, this.selectedAnioId, "", "", 0, 50).subscribe(response => {
+        if(response.successful && response.data.list){
+          this.students = response.data.list;
+        } else {
+          this.students= [];
+        }
       });
     }
   }
@@ -181,6 +183,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   onAnioChange() {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
+    this.getPeriodos();
   }
 
   onAnioChange2() {
@@ -217,9 +220,6 @@ export class AdminReportAsistenciaComponent implements OnInit {
       });
     }
     if (this.selectedOption === this.options[1]) {
-      console.log(this.selectedCursoId)
-      console.log(this.selectedAulaId)
-      console.log(this.selectedAnioId)
       this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selected2AnioId)
     }
     if (this.selectedOption === this.options[2]) {
@@ -254,11 +254,38 @@ export class AdminReportAsistenciaComponent implements OnInit {
   getCursos(){
     this.cursoService.getAulaAnio(this.selectedAulaId, this.selected2AnioId)
         .subscribe(response => {
-          this.cursos = response.data;
-          this.selectedCursoId = this.cursos[0].id;
-          this.form();
-
+          if(response.successful){
+            this.cursos = response.data;
+            this.selectedCursoId = this.cursos[0].id;
+            this.form();
+          }
         })
   }
   //-----
+
+  //Funciones para el reporte asistencia por alumnos
+  getAnios(){
+    this.anioService.getAll('', 0, 100)
+      .subscribe(response => {
+        if(response.successful && response.data.list){
+          this.anios = response.data.list;
+          this.selectedAnioId = this.anios[this.anios.length-1].id;
+          this.getPeriodos();
+        } else{
+          this.anios = []
+        }
+      })
+  }
+
+  getPeriodos(){
+    this.periodService.getAll(this.selectedAnioId, 0, 20)
+      .subscribe(response => {
+        if(response.successful && response.data.list){
+          this.periodos = response.data.list;
+          this.selectedPeriodoId = this.periodos[0].id;
+        } else {
+          this.periodos = []
+        }
+      })
+  }
 }

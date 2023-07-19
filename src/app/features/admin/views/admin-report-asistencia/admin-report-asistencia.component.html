@@ -24,14 +24,15 @@
     </app-modal>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between">
       <div class="field">
-        <app-label-field [title]="'Buscar Estudiante'"></app-label-field>
+        <app-label-field [title]="'Anio Lectivo'"></app-label-field>
         <app-field>
-          <input id="student" class="input" name="student" type="text" [(ngModel)]="selectedStudent"
-            (ngModelChange)="updateStudentId($event)" formControlName="alumnoDTO" #studentSelect
-            (input)="searchStudent(studentSelect.value)">
-
+          <select id="anio" class="input" name="anio" (change)="onAnioChange()" formControlName="anioLectivoDTO"
+            #anioSelect>
+            <option *ngFor="let anio of anios" [value]="anio.id">
+              {{anio.name}}
+            </option>
+          </select>
         </app-field>
-        <app-btn-search (click)="searchStudentModal.showModal()"></app-btn-search>
       </div>
       <div class="field">
         <app-label-field [title]="'Periodo'"></app-label-field>
@@ -45,18 +46,16 @@
         </app-field>
       </div>
       <div class="field">
-        <app-label-field [title]="'Anio Lectivo'"></app-label-field>
+        <app-label-field [title]="'Buscar Estudiante'"></app-label-field>
         <app-field>
-          <select id="anio" class="input" name="anio" (change)="onAnioChange()" formControlName="anioLectivoDTO"
-            #anioSelect>
-            <option *ngFor="let anio of anios" [value]="anio.id">
-              {{anio.name}}
-            </option>
-          </select>
+          <input id="student" class="input" name="student" type="text" [(ngModel)]="selectedStudent"
+            (ngModelChange)="updateStudentId($event)" formControlName="alumnoDTO" #studentSelect
+            (input)="searchStudent(studentSelect.value)">
         </app-field>
       </div>
-
-
+      <div class="field search_alumno">
+        <app-btn-search id="search_alumno" (click)="searchStudentModal.showModal()"></app-btn-search>
+      </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" class="field__input--button w-1/4 mx-2 h-9 rounded-3xl text-white"
           [disabled]="group.invalid" (click)="redirectToAsistenciaAlumno()">Generar PDF</button>
