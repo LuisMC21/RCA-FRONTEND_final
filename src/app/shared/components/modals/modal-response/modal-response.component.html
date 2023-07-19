@@ -9,7 +9,7 @@
             </div>
             <div class="modal__container" *ngIf="title!=''">
                 <div class="btn-ok"  >
-                    <app-button (click)="hiddenModal()" [title]="'OK'"></app-button>
+                    <app-button (click)="refresh()" (click)="hiddenModal()" [title]="'OK'"></app-button>
                 </div>
             </div>
         </div>

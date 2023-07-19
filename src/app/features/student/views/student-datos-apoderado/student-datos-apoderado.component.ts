@@ -17,6 +17,8 @@ export class StudentDatosApoderadoComponent implements OnInit {
   item!: IParent;
   codeT: string = '';
 
+  route = 'Datos / Apoderado';
+
   msjResponse: string = '';
   successful: boolean = false;
 
@@ -42,11 +44,8 @@ export class StudentDatosApoderadoComponent implements OnInit {
 
   ngOnInit(): void {
     this.codeT = this.tokenService.getUserId();
-
-    this.studentService.getAll(this.codeT,0,5).subscribe(response=>{
-      this.item = response.data.list[0].apoderadoDTO;
-      this.form(this.item);
-    })
+    this.form();
+    this.obtenerDatos();
   }
 
 
@@ -62,8 +61,20 @@ export class StudentDatosApoderadoComponent implements OnInit {
       type_doc: [item ? item.type_doc : ''],
       numdoc: [item ? item.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       tel: [item ? item.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
-      email: [item ? item.email : ''],
+      email: [item ? item.email : '', [Validators.required, Validators.email]],
     });
+  }
+
+  async obtenerDatos(){
+    try {
+      const response = await this.studentService.getOne(this.codeT).toPromise();
+      if (response && response.data) {
+        this.item = response.data.apoderadoDTO;
+      }
+      this.form(this.item);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   save() {
@@ -80,6 +91,10 @@ export class StudentDatosApoderadoComponent implements OnInit {
       })
       this.modalOk.showModal();
     }
+  }
+
+  refresh(){
+    window.location.reload();
   }
 
 }

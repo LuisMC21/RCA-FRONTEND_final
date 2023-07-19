@@ -16,17 +16,14 @@ export class StudentDatosAlumnoComponent implements OnInit {
   item!: IStudent;
   codeT: string = '';
 
+  route = 'Datos / Alumno';
+
   msjResponse:string='';
   successful: boolean=false;
 
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
-  optionsDocumentType = [
-    { title: "DNI", value: 'DNI' },
-    { title: "CE", value: 'CE' },
-    { title: "Pasaporte", value: 'Pasaporte' },
-    { title: "Partida de Nacimiento", value: 'Partida' },
-  ]
+  
   optionsVac = [
     { title: 'SI', value: 'S' },
     { title: 'NO', value: 'N' }
@@ -80,11 +77,11 @@ export class StudentDatosAlumnoComponent implements OnInit {
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : ''],
-      namecon_pri: [item ? item.namecon_pri : ''],
-      telcon_pri: [item ? item.telcon_pri : ''],
+      namecon_pri: [item ? item.namecon_pri : '', [Validators.required]],
+      telcon_pri: [item ? item.telcon_pri : '', [Validators.required]],
       namecon_sec: [item ? item.namecon_sec : ''],
       telcon_sec: [item ? item.telcon_sec : ''],
-      vaccine: [item ? item.vaccine : ''],
+      vaccine: [item ? item.vaccine : '', Validators.required],
       type_insurance: [item ? item.type_insurance : ''],
       apoderadoDTO: this.formBuilder.group({
         id: [item ? item.apoderadoDTO.id : null],
@@ -104,7 +101,10 @@ export class StudentDatosAlumnoComponent implements OnInit {
         numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         tel: [item ? item.usuarioDTO.tel : ''],
         gra_inst: [item ? item.usuarioDTO.gra_inst : '', [Validators.required,]],
-        email: [item ? item.usuarioDTO.email : '', [Validators.required,]],
+        email: [
+          item ? item.usuarioDTO.email : '',
+          [Validators.required, Validators.email]
+        ],
         password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
         rol: ['STUDENT']
       }),
@@ -137,5 +137,9 @@ export class StudentDatosAlumnoComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  refresh(){
+    window.location.reload();
   }
 }

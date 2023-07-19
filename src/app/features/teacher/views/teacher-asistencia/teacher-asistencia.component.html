@@ -31,16 +31,10 @@
     </div>
 </div>
 <div class="px-8">
-    <app-table [title]="'Clases'" [tableName]="tableName">
-        <app-table-clase 
-            (claseDelete)="delete($event)" 
-            (claseSave)="save($event)"
-            (claseSearch)="search($event)" 
-            [tableName]="tableName"
-            [periodo]="periodo"
-            [courseTeacher]="courseTeacher"
-            [clases]="clases">
-        </app-table-clase>
+    <app-table [title]="'Agregar Asistencias'" [tableName]="tableName">
+        <app-table-asistencia (asistenciaSave)="save($event)"
+            (asistenciaSearch)="search($event)" [tableName]="tableName" [asistencias]="asistencias">
+        </app-table-asistencia>
         <app-pagination [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>

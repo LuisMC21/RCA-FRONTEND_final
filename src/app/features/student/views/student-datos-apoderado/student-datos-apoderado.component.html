@@ -1,10 +1,12 @@
+
 <div class="px-8">
+    <app-route [route]="route"></app-route>
     <div class="bg-gray-50 p-3 rounded-xl" style="margin-bottom: 10px;">
         <form [formGroup]="group" (ngSubmit)="save()" class="form">
             <div class="form__field">
                 <div class="field">
                     <app-label-field [title]="'Apellido Paterno'"></app-label-field>
-                    <app-field><input formControlName="pa_surname" readonly class="input" type="text"></app-field>
+                    <app-field><input formControlName="pa_surname" readonly class="input plomo-input"type="text"></app-field>
                     <app-required-field class="px-2"
                         *ngIf="pa_surname?.invalid && (pa_surname?.dirty || pa_surname?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
@@ -12,38 +14,38 @@
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Apellido Materno'"></app-label-field>
-                    <app-field><input formControlName="ma_surname" readonly class="input" type="text"></app-field>
+                    <app-field><input formControlName="ma_surname" class="input plomo-input" readonly  type="text"></app-field>
                     <app-required-field class="px-2"
                         *ngIf="ma_surname?.invalid && (ma_surname?.dirty || ma_surname?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Nombre'"></app-label-field>
-                    <app-field><input formControlName="name" readonly class="input" type="text"></app-field>
+                    <app-field><input formControlName="name" readonly class="input plomo-input" type="text"></app-field>
                     <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Correo'"></app-label-field>
-                    <app-field><input formControlName="email" class="input" type="text"></app-field>
+                    <app-field><input formControlName="email" class="input" type="email"></app-field>
                     <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                        [text]="'*El campo es requerido'"></app-required-field>
+                        [text]="'*El campo debe ser un correo'"></app-required-field>
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Teléfono'"></app-label-field>
-                    <app-field><input formControlName="tel" class="input" type="text"></app-field>
+                    <app-field><input formControlName="tel" class="input" type="text" maxlength="9"></app-field>
                     <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Tipo de documento'"></app-label-field>
-                    <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
+                    <app-field><input formControlName="type_doc" readonly class="input plomo-input" type="text"></app-field>
                     <app-required-field class="px-2" *ngIf="type_doc?.invalid && (type_doc?.dirty || type_doc?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
                 </div>
                 <div class="field">
                     <app-label-field [title]="'Número de documento'"></app-label-field>
-                    <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
+                    <app-field><input formControlName="numdoc" class="input plomo-input" readonly type="text"></app-field>
                     <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                         [text]="'*El campo es requerido'"></app-required-field>
                 </div>
@@ -58,6 +60,9 @@
                     (click)="save()">Guardar</button>
             </div>
         </form>
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
+        </div>
     </div>
 </div>
 

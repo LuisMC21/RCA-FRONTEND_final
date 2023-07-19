@@ -15,7 +15,6 @@ export class TableNotaComponent implements OnInit {
 
   @Input() evaluaciones: IEvaluacion[] = [];
 
-
   @Input() tableName!: string;
   @Input() title!: string;
 
