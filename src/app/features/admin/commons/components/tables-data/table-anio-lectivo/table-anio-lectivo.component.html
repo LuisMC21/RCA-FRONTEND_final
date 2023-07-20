@@ -14,9 +14,9 @@
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'Nombre'"></app-label-field>
-                <app-field><input maxlength="4" formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
+                <app-field><input formControlName="name" class="input" type="number" min="1900" max="9999"  placeholder="Nombre"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                    [text]="'**El campo debe contener mínimo 4 caracteres numéricos'"></app-required-field>
+                    [text]="'**El campo debe contener 4 caracteres numéricos'"></app-required-field>
 
             </div>
         </div>
