@@ -157,7 +157,7 @@
           <select id="clase" class="input" name="clase" (change)="onClaseChange()" formControlName="claseDTO"
           #claseSelect>
         <option *ngFor="let clase of clases" [value]="clase.id" >
-          {{clase.name}}
+          {{ clase.date +" - " + clase.name}}
         </option></select>
         </app-field>
       </div>
