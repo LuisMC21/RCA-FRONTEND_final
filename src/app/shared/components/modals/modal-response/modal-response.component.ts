@@ -9,7 +9,7 @@ export class ModalResponseComponent implements OnInit {
 
   @Input() title:string ='';
   @Input() successful:boolean = true;
-
+  successfull2!: boolean;
   @ViewChild('modalBack') modalBack!: ElementRef;
 
   public show = false;
@@ -33,6 +33,12 @@ export class ModalResponseComponent implements OnInit {
 
   hiddenModal(){
     this.show = false;
+  }
+
+  respuesta(successful2:any){
+    if(successful2){
+      this.refresh();
+    }
   }
 
   refresh(){

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { StudentService } from '../../commons/services/student.service';
@@ -28,6 +28,7 @@ export class AdminStudentView implements OnInit {
   icon:string='';
   identiParent:string='';
   successful: boolean=false;
+  @Output() successful2:EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
@@ -68,9 +69,11 @@ export class AdminStudentView implements OnInit {
         if(data.successful===true){
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
+          this.successful2.emit(true);
         }else{
           this.msjResponse = data.message;
           this.successful = false;
+          this.successful2.emit(false);
         }
       });
     }else{
@@ -80,9 +83,11 @@ export class AdminStudentView implements OnInit {
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
+          this.successful2.emit(true);
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;
+          this.successful2.emit(false);
         }
       })
     }
@@ -98,6 +103,9 @@ export class AdminStudentView implements OnInit {
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+        this.successful2.emit(true);
+      } else {
+        this.successful2.emit(true);
       }
     });
     this.modalOk.showModal();

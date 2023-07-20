@@ -11,7 +11,7 @@
 
 
 <!-- Modal Editar -->
-<app-modal [title]="'Agregar alumno'" #modalAdd>
+<app-modal [title]="'Agregar alumno'" (close_modal)="getCloseModal()" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field" formGroupName="usuarioDTO">
             <!-- Usuario -->
@@ -55,10 +55,6 @@
                 <app-field><input formControlName="tel" class="input" type="number" min="100000000" max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
                     [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Grado de instrucción'"></app-label-field>
-                <app-field><input formControlName="gra_inst" class="input" type="text" [attr.disabled]="true"></app-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Correo'"></app-label-field>
@@ -205,7 +201,7 @@
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
                 <button  (click)="redirectToDatosPersonales(item.id)">VER</button>
             </td>
-            <app-modal [title]="'Eliminar alumno?'" #modalDelete>
+            <app-modal [title]="'Eliminar alumno?'" (successful2)="getCloseModal()" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
                     <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}}
