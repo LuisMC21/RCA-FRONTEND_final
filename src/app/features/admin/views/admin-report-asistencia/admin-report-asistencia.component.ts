@@ -265,7 +265,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     if(this.selectedAulaId !== "" && this.selected2AnioId !== ""){
       this.cursoService.getAulaAnio(this.selectedAulaId, this.selected2AnioId)
           .subscribe(response => {
-            if(response.successful){
+            if(response.successful && response.data.length>0){
               this.cursos = response.data;
               this.selectedCursoId = this.cursos[0].id;
               this.form();
@@ -389,7 +389,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     if(this.selected2PeriodoId !== ""){
       this.aulaService.getAllAnio('', this.selected3AnioId)
         .subscribe(response => {
-          if(response.successful){
+          if(response.successful && response.data.length>0){
             this.aulas2 = response.data;
             this.selected2AulaId= this.aulas2[0].id;
             this.getCursos2();
@@ -409,7 +409,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     if(this.selected2AulaId !== ""){
       this.cursoService.getAulaAnio(this.selected2AulaId, this.selected3AnioId)
           .subscribe(response => {
-            if(response.successful){
+            if(response.successful && response.data.length>0){
               this.cursos2 = response.data;
               this.selected2CursoId = this.cursos2[0].id;
               this.getClases();
