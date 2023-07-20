@@ -224,6 +224,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   onCursoChange() {
     const selectedOption = this.cursoSelect.nativeElement.selectedOptions[0];
     this.selectedCursoId = selectedOption.value;
+    this.getClases();
   }
   getAnios2() {
     this.anioService.getAll('', 0, 100)
@@ -234,34 +235,46 @@ export class AdminReportAsistenciaComponent implements OnInit {
           this.getAulas();
         } else {
           this.anios2 = [];
+          this.selected2AnioId = "";
           this.getAulas();
         }
       })
   }
   getAulas() {
-    this.aulaService.getAllAnio('', this.selected2AnioId)
-      .subscribe(response => {
-        if(response.successful){
-          this.aulas = response.data;
-          this.selectedAulaId= this.aulas[0].id;
-          this.getCursos();
-        } else {
-          this.aulas = [];
-          this.getCursos();
-        }
-      })
-  }
-  getCursos(){
-    this.cursoService.getAulaAnio(this.selectedAulaId, this.selected2AnioId)
+    if(this.selected2AnioId!= ""){
+      this.aulaService.getAllAnio('', this.selected2AnioId)
         .subscribe(response => {
           if(response.successful){
-            this.cursos = response.data;
-            this.selectedCursoId = this.cursos[0].id;
-            this.form();
-          } else{
-            this.cursos = []
+            this.aulas = response.data;
+            this.selectedAulaId= this.aulas[0].id;
+            this.getCursos();
+          } else {
+            this.aulas = [];
+            this.selectedAulaId="";
+            this.getCursos();
           }
-        })
+        });
+    } else {
+      this.aulas = [];
+      this.selectedAulaId="";
+      this.getCursos();
+    }
+  }
+  getCursos(){
+    if(this.selectedAulaId !== "" && this.selected2AnioId !== ""){
+      this.cursoService.getAulaAnio(this.selectedAulaId, this.selected2AnioId)
+          .subscribe(response => {
+            if(response.successful){
+              this.cursos = response.data;
+              this.selectedCursoId = this.cursos[0].id;
+              this.form();
+            } else{
+              this.selectedCursoId = "";
+              this.cursos = [];
+              this.form();
+            }
+          });
+      }
   }
   //-----
 
