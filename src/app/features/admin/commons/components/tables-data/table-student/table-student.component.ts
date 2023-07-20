@@ -23,6 +23,7 @@ export class TableStudentComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  showPassword: boolean = false;
   titulo: string = 'Agregar Alumno';
 
   @Output() studentSave: EventEmitter<IStudent> = new EventEmitter();
@@ -192,6 +193,9 @@ export class TableStudentComponent implements OnInit {
     this.nomParent = parent.pa_surname + ' ' + parent.ma_surname + ' ' + parent.name;
     this.identiParent = parent.id;
     this.searchParentModal.hidden();
+  }
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 
   reset() {
