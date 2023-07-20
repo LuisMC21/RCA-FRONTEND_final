@@ -1,8 +1,8 @@
 <header class="header flex w-full">
     <app-logo class="w-full lg:w-1/2 py-2"></app-logo>
     <div class="header__user hidden lg:flex justify-end w-1/2 items-center px-4">
-        <label class="user__item">Teacher: </label>
-        <label class="user__item mx-1">Arquímedes Muñoz</label>
+        <label class="user__item">{{rol}}</label>
+        <label class="user__item mx-1">{{username}}</label>
         <app-button [title]="'Salir'" (click)="onLogOut()"></app-button>
         <!-- <a><i class="bi bi-box-arrow-right"></i></a> -->
     </div>

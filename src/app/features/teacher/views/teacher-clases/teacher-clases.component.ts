@@ -109,10 +109,13 @@ export class TeacherClasesComponent implements OnInit {
 
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.claseService.getAllPeriodoAulaCurso('',page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
-      this.clases = response.data.list;
-    })
-
+    
+    if(this.selectedPeriodId!=''){
+      this.claseService.getAllPeriodoAulaCurso('',page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+        this.clases = response.data.list;
+      })
+  
+    }
   }
 
   onAnioChange(){
