@@ -108,6 +108,28 @@
   <div *ngIf="selectedOption=== options[2]">
     <form [formGroup]="group3" class="w-full flex flex-wrap justify-between">
       <div class="field">
+        <app-label-field [title]="'Año Lectivo'"></app-label-field>
+        <app-field>
+          <select id="anio3" class="input" name="anio3" (change)="onAnioChange3()" formControlName="anioLectivo3DTO"
+            #anio3Select>
+            <option *ngFor="let anio3 of anios3" [value]="anio3.id">
+              {{anio3.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'Periodo'"></app-label-field>
+        <app-field>
+          <select id="period2" class="input" name="period2" (change)="onPeriodo2Change()" formControlName="periodo2DTO"
+            #periodo2Select>
+            <option *ngFor="let periodo2 of periodos2" [value]="periodo2.id">
+              {{periodo2.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
         <app-label-field [title]="'Clase'"></app-label-field>
         <app-field>
           <select id="clase" class="input" name="clase" (change)="onClaseChange()" formControlName="claseDTO"
