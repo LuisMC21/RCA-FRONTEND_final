@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -10,6 +10,8 @@ export class ModalComponent implements OnInit {
   @Input() title:string ='';
   @Input() icon:string=''
   @ViewChild('modalBack') modalBack!: ElementRef;
+  @Output() close_modal:EventEmitter<boolean> = new EventEmitter();
+
   public show = false;
 
   constructor(private rendered: Renderer2) {
@@ -29,6 +31,7 @@ export class ModalComponent implements OnInit {
 
   hiddenModal(){
     this.show = false;
+    this.close_modal.emit(true);
   }
 
 }

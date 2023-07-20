@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { IStudent } from 'src/app/features/admin/interfaces/student';
@@ -22,6 +22,7 @@ export class TableStudentComponent implements OnInit {
   nomParent: string = '';
   @Input() tableName!: string;
   @Input() title!: string;
+  close_modal!: boolean;
 
   showPassword: boolean = false;
   titulo: string = 'Agregar Alumno';
@@ -135,10 +136,8 @@ export class TableStudentComponent implements OnInit {
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
         numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
         tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
-        gra_inst: [item ? item.usuarioDTO.gra_inst : 'ESTUDIANTE', [Validators.required,]],
         email: [item ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
         password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
-        rol: ['STUDENT']
       }),
 
 
@@ -167,10 +166,13 @@ export class TableStudentComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
+      const usuarioDTOFormGroup = this.group.get('usuarioDTO') as FormGroup;
+      usuarioDTOFormGroup.addControl('rol', this.formBuilder.control('STUDENT'));
+      usuarioDTOFormGroup.addControl('gra_inst', this.formBuilder.control('ESTUDIANTE'));
 
+      console.log(this.group)
       this.studentSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
 
     if (this.titulo == "Actualizar Alumno") {
       this.titulo = "Agregar Alumno";
@@ -202,14 +204,17 @@ export class TableStudentComponent implements OnInit {
     if (this.titulo == "Actualizar Alumno") {
       this.titulo = "Agregar Alumno";
     }
-    console.log(this.group.value);
-    this.group.reset();
 
+    this.group.reset()
   }
 
   redirectToDatosPersonales(uniqueIdentifier: string) {
     const url = `http://localhost:8080/alumno/datosPersonales?uniqueIdentifier=${uniqueIdentifier}`;
     window.location.href = url;
+  }
+
+  getCloseModal(){
+    this.group.reset();
   }
 
 }

@@ -11,7 +11,7 @@
 
 
 <!-- Modal Editar -->
-<app-modal [title]="'Agregar alumno'" #modalAdd>
+<app-modal [title]="'Agregar alumno'" (close_modal)="getCloseModal()" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field" formGroupName="usuarioDTO">
             <!-- Usuario -->
@@ -57,11 +57,7 @@
                     [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Grado de instrucción'"></app-label-field>
-                <app-field><input formControlName="gra_inst" class="input" type="text" [attr.disabled]="true"></app-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'**Correo'"></app-label-field>
+                <app-label-field [title]="'Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                     [text]="'**El campo es de tipo correo'"></app-required-field>
@@ -206,7 +202,7 @@
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
                 <button  (click)="redirectToDatosPersonales(item.id)">VER</button>
             </td>
-            <app-modal [title]="'Eliminar alumno?'" #modalDelete>
+            <app-modal [title]="'Eliminar alumno?'" (successful2)="getCloseModal()" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
                     <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}}
