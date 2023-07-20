@@ -35,7 +35,6 @@ export class TeacherAsignacionesComponent implements OnInit {
   ngOnInit(){
 
     this.teacher = this.tokenService.getUserId() || '';
-    console.log(this.teacher);
     this.selectedAnioId = localStorage.getItem('selectedAnioA') || '';
 
     this.anioService.getAll('', 0, 5).subscribe(response=>{
@@ -58,9 +57,8 @@ export class TeacherAsignacionesComponent implements OnInit {
       this.asignaciones = response.data.list;
     })
 
-    console.log(this.selectedAnioId);
-
     localStorage.setItem('selectedAnioA', this.selectedAnioId);
+    
   }
 
   //BUSCAR

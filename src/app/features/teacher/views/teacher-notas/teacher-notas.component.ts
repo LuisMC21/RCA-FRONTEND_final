@@ -129,6 +129,11 @@ export class TeacherNotasComponent implements OnInit {
     console.log(this.selectedAnioId);
 
     localStorage.setItem('selectedAnioN', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodoN');
+    localStorage.removeItem('selectedAulaN');
+    this.selectedAulaId = '';
+    this.selectedPeriodId = '';
+    this.evaluaciones = [];
   }
 
   onPeriodoChange() {

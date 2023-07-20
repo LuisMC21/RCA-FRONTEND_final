@@ -128,6 +128,11 @@ export class TeacherClasesComponent implements OnInit {
     });
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodo');
+    localStorage.removeItem('selectedAula');
+    this.selectedAulaId = '';
+    this.selectedPeriodId = '';
+    this.clases = [];
   }
 
   onPeriodoChange() {
@@ -189,9 +194,10 @@ export class TeacherClasesComponent implements OnInit {
 
   async obtenerCourseTeacher(){
     try {
-      const response = await this.courseTeacherService.getAulaCurso('',this.selectedAulaId, this.selectedCourseId,0,5).toPromise();
-      if(response && response.data && response.data.list){
-        this.courseTeacher = response.data.list[0];
+      const response = await this.courseTeacherService.getAulaCurso('',this.selectedAulaId, this.selectedCourseId).toPromise();
+      console.log(response);
+      if(response && response.data ){
+        this.courseTeacher = response.data;
       }
     } catch (error) {
       console.log(error)

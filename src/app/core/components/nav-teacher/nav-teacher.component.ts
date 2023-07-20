@@ -13,6 +13,7 @@ export class NavTeacherComponent implements OnInit {
   @ViewChild('asignaciones') asignaciones!: ElementRef;
   @ViewChild('datos') datos!: ElementRef;
   @ViewChild('asistencias') asistencias!: ElementRef;
+  @ViewChild('estudiantes') estudiantes!: ElementRef;
 
   menuVisible = true;
 
@@ -27,6 +28,7 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
   Optclases() {
@@ -35,6 +37,7 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
   Optasignaciones(){
@@ -43,6 +46,7 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
   Optdatos(){
@@ -51,6 +55,7 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(11, 13, 24)');
   }
 
   Optasistencias(){
@@ -59,6 +64,16 @@ export class NavTeacherComponent implements OnInit {
     this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
     this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(32, 36, 59)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+  }
+
+  Optestudiantes(){
+    this.renderer2.setStyle(this.notas.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.datos.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.clases.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asignaciones.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.asistencias.nativeElement, 'background-color', 'rgb(11, 13, 24)');
+    this.renderer2.setStyle(this.estudiantes.nativeElement, 'background-color', 'rgb(32, 36, 59)');
   }
 
   redirectTo(index:string):void{

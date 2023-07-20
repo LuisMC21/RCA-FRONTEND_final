@@ -11,6 +11,7 @@ import { TeacherComponent } from './teacher.component';
 import { TeacherAsignacionesComponent } from './views/teacher-asignaciones/teacher-asignaciones.component';
 import { TeacherDatosComponent } from './views/teacher-datos/teacher-datos.component';
 import { TeacherAsistenciaComponent } from './views/teacher-asistencia/teacher-asistencia.component';
+import { TeacherStudentComponent } from './views/teacher-student/teacher-student.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TeacherAsistenciaComponent } from './views/teacher-asistencia/teacher-a
     TeacherClasesComponent,
     TeacherAsignacionesComponent,
     TeacherDatosComponent,
-    TeacherAsistenciaComponent
+    TeacherAsistenciaComponent,
+    TeacherStudentComponent
   ],
   imports: [
     CommonModule,

@@ -75,10 +75,10 @@ export class TeacherAsistenciaComponent implements OnInit {
 
      //obtener codigo docente
     //this.code = this.tokenService.getUserId();
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '',
-    this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
-    this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
-    this.selectedAulaId = localStorage.getItem('selectedAula') || '';
+    this.selectedAnioId = localStorage.getItem('selectedAnioAs') || '',
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodoAs') || '';
+    this.selectedCourseId = localStorage.getItem('selectedCursoAs') || '';
+    this.selectedAulaId = localStorage.getItem('selectedAulaAs') || '';
 
     this.anioService.getAll('', 0, 10).subscribe(response=>{
       console.log(response)
@@ -125,7 +125,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.aulas = response.data;
     });
 
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.setItem('selectedAnioAs', this.selectedAnioId);
   }
 
   onPeriodoChange() {
@@ -139,7 +139,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     this.obtenerPeriodo();
     console.log(this.periodo);
 
-    localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
+    localStorage.setItem('selectedPeriodoAs', this.selectedPeriodId);
   }
 
   async obtenerPeriodo(){
@@ -166,7 +166,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.clases = response.data.list;
     })
 
-    localStorage.setItem('selectedAula', this.selectedAulaId);
+    localStorage.setItem('selectedAulaAs', this.selectedAulaId);
 
   }
 
@@ -178,7 +178,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.clases = response.data.list;
     })
 
-    localStorage.setItem('selectedCurso', this.selectedCourseId);
+    localStorage.setItem('selectedCursoAs', this.selectedCourseId);
   }
 
   //BUSCAR
