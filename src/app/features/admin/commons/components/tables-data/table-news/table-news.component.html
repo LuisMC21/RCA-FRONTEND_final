@@ -17,7 +17,7 @@
             <app-required-field class="px-2" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)" [text]="'**El campo es requerido'"></app-required-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'*Sumilla'"></app-label-field>
+            <app-label-field [title]="'**Sumilla'"></app-label-field>
             <app-field><input formControlName="sommelier" class="input" type="text"></app-field>
             <app-required-field class="px-2" *ngIf="sumilla?.invalid && (sumilla?.dirty || sumilla?.touched)" [text]="'**El campo requiere 9 caracteres'"></app-required-field>
         </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="" *ngIf="!editar">
-            <app-label-field [title]="'*Imagen'"></app-label-field>
+            <app-label-field [title]="'**Imagen'"></app-label-field>
             <input (change)="captureFile($event)" class="input" type="file">
             <!-- <app-required-field class="px-2" *ngIf="imagen?.invalid && (imagen?.dirty || imagen?.touched)" [text]="'*El campo es requerido'"></app-required-field> -->
         </div>

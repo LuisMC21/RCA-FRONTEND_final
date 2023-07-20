@@ -223,7 +223,7 @@ export class TableEnrollmentComponent implements OnInit {
 
       id:[item?item.id:null],
       code:[item?item.code:''],
-      date:[item?item.date:''],
+      date:[item?item.date:'',[Validators.required]],
       //  AULA
       aulaDTO:[item ? item.aulaDTO : '', [Validators.required]],
       // AÑO LECTIVO
