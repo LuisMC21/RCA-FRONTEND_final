@@ -8,13 +8,14 @@
   <div *ngIf="selectedOption=== options[0]">
     <app-modal #searchStudentModal>
       <app-field>
-        <input [(ngModel)]="numdoc" (ngModelChange)="searchStudent($event)" class="input" type="text"
-          placeholder="Buscar alumno por DNI, nombre o apellidos" #searchParentModal>
+        <input class="input" type="text" placeholder="Buscar alumno por DNI, nombre o apellidos"
+          #searchParentModal (input)="searchStudent(searchParentModal.value)">
       </app-field>
+      
       <div class="field">
-        <app-search *ngIf="numdoc !== ''">
-          <span (click)="selectStudent(student)" *ngFor="let student of students" class=" block w-full h-full">
-            {{ student.usuarioDTO.numdoc +'-'+ student.usuarioDTO.pa_surname + ' ' + student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
+        <app-search *ngIf="nameStudent !== ''">
+          <span (click)="selectStudent(student)" (click)="searchStudentModal.hiddenModal()" *ngFor="let student of students" class=" block w-full h-full">
+            {{ student.usuarioDTO.pa_surname + ' ' + student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
           </span>
           <span *ngIf="students && students.length === 0" class="newStudent">
             <label>No se encontraron resultados.</label>
@@ -24,12 +25,14 @@
     </app-modal>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between">
       <div class="field">
-        <app-label-field [title]="'Buscar Estudiante'"></app-label-field>
+        <app-label-field [title]="'Anio Lectivo'"></app-label-field>
         <app-field>
-          <input id="student" class="input" name="student" type="text" [(ngModel)]="selectedStudent"
-            (ngModelChange)="updateStudentId($event)" formControlName="alumnoDTO" #studentSelect
-            (input)="searchStudent(studentSelect.value)" ><app-btn-search (click)="searchStudentModal.showModal()"></app-btn-search>
-
+          <select id="anio" class="input" name="anio" (change)="onAnioChange()" formControlName="anioLectivoDTO"
+            #anioSelect>
+            <option *ngFor="let anio of anios" [value]="anio.id">
+              {{anio.name}}
+            </option>
+          </select>
         </app-field>
       </div>
       <div class="field">
@@ -44,18 +47,16 @@
         </app-field>
       </div>
       <div class="field">
-        <app-label-field [title]="'Anio Lectivo'"></app-label-field>
+        <app-label-field [title]="'Buscar Estudiante'"></app-label-field>
         <app-field>
-          <select id="anio" class="input" name="anio" (change)="onAnioChange()" formControlName="anioLectivoDTO"
-            #anioSelect>
-            <option *ngFor="let anio of anios" [value]="anio.id">
-              {{anio.name}}
-            </option>
-          </select>
+          <input id="student"  class="input" name="student" placeholder="Clic en el botón verde para buscar" type="text" [(ngModel)]="selectedStudent"
+            (ngModelChange)="updateStudentId($event)" formControlName="alumnoDTO" #studentSelect
+            (input)="searchStudent(studentSelect.value)" [attr.disabled]="true">
         </app-field>
       </div>
-
-
+      <div class="field search_alumno">
+        <app-btn-search id="search_alumno" (click)="searchStudentModal.showModal()"></app-btn-search>
+      </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" class="field__input--button w-1/4 mx-2 h-9 rounded-3xl text-white"
           [disabled]="group.invalid" (click)="redirectToAsistenciaAlumno()">Generar PDF</button>
@@ -66,12 +67,12 @@
   <div *ngIf="selectedOption=== options[1]">
     <form [formGroup]="group2" class="w-full flex flex-wrap justify-between">
       <div class="field">
-        <app-label-field [title]="'Anio Lectivo'"></app-label-field>
+        <app-label-field [title]="'Año Lectivo'"></app-label-field>
         <app-field>
-          <select id="anio" class="input" name="anio" (change)="onAnioChange2()" formControlName="anioLectivoDTO"
-            #anioSelect>
-            <option *ngFor="let anio of anios" [value]="anio.id">
-              {{anio.name}}
+          <select id="anio2" class="input" name="anio2" (change)="onAnioChange2()" formControlName="anioLectivo2DTO"
+            #anio2Select>
+            <option *ngFor="let anio2 of anios2" [value]="anio2.id">
+              {{anio2.name}}
             </option>
           </select>
         </app-field>
@@ -104,19 +105,60 @@
       </div>
     </form>
   </div>
-
-
-
+  <!--Reporte de asistencia de una clase-->
   <div *ngIf="selectedOption=== options[2]">
-
     <form [formGroup]="group3" class="w-full flex flex-wrap justify-between">
+      <div class="field">
+        <app-label-field [title]="'Año Lectivo'"></app-label-field>
+        <app-field>
+          <select id="anio3" class="input" name="anio3" (change)="onAnioChange3()" formControlName="anioLectivo3DTO"
+            #anio3Select>
+            <option *ngFor="let anio3 of anios3" [value]="anio3.id">
+              {{anio3.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'Periodo'"></app-label-field>
+        <app-field>
+          <select id="period2" class="input" name="period2" (change)="onPeriodo2Change()" formControlName="periodo2DTO"
+            #periodo2Select>
+            <option *ngFor="let periodo2 of periodos2" [value]="periodo2.id">
+              {{periodo2.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'Aula'"></app-label-field>
+        <app-field>
+          <select id="aula2" class="input" name="aula" (change)="onAula2Change()" formControlName="aula2DTO"
+            #aula2Select>
+            <option *ngFor="let aula2 of aulas2" [value]="aula2.id">
+              {{aula2.gradoDTO.name + " - " + aula2.seccionDTO.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'Curso'"></app-label-field>
+        <app-field>
+          <select id="curso2" class="input" name="curso" (change)="onCurso2Change()" formControlName="curso2DTO"
+            #curso2Select>
+            <option *ngFor="let curso2 of cursos2" [value]="curso2.id">
+              {{curso2.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
       <div class="field">
         <app-label-field [title]="'Clase'"></app-label-field>
         <app-field>
           <select id="clase" class="input" name="clase" (change)="onClaseChange()" formControlName="claseDTO"
           #claseSelect>
         <option *ngFor="let clase of clases" [value]="clase.id" >
-          {{clase.name}}
+          {{ clase.date +" - " + clase.name}}
         </option></select>
         </app-field>
       </div>
@@ -129,4 +171,3 @@
 
 
 </div>
- 

@@ -53,7 +53,7 @@ export class TableStudentComponent implements OnInit {
   head = ["CODIGO", "APELLIDOS", "NOMBRE", "DOC. de IDENTIDAD", "CORREO", "TELÉFONO", "VACUNA", "SEGURO", "CONTACTO", "ACCIONES"]
   msjDeleteok: string = '';
 
-  constructor(private renderer2: Renderer2, private formBuilder: FormBuilder, 
+  constructor(private renderer2: Renderer2, private formBuilder: FormBuilder,
     private parentService: ParentService, private router: Router) {
   }
   ngOnInit(): void {
@@ -87,7 +87,7 @@ export class TableStudentComponent implements OnInit {
   get rol() { return this.group.get('usuarioDTO.rol') }
   get apoderado() { return this.group.get('apoderado') }
   get isVacunado() { return this.group.get('isVacunado') }
-  // APODERADO 
+  // APODERADO
   get idApoderado() { return this.group.get('apoderadoDTO.id') }
   get codeA() { return this.group.get('apoderadoDTO.code') }
   get nameApoderado() { return this.group.get('nameApoderado') }
@@ -110,9 +110,9 @@ export class TableStudentComponent implements OnInit {
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : ''],
       namecon_pri: [item ? item.namecon_pri : ''],
-      telcon_pri: [item ? item.telcon_pri : ''],
+      telcon_pri: [item ? item.telcon_pri : '', [Validators.minLength(9),Validators.maxLength(9)] ],
       namecon_sec: [item ? item.namecon_sec : ''],
-      telcon_sec: [item ? item.telcon_sec : ''],
+      telcon_sec: [item ? item.telcon_sec : '', [Validators.minLength(9),Validators.maxLength(9)]],
       vaccine: [item ? item.vaccine : ''],
       type_insurance: [item ? item.type_insurance : ''],
       apoderadoDTO: this.formBuilder.group({
@@ -126,16 +126,16 @@ export class TableStudentComponent implements OnInit {
       usuarioDTO: this.formBuilder.group({
         id: [item ? item.usuarioDTO.id : null],
         code: [item ? item.usuarioDTO.code : ''],
-        nombreUsuario: [item ? item.usuarioDTO.nombreUsuario : '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-        name: [item ? item.usuarioDTO.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-        pa_surname: [item ? item.usuarioDTO.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-        ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+        nombreUsuario: [item ? item.usuarioDTO.nombreUsuario : '', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+        name: [item ? item.usuarioDTO.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
+        pa_surname: [item ? item.usuarioDTO.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
+        ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         birthdate: [item ? item.usuarioDTO.birthdate : ''],
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
-        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-        tel: [item ? item.usuarioDTO.tel : ''],
-        gra_inst: [item ? item.usuarioDTO.gra_inst : '', [Validators.required,]],
-        email: [item ? item.usuarioDTO.email : '', [Validators.required,]],
+        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+        tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
+        gra_inst: [item ? item.usuarioDTO.gra_inst : 'ESTUDIANTE', [Validators.required,]],
+        email: [item ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
         password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
         rol: ['STUDENT']
       }),
@@ -176,7 +176,7 @@ export class TableStudentComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.studentDelete.emit(id)
     this.modalDelete.hiddenModal();

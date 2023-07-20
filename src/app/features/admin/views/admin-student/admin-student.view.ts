@@ -4,6 +4,7 @@ import { PaginationService } from '../../commons/services/pagination.service';
 import { StudentService } from '../../commons/services/student.service';
 import { IStudent } from '../../interfaces/student';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-student',
@@ -28,7 +29,7 @@ export class AdminStudentView implements OnInit {
   identiParent:string='';
   successful: boolean=false;
 
-  @ViewChild('modalOk') modalOk!:ModalComponent;
+  @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
   constructor(private studentService:StudentService, private pagination:PaginationService) { }
 
@@ -39,7 +40,7 @@ export class AdminStudentView implements OnInit {
     .subscribe(response =>{
       this.students = response.data.list;
     });
- 
+
     this.studentService.getAlumnosCount('')
     .subscribe(count => {
       this.totalStudents = count;
@@ -47,7 +48,7 @@ export class AdminStudentView implements OnInit {
     });
   }
 
-  
+
   //BUSCAR
   search(nom:string){
     let page = this.pagination.getPage(this.paginationData);
@@ -68,7 +69,7 @@ export class AdminStudentView implements OnInit {
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
         }else{
-          this.msjResponse = 'Error, el alumno ya existe';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -91,7 +92,7 @@ export class AdminStudentView implements OnInit {
   getIdentiParent(identiParent:string){
     this.identiParent = identiParent;
   }
-  //ELIMINAR 
+  //ELIMINAR
   delete(id:string){
     this.studentService.delete(id).subscribe(data =>{
       if(data.successful===true){

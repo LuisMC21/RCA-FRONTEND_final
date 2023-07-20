@@ -10,8 +10,8 @@ import { IStudent } from '../../interfaces/student';
 })
 export class StudentService {
   constructor(private http: HttpClient) { }
-  getOne(filter:string):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`);
+  getOne(id:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno/${id}`);
   }
   getAlumnosCount(filter: string): Observable<number> {
     return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}`).pipe(
@@ -19,15 +19,15 @@ export class StudentService {
     );
   }
   //Listar alumnos
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno?page=${page}&size=${size}`);
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}&page=${page}&size=${size}`);
   }
 
-  getAllAnioCursoAula(nom?:string,page?:number,size?:number, anio?:string, aula?:string, curso?:string):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno/auc?page=${page}&size=${size}&anio=${anio}&aula=${aula}&curso=${curso}`);
+  getAllAnioCursoAula(filter?:string, anio?:string, aula?:string, curso?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno/auc?filter=${filter}&page=${page}&size=${size}&anio=${anio}&aula=${aula}&curso=${curso}`);
   }
 
-  
+
   //Agregar alumno
   add(student:IStudent):Observable<IApiResponse>{
     console.log(student)

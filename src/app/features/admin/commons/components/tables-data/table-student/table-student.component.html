@@ -45,33 +45,33 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
+                <app-field><input formControlName="numdoc" class="input" type="number" min="10000000" max="999999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                     [text]="'*El campo requiere 8 caracteres'"></app-required-field>
             </div>
 
             <div class="field">
                 <app-label-field [title]="'Teléfono de contacto'"></app-label-field>
-                <app-field><input formControlName="tel" class="input" type="text"></app-field>
+                <app-field><input formControlName="tel" class="input" type="number" min="100000000" max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
-                    [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+                    [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Grado de instrucción'"></app-label-field>
-                <app-field><input formControlName="gra_inst" class="input" type="text"></app-field>
+                <app-field><input formControlName="gra_inst" class="input" type="text" [attr.disabled]="true"></app-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Correo'"></app-label-field>
-                <app-field><input formControlName="email" class="input" type="text"></app-field>
+                <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                    [text]="'**El campo es obligatorio'"></app-required-field>
+                    [text]="'**El campo es de tipo correo'"></app-required-field>
 
             </div>
             <div class="field">
                 <app-label-field [title]="'Usuario'"></app-label-field>
                 <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
-                    [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+                    [text]="'**El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Contraseña'"></app-label-field>
@@ -94,10 +94,10 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'1° contacto-número'"></app-label-field>
-                <app-field><input formControlName="telcon_pri" class="input" type="text"></app-field>
+                <app-field><input formControlName="telcon_pri" class="input" type="number" min="100000000" max="999999999"></app-field>
                 <app-required-field class="px-2"
                     *ngIf="telcon_pri?.invalid && (telcon_pri?.dirty || telcon_pri?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                    [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'2° contacto-nombre'"></app-label-field>
@@ -108,10 +108,10 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'2° contacto-número'"></app-label-field>
-                <app-field><input formControlName="telcon_sec" class="input" type="text"></app-field>
+                <app-field><input formControlName="telcon_sec" class="input" type="number" min="100000000" max="999999999"s></app-field>
                 <app-required-field class="px-2"
                     *ngIf="telcon_sec?.invalid && (telcon_sec?.dirty || telcon_sec?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                    [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Vacunas'"></app-label-field>
@@ -168,13 +168,13 @@
                 </select>
             </div> -->
 
-        <!-- 
+        <!--
             <div class="field">
                 <app-label-field [title]="'Tipo de Seguro'"></app-label-field>
                 <select formControlName="type_insurance" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option [value]="option.value" *ngFor="let option of optionsInsuraceType">{{option.title}}
                     </option>
-                </select> 
+                </select>
             </div> -->
 
         <div class="btns flex py-7 w-full">

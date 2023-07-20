@@ -21,11 +21,19 @@
                 </span>
             </div>
         </li>
+        <li (click)="redirectTo('estudiantes')" class="nav__option flex flex-col" #estudiantes>
+            <div class="flex" (click)="Optestudiantes()">
+                <i class="bi bi-people"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Estudiantes</label>
+                </span>
+            </div>
+        </li>
         <li (click)="redirectTo('notas')" class="nav__option flex flex-col" #notas>
             <div class="flex" (click)="Optnotas()">
                 <i class="bi bi-people"></i>
                 <span class="nav__option__toggle">
-                    <label class="option__label">Notas</label>
+                    <label class="option__label">Promedios</label>
                 </span>
             </div>
         </li>
@@ -34,6 +42,14 @@
                 <i class="bi bi-tools"></i>
                 <span class="nav__option__toggle">
                     <label class="option__label">Clases</label>
+                </span>
+            </div>
+        </li>
+        <li (click)="redirectTo('asistencias')" class="nav__option flex flex-col" #asistencias>
+            <div class="flex" (click)="Optasistencias()">
+                <i class="bi bi-tools"></i>
+                <span class="nav__option__toggle">
+                    <label class="option__label">Asistencias</label>
                 </span>
             </div>
         </li>

@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AsistenciaService } from 'src/app/features/admin/commons/services/asistencia.service';
+import { IAsistencia } from 'src/app/features/admin/interfaces/asistencia';
 import { IClase } from 'src/app/features/admin/interfaces/clase';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
+import { AdminAsistenciaComponent } from 'src/app/features/admin/views/admin-asistencia/admin-asistencia.component';
+import { TeacherAsistenciaComponent } from 'src/app/features/teacher/views/teacher-asistencia/teacher-asistencia.component';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
 @Component({
@@ -18,6 +22,10 @@ export class TableClaseComponent implements OnInit {
   @Input() periodo!: IPeriod;
   @Input() courseTeacher!: ICourseTeacher
 
+  asistencias: IAsistencia[] = [];
+
+  tableNameA = 'Asistencias'
+
   item?: IClase;
 
   @Output() claseSave: EventEmitter<IClase> = new EventEmitter();
@@ -26,16 +34,22 @@ export class TableClaseComponent implements OnInit {
 
   titulo = 'Agregar Clase';
 
-  head = ["Codigo", "Título", "Fecha"];
+  head = ["Codigo", "Título", "Fecha","Editar", "Asistencias"];
   group!: FormGroup;
 
   msjResponse: string = '';
+  successful: boolean = false;
   nomSearch: string = '';
+
+  paginationData = 'grade';
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
+  @ViewChild('modalAsistencias') modalAsistencias!: ModalComponent;
+  
+  @ViewChild(TeacherAsistenciaComponent) asistenciaModal!: AdminAsistenciaComponent;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private asistenciaService: AsistenciaService) { }
 
   ngOnInit(): void {
     this.form();
@@ -75,6 +89,10 @@ export class TableClaseComponent implements OnInit {
     }
   }
 
+  saveAsistencia(IAsistencia: IAsistencia){
+    this.asistenciaModal.save(IAsistencia);
+  }
+
   // ELIMINAR 
   delete(id: string) {
     this.claseDelete.emit(id)
@@ -88,6 +106,24 @@ export class TableClaseComponent implements OnInit {
       this.titulo = 'Agregar Evaluación';
     }
     this.group.reset();
+  }
+
+  
+  openAsistencias(id:string){
+    this.obtenerAsistencias(id);
+    this.modalAsistencias.showModal();
+    console.log(this.asistencias);
+  }
+
+  async obtenerAsistencias(id:string){
+    try {
+      const response = await this.asistenciaService.getAll('',0,10).toPromise();
+      if(response && response.data){
+        this.asistencias = response.data.list;
+      }
+    } catch (error) {
+      
+    }
   }
 
 

@@ -38,6 +38,7 @@ export class StudentNotasComponent implements OnInit {
   successful: boolean = false;
 
   idAlumno = '';
+  route = 'Notas';
 
   constructor(
     private pagination: PaginationService,
@@ -51,8 +52,8 @@ export class StudentNotasComponent implements OnInit {
 
     this.idAlumno = this.tokenService.getUserId() || '';
 
-    this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodoN') || '';
+    this.selectedAnioId = localStorage.getItem('selectedAnioN') || '';
 
     this.anioService.getAll('',0,5).subscribe(response => {
       this.anios = response.data.list;
@@ -76,11 +77,11 @@ export class StudentNotasComponent implements OnInit {
       this.periods = response.data.list;
     })  
 
-    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
-      this.evaluaciones = response.data.list;
-    })
-
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    this.evaluaciones = [];
+    
+    localStorage.setItem('selectedAnioN', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodN');
+    this.selectedPeriodId = '';
 
   }
 
@@ -92,7 +93,7 @@ export class StudentNotasComponent implements OnInit {
       this.evaluaciones = response.data.list;
     })
 
-    localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
+    localStorage.setItem('selectedPeriodoN', this.selectedPeriodId);
   }
 
   redirectToNotas(){

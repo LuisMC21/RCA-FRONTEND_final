@@ -6,6 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from './table/table/table.component';
 import { TableAsignacionesComponent } from './tables-data/table-asignaciones/table-asignaciones.component';
 import { TableClaseComponent } from './tables-data/table-clase/table-clase.component';
+import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
+import { RouteComponent } from './route/route.component';
+import { TableStudentComponent } from './tables-data/table-student/table-student.component';
 
 
 
@@ -15,6 +18,9 @@ import { TableClaseComponent } from './tables-data/table-clase/table-clase.compo
     TableComponent,
     TableAsignacionesComponent,
     TableClaseComponent,
+    TableAsistenciaComponent,
+    RouteComponent,
+    TableStudentComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +33,9 @@ import { TableClaseComponent } from './tables-data/table-clase/table-clase.compo
     TableNotaComponent,
     TableAsignacionesComponent,
     TableClaseComponent,
+    TableAsistenciaComponent,
+    RouteComponent,
+    TableStudentComponent
   ]
 })
 export class ComponentsModule { }

@@ -13,22 +13,26 @@ export class PeriodService {
 
   constructor(private http:HttpClient) { }
 
-  //Listar 
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/periodo?filter=${nom}&page=${page}&size=${size}`);
+  //Listar
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/periodo?filter=${filter}&page=${page}&size=${size}`);
   }
 
-  //Agregar 
+  getOne(id?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/periodo/`+id)
+  }
+
+  //Agregar
   add(period:IPeriod):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/periodo`,period)
   }
 
-  //Modificar 
+  //Modificar
   update(period:IPeriod):Observable<IApiResponse>{
     return this.http.put<IApiResponse>(`${environment.api}/periodo`,period);
   }
 
-  //Eliminar 
+  //Eliminar
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/periodo/`+id);
   }

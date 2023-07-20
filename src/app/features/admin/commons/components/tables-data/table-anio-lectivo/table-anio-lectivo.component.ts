@@ -37,7 +37,7 @@ export class TableAnioLectivoComponent implements OnInit {
   get code(){return this.group.get('code')}
   get name(){return this.group.get('name')}
   get id(){return this.group.get('id')}
-  
+
   form(item?:IAnioLectivo):void{
     if(item){
       this.titulo = 'Actualizar año lectivo';
@@ -45,7 +45,7 @@ export class TableAnioLectivoComponent implements OnInit {
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
       code:[item?item.code:''],
-      name:[item?item.name:'',[Validators.required,Validators.minLength(4),Validators.maxLength(4), Validators.pattern("^[0-9]*$")]],
+      name:[item?item.name:'',[Validators.required,Validators.minLength(4),Validators.maxLength(4)]],
       // descripcion:[item?item.descripcion:'',]
   });
 
@@ -67,7 +67,7 @@ export class TableAnioLectivoComponent implements OnInit {
       this.titulo = 'Agregar año lectivo';
     }
   }
- // ELIMINAR 
+ // ELIMINAR
  delete(id:string){
   this.anioDelete.emit(id)
   this.modalDelete.hiddenModal();

@@ -10,7 +10,6 @@ const routes: Routes = [
   {path: 'admin', canActivate: [GuardService], data: {expectedRol: ['ADMINISTRADOR']}, loadChildren:()=> import('./features/admin/admin.module').then(m =>m.AdminModule) },
   {path: 'teacher', canActivate: [GuardService], data: {expectedRol: ['TEACHER']}, loadChildren:()=> import('./features/teacher/teacher.module').then(m =>m.TeacherModule) },
   {path: 'student',  canActivate: [GuardService], data: {expectedRol: ['STUDENT']}, loadChildren:()=> import('./features/student/student.module').then(m =>m.StudentModule) }
-
 ];
 
 @NgModule({

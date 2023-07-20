@@ -12,7 +12,7 @@ export class TableAsignacionesComponent implements OnInit {
 
   @Input() asignaciones: ICourseTeacher[] = [];
 
-  head = ["Código", "Aula", "Curso", "Docente"];
+  head = ["Código", "Aula", "Curso", "Docente", "Teléfono docente"];
 
   constructor() { }
 

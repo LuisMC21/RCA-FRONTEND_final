@@ -25,9 +25,10 @@
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
             <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
-
     </form>
 </app-modal>
+
+
 
 <table class="table bg-gray-50">
     <thead>
@@ -40,7 +41,35 @@
             <td>{{item.date}}</td>
             <td class="flex justify-center">
                 <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
+            <td class="">
+                <app-btn-update (click)="openAsistencias(item.id)"></app-btn-update>
+            </td>
+            <!-- MODAL ELIMINAR -->
+
+            <app-modal [title]="'¿Eliminar clase?'" #modalDelete>
+                <div class="flex flex-col items-start px-4">
+                    <label><b>Codigo: </b>{{item.code}}</label>
+                    <label><b>Nombre: </b>{{item.name}}</label>
+                </div>
+                <div class="flex py-7 w-full">
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+                </div>
+            </app-modal>
         </tr>
     </tbody>
 </table>
+
+<app-modal #modalAsistencias>
+    <div class="px-8">
+        <app-table [title]="'Agregar Asistencias'" [tableName]="tableName">
+            <app-table-asistencia (asistenciaSave)="saveAsistencia($event)"
+                (asistenciaSearch)="search($event)" [tableName]="tableNameA" [asistencias]="asistencias">
+            </app-table-asistencia>
+            <app-pagination [paginationData]="paginationData"></app-pagination>
+        </app-table>
+    </div>
+    <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+</app-modal>

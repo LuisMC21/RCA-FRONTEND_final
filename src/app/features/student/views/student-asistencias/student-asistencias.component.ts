@@ -26,6 +26,8 @@ export class StudentAsistenciasComponent implements OnInit {
   anios: IAnioLectivo[] = [];
   asistencias: IAsistencia[] = [];
 
+  route = 'Asistencias';
+
   asignaciones: ICourseTeacher[] = [];
 
   @ViewChild('periodSelect') periodSelect!: ElementRef;
@@ -70,9 +72,11 @@ export class StudentAsistenciasComponent implements OnInit {
       this.anios = response.data.list;
     })
 
-    this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
-      this.periods = response.data.list;
-    }) 
+    if(this.selectedAnioId != ''){
+      this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
+        this.periods = response.data.list;
+      })
+    } 
 
     this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
       console.log(response);
@@ -92,8 +96,15 @@ export class StudentAsistenciasComponent implements OnInit {
       this.periods = response.data.list;
     })  
 
+    this.courseTeacherService.getAllAlumnoAnio('',this.idAlumno,this.selectedAnioId,0,10).subscribe(response=>{
+      this.asignaciones = response.data.list;
+    })
+
+    this.asistencias = [];
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodN');
+    this.selectedPeriodId = '';
   }
 
   onPeriodoChange() {

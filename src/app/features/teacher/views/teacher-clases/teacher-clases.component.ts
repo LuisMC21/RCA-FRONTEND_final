@@ -13,6 +13,8 @@ import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { TableClaseComponent } from '../../commons/components/tables-data/table-clase/table-clase.component';
+import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
+import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 
 @Component({
   selector: 'app-teacher-clases',
@@ -21,14 +23,20 @@ import { TableClaseComponent } from '../../commons/components/tables-data/table-
 })
 export class TeacherClasesComponent implements OnInit {
 
+  anios: IAnioLectivo[] = [];
   periods: IPeriod[] = [];
   aulas: IAula[] = [];
   courses: ICourse[] = [];
   courseTeachers: ICourseTeacher[] = [];
   clases: IClase[] = [];
 
+  route = "Clases";
+
   periodo!: IPeriod;
   courseTeacher!: ICourseTeacher;
+
+  @ViewChild('anioSelect') anioSelect!: ElementRef;
+  selectedAnioId: string = '';
 
   @ViewChild('periodSelect') periodSelect!: ElementRef;
   selectedPeriodId: string = '';
@@ -39,19 +47,11 @@ export class TeacherClasesComponent implements OnInit {
   @ViewChild('courseSelect') courseSelect!: ElementRef;
   selectedCourseId: string = '';
 
-  @ViewChild(TableClaseComponent) tableComponent!: TableClaseComponent;
-
   tableName: string = 'Clases';
-  selectedAnioName = '2022';
-
-  code: string = 'DCN005';
 
   title!: string;
 
-  paginationData = 'grade';
-  paginationDataStudent = 'student';
-  paginationDataPeriod = 'period';
-  paginationDataDxC = 'grade';
+  paginationData:string ='course';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -60,91 +60,122 @@ export class TeacherClasesComponent implements OnInit {
 
   constructor(private pagination: PaginationService,
     private periodoService: PeriodService,
-    private courseTeacherService: CourseTeacherService,
+    private anioService: AnioLectivoService,
+    private aulaService: AulaService,
     private claseService: ClaseService,
-    private tokenService: TokenService) { }
+    private tokenService: TokenService,
+    private courseService: CourseService,
+    private courseTeacherService: CourseTeacherService) { }
 
   ngOnInit(): void {
 
     //obtener codigo docente
     //this.code = this.tokenService.getUserId();
-
+    this.selectedAnioId = localStorage.getItem('selectedAnio') || '',
     this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
     this.selectedAulaId = localStorage.getItem('selectedAula') || '';
 
-    let page = this.pagination.getPage(this.paginationDataDxC);
-    let size = this.pagination.getSize(this.paginationDataDxC);
-    this.courseTeacherService.getAll(this.code, 0, 10).subscribe(response => {
-      this.courseTeachers = response.data.list;
-      console.log(this.courseTeachers);
-
-      this.aulas = this.courseTeachers.map((courseTeacher) => courseTeacher.aulaDTO).filter((aula, index, self) => {
-        return index === self.findIndex((a) => (
-          a.id === aula.id
-        ));
-      });
-
-      const registrosFiltrados = this.courseTeachers.filter((courseTeacher) => {
-        return (
-          courseTeacher.aulaDTO.id === this.selectedAulaId &&
-          courseTeacher.docenteDTO.code === this.code
-        );
-      });
-
-      // Obtener solo los atributos cursoDTO de los registros filtrados en un nuevo arreglo
-      this.courses = registrosFiltrados.map((courseTeacher) => courseTeacher.cursoDTO);
-
+    this.anioService.getAll('', 0, 10).subscribe(response=>{
+      console.log(response)
+      this.anios = response.data.list;
     });
 
-    let pagePe = this.pagination.getPage(this.paginationDataPeriod);
-    let sizePe = this.pagination.getSize(this.paginationDataPeriod);
-    this.periodoService.getAll(this.selectedAnioName.toString(), pagePe, sizePe)
-      .subscribe(response => {
+    if(this.selectedAnioId != ''){
+      this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
+        console.log(response.data.list)
         this.periods = response.data.list;
-        this.filtered();
-      });
+      })
 
-    this.claseService.getAllPeriodoAulaCurso('', pagePe, sizePe, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
-      this.clases = response.data.list;
-    })
+      this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
+        this.aulas = response.data;
+      })
+    }
 
-    this.performFiltering();
+    if(this.selectedAulaId != '' && this.selectedAnioId != ''){
+      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
+        console.log(response)
+        this.courses = response.data;
+      })
+    }
 
+    if(this.selectedPeriodId != ''){
+      this.obtenerPeriodo();
+    }
+
+    if(this.selectedCourseId != ''){
+      this.obtenerCourseTeacher();
+    }
+
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    
+    if(this.selectedPeriodId!=''){
+      this.claseService.getAllPeriodoAulaCurso('',page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+        this.clases = response.data.list;
+      })
+  
+    }
   }
 
-  async performFiltering(): Promise<void> {
-    await this.filtered();
+  onAnioChange(){
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId = selectedOption.value;
+
+    this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
+      this.periods = response.data.list;
+    })
+
+    this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
+      this.aulas = response.data;
+    });
+
+    localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodo');
+    localStorage.removeItem('selectedAula');
+    this.selectedAulaId = '';
+    this.selectedPeriodId = '';
+    this.clases = [];
   }
 
   onPeriodoChange() {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, '', '').subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.clases = response.data.list;
     })
 
+    this.obtenerPeriodo();
+    console.log(this.periodo);
+
     localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
+  }
+
+  async obtenerPeriodo(){
+    try{
+      const response = await this.periodoService.getOne(this.selectedPeriodId).toPromise();
+      if(response && response.data){
+        this.periodo = response.data;
+      }
+    }catch(error){
+
+    }
   }
 
   onAulasChange() {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
+    this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
+      console.log(response)
+      this.courses = response.data;
+    })
+
     this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.clases = response.data.list;
     })
 
-    const registrosFiltrados = this.courseTeachers.filter((courseTeacher) => {
-      return (
-        courseTeacher.aulaDTO.id === this.selectedAulaId &&
-        courseTeacher.docenteDTO.code === this.code
-      );
-    });
-
-    // Obtener solo los atributos cursoDTO de los registros filtrados en un nuevo arreglo
-    this.courses = registrosFiltrados.map((courseTeacher) => courseTeacher.cursoDTO);
     localStorage.setItem('selectedAula', this.selectedAulaId);
 
   }
@@ -157,31 +188,23 @@ export class TeacherClasesComponent implements OnInit {
       this.clases = response.data.list;
     })
 
-    localStorage.setItem('selectedCurso', this.selectedCourseId);
+    this.obtenerCourseTeacher();
+    console.log(this.courseTeacher);
 
-    this.filtered();
+    localStorage.setItem('selectedCurso', this.selectedCourseId);
 
   }
 
-  async filtered(): Promise<void> {
-
-    const filteredCourseTeacher: ICourseTeacher | undefined = this.courseTeachers.find(courseTeacher =>
-      courseTeacher.aulaDTO.id === this.selectedAulaId &&
-      courseTeacher.cursoDTO.id === this.selectedCourseId &&
-      courseTeacher.docenteDTO.code === this.code
-    );
-
-    if (filteredCourseTeacher !== undefined) {
-      this.courseTeacher = filteredCourseTeacher;
+  async obtenerCourseTeacher(){
+    try {
+      const response = await this.courseTeacherService.getAulaCurso('',this.selectedAulaId, this.selectedCourseId).toPromise();
+      console.log(response);
+      if(response && response.data ){
+        this.courseTeacher = response.data;
+      }
+    } catch (error) {
+      console.log(error)
     }
-
-    const filteredPeriod: IPeriod | undefined = this.periods.find(period => period.id === this.selectedPeriodId);
-
-    if (filteredPeriod !== undefined) {
-      this.periodo = filteredPeriod;
-    }
-
-
   }
 
   //BUSCAR
@@ -222,13 +245,13 @@ export class TeacherClasesComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.claseService.delete(id).subscribe(data => {
       console.log(data)
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful === false;
       }
     });
     this.modalOk.showModal();

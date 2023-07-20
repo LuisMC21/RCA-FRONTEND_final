@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TableAsignacionesComponent } from "./components/tables-data/table-asignaciones/table-asignaciones.component";
 import { TableNotasComponent } from "./components/tables-data/table-notas/table-notas.component";
 import { TableAsistenciasComponent } from "./components/tables-data/table-asistencias/table-asistencias.component";
+import { RouteComponent } from './components/route/route.component';
 
 @NgModule({
     declarations:[
         TableComponent,
         TableAsignacionesComponent,
         TableNotasComponent,
-        TableAsistenciasComponent
+        TableAsistenciasComponent,
+        RouteComponent
     ],
     imports:[
         CommonModule,
@@ -24,7 +26,8 @@ import { TableAsistenciasComponent } from "./components/tables-data/table-asiste
         TableComponent,
         TableAsignacionesComponent,
         TableNotasComponent,
-        TableAsistenciasComponent
+        TableAsistenciasComponent,
+        RouteComponent
     ]
 })
 

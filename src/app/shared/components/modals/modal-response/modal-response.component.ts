@@ -15,7 +15,7 @@ export class ModalResponseComponent implements OnInit {
   public show = false;
   icon:string='';
 
-  constructor(private rendered: Renderer2) { 
+  constructor(private rendered: Renderer2) {
     this.rendered.listen('window','click',(e: Event)=>{
       if(this.modalBack && e.target === this.modalBack.nativeElement){
         this.show = false;
