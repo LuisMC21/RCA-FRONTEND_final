@@ -130,6 +130,28 @@
         </app-field>
       </div>
       <div class="field">
+        <app-label-field [title]="'Aula'"></app-label-field>
+        <app-field>
+          <select id="aula2" class="input" name="aula" (change)="onAula2Change()" formControlName="aula2DTO"
+            #aula2Select>
+            <option *ngFor="let aula2 of aulas2" [value]="aula2.id">
+              {{aula2.gradoDTO.name + " - " + aula2.seccionDTO.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'Curso'"></app-label-field>
+        <app-field>
+          <select id="curso2" class="input" name="curso" (change)="onCurso2Change()" formControlName="curso2DTO"
+            #curso2Select>
+            <option *ngFor="let curso2 of cursos2" [value]="curso2.id">
+              {{curso2.name}}
+            </option>
+          </select>
+        </app-field>
+      </div>
+      <div class="field">
         <app-label-field [title]="'Clase'"></app-label-field>
         <app-field>
           <select id="clase" class="input" name="clase" (change)="onClaseChange()" formControlName="claseDTO"

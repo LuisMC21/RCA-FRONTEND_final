@@ -31,7 +31,9 @@ export class AdminReportAsistenciaComponent implements OnInit {
   anios2: IAnioLectivo[] = [];
   anios3: IAnioLectivo[] = [];
   aulas: IAula[] = [];
+  aulas2: IAula[] = [];
   cursos: ICourse[] = [];
+  cursos2: ICourse[] = [];
   asistencias: IAsistencia[] = [];
   clases: IClase[] = [];
   group!: FormGroup;
@@ -68,8 +70,12 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selected3AnioId: string = '';
   @ViewChild('aulaSelect') aulaSelect!: ElementRef;
   selectedAulaId: string = '';
+  @ViewChild('aula2Select') aula2Select!: ElementRef;
+  selected2AulaId: string = '';
   @ViewChild('cursoSelect') cursoSelect!: ElementRef;
   selectedCursoId: string = '';
+  @ViewChild('curso2Select') curso2Select!: ElementRef;
+  selected2CursoId: string = '';
   @ViewChild('claseSelect') claseSelect!: ElementRef;
   selectedClaseId: string = '';
   constructor(private studentService: StudentService,
@@ -100,9 +106,6 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.getAnios3();
     //----
 
-
-    this.getClases();
-
     this.form();
 
   }
@@ -130,6 +133,8 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.group3 = this.formBuilder.group(
       {
         claseDTO: ['', [Validators.required]],
+        curso2DTO: [this.selected2CursoId, [Validators.required]],
+        aula2DTO: [this.selected2AulaId, [Validators.required]],
         periodo2DTO: [this.selected2PeriodoId , [Validators.required]],
         anioLectivo3DTO: [this.selected3AnioId, [Validators.required]]
       }
@@ -214,6 +219,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   onAulaChange() {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
+    this.getCursos();
   }
   onCursoChange() {
     const selectedOption = this.cursoSelect.nativeElement.selectedOptions[0];
@@ -278,6 +284,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
           this.getPeriodos();
         } else{
           this.anios = [];
+          this.selectedAnioId = "";
           this.getPeriodos();
         }
       })
@@ -301,11 +308,28 @@ export class AdminReportAsistenciaComponent implements OnInit {
     this.selected3AnioId = selectedOption.value;
     this.getPeriodos2();
   }
+  onPeriodo2Change() {
+    const selectedOption = this.periodo2Select.nativeElement.selectedOptions[0];
+    this.selected2PeriodoId = selectedOption.value;
+    this.getAulas2();
+  }
 
+  onAula2Change() {
+    const selectedOption = this.aula2Select.nativeElement.selectedOptions[0];
+    this.selected2AulaId = selectedOption.value;
+    this.getCursos2();
+  }
+  onCurso2Change() {
+    const selectedOption = this.curso2Select.nativeElement.selectedOptions[0];
+    this.selected2CursoId = selectedOption.value;
+    this.getClases();
+  }
   onClaseChange() {
     const selectedOption = this.claseSelect.nativeElement.selectedOptions[0];
     this.selectedClaseId = selectedOption.value;
   }
+
+
   getAnios3(){
     this.anioService.getAll('', 0, 100)
       .subscribe(response => {
@@ -314,28 +338,91 @@ export class AdminReportAsistenciaComponent implements OnInit {
           this.selected3AnioId = this.anios[this.anios3.length-1].id;
           this.getPeriodos2();
         } else{
-          this.anios = [];
+          this.selected3AnioId = "";
+          this.anios3 = [];
+          this.getPeriodos2();
         }
       })
   }
-  onPeriodo2Change() {
-    const selectedOption = this.periodo2Select.nativeElement.selectedOptions[0];
-    this.selected2PeriodoId = selectedOption.value;
-  }
-  getClases(){
-    this.claseService.getAll('', 0, 30).subscribe(response => {
-      this.clases = response.data.list;
-    })
-  }
+
   getPeriodos2(){
-    this.periodService.getAll(this.selected3AnioId, 0, 20)
-      .subscribe(response => {
-        if(response.successful && response.data.list){
-          this.periodos2 = response.data.list;
-          this.selected2PeriodoId = this.periodos2[0].id;
-        } else {
-          this.periodos2 = []
-        }
-      })
+    if(this.selected3AnioId !== ""){
+      this.periodService.getAll(this.selected3AnioId, 0, 20)
+        .subscribe(response => {
+          if(response.successful && response.data.list){
+            this.periodos2 = response.data.list;
+            this.selected2PeriodoId = this.periodos2[0].id;
+            this.getAulas2();
+          } else {
+            this.selected2PeriodoId = "";
+            this.periodos2 = [];
+            this.getAulas2();
+          }
+        });
+    } else {
+      this.selected2PeriodoId = "";
+      this.periodos2 = [];
+      this.getAulas2();
+    }
   }
+
+  getAulas2() {
+    if(this.selected2PeriodoId !== ""){
+      this.aulaService.getAllAnio('', this.selected3AnioId)
+        .subscribe(response => {
+          if(response.successful){
+            this.aulas2 = response.data;
+            this.selected2AulaId= this.aulas2[0].id;
+            this.getCursos2();
+          } else {
+            this.aulas2 = [];
+            this.selected2AulaId = "";
+            this.getCursos2();
+          }
+        });
+    } else {
+      this.aulas2 = [];
+      this.selected2AulaId = "";
+      this.getCursos2();
+    }
+  }
+  getCursos2(){
+    if(this.selected2AulaId !== ""){
+      this.cursoService.getAulaAnio(this.selected2AulaId, this.selected3AnioId)
+          .subscribe(response => {
+            if(response.successful){
+              this.cursos2 = response.data;
+              this.selected2CursoId = this.cursos2[0].id;
+              this.getClases();
+              this.form();
+            } else{
+              this.cursos2 = [];
+              this.selected2CursoId = "";
+              this.getClases();
+            }
+          });
+    } else {
+      this.cursos2 = [];
+      this.selected2CursoId = "";
+      this.getClases();
+    }
+  }
+
+  getClases(){
+    if(this.selected2PeriodoId !== "" && this.selected2AulaId !== "" && this.selected2CursoId !==""){
+      this.claseService.getAllPeriodoAulaCurso('', 0, 50, this.selected2PeriodoId, this.selected2AulaId, this.selected2CursoId).subscribe(response => {
+        if(response.successful && response.data.list){
+          this.clases = response.data.list;
+          this.form();
+        } else{
+          this.clases = [];
+          this.form();
+        }
+      });
+    } else {
+      this.clases = [];
+      this.form();
+    }
+  }
+
 }
