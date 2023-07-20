@@ -80,6 +80,8 @@ export class StudentNotasComponent implements OnInit {
     this.evaluaciones = [];
     
     localStorage.setItem('selectedAnioN', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodN');
+    this.selectedPeriodId = '';
 
   }
 

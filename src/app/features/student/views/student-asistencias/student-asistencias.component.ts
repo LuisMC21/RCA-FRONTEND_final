@@ -100,8 +100,11 @@ export class StudentAsistenciasComponent implements OnInit {
       this.asignaciones = response.data.list;
     })
 
+    this.asistencias = [];
 
     localStorage.setItem('selectedAnio', this.selectedAnioId);
+    localStorage.removeItem('selectedPeriodN');
+    this.selectedPeriodId = '';
   }
 
   onPeriodoChange() {

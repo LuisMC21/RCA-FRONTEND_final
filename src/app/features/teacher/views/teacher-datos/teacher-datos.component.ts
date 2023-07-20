@@ -17,17 +17,13 @@ export class TeacherDatosComponent implements OnInit {
   item!: ITeacher;
   code: string = '';
 
+  route = 'Datos';
+
   msjResponse:string='';
   successful: boolean=false;
 
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
-  optionsDocumentType = [
-    { title: "DNI", value: 'DNI' },
-    { title: "CE", value: 'CE' },
-    { title: "Pasaporte", value: 'Pasaporte' },
-    { title: "Partida de Nacimiento", value: 'Partida' },
-  ]
   optionsVac = [
     { title: 'SI', value: 'S' },
     { title: 'NO', value: 'N' }

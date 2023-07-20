@@ -18,6 +18,8 @@ export class TeacherAsignacionesComponent implements OnInit {
   tableName: string = 'Asignaciones';
   paginationData:string ='course';
 
+  route = "Asignaciones";
+
   teacher = '';
 
   @ViewChild('anioSelect') anioSelect!: ElementRef;
