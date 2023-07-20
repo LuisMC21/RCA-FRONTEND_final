@@ -241,10 +241,11 @@ export class AdminReportAsistenciaComponent implements OnInit {
       })
   }
   getAulas() {
-    if(this.selected2AnioId!= ""){
+    if(this.selected2AnioId !== ""){
       this.aulaService.getAllAnio('', this.selected2AnioId)
         .subscribe(response => {
-          if(response.successful){
+          console.log(response)
+          if(response.successful && response.data.length>0){
             this.aulas = response.data;
             this.selectedAulaId= this.aulas[0].id;
             this.getCursos();
@@ -275,9 +276,10 @@ export class AdminReportAsistenciaComponent implements OnInit {
             }
           });
       } else {
-        this.selectedCursoId = "";
-              this.cursos = [];
-              this.form();
+          this.selectedCursoId = "";
+          console.log("yeee")
+          this.cursos = [];
+          this.form();
       }
   }
   //-----
