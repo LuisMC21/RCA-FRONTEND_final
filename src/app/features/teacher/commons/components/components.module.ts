@@ -8,6 +8,7 @@ import { TableAsignacionesComponent } from './tables-data/table-asignaciones/tab
 import { TableClaseComponent } from './tables-data/table-clase/table-clase.component';
 import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-asistencia.component';
 import { RouteComponent } from './route/route.component';
+import { TableStudentComponent } from './tables-data/table-student/table-student.component';
 
 
 
@@ -19,6 +20,7 @@ import { RouteComponent } from './route/route.component';
     TableClaseComponent,
     TableAsistenciaComponent,
     RouteComponent,
+    TableStudentComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { RouteComponent } from './route/route.component';
     TableAsignacionesComponent,
     TableClaseComponent,
     TableAsistenciaComponent,
-    RouteComponent
+    RouteComponent,
+    TableStudentComponent
   ]
 })
 export class ComponentsModule { }

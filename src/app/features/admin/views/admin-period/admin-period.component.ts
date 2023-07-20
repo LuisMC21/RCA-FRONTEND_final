@@ -135,6 +135,7 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   async countEvaluciones(totalevaluaciones: number, id: string) {
+    /*
     try {
       if (totalevaluaciones == 0) {
         //periodo para el que se agregarán las evaluaciones
@@ -215,6 +216,7 @@ export class AdminPeriodComponent implements OnInit {
     } catch (error) {
       console.log("Error:", error)
     }
+    */
   }
 
 }

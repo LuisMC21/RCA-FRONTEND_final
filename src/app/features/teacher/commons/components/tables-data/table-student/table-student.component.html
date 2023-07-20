@@ -1,0 +1,22 @@
+<div class="table__search bg-gray-200 p-3 flex justify-end items-center">
+    <label class="mx-4"><b>{{tableName}}</b></label>
+    <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
+        <i class="bi bi-search"></i>
+        <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
+            type="search" placeholder="Buscar">
+    </div>
+</div>
+
+<table class="table bg-gray-50">
+    <thead>
+        <th *ngFor="let item of head">{{item}}</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of students, let i=index">
+            <td>{{item.code}}</td>
+            <td>{{item.usuarioDTO.pa_surname}} {{item.usuarioDTO.ma_surname}} {{item.usuarioDTO.name}}</td>
+            <td>{{item.apoderadoDTO.pa_surname}} {{item.apoderadoDTO.ma_surname}} {{item.apoderadoDTO.name}}</td>
+            <td>{{item.apoderadoDTO.tel}}</td>
+        </tr>
+    </tbody>
+</table>
