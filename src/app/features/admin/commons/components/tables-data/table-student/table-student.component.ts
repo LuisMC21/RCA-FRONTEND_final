@@ -7,6 +7,7 @@ import { SearchComponent } from 'src/app/shared/components/search/search.compone
 import { ParentService } from '../../../services/parent.service';
 import { IUser } from 'src/app/features/admin/interfaces/user';
 import { Router } from '@angular/router';
+import { StudentService } from '../../../services/student.service';
 
 @Component({
   selector: 'app-table-student',
@@ -55,8 +56,11 @@ export class TableStudentComponent implements OnInit {
   head = ["CODIGO", "APELLIDOS", "NOMBRE", "DOC. de IDENTIDAD", "CORREO", "TELÉFONO", "VACUNA", "SEGURO", "CONTACTO", "ACCIONES"]
   msjDeleteok: string = '';
 
-  constructor(private renderer2: Renderer2, private formBuilder: FormBuilder,
-    private parentService: ParentService, private router: Router) {
+  constructor(private renderer2: Renderer2,
+    private formBuilder: FormBuilder,
+    private parentService: ParentService,
+    private studentService: StudentService,
+    private router: Router) {
   }
   ngOnInit(): void {
     this.form()
@@ -111,12 +115,12 @@ export class TableStudentComponent implements OnInit {
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : '',[Validators.required]],
-      namecon_pri: [item ? item.namecon_pri : '',[Validators.required]],
-      telcon_pri: [item ? item.telcon_pri : '', [Validators.minLength(9),Validators.maxLength(9)] ],
-      namecon_sec: [item ? item.namecon_sec : ''],
-      telcon_sec: [item ? item.telcon_sec : '', [Validators.minLength(9),Validators.maxLength(9)]],
+      namecon_pri: [item ? item.namecon_pri : 'Contacto 1',[Validators.required]],
+      telcon_pri: [item ? item.telcon_pri : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)] ],
+      namecon_sec: [item ? item.namecon_sec : 'Contacto 2'],
+      telcon_sec: [item ? item.telcon_sec : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)]],
       vaccine: [item ? item.vaccine : ''],
-      type_insurance: [item ? item.type_insurance : ''],
+      type_insurance: [item ? item.type_insurance : '', [Validators.required]],
       apoderadoDTO: this.formBuilder.group({
         id: [item ? item.apoderadoDTO.id : null],
         code: [item ? item.apoderadoDTO.code : ''],
@@ -149,6 +153,12 @@ export class TableStudentComponent implements OnInit {
       // ma_surnameA:[item?item.apoderadoDTO.ma_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
       // telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
       // tipSeg: [item?item.type_insurance:'',[Validators.required]]
+    });
+
+    // Subscribe to the valueChanges of numdoc control in usuarioDTO
+    this.group.get('usuarioDTO.numdoc')?.valueChanges.subscribe((numdocValue) => {
+      // Update the value of nombreUsuario based on numdocValue
+      this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
     });
   }
 
@@ -208,13 +218,15 @@ export class TableStudentComponent implements OnInit {
     this.group.reset()
   }
 
-  redirectToDatosPersonales(uniqueIdentifier: string) {
-    const url = `http://localhost:8080/alumno/datosPersonales?uniqueIdentifier=${uniqueIdentifier}`;
-    window.location.href = url;
+  redirectToDatosPersonales(uniqueIdentifier: string) {+
+    this.studentService.getReporteDatosPersonales(uniqueIdentifier);
   }
 
   getCloseModal(){
     this.group.reset();
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 }
