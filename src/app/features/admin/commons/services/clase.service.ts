@@ -16,9 +16,9 @@ export class ClaseService {
     return this.http.get<IApiResponse>(`${environment.api}/clase?filter=${filter}&page=${page}&size=${size}`);
   }
 
-  getAllPeriodoAulaCurso(nom?:string,page?:number,size?:number, periodo?:string, aula?:string, curso?:string):Observable<IApiResponse>{
+  getAllPeriodoAulaCurso(filter?:string,page?:number,size?:number, periodo?:string, aula?:string, curso?:string):Observable<IApiResponse>{
 
-    return this.http.get<IApiResponse>(`${environment.api}/clase/cpau?page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
+    return this.http.get<IApiResponse>(`${environment.api}/clase/cpau?filter=${filter}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
 
    //Agregar clase
