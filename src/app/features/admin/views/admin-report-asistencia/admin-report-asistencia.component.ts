@@ -274,6 +274,10 @@ export class AdminReportAsistenciaComponent implements OnInit {
               this.form();
             }
           });
+      } else {
+        this.selectedCursoId = "";
+              this.cursos = [];
+              this.form();
       }
   }
   //-----
