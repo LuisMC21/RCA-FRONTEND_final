@@ -24,7 +24,8 @@
                 </select></app-field>
         </div>
         <div class="w-1/4" style="display: inline-block; margin-right: 20px;">
-            <button type="submit" class="field__input--button mx-2 h-9 rounded-3xl text-white" [disabled]="selectedAnioId == ''" (click)="redirectToAsistencia()">Generar PDF</button>
+            <button type="submit" class="field__input--button mx-2 h-9 rounded-3xl text-white" [disabled]="selectedAnioId === '' || selectedPeriodId === '' || selectedAnioId === null || selectedPeriodId === null"
+            (click)="redirectToAsistencia()">Generar PDF</button>
         </div>
     </div>
 </div>

@@ -31,6 +31,8 @@ export class TeacherNotasComponent implements OnInit {
   courseTeachers: ICourseTeacher[] = [];
   evaluaciones: IEvaluacion[] = [];
 
+  route = "Promedios";
+
   periodo?:IPeriod;
   courseTeacher?: ICourseTeacher;
 

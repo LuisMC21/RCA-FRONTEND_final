@@ -33,6 +33,8 @@ export class TeacherAsistenciaComponent implements OnInit {
   clases: IClase[] = [];
   asistencias: IAsistencia[] = [];
 
+  route = "Asistencias";
+
   periodo!: IPeriod;
   courseTeacher!: ICourseTeacher;
 
