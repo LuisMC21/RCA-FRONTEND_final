@@ -39,7 +39,17 @@
       </div>
       <div class="field">
         <app-label-field [title]="'**Tipo de documento'"></app-label-field>
-        <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
+        <app-field>
+          <select formControlName="type_doc" class="input" type="string">
+            <option value="" disabled selected>-- Seleccione --</option>
+            <option *ngFor="let tipodocumento of tiposdocumentos" [value]="tipodocumento">
+              {{ tipodocumento }}
+            </option>
+          </select>
+        </app-field>
+        <app-required-field class="px-2"
+          *ngIf="group.get('type_insurance')?.invalid && (group.get('type_insurance')?.dirty || group.get('type_insurance')?.touched)"
+          [text]="'*El campo es requerido'"></app-required-field>
       </div>
       <div class="field">
         <app-label-field [title]="'**Número de documento'"></app-label-field>
@@ -48,7 +58,6 @@
         <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
           [text]="'*El campo requiere 8 caracteres'"></app-required-field>
       </div>
-
       <div class="field">
         <app-label-field [title]="'**Teléfono de contacto'"></app-label-field>
         <app-field><input formControlName="tel" class="input" type="number" inputmode="numeric" min="100000000"
@@ -61,7 +70,6 @@
         <app-field><input formControlName="email" class="input" type="email"></app-field>
         <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
           [text]="'**El campo es de tipo correo'"></app-required-field>
-
       </div>
       <div class="field">
         <app-label-field [title]="'Usuario'"></app-label-field>
@@ -81,7 +89,6 @@
         </app-field>
       </div>
     </div>
-
     <div class="form__field">
       <div class="field">
         <app-label-field [title]="'**Enfermedades'"></app-label-field>
@@ -123,9 +130,16 @@
       </div>
       <div class="field">
         <app-label-field [title]="'**Tipo de seguro'"></app-label-field>
-        <app-field><input formControlName="type_insurance" class="input" type="string"></app-field>
+        <app-field>
+          <select formControlName="type_insurance" class="input" type="string">
+            <option value="" disabled selected>-- Seleccione --</option>
+            <option *ngFor="let tipoSeguro of tiposseguro" [value]="tipoSeguro">
+              {{ tipoSeguro }}
+            </option>
+          </select>
+        </app-field>
         <app-required-field class="px-2"
-          *ngIf="type_insurance?.invalid && (type_insurance?.dirty || type_insurance?.touched)"
+          *ngIf="group.get('type_insurance')?.invalid && (group.get('type_insurance')?.dirty || group.get('type_insurance')?.touched)"
           [text]="'*El campo es requerido'"></app-required-field>
       </div>
     </div>
@@ -149,8 +163,8 @@
       </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" [disabled]="group.invalid"
-          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()" (click)="modalAdd.hiddenModal()">Guardar</button>
-        <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+        <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
       </div>
     </div>
   </form>
@@ -177,7 +191,7 @@
         <app-btn-view (click)="redirectToDatosPersonales(item.id)">
         </app-btn-view>
       </td>
-      <app-modal [title]="'Eliminar alumno?'" (successful2)="getCloseModal()" #modalDelete>
+      <app-modal [title]="'Eliminar alumno?'" #modalDelete>
         <div class="flex flex-col items-start px-4">
           <label><b>Codigo: </b>{{item.code}}</label>
           <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}}

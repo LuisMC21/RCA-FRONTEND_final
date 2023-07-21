@@ -24,7 +24,6 @@ export class AdminStudentView implements OnInit {
   ]
   students:IStudent[]=[];
 
-
   apiResponse!: IApiResponse;
   paginationData = 'student'
   totalStudents: number=0;
@@ -32,8 +31,7 @@ export class AdminStudentView implements OnInit {
   icon:string='';
   identiParent:string='';
 
-  successful: boolean=false;
-  @Output() successful2:EventEmitter<boolean> = new EventEmitter();
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
@@ -69,32 +67,27 @@ export class AdminStudentView implements OnInit {
   // AGREGAR - ACTUALIZAR
   save(student:IStudent){
     // student.apoderado = this.identiParent;
-    console.log(student)
     if(student.id==null){
       this.studentService.add(student).subscribe(data =>{
         console.log(data.message)
-        if(data.successful===true){
+        if(data.successful){
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
-          this.successful2.emit(true);
         }else{
           this.msjResponse = data.message;
           this.successful = false;
-          this.successful2.emit(false);
         }
       });
     }else{
       this.studentService.update(student).subscribe(data =>{
         console.log(student)
         console.log(data.message)
-        if(data.successful===true){
+        if(data.successful){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
-          this.successful2.emit(true);
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;
-          this.successful2.emit(false);
         }
       })
     }
@@ -110,9 +103,8 @@ export class AdminStudentView implements OnInit {
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
-        this.successful2.emit(true);
       } else {
-        this.successful2.emit(true);
+        this.successful = true;
       }
     });
     this.modalOk.showModal();

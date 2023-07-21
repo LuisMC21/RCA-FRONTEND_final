@@ -25,6 +25,8 @@ export class TableStudentComponent implements OnInit {
   existsApoderado: boolean = false;
   selectedApoderado: string = '';
 
+  tiposdocumentos = ['DNI', 'CARNÉ DE EXTRANJERÍA'];
+  tiposseguro = ['SIS', 'ESSALUD', 'PRIVADO'];
 
   @Input() tableName!: string;
   @Input() title!: string;
@@ -125,14 +127,14 @@ export class TableStudentComponent implements OnInit {
       diseases: [item ? item.diseases : '',[Validators.required]],
       namecon_pri: [item ? item.namecon_pri : 'Contacto 1',[Validators.required]],
       telcon_pri: [item ? item.telcon_pri : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)] ],
-      namecon_sec: [item ? item.namecon_sec : 'Contacto 2'],
+      namecon_sec: [item ? item.namecon_sec : 'Contacto 2', [Validators.required]],
       telcon_sec: [item ? item.telcon_sec : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)]],
-      vaccine: [item ? item.vaccine : ''],
+      vaccine: [item ? item.vaccine : '', [Validators.required]],
       type_insurance: [item ? item.type_insurance : '', [Validators.required]],
       apoderadoDTO: this.formBuilder.group({
         id: [item ? item.apoderadoDTO.id : null],
         code: [item ? item.apoderadoDTO.code : ''],
-        name: [item ? item.apoderadoDTO.name + ' ' + item.apoderadoDTO.pa_surname + ' ' + item.apoderadoDTO.ma_surname : ''],
+        name: [item ? item.apoderadoDTO.name + ' ' + item.apoderadoDTO.pa_surname + ' ' + item.apoderadoDTO.ma_surname : '', [Validators.required, Validators.minLength(9)]],
 
       }),
       // USUARIO
@@ -147,12 +149,12 @@ export class TableStudentComponent implements OnInit {
         birthdate: [item ? item.usuarioDTO.birthdate : '',[Validators.required]],
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
         numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-        tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
+        tel: [item ? item.usuarioDTO.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
         email: [item ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
         password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
       }),
 
-  });
+    });
 
     // Subscribe to the valueChanges of numdoc control in usuarioDTO
     this.group.get('usuarioDTO.numdoc')?.valueChanges.subscribe((numdocValue) => {

@@ -11,6 +11,7 @@ export class ModalComponent implements OnInit {
   @Input() icon:string=''
   @ViewChild('modalBack') modalBack!: ElementRef;
   @Output() close_modal:EventEmitter<boolean> = new EventEmitter();
+  @Input() successful!:boolean;
 
   public show = false;
 
@@ -29,7 +30,13 @@ export class ModalComponent implements OnInit {
     this.show = true;
   }
 
+
   hiddenModal(){
+    if(this.successful){
+      this.show = false;
+    }
+  }
+  cancelar(){
     this.show = false;
     this.close_modal.emit(true);
   }
@@ -37,4 +44,5 @@ export class ModalComponent implements OnInit {
   refresh(){
     return window.location.reload();
   }
+
 }
