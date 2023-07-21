@@ -149,8 +149,8 @@
       </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" [disabled]="group.invalid"
-          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()" (click)="modalAdd.hiddenModal()">Guardar</button>
-        <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+        <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
       </div>
     </div>
   </form>
@@ -177,7 +177,7 @@
         <app-btn-view (click)="redirectToDatosPersonales(item.id)">
         </app-btn-view>
       </td>
-      <app-modal [title]="'Eliminar alumno?'" (successful2)="getCloseModal()" #modalDelete>
+      <app-modal [title]="'Eliminar alumno?'" #modalDelete>
         <div class="flex flex-col items-start px-4">
           <label><b>Codigo: </b>{{item.code}}</label>
           <label><b>Nombre: </b>{{item.usuarioDTO.pa_surname +' '+ item.usuarioDTO.ma_surname}}
