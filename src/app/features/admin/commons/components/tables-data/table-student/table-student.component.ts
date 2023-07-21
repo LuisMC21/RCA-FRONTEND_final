@@ -181,7 +181,6 @@ export class TableStudentComponent implements OnInit {
       usuarioDTOFormGroup.addControl('rol', this.formBuilder.control('STUDENT'));
       usuarioDTOFormGroup.addControl('gra_inst', this.formBuilder.control('ESTUDIANTE'));
 
-      console.log(this.group)
       this.studentSave.emit(this.group.value)
     }
 

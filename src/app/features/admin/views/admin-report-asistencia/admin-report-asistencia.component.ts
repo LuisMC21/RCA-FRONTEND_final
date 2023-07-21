@@ -203,7 +203,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
       this.asistenciaService.exportAsistClase(this.selectedClaseId)
     }
   }
- 
+
 
   //Funciones para reporte asistencia por curso
   onAnioChange2() {
