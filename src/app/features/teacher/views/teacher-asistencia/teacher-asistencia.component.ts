@@ -194,7 +194,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
     this.selectedCourseId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', 0, 40, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
 
@@ -206,7 +206,14 @@ export class TeacherAsistenciaComponent implements OnInit {
   }
 
   onClaseChange() {
+    const selectedOption = this.claseSelect.nativeElement.selectedOptions[0];
+    this.selectedClaseId = selectedOption.value;
 
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+      this.asistencias = response.data.list;
+    })
+
+    localStorage.setItem('selectedClaseAs', this.selectedCourseId);
   }
 
   //BUSCAR
