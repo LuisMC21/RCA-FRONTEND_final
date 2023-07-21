@@ -22,7 +22,7 @@ export class TableStudentComponent implements OnInit {
   usuario: IUser[] = []
   identiParent: string = '';
   nomParent: string = '';
-  namesApoderado: string = '';
+  existsApoderado: boolean = false;
   selectedApoderado: string = '';
 
 
@@ -241,13 +241,12 @@ export class TableStudentComponent implements OnInit {
 
   searchApoderados(value: string | undefined) {
     if (value !== undefined) {
-      console.log(value)
       this.filterApoderado = value;
       this.apoderadoService.getAll(this.filterApoderado,  0, 5).subscribe(response => {
         if(response.successful && response.data.list){
           this.apoderados = response.data.list;
-          console.log(this.apoderados)
         } else {
+          this.existsApoderado = true
           this.apoderados= [];
         }
       });
@@ -256,7 +255,7 @@ export class TableStudentComponent implements OnInit {
 
   selectApoderado(apoderado: IParent) {
     this.selectedApoderado = `${apoderado.pa_surname} ${apoderado.ma_surname} ${apoderado.name}`;
-    this.namesApoderado = this.selectedApoderado;
+    this.existsApoderado = false;
     this.selectedApoderadoId = apoderado.id;
     this.apoderados = [];
     const usuarioDTOFormGroup = this.group.get('apoderadoDTO') as FormGroup;

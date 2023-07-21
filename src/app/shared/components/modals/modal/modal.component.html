@@ -1,6 +1,6 @@
 <ng-container *ngIf="show">
     <div class="modal" #modalBack>
-        <div class="modal__content">
+        <div class="modal__content" (successful2) = "hiddenModal()" (succesful2) = "refresh()">
             <div class="modal__header" >
                 <h4 class="modal__title">{{title}}</h4>
                 <i (click)="hiddenModal()" class="close cursor-pointer bi bi-x-circle-fill"></i>

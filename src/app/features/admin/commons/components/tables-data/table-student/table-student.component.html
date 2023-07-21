@@ -137,22 +137,19 @@
             #searchApoderado (input)="searchApoderados(searchApoderado.value)">
         </app-field>
         <div class="field">
-          <app-search *ngIf="apoderados && apoderados.length > 0">
+          <app-search *ngIf="apoderados && apoderados.length > 0 && searchApoderado.value.length>0">
             <span (click)="selectApoderado(apoderado)" *ngFor="let apoderado of apoderados" class="block w-full h-full">
               {{ apoderado.numdoc + ' - ' + apoderado.pa_surname + ' ' + apoderado.ma_surname + ' ' + apoderado.name }}
             </span>
           </app-search>
-          <span *ngIf="(apoderados.length === 0) && namesApoderado !== ''" class="newApoderado">
+          <span *ngIf="apoderados.length === 0 && existsApoderado" class="newApoderado">
             <label>No se encontraron resultados.</label>
           </span>
         </div>
       </div>
-
-
-
       <div class="btns flex py-7 w-full">
         <button type="submit" [disabled]="group.invalid"
-          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()" (click)="modalAdd.hiddenModal()">Guardar</button>
         <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
       </div>
     </div>
@@ -173,7 +170,7 @@
       <td>{{item.usuarioDTO.tel}}</td>
       <td>{{item.vaccine}}</td>
       <td>{{item.type_insurance}}</td>
-      <td>{{item.namecon_pri + "-" + item.telcon_pri}} | {{item.namecon_sec + "-" + item.telcon_sec}}</td>
+      <td>{{item.namecon_pri + " - " + item.telcon_pri}} | {{item.namecon_sec + "-" + item.telcon_sec}}</td>
       <td class="actions">
         <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
         <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
@@ -188,7 +185,7 @@
         </div>
         <div class="flex py-7 w-full">
           <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-          <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
+          <app-btn-confirm-delete (click)="delete(item.id)" (click)="modalDelete.refresh()" class="w-1/2 mx-2"></app-btn-confirm-delete>
         </div>
       </app-modal>
     </tr>
