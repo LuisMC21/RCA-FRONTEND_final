@@ -52,7 +52,7 @@ export class AdminParentView implements OnInit {
     if(parent.id==null){
       this.parentService.add(parent).subscribe(data =>{
         console.log(data.message)
-        if(data.successful===true){
+        if(data.successful){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
@@ -63,7 +63,7 @@ export class AdminParentView implements OnInit {
     }else{
       this.parentService.update(parent).subscribe(data =>{
         console.log(parent)
-        if(data.successful===true){
+        if(data.successful){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
@@ -81,7 +81,7 @@ export class AdminParentView implements OnInit {
   //ELIMINAR 
   delete(id:string){
     this.parentService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+      if(data.successful){
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
       }

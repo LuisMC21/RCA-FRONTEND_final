@@ -147,8 +147,8 @@
       <div class="field">
         <app-label-field [title]="'Apoderado'"></app-label-field>
         <app-field>
-          <input formControlName="name" class="input" type="text"
-            #searchApoderado (input)="searchApoderados(searchApoderado.value)">
+          <input formControlName="name" class="input" type="text" #searchApoderado
+            (input)="searchApoderados(searchApoderado.value)">
         </app-field>
         <div class="field">
           <app-search *ngIf="apoderados && apoderados.length > 0 && searchApoderado.value.length>0">
@@ -161,6 +161,9 @@
           </span>
         </div>
       </div>
+      <div style="margin-top: 10px;">
+        <p style="font-size: 11px;">**Campos obligatorios</p>
+    </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" [disabled]="group.invalid"
           class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
@@ -199,7 +202,8 @@
         </div>
         <div class="flex py-7 w-full">
           <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-          <app-btn-confirm-delete (click)="delete(item.id)" (click)="modalDelete.refresh()" class="w-1/2 mx-2"></app-btn-confirm-delete>
+          <app-btn-confirm-delete (click)="delete(item.id)" (click)="modalDelete.refresh()"
+            class="w-1/2 mx-2"></app-btn-confirm-delete>
         </div>
       </app-modal>
     </tr>

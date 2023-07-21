@@ -52,7 +52,7 @@ export class TeacherClasesComponent implements OnInit {
   title!: string;
   teacher = '';
 
-  paginationData: string = 'course';
+  paginationData: string = 'clase';
 
   msjResponse: string = '';
   successful!: boolean;

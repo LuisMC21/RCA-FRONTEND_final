@@ -144,7 +144,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
     if (value !== undefined) {
       this.nameStudent = value;
       console.log(this.selectedAnioId)
-      this.studentService.getAllAnioCursoAula(value, this.selectedAnioId, "", "", 0, 50).subscribe(response => {
+      this.studentService.getAllAnioCursoAula(value, this.selectedAnioId, "", 0, 50).subscribe(response => {
         if(response.successful && response.data.list){
           this.students = response.data.list;
         } else {

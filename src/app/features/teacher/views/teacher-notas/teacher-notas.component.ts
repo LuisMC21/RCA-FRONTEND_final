@@ -58,10 +58,7 @@ export class TeacherNotasComponent implements OnInit {
   title!: string;
   teacher = '';
 
-  paginationData = 'grade';
-  paginationDataStudent = 'student';
-  paginationDataPeriod = 'period';
-  paginationDataDxC = 'grade';
+  paginationData = 'evaluacion';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -95,7 +92,6 @@ export class TeacherNotasComponent implements OnInit {
 
     if(this.selectedAnioId != ''){
       this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
-        console.log(response.data.list)
         this.periods = response.data.list;
       })
 
@@ -120,8 +116,8 @@ export class TeacherNotasComponent implements OnInit {
       })
     }
 
-    let page = this.pagination.getPage(this.paginationDataDxC);
-    let size = this.pagination.getSize(this.paginationDataDxC);
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
 
     this.evaluacionService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
@@ -172,6 +168,7 @@ export class TeacherNotasComponent implements OnInit {
     this.selectedPeriodId = selectedOption.value;
 
     this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      console.log(response);
       this.evaluaciones = response.data.list;
     })
 

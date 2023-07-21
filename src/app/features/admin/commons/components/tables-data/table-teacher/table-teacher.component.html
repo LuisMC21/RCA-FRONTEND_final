@@ -7,7 +7,7 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div>
 
-<app-modal [title]="titulo" #modalAdd>
+<app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
 
         <div formGroupName="usuarioDTO" class="form__field">
@@ -39,15 +39,16 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'**Teléfono'"></app-label-field>
-                <app-field><input formControlName="tel" class="input" type="tel"></app-field>
+                <app-field><input formControlName="tel" class="input" type="number" inputmode="numeric" min="100000000"
+                        max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                    [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'**Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                    [text]="'**El campo es de tipo correo'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'**Tipo de documento'"></app-label-field>
@@ -58,9 +59,10 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'**Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
+                <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
+                    max="999999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
+                  [text]="'*El campo requiere 8 caracteres'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'**Usuario'"></app-label-field>
@@ -71,9 +73,13 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'**Password'"></app-label-field>
-                <app-field><input formControlName="password" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                <app-field>
+                    <input formControlName="password" [type]="showPassword ? 'text' : 'password'"
+                      placeholder="Contraseña de usuario" class="input" />
+                    <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
+                      <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+                    </button>
+                  </app-field>
             </div>
 
             <div class="field">
@@ -104,11 +110,13 @@
                     [text]="'**El campo es requerido'"></app-required-field>
             </div>
         </div>
-
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
+        </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+            <app-btn-cancel (click)="modalAdd.cancelar()"  class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>

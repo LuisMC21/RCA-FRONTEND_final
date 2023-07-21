@@ -36,7 +36,7 @@ export class TeacherStudentComponent implements OnInit {
 
   title!: string;
   teacher = '';
-  paginationData:string ='course';
+  paginationData:string ='student';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -63,10 +63,14 @@ export class TeacherStudentComponent implements OnInit {
       this.anios = response.data.list;
     });
 
+    console.log(this.selectedAulaId);
+    console.log(this.selectedAnioId);
+
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, page, size)
         .subscribe(response => {
+          console.log(response);
           this.asignaciones = response.data.list;
 
           this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
@@ -78,11 +82,12 @@ export class TeacherStudentComponent implements OnInit {
           }, []);
         });
 
-    if(this.selectedAnioId != '' && this.selectedAulaId != ''){
-      this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, '',0,5).subscribe(response=>{
+    
+      this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, page,size).subscribe(response=>{
+        console.log(response);
         this.students = response.data.list;
       })
-    }
+    
   }
 
   onAnioChange(){
@@ -105,8 +110,11 @@ export class TeacherStudentComponent implements OnInit {
           }, []);
         });
 
+        this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, 0,5).subscribe(response=>{
+          this.students = response.data.list;
+        })
+
     localStorage.setItem('selectedAnioE', this.selectedAnioId);
-    localStorage.removeItem('selectedAulaE');
     this.selectedAulaId = '';
     this.students = [];
   }
@@ -115,7 +123,7 @@ export class TeacherStudentComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, '',0,5).subscribe(response=>{
+    this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, 0,5).subscribe(response=>{
       this.students = response.data.list;
     })
 
