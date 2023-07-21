@@ -14,6 +14,7 @@ export class TableTeacherComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  showPassword: boolean = false;
   titulo: string = 'Agregar Docente';
 
   @Output() teacherSave: EventEmitter<ITeacher> = new EventEmitter();
@@ -77,13 +78,13 @@ export class TableTeacherComponent implements OnInit {
         id: [item && item.usuarioDTO ? item.usuarioDTO.id : null],
         code: [item && item.usuarioDTO ? item.usuarioDTO.code : ''],
         nombreUsuario: [item && item.usuarioDTO ? item.usuarioDTO.nombreUsuario : '', [Validators.required]],
-        name: [item && item.usuarioDTO ? item.usuarioDTO.name : '', [Validators.required]],
-        pa_surname: [item && item.usuarioDTO ? item.usuarioDTO.pa_surname : '', [Validators.required]],
-        ma_surname: [item && item.usuarioDTO ? item.usuarioDTO.ma_surname : '', [Validators.required]],
+        name: [item ? item.usuarioDTO.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
+        pa_surname: [item ? item.usuarioDTO.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
+        ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         birthdate: [item && item.usuarioDTO ? item.usuarioDTO.birthdate : null, [Validators.required]],
         type_doc: [item && item.usuarioDTO ? item.usuarioDTO.type_doc : '', [Validators.required]],
-        numdoc: [item && item.usuarioDTO ? item.usuarioDTO.numdoc : '', [Validators.required]],
-        tel: [item && item.usuarioDTO ? item.usuarioDTO.tel : '', [Validators.required]],
+        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+        tel: [item ? item.usuarioDTO.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
         gra_inst: [item && item.usuarioDTO ? item.usuarioDTO.gra_inst : '', [Validators.required]],
         email: [item && item.usuarioDTO ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
         password: [item && item.usuarioDTO ? item.usuarioDTO.password : ''],
@@ -104,7 +105,7 @@ export class TableTeacherComponent implements OnInit {
     }
     this.modalAdd.hiddenModal();
 
-    if(this.titulo=="Actualizar Docente"){
+    if(this.titulo=="Actualizar docente"){
       this.titulo = "Agregar Docente";
     }
   }
@@ -122,6 +123,14 @@ export class TableTeacherComponent implements OnInit {
     console.log(this.group.value);
     this.group.reset(); 
     
+  }
+
+  getCloseModal(){
+    this.group.reset();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
 
