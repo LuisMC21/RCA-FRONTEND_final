@@ -8,8 +8,9 @@ import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@ang
 export class ModalResponseComponent implements OnInit {
 
   @Input() title:string ='';
-  @Input() successful:boolean = true;
-  successfull2!: boolean;
+  @Input() successful!:boolean;
+
+  respuesta3!: boolean;
   @ViewChild('modalBack') modalBack!: ElementRef;
 
   public show = false;
@@ -32,13 +33,14 @@ export class ModalResponseComponent implements OnInit {
   }
 
   hiddenModal(){
+    if(this.successful){
+      this.refresh();
+    }
     this.show = false;
   }
 
-  respuesta(successful2:any){
-    if(successful2){
-      this.refresh();
-    }
+  respuesta(){
+    this.successful = true;
   }
 
   refresh(){
