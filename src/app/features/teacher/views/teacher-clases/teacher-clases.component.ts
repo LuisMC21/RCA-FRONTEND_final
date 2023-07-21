@@ -55,7 +55,7 @@ export class TeacherClasesComponent implements OnInit {
   paginationData: string = 'course';
 
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -78,13 +78,11 @@ export class TeacherClasesComponent implements OnInit {
     this.selectedAulaId = localStorage.getItem('selectedAula') || '';
 
     this.anioService.getAll('', 0, 10).subscribe(response => {
-      console.log(response)
       this.anios = response.data.list;
     });
 
     if (this.selectedAnioId != '') {
       this.periodoService.getAll(this.selectedAnioId, 0, 10).subscribe(response => {
-        console.log(response.data.list)
         this.periods = response.data.list;
       })
 
@@ -104,7 +102,6 @@ export class TeacherClasesComponent implements OnInit {
 
     if (this.selectedAulaId != '' && this.selectedAnioId != '') {
       this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response => {
-        console.log(response)
         this.courses = response.data;
       })
     }
@@ -174,7 +171,6 @@ export class TeacherClasesComponent implements OnInit {
     })
 
     this.obtenerPeriodo();
-    console.log(this.periodo);
 
     localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
   }
@@ -215,7 +211,6 @@ export class TeacherClasesComponent implements OnInit {
     })
 
     this.obtenerCourseTeacher();
-    console.log(this.courseTeacher);
 
     localStorage.setItem('selectedCurso', this.selectedCourseId);
 
@@ -224,7 +219,6 @@ export class TeacherClasesComponent implements OnInit {
   async obtenerCourseTeacher() {
     try {
       const response = await this.courseTeacherService.getAulaCurso('', this.selectedAulaId, this.selectedCourseId).toPromise();
-      console.log(response);
       if (response && response.data) {
         this.courseTeacher = response.data;
       }
@@ -237,7 +231,7 @@ export class TeacherClasesComponent implements OnInit {
     const asignacionesFiltradas: ICourseTeacher[] = this.asignaciones.filter((asignacion: ICourseTeacher) => {
       return asignacion.aulaDTO.id === idAulaSeleccionada;
     });
-  
+
     const cursosUnicos: ICourse[] = asignacionesFiltradas.reduce((result: ICourse[], asignacion: ICourseTeacher) => {
       const curso = asignacion.cursoDTO;
       if (!result.some((cursoUnico: ICourse) => cursoUnico.id === curso.id)) {
@@ -245,7 +239,7 @@ export class TeacherClasesComponent implements OnInit {
       }
       return result;
     }, []);
-  
+
     return cursosUnicos;
   }
 
@@ -274,7 +268,6 @@ export class TeacherClasesComponent implements OnInit {
       });
     } else {
       this.claseService.update(clase).subscribe(data => {
-        console.log(data)
         if (data.successful === true) {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
@@ -290,11 +283,11 @@ export class TeacherClasesComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.claseService.delete(id).subscribe(data => {
-      console.log(data)
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === false;
+        this.successful === true;
       }
+      this.successful === true;
     });
     this.modalOk.showModal();
   }

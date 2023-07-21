@@ -58,7 +58,7 @@ export class TeacherAsistenciaComponent implements OnInit {
   teacher = '';
 
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   paginationData = 'grade';
 
