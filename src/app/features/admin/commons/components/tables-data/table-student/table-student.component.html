@@ -133,7 +133,7 @@
       <div class="field">
         <app-label-field [title]="'Apoderado'"></app-label-field>
         <app-field>
-          <input formControlName="name" class="input" type="text"
+          <input formControlName="name" class="input" placeholder="Buscar apoderado por DNI, nombre o apellidos" type="text"
             #searchApoderado (input)="searchApoderados(searchApoderado.value)">
         </app-field>
         <div class="field">

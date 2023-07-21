@@ -152,16 +152,7 @@ export class TableStudentComponent implements OnInit {
         password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
       }),
 
-
-      // apoderado:[''],
-      // isVacunado: ['',[Validators.required]],
-      // APODERADO
-
-      // pa_surnameA:[item?item.apoderadoDTO.pa_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      // ma_surnameA:[item?item.apoderadoDTO.ma_surname:'',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-      // telConPri:[item?item.telcon_pri:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
-      // tipSeg: [item?item.type_insurance:'',[Validators.required]]
-    });
+  });
 
     // Subscribe to the valueChanges of numdoc control in usuarioDTO
     this.group.get('usuarioDTO.numdoc')?.valueChanges.subscribe((numdocValue) => {
