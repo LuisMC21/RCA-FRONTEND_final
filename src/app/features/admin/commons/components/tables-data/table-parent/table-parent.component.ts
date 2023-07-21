@@ -46,12 +46,7 @@ export class TableParentComponent implements OnInit {
   get type_doc(){return this.group.get('type_doc')}
   get numdoc(){return this.group.get('numdoc')}
   get tel(){return this.group.get('tel')}
-  // get gra_inst(){return this.group.get('gra_inst')}
-  // get password(){return this.group.get('password')}
-  // get rol(){return this.group.get('rol')}
-  // get codeusuario(){return this.group.get('codeusuario')}
-  // get usuarioemail(){return this.group.get('usuarioemail')}
-  
+
   ngOnInit(): void {
     this.form();
     
@@ -61,10 +56,6 @@ export class TableParentComponent implements OnInit {
       this.group = this.formBuilder.group({
         id:[item?item.id:null],
         code:[item?item.code:''],
-       
-        // idusuario:[item?item.usuarioDTO.id:null],
-        // nombreUsuario:[item?item.usuarioDTO.nombreUsuario:''],
-        // codeusuario:[item?item.usuarioDTO.code:''],
         pa_surname:[item?item.pa_surname:'',[Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
         ma_surname:[item?item.ma_surname:'',[Validators.required, Validators.minLength(3),Validators.maxLength(20)]],
         birthdate:[item?item.birthdate:''],
@@ -73,10 +64,6 @@ export class TableParentComponent implements OnInit {
         numdoc:[item?item.numdoc:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
         tel:[item?item.tel:'',[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
         email:[item?item.email:''],
-        // gra_inst:[item?item.gra_inst:'',[Validators.required,Validators.minLength(5),Validators.maxLength(15)]],
-        // password:[item?item.usuarioDTO.password:'',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-        // rol:[item?item.usuarioDTO.rol:''],
-        // usuarioemail:[item?item.usuarioDTO.email:''],
     });
   }
 

@@ -138,13 +138,13 @@
     <form [formGroup]="group" (ngSubmit)="save()" class="form ">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'*Grado'"></app-label-field>
+                <app-label-field [title]="'**Grado'"></app-label-field>
                 <select formControlName="gradoId" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option value="{{option.code}}" *ngFor="let option of grades">{{option.name}}</option>
                 </select>
             </div>
             <div class="field">
-                <app-label-field [title]="'*Periodo'"></app-label-field>
+                <app-label-field [title]="'**Periodo'"></app-label-field>
                 <select formControlName="periodoId" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option value="{{option.code}}" *ngFor="let option of periods">{{"option.fecInic+" ||
                         +"option.fecTer"}}</option>
@@ -163,20 +163,20 @@
     <form [formGroup]="group2" (ngSubmit)="saveCG()" class="form">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'*Curso'"></app-label-field>
+                <app-label-field [title]="'**Curso'"></app-label-field>
                 <select formControlName="cursoId" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option value="{{option.code}}" *ngFor="let option of courses">{{option.name}}</option>
                 </select>
             </div>
             <div class="field">
-                <app-label-field [title]="'*Grado - Periodo'"></app-label-field>
+                <app-label-field [title]="'**Grado - Periodo'"></app-label-field>
                 <select formControlName="gradoPeriodo" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option value="{{option.code}}" *ngFor="let option of gradePeriods">{{option.gradeDTO.name +" - "+
                         option.anioDTO.name}}</option>
                 </select>
             </div>
             <div class="field">
-                <app-label-field [title]="'*Docente'"></app-label-field>
+                <app-label-field [title]="'**Docente'"></app-label-field>
                 <select formControlName="docenteId" class="select cursor-pointer h-10 w-full outline-none px-2">
                     <option value="{{option.id}}" *ngFor="let option of teachers">{{option.usuarioDTO.pa_surname +" "+
                         option.usuarioDTO.ma_surname + " "+ option.usuarioDTO.name}}</option>

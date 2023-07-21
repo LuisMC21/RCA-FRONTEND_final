@@ -144,7 +144,6 @@ export class TableEnrollmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.form();
-    // this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
 
   }
 
@@ -190,17 +189,7 @@ export class TableEnrollmentComponent implements OnInit {
   get rol(){return this.group.get('usuarioDTO.rol')}
   get apoderado(){return this.group.get('apoderado')}
   get isVacunado(){return this.group.get('isVacunado')}
-// APODERADO
-  // get idApoderado(){return this.group.get('apoderadoDTO.id')}
-  // get codeA(){return this.group.get('apoderadoDTO.code')}
-  // get nameApoderado(){return this.group.get('nameApoderado')}
-  // get pa_surnameA(){return this.group.get('pa_surnameA')}
-  // get ma_surnameA(){return this.group.get('ma_surnameA')}
-  // get telA(){return this.group.get('telA')}
 
-  // get fecMatri(){return this.groupEnrollment.get('fecMatri')}
-  // get idGradoPeriodo(){return this.groupEnrollment.get('idGradoPeriodo')}
-  // Modal
   isEditing: boolean = false;
   form(item?:IEnrollment){
     if(item){
@@ -209,14 +198,6 @@ export class TableEnrollmentComponent implements OnInit {
     if(item){
       this.titulo = 'Actualizar Matricula';
     }
-    // if(item){
-    //   this.item.aulaDTO = item?.aulaDTO
-    // }
-    // if(item){
-    //   this.item.anioLectivoDTO = item?.anioLectivoDTO
-    // }
-    // this.nomParent = item?item.apoderado:'';
-
 
 
     this.group = this.formBuilder.group({
@@ -231,31 +212,10 @@ export class TableEnrollmentComponent implements OnInit {
 
       codeA:[item?item.alumnoDTO.code:'']
 
-      // anioLectivoDTO:this.formBuilder.group({
-      // id:[item?item.anioLectivoDTO.id:null],
-      // code:[item?item.anioLectivoDTO.code:''],
-      // name:[item?item.anioLectivoDTO.name:'']
-      // }),
-      // ALUMNO
-
-
-      //tipDoc:[item?item.tipDoc:''],
-      // fecNaci:[item?item.:'',[Validators.required]],
-      // aulaGrade:[item?item.aulaDTO.gradeDTO.name:'',[Validators.required]],
-      //apoderado:[''],
-
-      // isVacunado: [''],
-      //tipSeg: [item?item.tipSeg:'']
+     
     });
   }
 
-  // searchParent(name:string){
-  //   this.nomParent = name;
-  //   this.parentService.getAll(name,0,5).subscribe(data =>{
-
-  //   })
-  // }
-  //BUSCAR Estudiante
   search(name:string){
     this.studentSearch.emit(name);
     console.log(this.search)
@@ -280,36 +240,15 @@ export class TableEnrollmentComponent implements OnInit {
   }
 
 
-  // obtenerAlumno(filter: string){
-  // this.studentService.getOne(filter).subscribe(response =>{
-  //   this.alumno=response.data.list;
-  //   this.estudiante=this.alumno[0];
-  //   console.log(this.estudiante)
-  // });
-  // }
 
 
   asignStudentForm(){
     this.form(this.asignEnrrollment);
     this.modalStudents.hiddenModal();
     console.log(this.asignStudentForm)
-     // Obtén los valores ingresados en el formulario
-  // const studentData = this.studentForm.value;
 
-  // Utiliza los datos ingresados según sea necesario (por ejemplo, puedes imprimirlos en la consola)
-  // console.log(studentData);
-
-  // Resto de tu lógica o acciones necesarias
-
-  // Limpia el formulario después de su uso (opcional)
-  // this.studentForm.reset();
   }
 
-  // asingParent(parent:IParent){
-  //   this.nomParent = parent.pa_surname + ' ' + parent.ma_surname + ' '+parent.name;
-  //   this.identiParent = parent.id;
-  //   this.searchParentModal.hidden();
-  // }
 
   async save() {
     if (this.group.valid && !this.saving) {
@@ -334,34 +273,12 @@ export class TableEnrollmentComponent implements OnInit {
     }
   }
 
-  // save(){
-  //   if(this.group.valid){
-  //   this.obtenerAlumno(this.group.get('codeA')?.value)
-  //   console.log(this.alumno)
-  //   this.group.addControl('alumnoDTO', new FormControl(this.estudiante, [Validators.required]));
-  //   this.enrollmentSave.emit(this.group.value)
-  //   console.log(this.group.value)
-  //   }
-  //   this.modalAdd.hiddenModal();
-  //   if(this.titulo=="Actualizar Alumno"){
-  //     this.titulo = "Agregar Alumno"
-  //   }
-  // }
    // ELIMINAR
   delete(id:string){
     this.enrollmentDelete.emit(id)
     this.modalDelete.hiddenModal();
   }
 
-  //Reporte matriculados por curso
-  // matGradoResponse(identi:string){
-  //   localStorage.setItem('gradoPeriodo',identi)
-  //   this.identiGradePeriodReport.emit(identi)
-  // }
-  // matGradoResponseXSL(){
-  //   let iden = localStorage.getItem('gradoPeriodo')||''
-  //   this.identiGradePeriodReportXLS.emit(iden)
-  // }
 
   getSizeOption(){
     if(this.sizeOption==false){

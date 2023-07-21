@@ -11,25 +11,25 @@
 <app-modal [title]="titulo" #modalAdd>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
         <div class="field">
-            <app-label-field [title]="'Docente'"></app-label-field>
+            <app-label-field [title]="'**Docente'"></app-label-field>
             <app-field><select id="teacher" class="input" name="teacher" formControlName="docenteDTO">
                     <option *ngFor="let teacher of teachers" [ngValue]="teacher" [selected]="teacher.id === item.docenteDTO.id">{{ teacher.usuarioDTO.name + ' ' + teacher.usuarioDTO.pa_surname + ' ' + teacher.usuarioDTO.ma_surname}}</option>
                 </select></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Aula'"></app-label-field>
+            <app-label-field [title]="'**Aula'"></app-label-field>
             <app-field><select id="grade" class="input" name="grade" formControlName="aulaDTO">
                     <option *ngFor="let classroom of classrooms" [ngValue]="classroom" [selected]="classroom.id === item.aulaDTO.id">{{ classroom.gradoDTO.name  +  '-' + classroom.seccionDTO.name}}</option>
                 </select></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Año'"></app-label-field>
+            <app-label-field [title]="'**Año'"></app-label-field>
             <app-field><select id="anios" class="input" name="anio" formControlName="anioLectivoDTO">
                     <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                 </select></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Curso'"></app-label-field>
+            <app-label-field [title]="'**Curso'"></app-label-field>
             <app-field><select id="course" class="input" name="course" formControlName="cursoDTO">
                     <option *ngFor="let course of courses" [ngValue]="course" [selected] = "course.id === item.cursoDTO.id" >{{ course.name }}</option>
                 </select></app-field>

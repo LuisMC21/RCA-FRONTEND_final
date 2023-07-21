@@ -12,7 +12,7 @@
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'Nombre'"></app-label-field>
+                <app-label-field [title]="'**Nombre'"></app-label-field>
                 <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre" maxlength="1"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                 [text]="'**El campo debe contener 1 caracter no numérico'"></app-required-field>

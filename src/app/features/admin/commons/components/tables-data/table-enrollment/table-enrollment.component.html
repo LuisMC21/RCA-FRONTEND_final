@@ -1,18 +1,6 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-    <!-- <div class="flex mx-4" (click)="getSizeOption()">
-        <label class="px-4">Grado-Periodo:</label>
-        <div class="size">
-            <div class="flex justify-between px-2">
-                <p>{{gradePeriodNom}}</p>
-                <i class="bi bi-caret-down-fill"></i>
-            </div>
-            <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
-                <div class="sizeOption hover:bg-slate-200" *ngFor="let option of gradePeriods"
-                    (click)="matGradoResponse(option.code)">{{option.gradeDTO.name +"-"+ option.anioDTO.name}</div>
-            </div>
-        </div>
-    </div> -->
+  
     <div class="flex">
         <app-btn-report  class="mx-2"></app-btn-report>
         <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
@@ -59,40 +47,8 @@
     </form>
 
 </app-modal>
-<!-- <app-modal #modalStudents [title]="'Alumnos'">
-    <div class="list__alumnos">
-        <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
-            <label class="mx-4"><b>Buscar</b></label>
-            <div class="rounded-3xl bg-slate-50 w-3/4 flex px-4 py-2">
-                <i class="bi bi-search"></i>
-                <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch"
-                    (ngModelChange)="search($event)" type="search" placeholder="Apellidos">
-            </div>
-        </div>
-        <table class="table bg-gray-50">
 
-                <thead>
-                    <th>CODIGO</th>
-                    <th>ALUMNO</th>
-                    <th>SELECCIONAR</th>
-                </thead>
-
-
-            <tbody *ngIf="listStudents?.length!=0; else empty">
-                <tr class="hover:bg-gray-200" (click)="asingStudent(item)" *ngFor="let item of listStudents">
-                    <td>{{item.code}}</td>
-                    <td>{{item.usuarioDTO.name}}</td>
-                    <td class="flex justify-center">
-                        <app-btn-update></app-btn-update>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <span class="btn_ok block">
-            <app-btn-ok  [title]="'Aceptar'" (click)="asignStudentForm()" ></app-btn-ok>
-        </span>
-    </div>
-</app-modal> -->
+   
 
 <table class="table bg-gray-50">
     <thead>

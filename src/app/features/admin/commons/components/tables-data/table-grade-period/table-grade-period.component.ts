@@ -73,27 +73,6 @@ export class TableGradePeriodComponent implements OnInit {
 
   ngOnInit(): void {
     
-    // this.gradePeriod.getAll('',0,5).subscribe(data=>{
-    //   this.gradePeriods = data.content
-    //  })
-  
-    // this.courseService.getAll('',0,5).subscribe(data=>{
-    //   this.courses = data.content
-    // })
-    // this.gradeService.getAll('',0,5).subscribe(data=>{
-    //   this.grades = data.content
-    // })
-    // this.periodService.getAll('',0,5).subscribe(data=>{
-    //   this.periods = data.content
-    // })
-    
-    // this.teacherService.getAll('',0,5).subscribe(data=>{
-    //   this.teachers = data.content
-    // })
-    
-    // this.getGradePeriodNom(this.gradoPeriodoLS)
-    // this.gradoPeriodoLS = localStorage.getItem('gradoPeriodo')||'identi'
-    // this.form();
 
     this.form()
     this.form2();

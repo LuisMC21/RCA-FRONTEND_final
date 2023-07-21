@@ -14,14 +14,14 @@
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'Código'"></app-label-field>
+                <app-label-field [title]="'**Código'"></app-label-field>
                 <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
                 <app-required-field class="px-2"
                     *ngIf="code?.invalid && (code?.dirty || code?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
         <div class="field">
-                <app-label-field [title]="'Apellido Paterno'"></app-label-field>
+                <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
                 <app-field><input formControlName="pa_surname" class="input" type="text" ></app-field>
                 <app-required-field class="px-2"
                     *ngIf="pa_surname?.invalid && (pa_surname?.dirty || pa_surname?.touched)"
@@ -29,32 +29,32 @@
                 <!-- <app-required-field *ngIf="apelPaterno?.invalid && (apelPaterno?.dirty || apelPaterno?.touched)" [text]="'El campo debe tener como mínimo 3 caracteres'"></app-required-field> -->
             </div>
             <div class="field">
-                <app-label-field [title]="'Apellido Materno'"></app-label-field>
+                <app-label-field [title]="'**Apellido Materno'"></app-label-field>
                 <app-field><input formControlName="ma_surname" class="input" type="text"></app-field>
                 <app-required-field class="px-2"
                     *ngIf="ma_surname?.invalid && (ma_surname?.dirty || ma_surname?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Nombre'"></app-label-field>
+                <app-label-field [title]="'**Nombre'"></app-label-field>
                 <app-field><input formControlName="name" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Correo'"></app-label-field>
+                <app-label-field [title]="'**Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Teléfono'"></app-label-field>
+                <app-label-field [title]="'**Teléfono'"></app-label-field>
                 <app-field><input formControlName="tel" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Tipo de documento'"></app-label-field>
+                <app-label-field [title]="'**Tipo de documento'"></app-label-field>
                 <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="type_doc?.invalid && (type_doc?.dirty || type_doc?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
@@ -69,7 +69,7 @@
                 </select>
             </div> -->
             <div class="field">
-                <app-label-field [title]="'Número de documento'"></app-label-field>
+                <app-label-field [title]="'**Número de documento'"></app-label-field>
                 <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
@@ -82,51 +82,10 @@
                     [text]="'El campo es requerio'"></app-required-field>
             </div> -->
             <div class="field">
-                <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
+                <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
                 <app-field><input formControlName="birthdate" class="input" type="date" ></app-field>
                 <app-required-field class="px-2"></app-required-field>
             </div>
-            <!-- <div class="field">
-                <app-label-field [title]="'Email de usuario'"></app-label-field>
-                <app-field><input formControlName="usuarioemail" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="usuarioemail?.invalid && (usuarioemail?.dirty || usuarioemail?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Código de usuario'"></app-label-field>
-                <app-field><input formControlName="codeusuario" class="input" type="text" readonly></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="codeusuario?.invalid && (codeusuario?.dirty || codeusuario?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Nombre de usuario'"></app-label-field>
-                <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="nombreUsuario?.invalid && (nombreUsuario?.dirty || nombreUsuario?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Rol'"></app-label-field>
-                <app-field><input formControlName="rol" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="rol?.invalid && (rol?.dirty || rol?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Contraseña'"></app-label-field>
-                <app-field><input formControlName="password" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-                    [text]="'Solo 8 caracteres'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'**Vacunas'"></app-label-field>
-                <select formControlName="vacunas" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.value}}" *ngFor="let option of optionsVac">{{option.title}}</option>
-                </select>
-            </div> -->
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" 
@@ -146,11 +105,11 @@
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'Código'"></app-label-field>
+                <app-label-field [title]="'**Código'"></app-label-field>
                 <app-field><input formControlName="code" class="input" type="text" readonly ></app-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Apellido Paterno'"></app-label-field>
+                <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
                 <app-field><input formControlName="pa_surname" class="input" type="text" ></app-field>
                 <app-required-field class="px-2"
                     *ngIf="pa_surname?.invalid && (pa_surname?.dirty || pa_surname?.touched)"
@@ -158,102 +117,49 @@
                 <!-- <app-required-field *ngIf="apelPaterno?.invalid && (apelPaterno?.dirty || apelPaterno?.touched)" [text]="'El campo debe tener como mínimo 3 caracteres'"></app-required-field> -->
             </div>
             <div class="field">
-                <app-label-field [title]="'Apellido Materno'"></app-label-field>
+                <app-label-field [title]="'**Apellido Materno'"></app-label-field>
                 <app-field><input formControlName="ma_surname" class="input" type="text"></app-field>
                 <app-required-field class="px-2"
                     *ngIf="ma_surname?.invalid && (ma_surname?.dirty || ma_surname?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Nombre'"></app-label-field>
+                <app-label-field [title]="'**Nombre'"></app-label-field>
                 <app-field><input formControlName="name" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Correo'"></app-label-field>
+                <app-label-field [title]="'**Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Teléfono'"></app-label-field>
+                <app-label-field [title]="'**Teléfono'"></app-label-field>
                 <app-field><input formControlName="tel" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
           
             <div class="field">
-                <app-label-field [title]="'Tipo de documento'"></app-label-field>
+                <app-label-field [title]="'**Tipo de documento'"></app-label-field>
                 <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
                 <app-required-field class="px-2" *ngIf="type_doc?.invalid && (type_doc?.dirty || type_doc?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
 
-            <!-- Tipo de documento con opciones -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Tipo de documento'"></app-label-field>
-                <select formControlName="type_doc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}
-                    </option>
-                </select>
-            </div> -->
             <div class="field">
                 <app-label-field [title]="'Número de documento'"></app-label-field>
                 <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
-                <!-- <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field> -->
-            </div>
-            <!-- <div class="field">
-                <app-label-field [title]="'Estudios'"></app-label-field>
-                <app-field><input formControlName="gra_inst" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="gra_inst?.invalid && (gra_inst?.dirty || gra_inst?.touched)"
-                    [text]="'El campo es requerio'"></app-required-field>
-            </div> -->
+                </div>
+
             <div class="field">
                 <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
                 <app-field><input formControlName="birthdate" class="input" type="date" ></app-field>
                 <app-required-field class="px-2"></app-required-field>
             </div>
-            <!-- <div class="field">
-                <app-label-field [title]="'Email de usuario'"></app-label-field>
-                <app-field><input formControlName="usuarioemail" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="usuarioemail?.invalid && (usuarioemail?.dirty || usuarioemail?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Código de usuario'"></app-label-field>
-                <app-field><input formControlName="codeusuario" class="input" type="text" readonly></app-field> 
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Nombre de usuario'"></app-label-field>
-                <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="nombreUsuario?.invalid && (nombreUsuario?.dirty || nombreUsuario?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Rol'"></app-label-field>
-                <app-field><input formControlName="rol" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="rol?.invalid && (rol?.dirty || rol?.touched)"
-                    [text]="'El campo es requerido'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'Contraseña'"></app-label-field>
-                <app-field><input formControlName="password" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-                    [text]="'Solo 8 caracteres'"></app-required-field>
-            </div> -->
-            <!-- <div class="field">
-                <app-label-field [title]="'**Vacunas'"></app-label-field>
-                <select formControlName="vacunas" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.value}}" *ngFor="let option of optionsVac">{{option.title}}</option>
-                </select>
-            </div> -->
+      
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" 

@@ -11,13 +11,13 @@
 <app-modal [title]="'Agregar Aula'" #modalAdd>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
         <div class="field">
-            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-label-field [title]="'**Grado'"></app-label-field>
             <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
                     <option *ngFor="let grade of grades" [ngValue]="grade">{{ grade.name }}</option>
                 </select></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-label-field [title]="'**Sección'"></app-label-field>
             <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
                     <option *ngFor="let section of sections" [ngValue]="section">{{ section.name }}</option>
                 </select></app-field>
@@ -35,18 +35,18 @@
     <form [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
 
         <div class="field">
-            <app-label-field [title]="'Code'"></app-label-field>
+            <app-label-field [title]="'**Code'"></app-label-field>
             <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Grado'"></app-label-field>
+            <app-label-field [title]="'**Grado'"></app-label-field>
             <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
                     <option *ngFor="let grade of grades" [ngValue]="grade" [selected]="grade.id === item.gradoDTO.id">{{
                         grade.name }}</option>
                 </select></app-field>
         </div>
         <div class="field">
-            <app-label-field [title]="'Sección'"></app-label-field>
+            <app-label-field [title]="'**Sección'"></app-label-field>
             <app-field><select id="section" class="input" name="section" formControlName="seccionDTO">
                     <option *ngFor="let section of sections" [ngValue]="section"
                         [selected]="section.id === item.seccionDTO.id">{{ section.name }}</option>
