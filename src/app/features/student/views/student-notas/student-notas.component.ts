@@ -31,8 +31,7 @@ export class StudentNotasComponent implements OnInit {
   title!: string;
   tableName: string = 'Notas';
 
-  paginationData = 'student';
-  paginationDataPeriod = 'period';
+  paginationData = 'notas';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -63,7 +62,9 @@ export class StudentNotasComponent implements OnInit {
       this.periods = response.data.list;
     })  
 
-    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.evaluacionService.getAllPeriodoAlumno('', page, size, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
