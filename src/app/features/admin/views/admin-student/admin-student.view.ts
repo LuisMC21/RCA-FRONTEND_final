@@ -5,6 +5,8 @@ import { StudentService } from '../../commons/services/student.service';
 import { IStudent } from '../../interfaces/student';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { ParentService } from '../../commons/services/parent.service';
+import { IParent } from '../../interfaces/parent';
 
 @Component({
   selector: 'app-admin-student',
@@ -21,18 +23,23 @@ export class AdminStudentView implements OnInit {
     {title:"Consultas", image:"bi bi-plus-circle"},
   ]
   students:IStudent[]=[];
+
+
   apiResponse!: IApiResponse;
   paginationData = 'student'
   totalStudents: number=0;
   msjResponse:string='';
   icon:string='';
   identiParent:string='';
+
   successful: boolean=false;
   @Output() successful2:EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
-  constructor(private studentService:StudentService, private pagination:PaginationService) { }
+  constructor(private studentService:StudentService,
+     private pagination:PaginationService,
+     private apoderadoService:ParentService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
@@ -110,6 +117,8 @@ export class AdminStudentView implements OnInit {
     });
     this.modalOk.showModal();
   }
+
+
 
 refresh(): void { window.location.reload(); }
 

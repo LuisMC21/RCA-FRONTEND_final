@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { IStudent } from 'src/app/features/admin/interfaces/student';
@@ -15,12 +15,17 @@ import { StudentService } from '../../../services/student.service';
   styleUrls: ['./table-student.component.scss']
 })
 export class TableStudentComponent implements OnInit {
-
+  apoderados: IParent[] = [];
+  filterApoderado: string = '';
   @Input() students!: IStudent[];
   parents: IParent[] = [];
   usuario: IUser[] = []
   identiParent: string = '';
   nomParent: string = '';
+  namesApoderado: string = '';
+  selectedApoderado: string = '';
+
+
   @Input() tableName!: string;
   @Input() title!: string;
   close_modal!: boolean;
@@ -36,6 +41,8 @@ export class TableStudentComponent implements OnInit {
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
   @ViewChild('searchParentModal') searchParentModal!: SearchComponent;
+  @ViewChild('apoderadoSelect') studentSelect!: ElementRef;
+  selectedApoderadoId: string = '';
 
   group!: FormGroup;
   optionsDocumentType = [
@@ -60,6 +67,7 @@ export class TableStudentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private parentService: ParentService,
     private studentService: StudentService,
+    private apoderadoService:ParentService,
     private router: Router) {
   }
   ngOnInit(): void {
@@ -228,5 +236,31 @@ export class TableStudentComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+
+  searchApoderados(value: string | undefined) {
+    if (value !== undefined) {
+      console.log(value)
+      this.filterApoderado = value;
+      this.apoderadoService.getAll(this.filterApoderado,  0, 5).subscribe(response => {
+        if(response.successful && response.data.list){
+          this.apoderados = response.data.list;
+          console.log(this.apoderados)
+        } else {
+          this.apoderados= [];
+        }
+      });
+    }
+  }
+
+  selectApoderado(apoderado: IParent) {
+    this.selectedApoderado = `${apoderado.pa_surname} ${apoderado.ma_surname} ${apoderado.name}`;
+    this.namesApoderado = this.selectedApoderado;
+    this.selectedApoderadoId = apoderado.id;
+    this.apoderados = [];
+    const usuarioDTOFormGroup = this.group.get('apoderadoDTO') as FormGroup;
+    usuarioDTOFormGroup.get('name')?.setValue(this.selectedApoderado);
+    usuarioDTOFormGroup.get('id')?.setValue(this.selectedApoderadoId);
   }
 }
