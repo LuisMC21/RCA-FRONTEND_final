@@ -36,7 +36,7 @@ export class TeacherStudentComponent implements OnInit {
 
   title!: string;
   teacher = '';
-  paginationData:string ='course';
+  paginationData:string ='student';
 
   msjResponse: string = '';
   successful: boolean = false;
