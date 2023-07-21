@@ -4,12 +4,9 @@ import { BtnSearchComponent } from './btn-search/btn-search.component';
 import { BtnReportComponent } from './btn-report/btn-report.component';
 
 @NgModule({
-    declarations: [
-        
-  
-  ],
+    declarations: [],
     exports:[
-    
+
     ]
 })
 

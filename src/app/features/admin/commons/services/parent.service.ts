@@ -12,13 +12,13 @@ import { IParent } from '../../interfaces/parent';
 export class ParentService {
 
   modalAddShow:Subject<boolean> = new Subject<boolean>();
-  
+
   constructor(private http: HttpClient ) { }
 
   //Listar apoderado
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/apoderado?page=${page}&size=${size}`);
-    
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/apoderado?filter=${filter}&page=${page}&size=${size}`);
+
   }
   //Buscar apoderado
   findById(id:string):Observable<IParent>{

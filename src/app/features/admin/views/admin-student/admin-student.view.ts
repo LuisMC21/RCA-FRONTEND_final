@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { StudentService } from '../../commons/services/student.service';
 import { IStudent } from '../../interfaces/student';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { ParentService } from '../../commons/services/parent.service';
+import { IParent } from '../../interfaces/parent';
 
 @Component({
   selector: 'app-admin-student',
@@ -21,17 +23,23 @@ export class AdminStudentView implements OnInit {
     {title:"Consultas", image:"bi bi-plus-circle"},
   ]
   students:IStudent[]=[];
+
+
   apiResponse!: IApiResponse;
   paginationData = 'student'
   totalStudents: number=0;
   msjResponse:string='';
   icon:string='';
   identiParent:string='';
+
   successful: boolean=false;
+  @Output() successful2:EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
-  constructor(private studentService:StudentService, private pagination:PaginationService) { }
+  constructor(private studentService:StudentService,
+     private pagination:PaginationService,
+     private apoderadoService:ParentService) { }
 
   ngOnInit(): void {
     let page = this.pagination.getPage(this.paginationData);
@@ -68,9 +76,11 @@ export class AdminStudentView implements OnInit {
         if(data.successful===true){
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
+          this.successful2.emit(true);
         }else{
           this.msjResponse = data.message;
           this.successful = false;
+          this.successful2.emit(false);
         }
       });
     }else{
@@ -80,9 +90,11 @@ export class AdminStudentView implements OnInit {
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
+          this.successful2.emit(true);
         }else{
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;
+          this.successful2.emit(false);
         }
       })
     }
@@ -98,10 +110,15 @@ export class AdminStudentView implements OnInit {
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+        this.successful2.emit(true);
+      } else {
+        this.successful2.emit(true);
       }
     });
     this.modalOk.showModal();
   }
+
+
 
 refresh(): void { window.location.reload(); }
 

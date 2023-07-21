@@ -20,6 +20,7 @@ import { BtnOkComponent } from './buttons/btn-ok/btn-ok.component';
 import { BtnSearchComponent } from './buttons/btn-search/btn-search.component';
 import { BtnReportComponent } from './buttons/btn-report/btn-report.component';
 import { LoaderOperationComponent } from './loaders/loader-operation/loader-operation.component';
+import { BtnViewComponent } from './buttons/btn-view/btn-view.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { LoaderOperationComponent } from './loaders/loader-operation/loader-oper
     BtnAddComponent,
     BtnUpdateComponent,
     BtnDeleteComponent,
+    BtnViewComponent,
     BtnCancelComponent,
     SelectComponent,
     BtnConfirmDeleteComponent,
@@ -50,6 +52,7 @@ import { LoaderOperationComponent } from './loaders/loader-operation/loader-oper
     ModalComponent,
     ButtonComponent,
     BtnAddComponent,
+    BtnViewComponent,
     BtnUpdateComponent,
     BtnDeleteComponent,
     BtnCancelComponent,

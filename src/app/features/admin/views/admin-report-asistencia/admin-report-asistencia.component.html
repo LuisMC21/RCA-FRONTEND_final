@@ -5,13 +5,13 @@
     </select>
   </div>
   <!--Reporte asistencia de alumno, por periodo y año-->
-  <div *ngIf="selectedOption=== options[0]"> 
-    <app-modal #searchStudentModal>
+  <div *ngIf="selectedOption=== options[0]">
+    <app-modal [title]="'BUSCAR ALUMNO'" #searchStudentModal>
       <app-field>
         <input class="input" type="text" placeholder="Buscar alumno por DNI, nombre o apellidos"
           #searchParentModal (input)="searchStudent(searchParentModal.value)">
       </app-field>
-      
+
       <div class="field">
         <app-search *ngIf="nameStudent !== ''">
           <span (click)="selectStudent(student)" (click)="searchStudentModal.hiddenModal()" *ngFor="let student of students" class=" block w-full h-full">

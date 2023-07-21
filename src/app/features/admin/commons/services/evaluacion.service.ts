@@ -4,13 +4,17 @@ import { Observable } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { environment } from 'src/environments/environment';
 import { IEvaluacion } from '../../interfaces/evaluacion';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluacionService {
+  token = this.tokenService.getToken();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenService: TokenService) {
+   }
+
 
   getAll(nom?:string, page?:number, size?: number): Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/evaluacion?filter=${nom}&page=${page}&size=${size}`);
@@ -37,5 +41,47 @@ export class EvaluacionService {
   //delete
   delete(id: string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/evaluacion/` + id);
+  }
+
+  reporteBoletaNotas(id_alumno: string, id_periodo:string){
+    const url = `${environment.api}/evaluacion/boletaNotas?periodo=${id_periodo}&alumno=${id_alumno}`;
+    this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      },
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    }).subscribe({
+      next: (response) => {
+        // Crear una URL del objeto Blob
+        const fileURL = URL.createObjectURL(response);
+        // Abrir el archivo PDF en una nueva pestaña o ventana
+        window.open(fileURL);
+      },
+      error: (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error(error);
+      }
+    })
+  }
+
+  reporteNotasCurso(id_periodo:string, id_curso:string, id_aula:string){
+      const url = `${environment.api}/evaluacion/cursoNotas?periodo=${id_periodo}&curso=${id_curso}&aula=${id_aula}`;
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        },
+        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+      }).subscribe({
+        next: (response) => {
+          // Crear una URL del objeto Blob
+          const fileURL = URL.createObjectURL(response);
+          // Abrir el archivo PDF en una nueva pestaña o ventana
+          window.open(fileURL);
+        },
+        error: (error) => {
+          // Manejar cualquier error que ocurra durante la solicitud
+          console.error(error);
+        }
+      });
   }
 }
