@@ -21,6 +21,7 @@ export class TeacherStudentComponent implements OnInit {
 
   anios: IAnioLectivo[] = [];
   asignaciones: ICourseTeacher[] = [];
+  aulas: IAula[] = [];
   students: IStudent[] = [];
   route = 'Estudiantes';
   
@@ -64,9 +65,18 @@ export class TeacherStudentComponent implements OnInit {
 
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,page,size).subscribe(response =>{
-      this.asignaciones = response.data.list;
-    })
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, page, size)
+        .subscribe(response => {
+          this.asignaciones = response.data.list;
+
+          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+            const aula = asignacion.aulaDTO;
+            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+              result.push(aula);
+            }
+            return result;
+          }, []);
+        });
 
     if(this.selectedAnioId != '' && this.selectedAulaId != ''){
       this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, '',0,5).subscribe(response=>{
@@ -79,9 +89,21 @@ export class TeacherStudentComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,0,5).subscribe(response =>{
-      this.asignaciones = response.data.list;
-    })
+    this.aulas = [];
+
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
+        .subscribe(response => {
+
+          this.asignaciones = response.data.list;
+
+          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+            const aula = asignacion.aulaDTO;
+            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+              result.push(aula);
+            }
+            return result;
+          }, []);
+        });
 
     localStorage.setItem('selectedAnioE', this.selectedAnioId);
     localStorage.removeItem('selectedAulaE');

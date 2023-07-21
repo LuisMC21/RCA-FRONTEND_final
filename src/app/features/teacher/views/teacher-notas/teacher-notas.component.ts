@@ -14,6 +14,7 @@ import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher
 import { IEvaluacion } from 'src/app/features/admin/interfaces/evaluacion';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { IStudent } from 'src/app/features/admin/interfaces/student';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
 @Component({
@@ -28,7 +29,7 @@ export class TeacherNotasComponent implements OnInit {
   periods: IPeriod[] = [];
   aulas: IAula[] = [];
   courses: ICourse[] = [];
-  courseTeachers: ICourseTeacher[] = [];
+  asignaciones: ICourseTeacher[] = [];
   evaluaciones: IEvaluacion[] = [];
 
   route = "Promedios";
@@ -55,6 +56,7 @@ export class TeacherNotasComponent implements OnInit {
   code:string = 'DCN005';
 
   title!: string;
+  teacher = '';
 
   paginationData = 'grade';
   paginationDataStudent = 'student';
@@ -72,10 +74,14 @@ export class TeacherNotasComponent implements OnInit {
     private evaluacionService: EvaluacionService,
     private anioService: AnioLectivoService,
     private aulaService: AulaService,
-    private courseService: CourseService) {
+    private courseService: CourseService,
+    private courseTeacherService: CourseTeacherService,
+    private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
+
+    this.teacher = this.tokenService.getUserId() || '';
 
     this.selectedAnioId = localStorage.getItem('selectedAnioN') || '';
     this.selectedPeriodId = localStorage.getItem('selectedPeriodoN') || '';
@@ -93,9 +99,18 @@ export class TeacherNotasComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
-        this.aulas = response.data;
-      })
+      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,5)
+        .subscribe(response => {
+          this.asignaciones = response.data.list;
+
+          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+            const aula = asignacion.aulaDTO;
+            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+              result.push(aula);
+            }
+            return result;
+          }, []);
+        });
     }
 
     if(this.selectedAulaId != '' && this.selectedAnioId != ''){
@@ -111,20 +126,36 @@ export class TeacherNotasComponent implements OnInit {
     this.evaluacionService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
+
+    if (this.selectedAulaId != '') {
+      this.courses = [];
+
+      this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
+    }
   }
 
   onAnioChange(){
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
+    this.aulas = [];
+
     this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
       this.periods = response.data.list;
     })
 
-    this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
-      console.log(response)
-      this.aulas = response.data;
-    })
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,5)
+        .subscribe(response => {
+          this.asignaciones = response.data.list;
+
+          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+            const aula = asignacion.aulaDTO;
+            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+              result.push(aula);
+            }
+            return result;
+          }, []);
+        });
 
     console.log(this.selectedAnioId);
 
@@ -140,7 +171,7 @@ export class TeacherNotasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, '', '').subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -151,11 +182,11 @@ export class TeacherNotasComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
-      this.courses = response.data;
-    })
+    this.courses = [];
 
-    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
+    this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
+
+    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -211,6 +242,22 @@ export class TeacherNotasComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+  }
+
+  getCursosUnicosPorAula(idAulaSeleccionada: string): ICourse[] {
+    const asignacionesFiltradas: ICourseTeacher[] = this.asignaciones.filter((asignacion: ICourseTeacher) => {
+      return asignacion.aulaDTO.id === idAulaSeleccionada;
+    });
+  
+    const cursosUnicos: ICourse[] = asignacionesFiltradas.reduce((result: ICourse[], asignacion: ICourseTeacher) => {
+      const curso = asignacion.cursoDTO;
+      if (!result.some((cursoUnico: ICourse) => cursoUnico.id === curso.id)) {
+        result.push(curso);
+      }
+      return result;
+    }, []);
+  
+    return cursosUnicos;
   }
 
   //ELIMINAR
