@@ -108,7 +108,6 @@ export class TableClaseComponent implements OnInit {
     this.group.reset();
   }
 
-  
   openAsistencias(id:string){
     this.obtenerAsistencias(id);
     this.modalAsistencias.showModal();
@@ -117,8 +116,10 @@ export class TableClaseComponent implements OnInit {
 
   async obtenerAsistencias(id:string){
     try {
-      const response = await this.asistenciaService.getAll('',0,10).toPromise();
-      if(response && response.data){
+      console.log(id);
+      const response = await this.asistenciaService.getAllByClase('', id,0,5).toPromise();
+      console.log(response);
+      if(response && response.data && response.data.list){
         this.asistencias = response.data.list;
       }
     } catch (error) {
