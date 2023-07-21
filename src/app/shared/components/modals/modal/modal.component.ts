@@ -34,4 +34,7 @@ export class ModalComponent implements OnInit {
     this.close_modal.emit(true);
   }
 
+  refresh(){
+    return window.location.reload();
+  }
 }
