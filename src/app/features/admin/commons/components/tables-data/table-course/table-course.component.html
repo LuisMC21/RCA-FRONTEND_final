@@ -23,7 +23,7 @@
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Agregar</button>
             <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="btns flex py-7 w-full" ngClass="input">
-            <button type="submit" [disabled]="group.invalid" (click)="save()"
+            <button type="submit" [disabled]="group.invalid"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
 
             <app-btn-cancel (click)="modalEdit.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
@@ -52,7 +52,7 @@
     </form>
 </app-modal>
 
-<!-- 
+<!--
 Tabla -->
 <table class="table bg-gray-50">
     <thead>

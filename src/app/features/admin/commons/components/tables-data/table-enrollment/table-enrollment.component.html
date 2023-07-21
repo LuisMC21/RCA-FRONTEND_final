@@ -29,7 +29,7 @@
             <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
-                
+
             </div>
             <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="btns flex py-7 w-full">
                     <button type="submit"  class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"
-                        (click)="save()">Guardar</button>
+                        >Guardar</button>
                     <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
                 </div>
     </form>
