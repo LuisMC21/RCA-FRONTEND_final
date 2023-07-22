@@ -13,8 +13,8 @@ export class GradeService {
   constructor(private http: HttpClient) { }
 
   //Listar 
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/grado?page=${page}&size=${size}`);
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/grado?filter=${filter}&page=${page}&size=${size}`);
   }
 
   //Agregar 

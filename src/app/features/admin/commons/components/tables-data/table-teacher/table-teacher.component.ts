@@ -16,6 +16,7 @@ export class TableTeacherComponent implements OnInit {
 
   showPassword: boolean = false;
   titulo: string = 'Agregar Docente';
+  nomSearch: string = '';
 
   @Output() teacherSave: EventEmitter<ITeacher> = new EventEmitter();
   @Output() teacherDelete: EventEmitter<string> = new EventEmitter();

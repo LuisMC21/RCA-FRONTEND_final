@@ -85,7 +85,8 @@ export class AdminPeriodComponent implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.periodService.getAll(nom, page, size).subscribe(response => {
-      this.periods = response.content;
+      console.log(response);
+      this.periods = response.data.list;
     })
   }
 
