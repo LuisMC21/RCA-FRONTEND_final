@@ -20,8 +20,8 @@ export class CourseService {
   }
 
 //Listar Cursos
-  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/curso?filter=${filter}&page=${page}&size=${size}`);
+  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/curso?filter=${nom}&page=${page}&size=${size}`);
   }
 
   getAulaAnio(aula?:string, anio?:string):Observable<IApiResponse>{

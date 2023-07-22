@@ -36,7 +36,6 @@ export class AdminPeriodComponent implements OnInit {
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
-  successful!: boolean;
 
   courseTeacher!: ICourseTeacher;
 
@@ -85,8 +84,7 @@ export class AdminPeriodComponent implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.periodService.getAll(nom, page, size).subscribe(response => {
-      console.log(response);
-      this.periods = response.data.list;
+      this.periods = response.content;
     })
   }
 
@@ -95,22 +93,18 @@ export class AdminPeriodComponent implements OnInit {
     if (period.id == null) {
       this.periodService.add(period).subscribe(data => {
         if (data.message === 'ok') {
-          this.msjResponse = 'Agregado correctamente';
-          this.successful = true;
+          this.msjResponse = 'Agregado correctamente'
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
-          this.successful = false;
+          this.msjResponse = 'Ha ocurrido un error :('
         }
       });
     } else {
       this.periodService.update(period).subscribe(data => {
         console.log(data.message)
         if (data.message === 'ok') {
-          this.msjResponse = 'Cambios actualizados con éxito';
-          this.successful = true;
+          this.msjResponse = 'Cambios actualizados con éxito'
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
-          this.successful = false;
+          this.msjResponse = 'Ha ocurrido un error :('
         }
       })
     }
@@ -123,7 +117,6 @@ export class AdminPeriodComponent implements OnInit {
       if (data.message === 'ok') {
         this.msjResponse = 'Eliminado correctamente';
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }

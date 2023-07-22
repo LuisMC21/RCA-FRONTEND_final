@@ -26,6 +26,7 @@ export class StudentAsignacionesComponent implements OnInit {
   selectedAnioId: string = '';
 
   paginationData = 'student';
+  paginationDataPeriod = 'period';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -49,9 +50,7 @@ export class StudentAsignacionesComponent implements OnInit {
       this.anios = response.data.list;
     });
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,page,size).subscribe(response=>{
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,0,5).subscribe(response=>{
       console.log(response);
       this.asignaciones = response.data.list;
     })

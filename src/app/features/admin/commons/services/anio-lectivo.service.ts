@@ -14,8 +14,8 @@ export class AnioLectivoService {
 
   constructor(private http: HttpClient) { }
   //Listar 
-  getAll(filter?: string, page?: number, size?: number): Observable<IApiResponse> {
-    return this.http.get<IApiResponse>(`${environment.api}/aniolectivo?filter=${filter}&page=${page}&size=${size}`);
+  getAll(nom?: string, page?: number, size?: number): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/aniolectivo?page=${page}&size=${size}`);
   }
 
 

@@ -16,7 +16,7 @@ export class TeacherAsignacionesComponent implements OnInit {
   anios: IAnioLectivo[] = [];
   asignaciones:ICourseTeacher[]=[];
   tableName: string = 'Asignaciones';
-  paginationData:string ='courseTeacher';
+  paginationData:string ='course';
 
   route = "Asignaciones";
 

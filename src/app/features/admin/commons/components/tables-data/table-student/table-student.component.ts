@@ -45,7 +45,6 @@ export class TableStudentComponent implements OnInit {
   @ViewChild('searchParentModal') searchParentModal!: SearchComponent;
   @ViewChild('apoderadoSelect') studentSelect!: ElementRef;
   selectedApoderadoId: string = '';
-  nomSearch: string = '';
 
   group!: FormGroup;
   optionsDocumentType = [
@@ -171,9 +170,8 @@ export class TableStudentComponent implements OnInit {
     })
   }
   // BUSCAR
-  search(nomSearch: string) {
-    console.log(nomSearch)
-    this.studentSearch.emit(nomSearch);
+  search(nom: string) {
+    this.studentSearch.emit(nom);
   }
 
   // AGREGAR - ACTUALIZAR
@@ -183,6 +181,7 @@ export class TableStudentComponent implements OnInit {
       usuarioDTOFormGroup.addControl('rol', this.formBuilder.control('STUDENT'));
       usuarioDTOFormGroup.addControl('gra_inst', this.formBuilder.control('ESTUDIANTE'));
 
+      console.log(this.group)
       this.studentSave.emit(this.group.value)
     }
 
@@ -226,7 +225,6 @@ export class TableStudentComponent implements OnInit {
 
   getCloseModal(){
     this.group.reset();
-    this.form();
   }
 
   togglePasswordVisibility() {

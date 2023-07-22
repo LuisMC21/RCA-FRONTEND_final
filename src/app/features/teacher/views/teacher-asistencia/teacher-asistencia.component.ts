@@ -14,6 +14,7 @@ import { IClase } from 'src/app/features/admin/interfaces/clase';
 import { ICourse } from 'src/app/features/admin/interfaces/course';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
+import { AdminAsistenciaComponent } from 'src/app/features/admin/views/admin-asistencia/admin-asistencia.component';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
@@ -26,10 +27,10 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   anios: IAnioLectivo[] = [];
   periods: IPeriod[] = [];
-  courses: ICourse[] = [];
-  asignaciones: ICourseTeacher[] = [];
-  clases: IClase[] = [];
   aulas: IAula[] = [];
+  courses: ICourse[] = [];
+  courseTeachers: ICourseTeacher[] = [];
+  clases: IClase[] = [];
   asistencias: IAsistencia[] = [];
 
   route = "Asistencias";
@@ -49,24 +50,21 @@ export class TeacherAsistenciaComponent implements OnInit {
   @ViewChild('courseSelect') courseSelect!: ElementRef;
   selectedCourseId: string = '';
 
-  @ViewChild('claseSelect') claseSelect!: ElementRef;
-  selectedClaseId: string = '';
-
   tableName: string = 'Asistencias';
 
   title!: string;
-  teacher = '';
 
   msjResponse: string = '';
-  successful!: boolean;
+  successful: boolean = false;
 
-  paginationData = 'asistenciaTc';
+  paginationData = 'grade';
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private pagination: PaginationService,
     private periodoService: PeriodService,
     private anioService: AnioLectivoService,
+    private aulaService: AulaService,
     private claseService: ClaseService,
     private tokenService: TokenService,
     private courseService: CourseService,
@@ -75,74 +73,57 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.teacher = this.tokenService.getUserId() || '';
-
+     //obtener codigo docente
+    //this.code = this.tokenService.getUserId();
     this.selectedAnioId = localStorage.getItem('selectedAnioAs') || '',
-      this.selectedPeriodId = localStorage.getItem('selectedPeriodoAs') || '';
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodoAs') || '';
     this.selectedCourseId = localStorage.getItem('selectedCursoAs') || '';
     this.selectedAulaId = localStorage.getItem('selectedAulaAs') || '';
-    this.selectedClaseId = localStorage.getItem('selectedClaseAs') || '';
 
-    this.anioService.getAll('', 0, 10).subscribe(response => {
+    this.anioService.getAll('', 0, 10).subscribe(response=>{
+      console.log(response)
       this.anios = response.data.list;
     });
 
-
-
-    if (this.selectedAnioId != '') {
-      this.periodoService.getAll(this.selectedAnioId, 0, 10).subscribe(response => {
+    if(this.selectedAnioId != ''){
+      this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
+        console.log(response.data.list)
         this.periods = response.data.list;
       })
 
-      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10)
-        .subscribe(response => {
-          this.asignaciones = response.data.list;
-
-          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
-            const aula = asignacion.aulaDTO;
-            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
-              result.push(aula);
-            }
-            return result;
-          }, []);
-        });
+      this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
+        this.aulas = response.data;
+      })
     }
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+    if(this.selectedAulaId != '' && this.selectedAnioId != ''){
+      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
+        console.log(response)
+        this.courses = response.data;
+      })
+    }
+
+    if(this.selectedPeriodId != ''){
+      this.obtenerPeriodo();
+    }
+
+    this.asistenciaService.getAll('',0,10).subscribe(response=>{
       this.asistencias = response.data.list;
     })
 
-    if (this.selectedAulaId != '') {
-      this.courses = [];
-
-      this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
-    }
   }
 
-  onAnioChange() {
+  onAnioChange(){
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    this.periodoService.getAll(this.selectedAnioId, 0, 10).subscribe(response => {
+    this.periodoService.getAll(this.selectedAnioId,0,10).subscribe(response=>{
       this.periods = response.data.list;
     })
 
-    this.aulas = [];
-
-    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
-      .subscribe(response => {
-        this.asignaciones = response.data.list;
-
-        this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
-          const aula = asignacion.aulaDTO;
-          if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
-            result.push(aula);
-          }
-          return result;
-        }, []);
-      });
+    this.aulaService.getAllAnio("", this.selectedAnioId).subscribe(response=>{
+      this.aulas = response.data;
+    });
 
     localStorage.setItem('selectedAnioAs', this.selectedAnioId);
   }
@@ -155,34 +136,36 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.clases = response.data.list;
     })
 
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
-      console.log(response);
-      this.asistencias = response.data.list;
-    })
+    this.obtenerPeriodo();
+    console.log(this.periodo);
 
     localStorage.setItem('selectedPeriodoAs', this.selectedPeriodId);
   }
 
+  async obtenerPeriodo(){
+    try{
+      const response = await this.periodoService.getOne(this.selectedPeriodId).toPromise();
+      if(response && response.data){
+        this.periodo = response.data;
+      }
+    }catch(error){
+
+    }
+  }
 
   onAulasChange() {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.courses = [];
-
-    this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
-
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
-      console.log(response);
-      this.asistencias = response.data.list;
+    this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
+      console.log(response)
+      this.courses = response.data;
     })
 
     this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.clases = response.data.list;
     })
 
-
-    console.log(this.selectedAulaId);
     localStorage.setItem('selectedAulaAs', this.selectedAulaId);
 
   }
@@ -191,34 +174,16 @@ export class TeacherAsistenciaComponent implements OnInit {
     const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
     this.selectedCourseId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 40, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
-    })
-
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
-      this.asistencias = response.data.list;
     })
 
     localStorage.setItem('selectedCursoAs', this.selectedCourseId);
   }
 
-  onClaseChange() {
-    const selectedOption = this.claseSelect.nativeElement.selectedOptions[0];
-    this.selectedClaseId = selectedOption.value;
-
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
-      this.asistencias = response.data.list;
-    })
-
-    localStorage.setItem('selectedClaseAs', this.selectedCourseId);
-  }
-
   //BUSCAR
   search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.asistenciaService.getAllPeriodoAulaCursoClase(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
-      console.log(response);
+    this.asistenciaService.getAll(nom, 0,5).subscribe(response => {
       this.asistencias = response.data.list;
     })
   }
@@ -251,22 +216,6 @@ export class TeacherAsistenciaComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
-  }
-
-  getCursosUnicosPorAula(idAulaSeleccionada: string): ICourse[] {
-    const asignacionesFiltradas: ICourseTeacher[] = this.asignaciones.filter((asignacion: ICourseTeacher) => {
-      return asignacion.aulaDTO.id === idAulaSeleccionada;
-    });
-
-    const cursosUnicos: ICourse[] = asignacionesFiltradas.reduce((result: ICourse[], asignacion: ICourseTeacher) => {
-      const curso = asignacion.cursoDTO;
-      if (!result.some((cursoUnico: ICourse) => cursoUnico.id === curso.id)) {
-        result.push(curso);
-      }
-      return result;
-    }, []);
-
-    return cursosUnicos;
   }
 
 }

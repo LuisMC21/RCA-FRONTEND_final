@@ -8,7 +8,7 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
-<app-modal [title]="'Agregar Periodo'" (close_modal)="getCloseModal()" #modalAdd>
+<app-modal [title]="'Agregar Periodo'" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="w-full flex flex-wrap justify-between">
         <div class="field">
             <app-label-field [title]="'**Nombre'"></app-label-field>
@@ -36,8 +36,8 @@
         </div>
         <div class="flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guargar</button>
-            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()">Guargar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
@@ -77,8 +77,8 @@
 
         <div class="flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guargar</button>
-            <app-btn-cancel (click)="modalUpdate.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="save()">Guargar</button>
+            <app-btn-cancel (click)="modalUpdate.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
@@ -109,7 +109,7 @@
                 <div class="flex py-7 w-full">
                     <button
                 class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white" (click)="ejecutarEvaluaciones(item.id)">Aceptar</button>
-                    <app-btn-cancel (click)="modalPromedios.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalPromedios.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
                 </div>
             </app-modal>
 
@@ -120,7 +120,7 @@
                     <label><b>Fin: </b>{{item.date_end}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

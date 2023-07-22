@@ -12,16 +12,15 @@ import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 export class AdminAniolectivoComponent implements OnInit {
 
   anio:IAnioLectivo[]=[];
-
+ 
   tableName: string = 'Año lectivo';
   paginationData = 'anio'
   msjResponse:string='';
-  successful!: boolean;
-
+  successful: boolean=false;
   @ViewChild('modalOk') modalOk!:ModalComponent;
   constructor(
 
-    private anioService: AnioLectivoService,
+    private anioService: AnioLectivoService, 
     private pagination:PaginationService,
     ) { }
 
@@ -76,14 +75,13 @@ export class AdminAniolectivoComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR
+  //ELIMINAR 
   delete(id:string){
     this.anioService.delete(id).subscribe(data =>{
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }

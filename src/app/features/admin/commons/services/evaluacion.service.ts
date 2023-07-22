@@ -21,7 +21,7 @@ export class EvaluacionService {
   }
 
   getAllPeriodoAulaCurso(nom?:string, page?:number, size?: number, periodo?:string, aula?:string, curso?:string): Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/evaluacion/epac?filter=${nom}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
+    return this.http.get<IApiResponse>(`${environment.api}/evaluacion/epac?page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
 
   getAllPeriodoAlumno(nom?:string, page?:number, size?: number, periodo?:string, alumno?:string): Observable<IApiResponse>{

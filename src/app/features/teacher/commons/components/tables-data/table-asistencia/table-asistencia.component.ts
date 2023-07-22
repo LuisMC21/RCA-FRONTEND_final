@@ -15,12 +15,11 @@ export class TableAsistenciaComponent implements OnInit {
   @Input() title!: string;
 
   item?: IAsistencia;
-  close_modal!: boolean;
 
   @Output() asistenciaSave: EventEmitter<IAsistencia> = new EventEmitter();
   @Output() asistenciaDelete: EventEmitter<string> = new EventEmitter();
   @Output() asistenciaSearch: EventEmitter<string> = new EventEmitter();
-
+  
   titulo = 'Editar asistencia';
 
   head = ["Codigo", "Apellido Paterno","Apellido Materno","Alumno", "Fecha","Estado"];
@@ -28,8 +27,6 @@ export class TableAsistenciaComponent implements OnInit {
 
   msjResponse: string = '';
   nomSearch: string = '';
-
-  tiposAsistencia = ['PRESENTE', 'FALTA', 'JUSTIFICADO'];
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
 
@@ -78,10 +75,5 @@ export class TableAsistenciaComponent implements OnInit {
     }
     this.group.reset();
   }
-
-  getCloseModal(){
-    this.group.reset();
-  }
-
 
 }

@@ -25,8 +25,10 @@ export class AdminEnrollmentView implements OnInit {
 
   tableName:string='Matricula'
   msjResponse:string='';
-  successful!: boolean;
-
+  successful: boolean=false;
+  // identiAlumno:string='';
+  // idGradoPeriodo:string='';
+  // identiParent:string='';
   identiStudent:string='';
   studentSave!: IStudent;
   enrollmentSave!:IEnrollment;
@@ -127,7 +129,6 @@ export class AdminEnrollmentView implements OnInit {
       this.msjResponse = 'Eliminado correctamente';
       this.successful = true;
     }
-    this.successful = true;
   });
   this.modalOk.showModal();
 }

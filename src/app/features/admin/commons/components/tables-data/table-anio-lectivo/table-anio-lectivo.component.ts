@@ -27,7 +27,6 @@ export class TableAnioLectivoComponent implements OnInit {
 
   msjResponse:string='';
   nomSearch:string='';
-  close_modal!: boolean;
 
   constructor(private formBuilder:FormBuilder) { }
 
@@ -78,9 +77,6 @@ reset(){
   if(this.titulo == 'Actualizar año lectivo'){
     this.titulo = 'Agregar año lectivo';
   }
-  this.group.reset();
-}
-getCloseModal(){
   this.group.reset();
 }
 

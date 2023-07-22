@@ -264,7 +264,7 @@ export class AdminReportNotasComponent implements OnInit {
     if (value !== undefined) {
       this.nameStudent = value;
       console.log(this.selectedAnioName)
-      this.studentService.getAllAnioCursoAula(value, this.selectedAnioName, "", 0, 50).subscribe(response => {
+      this.studentService.getAllAnioCursoAula(value, this.selectedAnioName, "", "", 0, 50).subscribe(response => {
         if(response.successful && response.data.list){
           this.students = response.data.list;
         } else {

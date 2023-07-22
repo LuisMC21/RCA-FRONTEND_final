@@ -13,8 +13,8 @@ export class CourseTeacherService {
   constructor(private http: HttpClient) { }
 
   //Get
-  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/asignatura?filter=${filter}&page=${page}&size=${size}`);
+  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/asignatura?filter=${nom}&page=${page}&size=${size}`);
   }
 
   getAllAlumnoAnio(nom?:string,alumno?:string, anio?:string,page?:number,size?:number):Observable<IApiResponse>{
@@ -26,10 +26,6 @@ export class CourseTeacherService {
   }
 
   getAulaCurso(nom?:string,aula?:string, curso?:string):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/asignatura/ac?filter=${nom}&aula=${aula}&curso=${curso}`);
-  }
-
-  getAllAnioAulaDocente(nom?:string,aula?:string, curso?:string):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/asignatura/ac?filter=${nom}&aula=${aula}&curso=${curso}`);
   }
 

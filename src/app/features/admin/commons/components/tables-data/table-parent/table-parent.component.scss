@@ -3,7 +3,6 @@ table{
     font-size: var(--font-size-table);
     & th, tr, td{
         padding: 0.2rem;
-        text-align: center;
     }
 }
 .actions{
@@ -35,29 +34,21 @@ table{
         }
     }
 }
-//Agregar alumno
+
+//Agregar apoderado
+
 .form{
     width: 1000px;
     min-width: 100px;
 }
+
 .form__field{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr));
     gap: 0.2rem 0.4rem;
 }
+
 .btns{
     height: 4rem;
 }
-//Buscar apoderado
-.parentSearch{
-    font-size: 0.8rem;
-}
 
-.newParent{
-    padding: 0 0.5rem;
-    font-size: 0.85rem;
-}
-.div_icon_mostrar{
-  margin: auto;
-  padding: 1% 5%;
-}

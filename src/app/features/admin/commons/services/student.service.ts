@@ -26,8 +26,8 @@ export class StudentService {
     return this.http.get<IApiResponse>(`${environment.api}/alumno?filter=${filter}&page=${page}&size=${size}`);
   }
 
-  getAllAnioCursoAula(filter?:string, anio?:string, aula?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/alumno/auc?filter=${filter}&page=${page}&size=${size}&anio=${anio}&aula=${aula}`);
+  getAllAnioCursoAula(filter?:string, anio?:string, aula?:string, curso?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/alumno/auc?filter=${filter}&page=${page}&size=${size}&anio=${anio}&aula=${aula}&curso=${curso}`);
   }
 
 

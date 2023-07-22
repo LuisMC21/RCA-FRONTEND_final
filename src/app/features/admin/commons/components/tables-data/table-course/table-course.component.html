@@ -10,7 +10,7 @@
 
 
 <!-- MODAL AGREGAR -->
-<app-modal [title]="'Agregar Curso'" (close_modal)="getCloseModal()" #modalAdd>
+<app-modal [title]="'Agregar Curso'" #modalAdd>
     <form [formGroup]="group" class="form" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
@@ -23,8 +23,8 @@
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Agregar</button>
-            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
@@ -44,15 +44,15 @@
             </div>
         </div>
         <div class="btns flex py-7 w-full" ngClass="input">
-            <button type="submit" [disabled]="group.invalid"
+            <button type="submit" [disabled]="group.invalid" (click)="save()"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
 
-            <app-btn-cancel (click)="modalEdit.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+            <app-btn-cancel (click)="modalEdit.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
 
-<!--
+<!-- 
 Tabla -->
 <table class="table bg-gray-50">
     <thead>
@@ -74,7 +74,7 @@ Tabla -->
                     <label><b>Nombre: </b>{{item.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

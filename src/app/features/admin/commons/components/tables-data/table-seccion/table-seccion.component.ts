@@ -25,7 +25,6 @@ export class TableSeccionComponent implements OnInit {
 
   msjResponse: string = '';
   nomSearch: string = '';
-  close_modal!: boolean;
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
@@ -68,10 +67,11 @@ export class TableSeccionComponent implements OnInit {
     }
   }
 
-  // ELIMINAR
+  // ELIMINAR 
   delete(id: string) {
     this.sectionDelete.emit(id)
     this.modalDelete.hiddenModal();
+    console.log(this.group.get('usuarioDTO.name'));
   }
 
   refresh(): void { window.location.reload(); }
@@ -80,11 +80,7 @@ export class TableSeccionComponent implements OnInit {
     if(this.titulo == 'Actualizar sección'){
       this.titulo = 'Agregar sección'
     }
-    this.group.reset();
-  }
-
-  getCloseModal(){
-    this.group.reset();
+    this.group.reset(); 
   }
 
 }
