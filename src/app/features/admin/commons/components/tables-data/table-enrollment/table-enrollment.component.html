@@ -7,40 +7,42 @@
 </div>
 <app-modal #modalAdd>
     <h1 class="text-center text-3xl">{{ titulo }}</h1>
- 
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+    <form [formGroup]="group" (ngSubmit)="save()">
 
         <div class="form__field">
-            <div class="field">
+            <div class="field w-1/2 flex justify-center items-center">
+
                 <app-label-field [title]="'**Fecha'"></app-label-field>
-                <app-field><input formControlName="date" class="input" type="date" required></app-field>
+                <app-field>
+                    
+                <input formControlName="date" class="input" type="date" required></app-field>
 
             </div>
-            <div class="field">
+            <div class="field w-1/2">
                 <app-label-field [title]="'**Aula'"></app-label-field>
                 <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO" required>
                         <option *ngFor="let aula of aulas" [ngValue]="aula" [selected]="aula.id === item.aulaDTO.id">
                             {{aula.gradoDTO.name+ "-"+aula.seccionDTO.name }}</option>
                     </select></app-field>
             </div>
-            <div class="field">
+            <div class="field w-1/2">
                 <app-label-field [title]="'**Año Lectivo'"></app-label-field>
                 <app-field><select id="anio" class="input" name="anio" formControlName="anioLectivoDTO">
                         <option *ngFor="let anio of anioL" [ngValue]="anio"
                             [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                     </select></app-field>
             </div>
-            <div class="form__field" formGroupName="alumnoDTO">
-                <div class="field"></div>
-                <app-label-field [title]="'**Alumno'"></app-label-field>
+            <div class="field w-1/2" formGroupName="alumnoDTO">
+                <div class="field w-1/2"></div>
+                <app-label-field [title]="'**Buscar Alumno'"></app-label-field>
                 <app-field> <input formControlName="name" class="input" type="text"
-                        placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
+                        placeholder="DNI, nombre o apellidos" #searchStudent
                         (input)="searchStudents(searchStudent.value)">
                 </app-field>
-                <div class="field">
+                <div class="field w-1/2">
                     <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
                         <span (click)="selectStudent(student)" *ngFor="let student of alumno"
-                            class="block w-full h-full">
+                            class="block w-1/2 h-full">
                             {{ student.usuarioDTO.numdoc + ' - ' + student.usuarioDTO.pa_surname + ' ' +
                             student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
                         </span>
@@ -52,10 +54,10 @@
 
             </div>
         </div>
-        <div class="btns flex py-7 w-full">
+        <div class="flex justify-center py-2 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+                class="field__input--button w-1/4 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8" (click)="modalAdd.cancelar()" (click)="reset()" ></app-btn-cancel>
         </div>
         
     </form>
