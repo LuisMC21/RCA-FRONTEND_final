@@ -224,6 +224,7 @@ export class TableStudentComponent implements OnInit {
 
   getCloseModal(){
     this.group.reset();
+    this.form();
   }
 
   togglePasswordVisibility() {
