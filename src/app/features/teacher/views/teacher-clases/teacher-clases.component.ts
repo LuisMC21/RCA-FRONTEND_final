@@ -245,10 +245,14 @@ export class TeacherClasesComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
+    console.log(nom);
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.claseService.getAll(nom, page, size).subscribe(response => {
-      this.clases = response.data.list;
+
+    this.claseService.getAllPeriodoAulaCurso(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      if(response && response.data && response.data.list){
+        this.clases = response.data.list;
+      }
     })
   }
 

@@ -111,7 +111,6 @@ export class TeacherNotasComponent implements OnInit {
 
     if(this.selectedAulaId != '' && this.selectedAnioId != ''){
       this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
-        console.log(response)
         this.courses = response.data;
       })
     }
@@ -120,6 +119,7 @@ export class TeacherNotasComponent implements OnInit {
     let size = this.pagination.getSize(this.paginationData);
 
     this.evaluacionService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      console.log(response);
       this.evaluaciones = response.data.list;
     })
 
@@ -206,8 +206,11 @@ export class TeacherNotasComponent implements OnInit {
   search(nom: string) {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.evaluacionService.getAll(nom, page, size).subscribe(response => {
-      this.evaluaciones = response.data.list;
+
+    this.evaluacionService.getAllPeriodoAulaCurso(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      if(response && response.data && response.data.list){
+        this.evaluaciones = response.data.list;
+      }
     })
   }
 
