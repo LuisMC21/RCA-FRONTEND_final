@@ -1,20 +1,8 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-    <!-- <div class="flex mx-4" (click)="getSizeOption()">
-        <label class="px-4">Grado-Periodo:</label>
-        <div class="size">
-            <div class="flex justify-between px-2">
-                <p>{{gradePeriodNom}}</p>
-                <i class="bi bi-caret-down-fill"></i>
-            </div>
-            <div *ngIf="sizeOption" class="sizeOptions absolute bg-slate-50">
-                <div class="sizeOption hover:bg-slate-200" *ngFor="let option of gradePeriods"
-                    (click)="matGradoResponse(option.code)">{{option.gradeDTO.name +"-"+ option.anioDTO.name}</div>
-            </div>
-        </div>
-    </div> -->
+
     <div class="flex">
-        <app-btn-report  class="mx-2"></app-btn-report>
+        <app-btn-report class="mx-2"></app-btn-report>
         <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
     </div>
 </div>
@@ -23,10 +11,6 @@
         <div class="form__field">
             <h2 class="legend__student">Matricula</h2>
             <div class="field">
-                <app-label-field [title]="'Código Matricula'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="code" readonly></app-field>
-            </div>
-            <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
 
@@ -34,8 +18,8 @@
             <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
                 <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO" required>
-                        <option *ngFor="let aula of aulas"  [ngValue]="aula"
-                            [selected]="aula.id === item.aulaDTO.id">{{aula.gradoDTO.name+ "-"+aula.seccionDTO.name  }}</option>
+                        <option *ngFor="let aula of aulas" [ngValue]="aula" [selected]="aula.id === item.aulaDTO.id">
+                            {{aula.gradoDTO.name+ "-"+aula.seccionDTO.name }}</option>
                     </select></app-field>
             </div>
             <div class="field">
@@ -45,54 +29,37 @@
                             [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                     </select></app-field>
             </div>
-            <h2 class="legend__student">Alumno</h2>
-            <div class="field">
-                <app-label-field [title]="'Código'"></app-label-field>
-                <app-field><input formControlName="codeA" class="input" type="text" ></app-field>
+            <div class="form__field" formGroupName="alumnoDTO">
+                <div class="field"></div>
+                <app-label-field [title]="'**Alumno'"></app-label-field>
+                <app-field> <input formControlName="name" class="input" type="text"
+                        placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
+                        (input)="searchStudents(searchStudent.value)">
+                </app-field>
+                <div class="field">
+                    <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
+                        <span (click)="selectStudent(student)" *ngFor="let student of alumno"
+                            class="block w-full h-full">
+                            {{ student.usuarioDTO.numdoc + ' - ' + student.usuarioDTO.pa_surname + ' ' +
+                            student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
+                        </span>
+                    </app-search>
+                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent" class="newStudent">
+                        Seleccionar
+                    </span>
+                </div>
+
             </div>
-                </div>
-                <div class="btns flex py-7 w-full">
-                    <button type="submit"  class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"
-                        >Guardar</button>
-                    <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
-                </div>
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel" (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
     </form>
 
 </app-modal>
-<!-- <app-modal #modalStudents [title]="'Alumnos'">
-    <div class="list__alumnos">
-        <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
-            <label class="mx-4"><b>Buscar</b></label>
-            <div class="rounded-3xl bg-slate-50 w-3/4 flex px-4 py-2">
-                <i class="bi bi-search"></i>
-                <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch"
-                    (ngModelChange)="search($event)" type="search" placeholder="Apellidos">
-            </div>
-        </div>
-        <table class="table bg-gray-50">
 
-                <thead>
-                    <th>CODIGO</th>
-                    <th>ALUMNO</th>
-                    <th>SELECCIONAR</th>
-                </thead>
-
-
-            <tbody *ngIf="listStudents?.length!=0; else empty">
-                <tr class="hover:bg-gray-200" (click)="asingStudent(item)" *ngFor="let item of listStudents">
-                    <td>{{item.code}}</td>
-                    <td>{{item.usuarioDTO.name}}</td>
-                    <td class="flex justify-center">
-                        <app-btn-update></app-btn-update>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <span class="btn_ok block">
-            <app-btn-ok  [title]="'Aceptar'" (click)="asignStudentForm()" ></app-btn-ok>
-        </span>
-    </div>
-</app-modal> -->
 
 <table class="table bg-gray-50">
     <thead>
@@ -101,7 +68,8 @@
     <tbody>
         <tr *ngFor="let item of matStudent, let i=index">
             <td>{{item.code}}</td>
-            <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " + item.alumnoDTO.usuarioDTO.ma_surname}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " +
+                item.alumnoDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
             <!-- <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
             <td>{{item.alumnoDTO.apoderadoDTO.tel}}</td> -->

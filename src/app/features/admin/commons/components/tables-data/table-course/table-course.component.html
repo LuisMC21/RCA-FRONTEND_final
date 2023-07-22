@@ -14,7 +14,7 @@
     <form [formGroup]="group" class="form" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
-                <app-label-field [title]="'Curso'"></app-label-field>
+                <app-label-field [title]="'**Curso'"></app-label-field>
                 <app-field><input class="input" type="text" formControlName="name" placeholder="Nombre"></app-field>
                 <!-- <app-required-field class="px-2">
                         [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
@@ -35,9 +35,9 @@
         <div class="form__field">
 
             <div class="field">
-                <app-label-field [title]="'Código'"></app-label-field>
+                <app-label-field [title]="'**Código'"></app-label-field>
                 <app-field><input formControlName="code" class="input" type="text" placeholder="Código"></app-field>
-                <app-label-field [title]="'Nombre'"></app-label-field>
+                <app-label-field [title]="'**Nombre'"></app-label-field>
                 <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
                 <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                     [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
