@@ -111,7 +111,6 @@ export class TeacherAsistenciaComponent implements OnInit {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
     this.asistenciaService.getAllPeriodoAulaCursoClase('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
-      console.log(response);
       this.asistencias = response.data.list;
     })
 
@@ -216,7 +215,10 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
-    this.asistenciaService.getAll(nom, 0, 5).subscribe(response => {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.asistenciaService.getAllPeriodoAulaCursoClase(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+      console.log(response);
       this.asistencias = response.data.list;
     })
   }
