@@ -60,7 +60,7 @@ export class TeacherAsistenciaComponent implements OnInit {
   msjResponse: string = '';
   successful!: boolean;
 
-  paginationData = 'grade';
+  paginationData = 'asistenciaTc';
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -87,8 +87,6 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.anios = response.data.list;
     });
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
 
 
     if (this.selectedAnioId != '') {
@@ -96,7 +94,7 @@ export class TeacherAsistenciaComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, page, size)
+      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10)
         .subscribe(response => {
           this.asignaciones = response.data.list;
 
@@ -110,12 +108,12 @@ export class TeacherAsistenciaComponent implements OnInit {
         });
     }
 
-    if (this.selectedPeriodId != '') {
-      this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
-        console.log(response);
-        this.asistencias = response.data.list;
-      })
-    }
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+      console.log(response);
+      this.asistencias = response.data.list;
+    })
 
     if (this.selectedAulaId != '') {
       this.courses = [];
