@@ -42,9 +42,7 @@ table{
         }
     }
 }
-.btn__cancel{
-    width: 5rem;
-}
+
 //form matricula
 .legend__student{
     height: 3rem;
@@ -53,7 +51,7 @@ table{
     font-weight: 500;
 }
 .form{
-    width: 80vw;
+    width: 70vw;
     min-width: 100px;
 }
 .form__field{
@@ -61,13 +59,7 @@ table{
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 0.2rem 0.4rem;
 }
-.btns{
-    height: 4rem;
-    display: flex;
-    align-items: start;
-    width: 100%;
-    justify-content: start;
-}
+
 
 //modal alumnos
 
@@ -79,12 +71,7 @@ table{
     display: flex;
     justify-content: flex-end;
 }
-.size{
-    border: 1px solid rgb(194, 184, 184);
-    border-radius: 1px;
-    cursor: pointer;
-    width: 10rem;
-}
+
 .sizeOptions{
     width: 10rem;
     transition: all 0.5s ease;
