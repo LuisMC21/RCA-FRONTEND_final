@@ -2,13 +2,15 @@
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
-        <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
     </div>
 </div>
-<app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
+<app-modal #modalAdd>
+    <h1 class="text-center text-3xl">{{ titulo }}</h1>
+ 
     <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+
         <div class="form__field">
-            <h2 class="legend__student">Matricula</h2>
             <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
@@ -55,6 +57,7 @@
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
             <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
+        
     </form>
 
 </app-modal>
@@ -77,7 +80,7 @@
             <td>{{item.aulaDTO.gradoDTO.name + "-" + item.aulaDTO.seccionDTO.name}}</td>
 
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"(click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
 
