@@ -54,6 +54,7 @@ export class TableGradeComponent implements OnInit {
 
   //BUSCAR
   search(name: string) {
+    console.log(name);
     this.gradeSearch.emit(name);
   }
 

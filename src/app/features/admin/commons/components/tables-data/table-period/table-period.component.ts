@@ -71,6 +71,7 @@ export class TablePeriodComponent implements OnInit {
 
   //BUSCAR
   search(nom:string){
+    console.log(nom);
     this.periodSearch.emit(nom);
   }
 
