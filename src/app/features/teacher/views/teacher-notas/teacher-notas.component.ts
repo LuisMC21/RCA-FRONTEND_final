@@ -226,4 +226,8 @@ export class TeacherNotasComponent implements OnInit {
 
   refresh(): void { window.location.reload(); }
 
+  redirectToNotas(){
+    this.evaluacionService.reporteNotasCurso(this.selectedPeriodId, this.selectedCourseId, this.selectedAulaId)
+  }
+
 }

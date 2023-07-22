@@ -1,36 +1,44 @@
 <div class="px-8">
     <app-route [route]="route"></app-route>
     <div class="bg-gray-50 p-3 rounded-xl" style="margin-bottom: 10px;">
-        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
-            <app-label-field [title]="'Año'"></app-label-field>
-            <app-field><select class="input" (change)="onAnioChange()" [(ngModel)]="selectedAnioId" #anioSelect>
-                    <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
-                </select></app-field>
+        <div>
+            <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
+                <app-label-field [title]="'Año'"></app-label-field>
+                <app-field><select class="input" (change)="onAnioChange()" [(ngModel)]="selectedAnioId" #anioSelect>
+                        <option value="" selected disabled>--Seleccione--</option>
+                        <option *ngFor="let anio of anios" [value]="anio.id">{{anio.name}}</option>
+                    </select></app-field>
+            </div>
+            <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
+                <app-label-field [title]="'Periodo'"></app-label-field>
+                <app-field><select class="input" (change)="onPeriodoChange()" [(ngModel)]="selectedPeriodId" #periodSelect>
+                        <option value="" selected disabled>--Seleccione--</option>
+                        <option *ngFor="let period of periods" [value]="period.id">{{period.name}}</option>
+                    </select></app-field>
+            </div>
+            <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
+                <app-label-field [title]="'Aulas'"></app-label-field>
+                <app-field><select class="input" (change)="onAulasChange()" [(ngModel)]="selectedAulaId" #aulaSelect>
+                        <option value="" selected disabled>--Seleccione--</option>
+                        <option *ngFor="let aula of aulas" [value]="aula.id">{{aula.gradoDTO.name}}-{{aula.seccionDTO.name}}
+                        </option>
+                    </select></app-field>
+            </div>
+            <div class="w-1/5" style="display: inline-block;">
+                <app-label-field [title]="'Cursos'"></app-label-field>
+                <app-field><select class="input" (change)="onCourseChange()" [(ngModel)]="selectedCourseId" #courseSelect>
+                        <option value="" selected disabled>--Seleccione--</option>
+                        <option *ngFor="let course of courses" [value]="course.id">{{course.name}}</option>
+                    </select></app-field>
+            </div>
         </div>
-        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
-            <app-label-field [title]="'Periodo'"></app-label-field>
-            <app-field><select class="input" (change)="onPeriodoChange()" [(ngModel)]="selectedPeriodId" #periodSelect>
-                    <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let period of periods" [value]="period.id">{{period.name}}</option>
-                </select></app-field>
-        </div>
-        <div class="w-1/5" style="display: inline-block; margin-right: 20px;">
-            <app-label-field [title]="'Aulas'"></app-label-field>
-            <app-field><select class="input" (change)="onAulasChange()" [(ngModel)]="selectedAulaId" #aulaSelect>
-                    <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let aula of aulas" [value]="aula.id">{{aula.gradoDTO.name}}-{{aula.seccionDTO.name}}
-                    </option>
-                </select></app-field>
-        </div>
-        <div class="w-1/5" style="display: inline-block;">
-            <app-label-field [title]="'Cursos'"></app-label-field>
-            <app-field><select class="input" (change)="onCourseChange()" [(ngModel)]="selectedCourseId" #courseSelect>
-                    <option value="" selected disabled>--Seleccione--</option>
-                    <option *ngFor="let course of courses" [value]="course.id">{{course.name}}</option>
-                </select></app-field>
+        <div class="mt-5">
+            <div class="w-1/3" style="display: inline-block; margin-right: 20px;">
+                <button type="submit" class="field__input--button mx-2 h-9 rounded-3xl text-white" [disabled]="selectedAnioId === '' || selectedAulaId === '' || selectedAnioId === null || selectedAulaId === null || selectedCourseId === '' || selectedCourseId === null" (click)="redirectToNotas()">Generar PDF</button>
+            </div>
         </div>
     </div>
+        
 </div>
 <div class="px-8">
     <app-table [title]="'Agregar Notas'" [tableName]="tableName">
