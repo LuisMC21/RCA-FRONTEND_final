@@ -45,6 +45,7 @@ export class TableStudentComponent implements OnInit {
   @ViewChild('searchParentModal') searchParentModal!: SearchComponent;
   @ViewChild('apoderadoSelect') studentSelect!: ElementRef;
   selectedApoderadoId: string = '';
+  nomSearch: string = '';
 
   group!: FormGroup;
   optionsDocumentType = [
@@ -170,8 +171,9 @@ export class TableStudentComponent implements OnInit {
     })
   }
   // BUSCAR
-  search(nom: string) {
-    this.studentSearch.emit(nom);
+  search(nomSearch: string) {
+    console.log(nomSearch)
+    this.studentSearch.emit(nomSearch);
   }
 
   // AGREGAR - ACTUALIZAR

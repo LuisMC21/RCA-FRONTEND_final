@@ -54,6 +54,7 @@ export class TableSeccionComponent implements OnInit {
 
   //BUSCAR
   search(name: string) {
+    console.log()
     this.sectionSearch.emit(name);
   }
 

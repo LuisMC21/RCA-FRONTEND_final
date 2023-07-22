@@ -33,10 +33,11 @@ export class AdminSectionComponent implements OnInit {
   }
 
   //BUSCAR
-  search(nom: string) {
+  search(name: string) {
+    console.log(name)
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.sectionService.getAll(nom, page, size).subscribe(response => {
+    this.sectionService.getAll(name, page, size).subscribe(response => {
       this.sections = response.data.list;
     })
   }

@@ -73,8 +73,10 @@ export class AdminGradeComponent implements OnInit {
       if (data.successful) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      }else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }
