@@ -25,7 +25,11 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'Estado'"></app-label-field>
-                <app-field><input formControlName="state" class="input" type="text"></app-field>
+                <app-field><select formControlName="state" class="input" type="text">
+                    <option value="" disabled selected>-- Seleccione --</option>
+                    <option *ngFor="let tipoasistencia of tiposAsistencia" [value]="tipoasistencia">
+                      {{ tipoasistencia }}
+                </select></app-field>
             </div>
         </div>
         <div class="btns flex py-7 w-full">

@@ -29,6 +29,8 @@ export class TableAsistenciaComponent implements OnInit {
   msjResponse: string = '';
   nomSearch: string = '';
 
+  tiposAsistencia = ['PRESENTE', 'FALTA', 'JUSTIFICADO'];
+
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
 
   constructor(private formBuilder: FormBuilder) { }
