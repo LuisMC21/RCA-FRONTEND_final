@@ -24,6 +24,7 @@ export class TableGradeComponent implements OnInit {
 
   head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
+  close_modal!: boolean;
 
   msjResponse: string = '';
   nomSearch: string = '';
@@ -68,7 +69,7 @@ export class TableGradeComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.gradeDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -82,4 +83,8 @@ export class TableGradeComponent implements OnInit {
     }
     this.group.reset();
   }
+  getCloseModal(){
+    this.group.reset();
+  }
+
 }

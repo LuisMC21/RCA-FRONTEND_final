@@ -18,12 +18,12 @@ export class AdminCourseComponent implements OnInit {
   tableName: string = 'Cursos';
   paginationData = 'course'
   msjResponse:string='';
-  successful: boolean=false;
+  successful!: boolean;
   totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   constructor(
-    private courseService: CourseService, 
+    private courseService: CourseService,
     private pagination:PaginationService,
     private gradeService:GradeService) { }
 
@@ -34,7 +34,7 @@ export class AdminCourseComponent implements OnInit {
     .subscribe(response =>{
       this.courses = response.data.list;
       console.log(response.data.list)
-      
+
     });
 
     this.gradeService.getAll('',0,10).subscribe(response =>{
@@ -87,13 +87,14 @@ export class AdminCourseComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id:string){
     this.courseService.delete(id).subscribe(data =>{
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }
+      this.successful = true;
     });
     this.modalOk.showModal();
   }

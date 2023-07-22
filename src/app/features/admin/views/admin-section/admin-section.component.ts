@@ -16,7 +16,7 @@ export class AdminSectionComponent implements OnInit {
   tableName: string = 'Secciones';
   paginationData:string = 'grade';
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -69,7 +69,7 @@ export class AdminSectionComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.sectionService.delete(id).subscribe(data => {
 
@@ -77,6 +77,7 @@ export class AdminSectionComponent implements OnInit {
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
       }
+      this.successful = true;
     });
     this.modalOk.showModal();
   }

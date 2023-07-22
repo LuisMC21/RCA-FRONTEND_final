@@ -24,7 +24,7 @@ export class TableClassroomComponent implements OnInit {
     gradoDTO: { id: '', code: '', name: '' },
     seccionDTO: { id: '', code: '', name: '' }
   }
-  
+
 
   @Output() classroomSave: EventEmitter<IAula> = new EventEmitter();
   @Output() classroomDelete: EventEmitter<string> = new EventEmitter();
@@ -32,8 +32,9 @@ export class TableClassroomComponent implements OnInit {
 
   head = ["Codigo", "Aula", "Acciones"]
   group!: FormGroup;
+  close_modal!: boolean;
 
-  msjResponse: string = '';  
+  msjResponse: string = '';
   nomSearch: string = '';
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
@@ -75,7 +76,7 @@ export class TableClassroomComponent implements OnInit {
     this.modalAdd.hiddenModal();
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.classroomDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -93,5 +94,10 @@ export class TableClassroomComponent implements OnInit {
     };
     console.log(this.group);
   }
+
+  getCloseModal(){
+    this.group.reset();
+  }
+
 }
 
