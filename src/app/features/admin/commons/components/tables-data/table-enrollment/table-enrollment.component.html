@@ -1,12 +1,11 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
         <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
     </div>
 </div>
-<app-modal [title]="titulo" #modalAdd>
+<app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
         <div class="form__field">
             <h2 class="legend__student">Matricula</h2>
@@ -54,7 +53,7 @@
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel" (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 
@@ -89,7 +88,7 @@
                     <label><b>Nombre: </b>{{item.alumnoDTO.usuarioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

@@ -19,6 +19,7 @@ export class TablePeriodComponent implements OnInit {
 
 
   @Output() idperiodo:EventEmitter<string> = new EventEmitter();
+  close_modal!: boolean;
 
 
   item: IPeriod={
@@ -29,14 +30,14 @@ export class TablePeriodComponent implements OnInit {
     date_end: new Date(),
     anio_lectivoDTO:  { id: '', code: '', name: '' }
   }
-  
+
   @Output() periodSave:EventEmitter<IPeriod> = new EventEmitter();
   @Output() periodDelete:EventEmitter<string> = new EventEmitter();
   @Output() periodSearch:EventEmitter<string> = new EventEmitter();
 
   head=["Code","Nombre","Fecha de Inicio","Fecha de término","Año lectivo","Acciones", "Generar Evaluaciones"]
   group!: FormGroup;
-  
+
   msjResponse:string='';
   nomSearch:string='';
 
@@ -81,7 +82,7 @@ export class TablePeriodComponent implements OnInit {
     this.modalAdd.hiddenModal();
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id:string){
     this.periodDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -104,7 +105,11 @@ export class TablePeriodComponent implements OnInit {
   ejecutarEvaluaciones(id:string) {
     this.idperiodo.emit(id);
     this.modalAdd.hiddenModal();
-    
+
+  }
+
+  getCloseModal(){
+    this.group.reset();
   }
 
 }

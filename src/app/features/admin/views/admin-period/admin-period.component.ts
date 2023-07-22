@@ -36,6 +36,7 @@ export class AdminPeriodComponent implements OnInit {
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
+  successful!: boolean;
 
   courseTeacher!: ICourseTeacher;
 
@@ -93,18 +94,22 @@ export class AdminPeriodComponent implements OnInit {
     if (period.id == null) {
       this.periodService.add(period).subscribe(data => {
         if (data.message === 'ok') {
-          this.msjResponse = 'Agregado correctamente'
+          this.msjResponse = 'Agregado correctamente';
+          this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :('
+          this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
         }
       });
     } else {
       this.periodService.update(period).subscribe(data => {
         console.log(data.message)
         if (data.message === 'ok') {
-          this.msjResponse = 'Cambios actualizados con éxito'
+          this.msjResponse = 'Cambios actualizados con éxito';
+          this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :('
+          this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
         }
       })
     }
@@ -117,6 +122,7 @@ export class AdminPeriodComponent implements OnInit {
       if (data.message === 'ok') {
         this.msjResponse = 'Eliminado correctamente';
       }
+      this.successful = true;
     });
     this.modalOk.showModal();
   }
