@@ -1,8 +1,8 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-  
+
     <div class="flex">
-        <app-btn-report  class="mx-2"></app-btn-report>
+        <app-btn-report class="mx-2"></app-btn-report>
         <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
     </div>
 </div>
@@ -11,19 +11,15 @@
         <div class="form__field">
             <h2 class="legend__student">Matricula</h2>
             <div class="field">
-                <app-label-field [title]="'Código Matricula'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="code" readonly></app-field>
-            </div>
-            <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
-                
+
             </div>
             <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
                 <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO" required>
-                        <option *ngFor="let aula of aulas"  [ngValue]="aula"
-                            [selected]="aula.id === item.aulaDTO.id">{{aula.gradoDTO.name+ "-"+aula.seccionDTO.name  }}</option>
+                        <option *ngFor="let aula of aulas" [ngValue]="aula" [selected]="aula.id === item.aulaDTO.id">
+                            {{aula.gradoDTO.name+ "-"+aula.seccionDTO.name }}</option>
                     </select></app-field>
             </div>
             <div class="field">
@@ -33,22 +29,37 @@
                             [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                     </select></app-field>
             </div>
-            <h2 class="legend__student">Alumno</h2>
-            <div class="field">
-                <app-label-field [title]="'Código'"></app-label-field>
-                <app-field><input formControlName="codeA" class="input" type="text" ></app-field>
+            <div class="field" formGroupName="alumnoDTO">
+                <app-label-field [title]="'Alumno'"></app-label-field>
+                <app-field> <input formControlName="name" class="input" type="text"
+                        placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
+                        (input)="searchStudents(searchStudent.value)">
+                </app-field>
+                <div class="field">
+                    <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
+                        <span (click)="selectStudent(student)" *ngFor="let student of alumno"
+                            class="block w-full h-full">
+                            {{ student.usuarioDTO.numdoc + ' - ' + student.usuarioDTO.pa_surname + ' ' +
+                            student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
+                        </span>
+                    </app-search>
+                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent" class="newStudent">
+                        Seleccionar
+                    </span>
+
+                </div>
+
             </div>
-                </div>
-                <div class="btns flex py-7 w-full">
-                    <button type="submit"  class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white"
-                        (click)="save()">Guardar</button>
-                    <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
-                </div>
+        </div>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        </div>
     </form>
 
 </app-modal>
 
-   
 
 <table class="table bg-gray-50">
     <thead>
@@ -57,7 +68,8 @@
     <tbody>
         <tr *ngFor="let item of matStudent, let i=index">
             <td>{{item.code}}</td>
-            <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " + item.alumnoDTO.usuarioDTO.ma_surname}}</td>
+            <td>{{item.alumnoDTO.usuarioDTO.name + " " + item.alumnoDTO.usuarioDTO.pa_surname + " " +
+                item.alumnoDTO.usuarioDTO.ma_surname}}</td>
             <td>{{item.alumnoDTO.usuarioDTO.numdoc}}</td>
             <!-- <td>{{item.alumnoDTO.apoderadoDTO.email}}</td>
             <td>{{item.alumnoDTO.apoderadoDTO.tel}}</td> -->

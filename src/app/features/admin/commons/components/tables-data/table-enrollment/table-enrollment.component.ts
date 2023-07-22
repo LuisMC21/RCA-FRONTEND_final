@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IEnrollment } from 'src/app/features/admin/interfaces/enrollment';
 import { IGradePeriod } from 'src/app/features/admin/interfaces/grade-period';
@@ -23,8 +23,10 @@ export class TableEnrollmentComponent implements OnInit {
 
   group!:FormGroup;
   saving: boolean = false;
-  // studentForm!:FormGroup
+  filterStudent:string='';
   nomParent:string='';
+  existsStudent:boolean=false;
+  selectedStudent:string='';
   alumno: IStudent[] = [];
   estudiante: IStudent = {
     id:'',code:'', diseases:'',namecon_pri:'',telcon_pri:'', namecon_sec:'',telcon_sec:'',vaccine:'',type_insurance:'',
@@ -67,7 +69,8 @@ export class TableEnrollmentComponent implements OnInit {
   @ViewChild('modalStudents') modalStudents!:ModalComponent;
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
-
+  @ViewChild('studentSelect') studentSelect!: ElementRef;
+  selectedStudentId:string='';
   @Input() aulas:IAula[]=[]
   @Input() anioL:IAnioLectivo[]=[]
   @Input() listStudents:IStudent[]=[]
@@ -191,88 +194,76 @@ export class TableEnrollmentComponent implements OnInit {
   get isVacunado(){return this.group.get('isVacunado')}
 
   isEditing: boolean = false;
-  form(item?:IEnrollment){
-    if(item){
-      this.item = item;
-    }
-    if(item){
-      this.titulo = 'Actualizar Matricula';
-    }
-
-
+  form(item?: IEnrollment) {
+    // Configurar el formulario con controles y validaciones
     this.group = this.formBuilder.group({
+      // Controles del formulario para la matricula
+      id: [item ? item.id : null],
+      code: [item ? item.code : ''],
+      date: [item ? item.date : '', [Validators.required]],
 
-      id:[item?item.id:null],
-      code:[item?item.code:''],
-      date:[item?item.date:'',[Validators.required]],
-      //  AULA
-      aulaDTO:[item ? item.aulaDTO : '', [Validators.required]],
-      // AÑO LECTIVO
-      anioLectivoDTO:[item ? item.anioLectivoDTO : '', [Validators.required]],
-
-      codeA:[item?item.alumnoDTO.code:'']
-
-     
-    });
+      // Controles del formulario para el alumno
+      aulaDTO: [item ? item.aulaDTO : '', [Validators.required]],
+      anioLectivoDTO: [item ? item.anioLectivoDTO : '', [Validators.required]],
+      alumnoDTO: this.formBuilder.group({
+        id: [item ? item.id : null],
+        name: [item ? item.alumnoDTO.usuarioDTO.name + ' ' + item.alumnoDTO.usuarioDTO.pa_surname + ' ' + item.alumnoDTO.usuarioDTO.ma_surname : '', [Validators.required]]
+      }),
+      // Control oculto para almacenar el código del alumno
+      });
   }
 
   search(name:string){
     this.studentSearch.emit(name);
     console.log(this.search)
   }
-  //Asignar estudiante
-  asingStudent(alumnoDTO:IStudent){
-    this.nomSearch= ' '+alumnoDTO.usuarioDTO.name + ' ' +alumnoDTO.usuarioDTO.pa_surname +' '+alumnoDTO.usuarioDTO.ma_surname;
-    this.asignStudent = alumnoDTO;
-    console.log(this.asignStudent)
-  }
-  obtenerAlumno(filter: string) {
-    return new Promise<void>((resolve, reject) => {
-      this.studentService.getOne(filter).subscribe(response => {
-        this.alumno = response.data.list;
-        this.estudiante = this.alumno[0];
-        console.log(this.estudiante);
-        resolve();
-      }, error => {
-        reject(error);
+
+
+  searchStudents(value: string | undefined) {
+    if (value !== undefined) {
+      this.filterStudent = value;
+      this.studentService.getAll(this.filterStudent, 0, 5).subscribe(response => {
+        if (response.successful && response.data.list) {
+          this.alumno = response.data.list;
+        } else {
+          this.existsStudent = true;
+          this.alumno = [];
+        }
       });
-    });
-  }
-
-
-
-
-  asignStudentForm(){
-    this.form(this.asignEnrrollment);
-    this.modalStudents.hiddenModal();
-    console.log(this.asignStudentForm)
-
-  }
-
-
-  async save() {
-    if (this.group.valid && !this.saving) {
-      try {
-        this.saving = true;
-        await this.obtenerAlumno(this.group.get('codeA')?.value);
-        console.log(this.alumno);
-        this.group.addControl('alumnoDTO', new FormControl(this.estudiante, [Validators.required]));
-        this.enrollmentSave.emit(this.group.value);
-        console.log(this.group.value);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.saving = false;
-      }
     }
+  }
+  
+  
+  selectStudent(student: IStudent) {
+    this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
+    this.existsStudent = false;
+    this.selectedStudentId = student.id;
+    this.alumno = [];
+    const alumnoDTOFormGroup = this.group.get('alumnoDTO') as FormGroup;
+    alumnoDTOFormGroup.get('name')?.setValue(this.selectedStudent);
+    alumnoDTOFormGroup.get('id')?.setValue(this.selectedStudentId);
+    console.log(this.selectedStudentId);
+  }
+  
 
-    this.modalAdd.hiddenModal();
 
+  assignStudent(alumnoDTO: IStudent) {
+    this.nomSearch = ' ' + alumnoDTO.usuarioDTO.name + ' ' + alumnoDTO.usuarioDTO.pa_surname + ' ' + alumnoDTO.usuarioDTO.ma_surname;
+    this.selectedStudentId = alumnoDTO.id; // Almacena el ID del estudiante seleccionado
+    console.log(this.selectedStudentId);
+  }
+
+
+  save() {
+    if (this.group.valid) {
+     this.enrollmentSave.emit(this.group.value)
+    }
     if (this.titulo == "Actualizar Alumno") {
       this.titulo = "Agregar Alumno";
     }
   }
-
+  
+  
    // ELIMINAR
   delete(id:string){
     this.enrollmentDelete.emit(id)

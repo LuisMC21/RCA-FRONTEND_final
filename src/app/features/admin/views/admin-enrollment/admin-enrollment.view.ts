@@ -91,7 +91,7 @@ export class AdminEnrollmentView implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save(enrollment:IEnrollment){
-
+    console.log("AQUI")
     if(enrollment.id==null){
       this.enrollmentService.add(enrollment).subscribe(data =>{
           if(data.successful===true){
