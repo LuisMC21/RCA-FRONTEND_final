@@ -43,10 +43,8 @@ export class AdminGradeComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(grade: IGrade) {
-    console.log(grade)
     if (grade.id == null) {
       this.gradeService.add(grade).subscribe(data => {
-        console.log(data.message)
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;

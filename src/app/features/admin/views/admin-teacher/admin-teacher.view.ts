@@ -69,7 +69,7 @@ export class AdminTeacherView implements OnInit {
       });
     }else{
       this.teacherService.update(teacher).subscribe(data =>{
-        console.log(data)
+        console.log(teacher.usuarioDTO.tel)
         if(data.successful){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;

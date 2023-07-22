@@ -72,7 +72,6 @@ export class TableSeccionComponent implements OnInit {
   delete(id: string) {
     this.sectionDelete.emit(id)
     this.modalDelete.hiddenModal();
-    console.log(this.group.get('usuarioDTO.name'));
   }
 
   refresh(): void { window.location.reload(); }

@@ -72,12 +72,13 @@ export class AdminSectionComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.sectionService.delete(id).subscribe(data => {
-
-      if (data.successful === true) {
+      if (data.successful) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }
