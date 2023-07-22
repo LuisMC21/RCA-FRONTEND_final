@@ -3,13 +3,13 @@
 
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
-        <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
     </div>
 </div>
-<app-modal [title]="titulo" #modalAdd>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+<app-modal #modalAdd>
+    <h1 class="text-center text-3xl">{{ titulo }}</h1>
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-center">
         <div class="form__field">
-            <h2 class="legend__student">Matricula</h2>
             <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
@@ -51,11 +51,11 @@
 
             </div>
         </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel" (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        <div class="flex justify-center py-3 w-full">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 mx-2 h-9 rounded-2xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8" (click)="modalAdd.hiddenModal(); reset();"></app-btn-cancel>
         </div>
+        
     </form>
 
 </app-modal>
@@ -78,7 +78,7 @@
             <td>{{item.aulaDTO.gradoDTO.name + "-" + item.aulaDTO.seccionDTO.name}}</td>
 
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"(click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
 
