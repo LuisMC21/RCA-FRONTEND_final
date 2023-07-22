@@ -15,7 +15,7 @@ export class AdminGradeComponent implements OnInit {
   tableName: string = 'Grados';
   paginationData = 'grade';
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -43,10 +43,8 @@ export class AdminGradeComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(grade: IGrade) {
-    console.log(grade)
     if (grade.id == null) {
       this.gradeService.add(grade).subscribe(data => {
-        console.log(data.message)
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -72,10 +70,12 @@ export class AdminGradeComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.gradeService.delete(id).subscribe(data => {
-
-      if (data.successful === true) {
+      if (data.successful) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
+      }else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();

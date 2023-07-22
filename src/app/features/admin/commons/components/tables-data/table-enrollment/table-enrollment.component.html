@@ -1,6 +1,5 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
         <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
@@ -8,7 +7,9 @@
 </div>
 <app-modal #modalAdd>
     <h1 class="text-center text-3xl">{{ titulo }}</h1>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-center">
+ 
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
@@ -51,9 +52,10 @@
 
             </div>
         </div>
-        <div class="flex justify-center py-3 w-full">
-            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 mx-2 h-9 rounded-2xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8" (click)="modalAdd.hiddenModal(); reset();"></app-btn-cancel>
+        <div class="btns flex py-7 w-full">
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
         
     </form>
@@ -89,7 +91,7 @@
                     <label><b>Nombre: </b>{{item.alumnoDTO.usuarioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

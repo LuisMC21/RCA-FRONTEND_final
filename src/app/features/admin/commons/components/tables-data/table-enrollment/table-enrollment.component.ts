@@ -20,6 +20,7 @@ import { StudentService } from '../../../services/student.service';
   styleUrls: ['./table-enrollment.component.scss']
 })
 export class TableEnrollmentComponent implements OnInit {
+  close_modal!: boolean;
 
   group!:FormGroup;
   saving: boolean = false;
@@ -294,5 +295,10 @@ export class TableEnrollmentComponent implements OnInit {
     this.group.reset();
 
   }
+
+  getCloseModal(){
+    this.group.reset();
+  }
+
 }
 

@@ -2,7 +2,8 @@
   <label class="mx-4"><b>{{tableName}}</b></label>
   <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2">
     <i class="bi bi-search"></i>
-    <input class="bg-slate-50 w-full outline-none px-6" type="search" placeholder="Buscar">
+    <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
+            type="search" placeholder="Buscar">
   </div>
   <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div>
@@ -147,8 +148,8 @@
       <div class="field">
         <app-label-field [title]="'Apoderado'"></app-label-field>
         <app-field>
-          <input formControlName="name" class="input" placeholder="Buscar apoderado por DNI, nombre o apellidos" type="text"
-            #searchApoderado (input)="searchApoderados(searchApoderado.value)">
+          <input formControlName="name" class="input" type="text" #searchApoderado
+            (input)="searchApoderados(searchApoderado.value)">
         </app-field>
         <div class="field">
           <app-search *ngIf="apoderados && apoderados.length > 0 && searchApoderado.value.length>0">
@@ -161,9 +162,12 @@
           </span>
         </div>
       </div>
+      <div style="margin-top: 10px;">
+        <p style="font-size: 11px;">**Campos obligatorios</p>
+    </div>
       <div class="btns flex py-7 w-full">
         <button type="submit" [disabled]="group.invalid"
-          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
+          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
         <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
       </div>
     </div>
@@ -198,8 +202,9 @@
             {{item.usuarioDTO.name}}</label>
         </div>
         <div class="flex py-7 w-full">
-          <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-          <app-btn-confirm-delete (click)="delete(item.id)" (click)="modalDelete.refresh()" class="w-1/2 mx-2"></app-btn-confirm-delete>
+          <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+          <app-btn-confirm-delete (click)="delete(item.id)" (click)="modalDelete.refresh()"
+            class="w-1/2 mx-2"></app-btn-confirm-delete>
         </div>
       </app-modal>
     </tr>

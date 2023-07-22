@@ -16,7 +16,7 @@ export class AdminSectionComponent implements OnInit {
   tableName: string = 'Secciones';
   paginationData:string = 'grade';
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -33,10 +33,11 @@ export class AdminSectionComponent implements OnInit {
   }
 
   //BUSCAR
-  search(nom: string) {
+  search(name: string) {
+    console.log(name)
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.sectionService.getAll(nom, page, size).subscribe(response => {
+    this.sectionService.getAll(name, page, size).subscribe(response => {
       this.sections = response.data.list;
     })
   }
@@ -69,13 +70,15 @@ export class AdminSectionComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.sectionService.delete(id).subscribe(data => {
-
-      if (data.successful === true) {
+      if (data.successful) {
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();

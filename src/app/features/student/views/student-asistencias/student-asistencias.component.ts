@@ -42,8 +42,7 @@ export class StudentAsistenciasComponent implements OnInit {
   title!: string;
   tableName: string = 'Notas';
 
-  paginationDataStudent = 'student';
-  paginationDataPeriod = 'period';
+  paginationData = 'student';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -78,7 +77,9 @@ export class StudentAsistenciasComponent implements OnInit {
       })
     } 
 
-    this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.asistenciaService.getAllPeriodoAlumnoCurso('',page,size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
       console.log(response);
       this.asistencias = response.data.list;
     })

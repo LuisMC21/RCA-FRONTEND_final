@@ -5,7 +5,7 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-</div> 
+</div>
 
 <!-- Tabla donde se muestra los datos -->
 <table>
@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let asistencia of asistencias">
-        <td>{{ asistencia.code }}</td> 
+        <td>{{ asistencia.code }}</td>
         <td>{{ asistencia.alumnoDTO.usuarioDTO.name}} {{asistencia.alumnoDTO.usuarioDTO.pa_surname}} {{asistencia.alumnoDTO.usuarioDTO.ma_surname}}</td>
         <td>{{ asistencia.claseDTO.date}}</td>
         <td>{{ asistencia.state}}</td>

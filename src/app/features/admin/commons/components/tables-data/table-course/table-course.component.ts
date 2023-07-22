@@ -29,25 +29,26 @@ export class TableCourseComponent implements OnInit {
 
   msjResponse:string='';
   nomSearch:string='';
+  close_modal!: boolean;
 
   constructor(private formBuilder:FormBuilder) { }
-  
+
   ngOnInit(): void {
     this.form();
-  
+
   }
 
   get id(){return this.group.get('id')}
   get code(){return this.group.get('code')}
   get name(){return this.group.get('name')}
   // get descripcion(){return this.group.get('descripcion')}
-  
+
   form(item?:ICourse):void{
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
       code:[item?item.code:''],
       name:[item?item.name:'',[Validators.required,Validators.minLength(1),Validators.maxLength(30)]],
-    
+
   });
 }
 
@@ -64,10 +65,14 @@ export class TableCourseComponent implements OnInit {
      this.modalAdd.hiddenModal();
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id:string){
     this.courseDelete.emit(id)
     this.modalDelete.hiddenModal();
+  }
+
+  getCloseModal(){
+    this.group.reset();
   }
 
 }

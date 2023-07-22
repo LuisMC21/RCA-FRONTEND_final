@@ -40,13 +40,14 @@ export class TableClaseComponent implements OnInit {
   msjResponse: string = '';
   successful: boolean = false;
   nomSearch: string = '';
+  close_modal!: boolean;
 
   paginationData = 'grade';
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
   @ViewChild('modalAsistencias') modalAsistencias!: ModalComponent;
-  
+
   @ViewChild(TeacherAsistenciaComponent) asistenciaModal!: AdminAsistenciaComponent;
 
   constructor(private formBuilder: FormBuilder, private asistenciaService: AsistenciaService) { }
@@ -80,10 +81,8 @@ export class TableClaseComponent implements OnInit {
     if (this.group.valid) {
       this.group.get("periodoDTO")?.setValue(this.periodo);
       this.group.get("docentexCursoDTO")?.setValue(this.courseTeacher);
-      console.log(this.group.value)
       this.claseSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
     if (this.titulo = 'Actualizar Evaluación') {
       this.titulo = 'Agregar Evaluación';
     }
@@ -93,7 +92,7 @@ export class TableClaseComponent implements OnInit {
     this.asistenciaModal.save(IAsistencia);
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.claseDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -108,23 +107,24 @@ export class TableClaseComponent implements OnInit {
     this.group.reset();
   }
 
-  
   openAsistencias(id:string){
     this.obtenerAsistencias(id);
     this.modalAsistencias.showModal();
-    console.log(this.asistencias);
   }
 
   async obtenerAsistencias(id:string){
     try {
-      const response = await this.asistenciaService.getAll('',0,10).toPromise();
-      if(response && response.data){
+      const response = await this.asistenciaService.getAllByClase('', id,0,5).toPromise();
+      if(response && response.data && response.data.list){
         this.asistencias = response.data.list;
       }
     } catch (error) {
-      
+
     }
   }
 
+  getCloseModal(){
+    this.group.reset();
+  }
 
 }
