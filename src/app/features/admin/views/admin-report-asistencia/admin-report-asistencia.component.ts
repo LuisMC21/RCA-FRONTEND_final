@@ -54,7 +54,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   period: string = '';
   period2: string = '';
   anio: string = '';
-
+  successful!:boolean;
 
   @ViewChild('studentSelect') studentSelect!: ElementRef;
   selectedStudentId: string = '';
@@ -156,6 +156,7 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selectStudent(student: IStudent) {
     this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
     this.selectedStudentId = student.id;
+    this.successful = true;
   }
   updateStudentId(event: any) {
     const selectedStudent = this.students.find(student => {
