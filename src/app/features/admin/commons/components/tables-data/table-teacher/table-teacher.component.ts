@@ -91,6 +91,12 @@ export class TableTeacherComponent implements OnInit {
         rol: ['TEACHER']
       })
     });
+
+    // Subscribe to the valueChanges of numdoc control in usuarioDTO
+    this.group.get('usuarioDTO.numdoc')?.valueChanges.subscribe((numdocValue) => {
+      // Update the value of nombreUsuario based on numdocValue
+      this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
+    });
   }
 
   // BUSCAR
