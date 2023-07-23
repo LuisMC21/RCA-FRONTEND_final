@@ -7,7 +7,7 @@
             (studentDelete)="delete($event)"
             (studentSearch)="search($event)"
         [tableName]="tableName" [students]="students"></app-table-student>
-        <app-pagination [paginationData]="paginationData"></app-pagination>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 

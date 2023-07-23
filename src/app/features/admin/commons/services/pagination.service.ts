@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { IPaginationStorage } from 'src/app/core/interfaces/paginationStorage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaginationService {
-
   constructor() {
   }
+
+  pageSelect = 0;
+  sizeSelect = 10;
 
   pagination:IPaginationStorage[]=[
     {title:'parent',page:0,size:5},
@@ -29,31 +31,18 @@ export class PaginationService {
     {title:'asistenciaTc', page:0, size:5}
   ]
 
-  getPage(paginationData:string){
-    let responsePage:number;
-    let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
-    let objectPagination = pagination.filter(pages => pages.title==paginationData);
-    responsePage = objectPagination[0].page;
-    return responsePage;
+  getPage(paginationData: string){
+    return this.pageSelect;
+
   }
 
-  setPage(paginationData:string, page:number){
-     let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
-     let objectPagination = pagination.filter(pages => pages.title==paginationData);
-     objectPagination[0].page = page;
-     localStorage.setItem('pagination',JSON.stringify(pagination))
+  setPage(page:number){
+     this.pageSelect =  page;
   }
-  getSize(paginationData:string){
-    let responseSize:number;
-    let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
-    let objectPagination = pagination.filter(pages => pages.title==paginationData);
-    responseSize = objectPagination[0].size;
-    return responseSize;
+  getSize(paginationData: string){
+    return this.sizeSelect;
   }
-  setSize(paginationData:string, size:number){
-    let pagination:IPaginationStorage[] = JSON.parse(localStorage.getItem('pagination')||JSON.stringify(this.pagination));
-    let objectPagination = pagination.filter(pages => pages.title==paginationData);
-    objectPagination[0].size = size;
-    localStorage.setItem('pagination',JSON.stringify(pagination));
+  setSize(size:number){
+    this.sizeSelect = size;
  }
 }

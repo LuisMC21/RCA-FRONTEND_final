@@ -88,4 +88,7 @@ export class TableGradeComponent implements OnInit {
     this.group.reset();
   }
 
+  titleAgregar(){
+    this.titulo = "Agregar grado";
+  }
 }

@@ -2,12 +2,12 @@
     <app-route></app-route>
     <app-table [title]="'Agregar Año'" [tableName]="tableName">
         <app-table-anio-lectivo
-            (anioDelete)="delete($event)" 
-            (anioSave)="save($event)" 
+            (anioDelete)="delete($event)"
+            (anioSave)="save($event)"
             (anioSearch)="search($event)"
             [anios]="anio" [tableName]="tableName">
-        </app-table-anio-lectivo> 
-        <app-pagination [paginationData]="paginationData"></app-pagination>    
+        </app-table-anio-lectivo>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 <!-- MENSAJE DE OPERACION -->

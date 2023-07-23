@@ -11,63 +11,59 @@ import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 })
 export class AdminAniolectivoComponent implements OnInit {
 
-  anio:IAnioLectivo[]=[];
+  anio: IAnioLectivo[] = [];
 
   tableName: string = 'Año lectivo';
   paginationData = 'anio'
-  msjResponse:string='';
+  msjResponse: string = '';
   successful!: boolean;
-
-  @ViewChild('modalOk') modalOk!:ModalComponent;
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+  @ViewChild('modalOk') modalOk!: ModalComponent;
   constructor(
 
     private anioService: AnioLectivoService,
-    private pagination:PaginationService,
-    ) { }
+    private pagination: PaginationService,
+  ) { }
 
 
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.anioService.getAll('', page,size)
-    .subscribe(response =>{
-      this.anio = response.data.list;
-      console.log(response.data.list)
-    });
+
+    this.getAnios();
 
 
   }
-   //BUSCAR
-   search(nom:string){
+  //BUSCAR
+  search(nom: string) {
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.anioService.getAll(nom,page,size).subscribe(response =>{
+    this.anioService.getAll(nom, page, size).subscribe(response => {
       this.anio = response.data.list;
       console.log(response.data.list)
     })
   }
 
   // AGREGAR - ACTUALIZAR
-  save(anio:IAnioLectivo){
+  save(anio: IAnioLectivo) {
     console.log(anio)
-    if(anio.id==null){
-      this.anioService.add(anio).subscribe(data =>{
+    if (anio.id == null) {
+      this.anioService.add(anio).subscribe(data => {
         console.log(data.message)
-        if(data.successful===true){
+        if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-        }else{
+        } else {
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;
         }
       });
-    }else{
-      this.anioService.update(anio).subscribe(data =>{
-        if(data.successful === true){
+    } else {
+      this.anioService.update(anio).subscribe(data => {
+        if (data.successful === true) {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
-        }else{
+        } else {
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;
         }
@@ -77,9 +73,9 @@ export class AdminAniolectivoComponent implements OnInit {
   }
 
   //ELIMINAR
-  delete(id:string){
-    this.anioService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+  delete(id: string) {
+    this.anioService.delete(id).subscribe(data => {
+      if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       }
@@ -88,6 +84,26 @@ export class AdminAniolectivoComponent implements OnInit {
     this.modalOk.showModal();
   }
 
- refresh(): void { window.location.reload(); }
+  refresh(): void { window.location.reload(); }
 
+  getPage(event: any) {
+    this.page = event;
+    this.getAnios();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAnios();
+  }
+
+  getAnios() {
+    this.anioService.getAll('', this.page, this.size)
+      .subscribe(response => {
+        if (response.successful) {
+          this.anio = response.data.list;
+        } else {
+          this.anio = []
+        }
+      });
+  }
 }

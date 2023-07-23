@@ -33,6 +33,9 @@ export class AdminStudentView implements OnInit {
 
   successful!: boolean;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
   constructor(private studentService:StudentService,
@@ -40,26 +43,19 @@ export class AdminStudentView implements OnInit {
      private apoderadoService:ParentService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.studentService.getAll('', page,size)
-    .subscribe(response =>{
-      this.students = response.data.list;
-    });
+
+    this.getStudents();
 
     this.studentService.getAlumnosCount('')
     .subscribe(count => {
       this.totalStudents = count;
-      console.log(this.totalStudents);
     });
   }
 
 
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.studentService.getAll(nom,page,size).subscribe(response =>{
+    this.studentService.getAll(nom,this.page, this.size).subscribe(response =>{
       this.students = response.data.list;
     })
   }
@@ -69,8 +65,8 @@ export class AdminStudentView implements OnInit {
     // student.apoderado = this.identiParent;
     if(student.id==null){
       this.studentService.add(student).subscribe(data =>{
-        console.log(data.message)
         if(data.successful){
+          this.getStudents();
           this.msjResponse = 'Alumno agregado correctamente'
           this.successful = true;
         }else{
@@ -80,9 +76,8 @@ export class AdminStudentView implements OnInit {
       });
     }else{
       this.studentService.update(student).subscribe(data =>{
-        console.log(student)
-        console.log(data.message)
         if(data.successful){
+          this.getStudents();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
@@ -101,6 +96,7 @@ export class AdminStudentView implements OnInit {
   delete(id:string){
     this.studentService.delete(id).subscribe(data =>{
       if(data.successful===true){
+        this.getStudents();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
@@ -110,9 +106,27 @@ export class AdminStudentView implements OnInit {
     this.modalOk.showModal();
   }
 
+  //
+  refresh(): void { window.location.reload(); }
+  //Lista de students
+  getStudents(){
+    this.studentService.getAll('', this.page, this.size)
+      .subscribe(response =>{
+        if(response.successful){
+          this.students = response.data.list;
+        } else {
+          this.students = [];
+        }
+      });
+  }
+  //pagination
+  getPage(event: any) {
+    this.page = event;
+    this.getStudents();
+  }
 
-
-refresh(): void { window.location.reload(); }
-
-
+  getSize(event: any) {
+    this.size = event;
+    this.getStudents();
+  }
 }

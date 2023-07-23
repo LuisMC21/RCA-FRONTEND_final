@@ -33,9 +33,6 @@ export class ModalResponseComponent implements OnInit {
   }
 
   hiddenModal(){
-    if(this.successful){
-      this.refresh();
-    }
     this.show = false;
   }
 
@@ -43,7 +40,4 @@ export class ModalResponseComponent implements OnInit {
     this.successful = true;
   }
 
-  refresh(){
-    return window.location.reload();
-  }
 }
