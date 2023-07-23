@@ -78,7 +78,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     this.teacher = this.tokenService.getUserId() || '';
 
     this.selectedAnioId = localStorage.getItem('selectedAnioAs') || '',
-      this.selectedPeriodId = localStorage.getItem('selectedPeriodoAs') || '';
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodoAs') || '';
     this.selectedCourseId = localStorage.getItem('selectedCursoAs') || '';
     this.selectedAulaId = localStorage.getItem('selectedAulaAs') || '';
     this.selectedClaseId = localStorage.getItem('selectedClaseAs') || '';
@@ -87,25 +87,12 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.anios = response.data.list;
     });
 
-
-
     if (this.selectedAnioId != '') {
       this.periodoService.getAll(this.selectedAnioId, 0, 10).subscribe(response => {
         this.periods = response.data.list;
       })
 
-      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10)
-        .subscribe(response => {
-          this.asignaciones = response.data.list;
-
-          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
-            const aula = asignacion.aulaDTO;
-            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
-              result.push(aula);
-            }
-            return result;
-          }, []);
-        });
+      this.getAllAulasCursos();
     }
 
     let page = this.pagination.getPage(this.paginationData);
@@ -114,11 +101,32 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.asistencias = response.data.list;
     })
 
+  }
+
+  async getAllAulasCursos() {
+    try {
+      const response = await this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10).toPromise();
+      if(response && response.data && response.data.list){
+        this.asignaciones = response.data.list;
+      }
+  
+      this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+        const aula = asignacion.aulaDTO;
+        if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+          result.push(aula);
+        }
+        return result;
+      }, []);
+    } catch (error) {
+      // Handle any errors that might occur during the API call
+      console.error('Error:', error);
+    }
+  
     if (this.selectedAulaId != '') {
       this.courses = [];
-
       this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
     }
+    
   }
 
   onAnioChange() {
@@ -225,11 +233,9 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(asistencia: IAsistencia) {
-    console.log(asistencia);
+    console.log("Asistencia");
     if (asistencia.id == null) {
       this.asistenciaService.add(asistencia).subscribe(data => {
-        console.log(data.message)
-        console.log(data.data);
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -240,7 +246,6 @@ export class TeacherAsistenciaComponent implements OnInit {
       });
     } else {
       this.asistenciaService.update(asistencia).subscribe(data => {
-        console.log(data)
         if (data.successful === true) {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;

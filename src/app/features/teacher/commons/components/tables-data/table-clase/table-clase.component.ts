@@ -48,7 +48,7 @@ export class TableClaseComponent implements OnInit {
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
   @ViewChild('modalAsistencias') modalAsistencias!: ModalComponent;
 
-  @ViewChild(TeacherAsistenciaComponent) asistenciaModal!: AdminAsistenciaComponent;
+  @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private formBuilder: FormBuilder, private asistenciaService: AsistenciaService) { }
 
@@ -88,8 +88,30 @@ export class TableClaseComponent implements OnInit {
     }
   }
 
-  saveAsistencia(IAsistencia: IAsistencia){
-    this.asistenciaModal.save(IAsistencia);
+  saveAsistencia(asistencia: IAsistencia){
+    console.log("Asistencia");
+    if (asistencia.id == null) {
+      this.asistenciaService.add(asistencia).subscribe(data => {
+        if (data.successful === true) {
+          this.msjResponse = 'Agregado correctamente';
+          this.successful = true;
+        } else {
+          this.msjResponse = 'Ha ocurrido un error :(';
+          this.successful = false;
+        }
+      });
+    } else {
+      this.asistenciaService.update(asistencia).subscribe(data => {
+        if (data.successful === true) {
+          this.msjResponse = 'Cambios actualizados con éxito';
+          this.successful = true;
+        } else {
+          this.msjResponse = 'Ha ocurrido un error :v';
+          this.successful = false;
+        }
+      })
+    }
+    this.modalOk.showModal();
   }
 
   // ELIMINAR
@@ -108,6 +130,7 @@ export class TableClaseComponent implements OnInit {
   }
 
   openAsistencias(id:string){
+    this.asistencias = [];
     this.obtenerAsistencias(id);
     this.modalAsistencias.showModal();
   }

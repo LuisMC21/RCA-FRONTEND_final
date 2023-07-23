@@ -9,7 +9,7 @@
 
 <!-- MODAL AGREGAR -->
 <app-modal [title]="titulo" #modalAdd (close_modal)="getCloseModal()">
-    <form [formGroup]="group" class="form" (ngSubmit)="save()">
+    <form [formGroup]="group" class="form">
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'Apellido Paterno'"></app-label-field>
