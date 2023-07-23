@@ -64,6 +64,7 @@ export class TableStudentComponent implements OnInit {
   ];
   head = ["CODIGO", "APELLIDOS", "NOMBRE", "DOC. de IDENTIDAD", "CORREO", "TELÉFONO", "VACUNA", "SEGURO", "CONTACTO", "ACCIONES"]
   msjDeleteok: string = '';
+  nomSearch: string = '';
 
   constructor(private renderer2: Renderer2,
     private formBuilder: FormBuilder,

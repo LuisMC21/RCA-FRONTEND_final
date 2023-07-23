@@ -67,7 +67,7 @@ export class TableSeccionComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.sectionDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -80,7 +80,7 @@ export class TableSeccionComponent implements OnInit {
     if(this.titulo == 'Actualizar Sección'){
       this.titulo = 'Agregar Sección'
     }
-    this.group.reset(); 
+    this.group.reset();
   }
 
 }
