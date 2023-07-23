@@ -24,6 +24,7 @@ export class TableTeacherComponent implements OnInit {
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
 
   group!: FormGroup;
+  nomSearch: string = '';
 
   optionsDocumentType = [
     { title: "DNI", value: 'DNI' },
@@ -91,7 +92,7 @@ export class TableTeacherComponent implements OnInit {
       })
     });
   }
-  
+
   // BUSCAR
   search(nom: string) {
     this.teacherSearch.emit(nom);
@@ -109,7 +110,7 @@ export class TableTeacherComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.teacherDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -120,8 +121,8 @@ export class TableTeacherComponent implements OnInit {
       this.titulo = "Agregar Docente";
     }
     console.log(this.group.value);
-    this.group.reset(); 
-    
+    this.group.reset();
+
   }
 
 

@@ -7,8 +7,8 @@ import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 
 @Component({
   selector: 'app-admin-teacher',
-  templateUrl: 
-  
+  templateUrl:
+
     './admin-teacher.view.html',
   styleUrls: ['./admin-teacher.view.scss']
 })
@@ -58,12 +58,11 @@ export class AdminTeacherView implements OnInit {
   save(teacher:ITeacher){
     if(teacher.id==null){
       this.teacherService.add(teacher).subscribe(data =>{
-        console.log(data.message)
         if(data.message==='ok'){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = 'Error, el docente ya existe';
+          this.msjResponse = data.message;
           this.successful=false;
         }
       });
@@ -82,7 +81,7 @@ export class AdminTeacherView implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id:string){
     this.teacherService.delete(id).subscribe(data =>{
       if(data.message==='ok'){
