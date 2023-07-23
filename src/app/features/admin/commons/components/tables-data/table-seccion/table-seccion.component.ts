@@ -14,7 +14,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  titulo:string = 'Agregar sección';
+  titulo:string = 'Agregar Sección';
 
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
@@ -42,7 +42,7 @@ export class TableSeccionComponent implements OnInit {
 
   form(item?: ISeccion): void {
     if(item){
-      this.titulo = 'Actualizar sección';
+      this.titulo = 'Actualizar Sección';
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -62,8 +62,8 @@ export class TableSeccionComponent implements OnInit {
       this.sectionSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    if(this.titulo == 'Actualizar sección'){
-      this.titulo = 'Agregar sección'
+    if(this.titulo == 'Actualizar Sección'){
+      this.titulo = 'Agregar Sección'
     }
   }
 
@@ -77,8 +77,8 @@ export class TableSeccionComponent implements OnInit {
   refresh(): void { window.location.reload(); }
 
   reset():void{
-    if(this.titulo == 'Actualizar sección'){
-      this.titulo = 'Agregar sección'
+    if(this.titulo == 'Actualizar Sección'){
+      this.titulo = 'Agregar Sección'
     }
     this.group.reset(); 
   }

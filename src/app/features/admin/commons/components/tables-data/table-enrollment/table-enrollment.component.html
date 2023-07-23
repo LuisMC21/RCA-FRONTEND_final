@@ -3,43 +3,41 @@
 
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
-        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
     </div>
 </div>
 <app-modal #modalAdd>
     <h1 class="text-center text-3xl">{{ titulo }}</h1>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-center">
+    <form [formGroup]="group" (ngSubmit)="save()">
         <div class="form__field">
-            <div class="field w-1/2 flex justify-center items-center">
-
+            <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field>
-                    
-                <input formControlName="date" class="input" type="date" required></app-field>
-
+                    <input formControlName="date" class="input" type="date" required>
+                </app-field>
             </div>
-            <div class="field w-1/2">
+            <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
                 <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO" required>
                         <option *ngFor="let aula of aulas" [ngValue]="aula" [selected]="aula.id === item.aulaDTO.id">
                             {{aula.gradoDTO.name+ "-"+aula.seccionDTO.name }}</option>
                     </select></app-field>
             </div>
-            <div class="field w-1/2">
+            <div class="field">
                 <app-label-field [title]="'**Año Lectivo'"></app-label-field>
                 <app-field><select id="anio" class="input" name="anio" formControlName="anioLectivoDTO">
                         <option *ngFor="let anio of anioL" [ngValue]="anio"
                             [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                     </select></app-field>
             </div>
-            <div class="field w-1/2" formGroupName="alumnoDTO">
-                <div class="field w-1/2"></div>
-                <app-label-field [title]="'**Buscar Alumno'"></app-label-field>
+            <div class="field" formGroupName="alumnoDTO">
+                <div class="field"></div>
+                <app-label-field [title]="'**Alumno'"></app-label-field>
                 <app-field> <input formControlName="name" class="input" type="text"
-                        placeholder="DNI, nombre o apellidos" #searchStudent
+                        placeholder="Buscar por DNI, nombre o apellidos" #searchStudent
                         (input)="searchStudents(searchStudent.value)">
                 </app-field>
-                <div class="field w-1/2">
+                <div class="field">
                     <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
                         <span (click)="selectStudent(student)" *ngFor="let student of alumno"
                             class="block w-1/2 h-full">
@@ -47,7 +45,8 @@
                             student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
                         </span>
                     </app-search>
-                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent" class="newStudent">
+                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent"
+                        class="newStudent">
                         Seleccionar
                     </span>
                 </div>
@@ -55,10 +54,12 @@
             </div>
         </div>
         <div class="flex justify-center py-3 w-full">
-            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 mx-2 h-9 rounded-2xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8" (click)="modalAdd.hiddenModal(); reset();"></app-btn-cancel>
+            <button type="submit" [disabled]="group.invalid"
+                class="field__input--button w-1/4 mx-2 h-9 rounded-2xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8"
+                (click)="modalAdd.hiddenModal(); reset();"></app-btn-cancel>
         </div>
-        
+
     </form>
 
 </app-modal>
@@ -81,7 +82,8 @@
             <td>{{item.aulaDTO.gradoDTO.name + "-" + item.aulaDTO.seccionDTO.name}}</td>
 
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"(click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"
+                    (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
 

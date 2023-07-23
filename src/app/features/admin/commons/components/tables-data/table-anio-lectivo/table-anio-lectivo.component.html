@@ -5,11 +5,12 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 
 <!-- MODAL AGREGAR -->
-<app-modal [title]="titulo" #modalAdd>
+<app-modal  #modalAdd>
+    <h1 class="text-center text-3xl">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
@@ -40,11 +41,11 @@
             <td>{{item.name}}</td>
             <!-- <td class="table__description">{{item.descripcion}}</td> -->
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
-            <app-modal [title]="'Eliminar apoderado?'" #modalDelete>
+            <app-modal [title]="'Eliminar Año Lectivo?'" #modalDelete>
                 <div class="flex flex-col items-start px-4">
                     <label><b>Codigo: </b>{{item.code}}</label>
                     <label><b>NombrE: </b>{{item.name}}</label>

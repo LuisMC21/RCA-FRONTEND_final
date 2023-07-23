@@ -173,7 +173,18 @@ export class TableStudentComponent implements OnInit {
   search(nom: string) {
     this.studentSearch.emit(nom);
   }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Alumno";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
 
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Alumno";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
@@ -212,9 +223,6 @@ export class TableStudentComponent implements OnInit {
   }
 
   reset() {
-    if (this.titulo == "Actualizar Alumno") {
-      this.titulo = "Agregar Alumno";
-    }
 
     this.group.reset()
   }
