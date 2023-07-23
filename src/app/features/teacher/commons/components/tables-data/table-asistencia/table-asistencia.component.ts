@@ -64,7 +64,6 @@ export class TableAsistenciaComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
-      console.log(this.group.value)
       this.asistenciaSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();

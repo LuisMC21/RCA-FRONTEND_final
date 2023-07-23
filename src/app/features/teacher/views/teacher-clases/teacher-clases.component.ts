@@ -73,7 +73,7 @@ export class TeacherClasesComponent implements OnInit {
     this.teacher = this.tokenService.getUserId();
 
     this.selectedAnioId = localStorage.getItem('selectedAnio') || '',
-      this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
+    this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
     this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
     this.selectedAulaId = localStorage.getItem('selectedAula') || '';
 
@@ -86,30 +86,7 @@ export class TeacherClasesComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
-        .subscribe(response => {
-          this.asignaciones = response.data.list;
-
-          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
-            const aula = asignacion.aulaDTO;
-            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
-              result.push(aula);
-            }
-            return result;
-          }, []);
-        });
-    }
-
-    if (this.selectedAulaId != '' && this.selectedAnioId != '') {
-      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response => {
-        this.courses = response.data;
-      })
-    }
-
-    if (this.selectedAulaId != '') {
-      this.courses = [];
-
-      this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
+      this.getAllAulasCursos();
     }
 
     if (this.selectedPeriodId != '') {
@@ -127,8 +104,33 @@ export class TeacherClasesComponent implements OnInit {
     this.claseService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
+  }
 
+  async getAllAulasCursos() {
+    try {
+      const response = await this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10).toPromise();
+      if(response && response.data && response.data.list){
+        this.asignaciones = response.data.list;
+      }
+  
+      this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+        const aula = asignacion.aulaDTO;
+        if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+          result.push(aula);
+        }
+        return result;
+      }, []);
+    } catch (error) {
+      // Handle any errors that might occur during the API call
+      console.error('Error:', error);
+    }
+  
+    if (this.selectedAulaId != '') {
+      this.courses = [];
 
+      this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
+    }
+    
   }
 
   onAnioChange() {

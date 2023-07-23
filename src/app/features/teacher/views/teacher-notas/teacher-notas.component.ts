@@ -95,24 +95,7 @@ export class TeacherNotasComponent implements OnInit {
         this.periods = response.data.list;
       })
 
-      this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,5)
-        .subscribe(response => {
-          this.asignaciones = response.data.list;
-
-          this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
-            const aula = asignacion.aulaDTO;
-            if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
-              result.push(aula);
-            }
-            return result;
-          }, []);
-        });
-    }
-
-    if(this.selectedAulaId != '' && this.selectedAnioId != ''){
-      this.courseService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
-        this.courses = response.data;
-      })
+      this.getAllAulasCursos();
     }
 
     let page = this.pagination.getPage(this.paginationData);
@@ -122,12 +105,32 @@ export class TeacherNotasComponent implements OnInit {
       console.log(response);
       this.evaluaciones = response.data.list;
     })
+  }
 
+  async getAllAulasCursos() {
+    try {
+      const response = await this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10).toPromise();
+      if(response && response.data && response.data.list){
+        this.asignaciones = response.data.list;
+      }
+  
+      this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+        const aula = asignacion.aulaDTO;
+        if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+          result.push(aula);
+        }
+        return result;
+      }, []);
+    } catch (error) {
+      // Handle any errors that might occur during the API call
+      console.error('Error:', error);
+    }
+  
     if (this.selectedAulaId != '') {
       this.courses = [];
-
       this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
     }
+    
   }
 
   onAnioChange(){
@@ -248,7 +251,7 @@ export class TeacherNotasComponent implements OnInit {
     const asignacionesFiltradas: ICourseTeacher[] = this.asignaciones.filter((asignacion: ICourseTeacher) => {
       return asignacion.aulaDTO.id === idAulaSeleccionada;
     });
-  
+
     const cursosUnicos: ICourse[] = asignacionesFiltradas.reduce((result: ICourse[], asignacion: ICourseTeacher) => {
       const curso = asignacion.cursoDTO;
       if (!result.some((cursoUnico: ICourse) => cursoUnico.id === curso.id)) {
@@ -256,7 +259,7 @@ export class TeacherNotasComponent implements OnInit {
       }
       return result;
     }, []);
-  
+
     return cursosUnicos;
   }
 
