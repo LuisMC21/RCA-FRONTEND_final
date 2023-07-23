@@ -21,8 +21,8 @@ export class TeacherService {
   }
 
    //Listar Docente
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/docente?page=${page}&size=${size}`);
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/docente?filter=${filter}&page=${page}&size=${size}`);
   }
 
   //Agregar docente

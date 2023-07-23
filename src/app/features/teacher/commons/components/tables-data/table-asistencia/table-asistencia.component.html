@@ -8,7 +8,7 @@
 </div>
 
 <!-- MODAL AGREGAR -->
-<app-modal [title]="titulo" #modalAdd>
+<app-modal [title]="titulo" #modalAdd (close_modal)="getCloseModal()">
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
@@ -25,13 +25,17 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'Estado'"></app-label-field>
-                <app-field><input formControlName="state" class="input" type="text"></app-field>
+                <app-field><select formControlName="state" class="input" type="text">
+                    <option value="" disabled selected>-- Seleccione --</option>
+                    <option *ngFor="let tipoasistencia of tiposAsistencia" [value]="tipoasistencia">
+                      {{ tipoasistencia }}
+                </select></app-field>
             </div>
         </div>
         <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
                 class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Agregar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>

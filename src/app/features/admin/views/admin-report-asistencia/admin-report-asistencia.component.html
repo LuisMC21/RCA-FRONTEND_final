@@ -14,7 +14,7 @@
 
       <div class="field">
         <app-search *ngIf="nameStudent !== ''">
-          <span (click)="selectStudent(student)" (click)="searchStudentModal.hiddenModal()" *ngFor="let student of students" class=" block w-full h-full">
+          <span (click)="selectStudent(student)" (click)="searchStudentModal.cancelar()" *ngFor="let student of students" class=" block w-full h-full">
             {{ student.usuarioDTO.numdoc+'-'+student.usuarioDTO.pa_surname + ' ' + student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
           </span>
           <span *ngIf="students && students.length === 0" class="newStudent">

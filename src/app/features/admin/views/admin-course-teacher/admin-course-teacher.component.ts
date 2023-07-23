@@ -33,7 +33,7 @@ export class AdminCourseTeacherComponent implements OnInit {
   paginationDataCourse = 'course';
   paginationDataAnio='anio';
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -67,7 +67,7 @@ export class AdminCourseTeacherComponent implements OnInit {
         this.teachers = response.data.list;
       });
 
-  
+
     this.courseService.getAll('', page, size)
       .subscribe(response => {
         console.log(response);
@@ -122,7 +122,7 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.courseTeacherService.delete(id).subscribe(data => {
 

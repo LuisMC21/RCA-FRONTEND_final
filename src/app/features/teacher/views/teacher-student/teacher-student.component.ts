@@ -21,9 +21,10 @@ export class TeacherStudentComponent implements OnInit {
 
   anios: IAnioLectivo[] = [];
   asignaciones: ICourseTeacher[] = [];
+  aulas: IAula[] = [];
   students: IStudent[] = [];
   route = 'Estudiantes';
-  
+
 
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
@@ -35,7 +36,7 @@ export class TeacherStudentComponent implements OnInit {
 
   title!: string;
   teacher = '';
-  paginationData:string ='course';
+  paginationData: string = 'student';
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -55,36 +56,64 @@ export class TeacherStudentComponent implements OnInit {
     this.teacher = this.tokenService.getUserId() || '';
 
     this.selectedAnioId = localStorage.getItem('selectedAnioE') || '',
-    this.selectedAulaId = localStorage.getItem('selectedAulaE') || '';
+      this.selectedAulaId = localStorage.getItem('selectedAulaE') || '';
 
-    this.anioService.getAll('', 0, 10).subscribe(response=>{
+    this.anioService.getAll('', 0, 10).subscribe(response => {
       console.log(response)
       this.anios = response.data.list;
     });
 
+    console.log(this.selectedAulaId);
+    console.log(this.selectedAnioId);
+
     let page = this.pagination.getPage(this.paginationData);
     let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,page,size).subscribe(response =>{
-      this.asignaciones = response.data.list;
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, page, size)
+      .subscribe(response => {
+        console.log(response);
+        this.asignaciones = response.data.list;
+
+        this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+          const aula = asignacion.aulaDTO;
+          if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+            result.push(aula);
+          }
+          return result;
+        }, []);
+      });
+
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, page, size).subscribe(response => {
+      console.log(response);
+      this.students = response.data.list;
     })
 
-    if(this.selectedAnioId != '' && this.selectedAulaId != ''){
-      this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, '',0,5).subscribe(response=>{
-        this.students = response.data.list;
-      })
-    }
   }
 
-  onAnioChange(){
+  onAnioChange() {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,0,5).subscribe(response =>{
-      this.asignaciones = response.data.list;
+    this.aulas = [];
+
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
+      .subscribe(response => {
+
+        this.asignaciones = response.data.list;
+
+        this.aulas = this.asignaciones.reduce((result: IAula[], asignacion: ICourseTeacher) => {
+          const aula = asignacion.aulaDTO;
+          if (!result.some((aulaUnica: IAula) => aulaUnica.gradoDTO.id === aula.gradoDTO.id && aulaUnica.seccionDTO.id === aula.seccionDTO.id)) {
+            result.push(aula);
+          }
+          return result;
+        }, []);
+      });
+
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, 0, 5).subscribe(response => {
+      this.students = response.data.list;
     })
 
     localStorage.setItem('selectedAnioE', this.selectedAnioId);
-    localStorage.removeItem('selectedAulaE');
     this.selectedAulaId = '';
     this.students = [];
   }
@@ -93,63 +122,69 @@ export class TeacherStudentComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.studentService.getAllAnioCursoAula('',this.selectedAnioId, this.selectedAulaId, '',0,5).subscribe(response=>{
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, 0, 5).subscribe(response => {
       this.students = response.data.list;
     })
 
-    localStorage.setItem('selectedAulaE', this.selectedAulaId); 
+    localStorage.setItem('selectedAulaE', this.selectedAulaId);
   }
 
-  search(name: string){
-
+  search(name: string) {
+    let page = this.pagination.getPage(this.paginationData);
+    let size = this.pagination.getSize(this.paginationData);
+    this.studentService.getAllAnioCursoAula(name, this.selectedAnioId, this.selectedAulaId, page, size).subscribe(response => {
+      if (response && response.data && response.data.list) {
+        this.students = response.data.list;
+      }
+    })
   }
 
-  redirectToEstudiantes(){
+  redirectToEstudiantes() {
     const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
-      
-      this.http.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-      }).subscribe(
-        (response) => {
-          // Crear una URL del objeto Blob
-          const fileURL = URL.createObjectURL(response);
+    const url = `http://localhost:8080/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
 
-          // Abrir el archivo PDF en una nueva pestaña o ventana
-          window.open(fileURL);
-        },
-        (error) => {
-          // Manejar cualquier error que ocurra durante la solicitud
-          console.error(error);
-        }
-      );
+    this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    }).subscribe(
+      (response) => {
+        // Crear una URL del objeto Blob
+        const fileURL = URL.createObjectURL(response);
+
+        // Abrir el archivo PDF en una nueva pestaña o ventana
+        window.open(fileURL);
+      },
+      (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error(error);
+      }
+    );
   }
 
-  redirecToApoderados(){
+  redirecToApoderados() {
     const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
-      
-      this.http.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-      }).subscribe(
-        (response) => {
-          // Crear una URL del objeto Blob
-          const fileURL = URL.createObjectURL(response);
+    const url = `http://localhost:8080/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
 
-          // Abrir el archivo PDF en una nueva pestaña o ventana
-          window.open(fileURL);
-        },
-        (error) => {
-          // Manejar cualquier error que ocurra durante la solicitud
-          console.error(error);
-        }
-      );
+    this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    }).subscribe(
+      (response) => {
+        // Crear una URL del objeto Blob
+        const fileURL = URL.createObjectURL(response);
+
+        // Abrir el archivo PDF en una nueva pestaña o ventana
+        window.open(fileURL);
+      },
+      (error) => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error(error);
+      }
+    );
   }
 
 }
