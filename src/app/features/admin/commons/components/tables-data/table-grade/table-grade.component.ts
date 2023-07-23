@@ -24,6 +24,7 @@ export class TableGradeComponent implements OnInit {
 
   head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
+  close_modal!: boolean;
 
   msjResponse: string = '';
   nomSearch: string = '';
@@ -53,6 +54,7 @@ export class TableGradeComponent implements OnInit {
 
   //BUSCAR
   search(name: string) {
+    console.log(name);
     this.gradeSearch.emit(name);
   }
 
@@ -82,4 +84,8 @@ export class TableGradeComponent implements OnInit {
     }
     this.group.reset();
   }
+  getCloseModal(){
+    this.group.reset();
+  }
+
 }

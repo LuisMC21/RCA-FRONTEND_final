@@ -45,6 +45,7 @@ export class TableStudentComponent implements OnInit {
   @ViewChild('searchParentModal') searchParentModal!: SearchComponent;
   @ViewChild('apoderadoSelect') studentSelect!: ElementRef;
   selectedApoderadoId: string = '';
+  nomSearch: string = '';
 
   group!: FormGroup;
   optionsDocumentType = [
@@ -64,7 +65,6 @@ export class TableStudentComponent implements OnInit {
   ];
   head = ["CODIGO", "APELLIDOS", "NOMBRE", "DOC. de IDENTIDAD", "CORREO", "TELÉFONO", "VACUNA", "SEGURO", "CONTACTO", "ACCIONES"]
   msjDeleteok: string = '';
-  nomSearch: string = '';
 
   constructor(private renderer2: Renderer2,
     private formBuilder: FormBuilder,
@@ -171,21 +171,11 @@ export class TableStudentComponent implements OnInit {
     })
   }
   // BUSCAR
-  search(nom: string) {
-    this.studentSearch.emit(nom);
-  }
-  onUpdateButtonClick(item: any) {
-    this.titulo = "Actualizar Alumno";
-    this.form(item); // Call the form() function if needed for your logic
-    this.modalAdd.showModal();
+  search(nomSearch: string) {
+    console.log(nomSearch)
+    this.studentSearch.emit(nomSearch);
   }
 
-  // Function to handle when the "Add" button is clicked
-  onAddButtonClick() {
-    this.titulo = "Agregar Alumno";
-    // Any other logic related to the "Add" button can be added here
-    this.modalAdd.showModal();
-  }
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
@@ -193,7 +183,6 @@ export class TableStudentComponent implements OnInit {
       usuarioDTOFormGroup.addControl('rol', this.formBuilder.control('STUDENT'));
       usuarioDTOFormGroup.addControl('gra_inst', this.formBuilder.control('ESTUDIANTE'));
 
-      console.log(this.group)
       this.studentSave.emit(this.group.value)
     }
 
@@ -224,6 +213,9 @@ export class TableStudentComponent implements OnInit {
   }
 
   reset() {
+    if (this.titulo == "Actualizar Alumno") {
+      this.titulo = "Agregar Alumno";
+    }
 
     this.group.reset()
   }
@@ -234,6 +226,7 @@ export class TableStudentComponent implements OnInit {
 
   getCloseModal(){
     this.group.reset();
+    this.form();
   }
 
   togglePasswordVisibility() {

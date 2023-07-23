@@ -14,7 +14,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  titulo:string = 'Agregar Sección';
+  titulo:string = 'Agregar sección';
 
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
@@ -25,6 +25,7 @@ export class TableSeccionComponent implements OnInit {
 
   msjResponse: string = '';
   nomSearch: string = '';
+  close_modal!: boolean;
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
@@ -42,7 +43,7 @@ export class TableSeccionComponent implements OnInit {
 
   form(item?: ISeccion): void {
     if(item){
-      this.titulo = 'Actualizar Sección';
+      this.titulo = 'Actualizar sección';
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -62,8 +63,8 @@ export class TableSeccionComponent implements OnInit {
       this.sectionSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    if(this.titulo == 'Actualizar Sección'){
-      this.titulo = 'Agregar Sección'
+    if(this.titulo == 'Actualizar sección'){
+      this.titulo = 'Agregar sección'
     }
   }
 
@@ -71,15 +72,18 @@ export class TableSeccionComponent implements OnInit {
   delete(id: string) {
     this.sectionDelete.emit(id)
     this.modalDelete.hiddenModal();
-    console.log(this.group.get('usuarioDTO.name'));
   }
 
   refresh(): void { window.location.reload(); }
 
   reset():void{
-    if(this.titulo == 'Actualizar Sección'){
-      this.titulo = 'Agregar Sección'
+    if(this.titulo == 'Actualizar sección'){
+      this.titulo = 'Agregar sección'
     }
+    this.group.reset();
+  }
+
+  getCloseModal(){
     this.group.reset();
   }
 

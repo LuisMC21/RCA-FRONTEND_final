@@ -26,10 +26,10 @@ export class AdminClassroomComponent implements OnInit {
   paginationDataSection = 'section';
 
   msjResponse: string = '';
-  successful: boolean = false;
+  successful!: boolean;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
-  
+
 
   constructor(private classroomService: AulaService,
     private pagination: PaginationService,
@@ -78,11 +78,8 @@ export class AdminClassroomComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(classroom: IAula) {
-    console.log(classroom);
     if (classroom.id == null) {
       this.classroomService.add(classroom).subscribe(data => {
-        console.log(data.message)
-        console.log(data.data);
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -105,7 +102,7 @@ export class AdminClassroomComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.classroomService.delete(id).subscribe(data => {
 
@@ -113,6 +110,8 @@ export class AdminClassroomComponent implements OnInit {
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
       }
+      this.successful === true;
+
     });
     this.modalOk.showModal();
   }

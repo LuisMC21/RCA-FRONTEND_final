@@ -32,6 +32,7 @@ table{
 .field__input--button{
     background-color: var(--const-color-blue);
     padding: 0 1.4rem;
+    width: max-content;
     &:disabled{
         background-color: rgb(126, 162, 229);
     }
@@ -49,6 +50,18 @@ table{
     align-items: center;
     font-weight: 500;
 }
+.form{
+    width: 70vw;
+    min-width: 100px;
+}
+.form__field{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0.2rem 0.4rem;
+}
+
+
+//modal alumnos
 
 .table__search, .table__search input{
     font-size: 0.82rem;

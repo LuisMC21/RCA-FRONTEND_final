@@ -20,13 +20,22 @@ export class AsistenciaService {
     return this.http.get<IApiResponse>(`${environment.api}/asistencia/apac?filter=${nom}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
   //Listar Asistencia
-  getAll(nom?: string, page?: number, size?: number): Observable<IApiResponse> {
-    return this.http.get<IApiResponse>(`${environment.api}/asistencia?page=${page}&size=${size}`);
+  getAll(filter?: string, page?: number, size?: number): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia?filter=${filter}&page=${page}&size=${size}`);
+  }
+
+  getAllByClase(filter?: string, id_clase?:String, page?: number, size?: number): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asbyclase?filter=${filter}&id_clase=${id_clase}&page=${page}&size=${size}`);
   }
 
   getAllPeriodoAlumnoCurso(filter?: string, page?: number, size?: number, periodo?: string, alumno?: string, curso?: string): Observable<IApiResponse> {
     return this.http.get<IApiResponse>(`${environment.api}/asistencia/asfc?filter=${filter}&page=${page}&size=${size}&periodo=${periodo}&alumno=${alumno}&curso=${curso}`);
   }
+
+  getAllPeriodoAulaCursoClase(filter?: string, page?: number, size?: number, periodo?: string, aula?: string, curso?: string, clase?:string): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/asbypacc?filter=${filter}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}&clase=${clase}`);
+  }
+
 
   //Agregar asistencia
   add(asistencia?: IAsistencia): Observable<IApiResponse> {

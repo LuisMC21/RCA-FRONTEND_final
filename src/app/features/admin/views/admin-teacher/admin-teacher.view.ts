@@ -19,7 +19,7 @@ export class AdminTeacherView implements OnInit {
   anios: IAnioLectivo[]=[];
   paginationData:string='teacher';
   msjResponse:string='';
-  successful: boolean=false;
+  successful!: boolean;
   totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
@@ -58,18 +58,19 @@ export class AdminTeacherView implements OnInit {
   save(teacher:ITeacher){
     if(teacher.id==null){
       this.teacherService.add(teacher).subscribe(data =>{
-        if(data.message==='ok'){
+        console.log(data.message)
+        if(data.successful){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = data.message;
+          this.msjResponse = 'Error, el docente ya existe';
           this.successful=false;
         }
       });
     }else{
       this.teacherService.update(teacher).subscribe(data =>{
-        console.log(data)
-        if(data.message === 'ok'){
+        console.log(teacher.usuarioDTO.tel)
+        if(data.successful){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
@@ -84,9 +85,11 @@ export class AdminTeacherView implements OnInit {
   //ELIMINAR
   delete(id:string){
     this.teacherService.delete(id).subscribe(data =>{
-      if(data.message==='ok'){
+      if(data.successful){
         this.msjResponse = 'Eliminado correctamente';
         this.successful=true;
+      } else {
+        this.successful = true;
       }
     });
     this.modalOk.showModal();

@@ -23,7 +23,10 @@ export class PaginationService {
     {title:'courseTeacher',page:0,size:5},
     {title:'role',page:0,size:5},
     {title:'classroom',page:0,size:5},
-    {title:'evaluacion',page:0,size:5}
+    {title:'evaluacion',page:0,size:5},
+    {title:'clase',page:0,size:5},
+    {title:'notas', page:0, size:5},
+    {title:'asistenciaTc', page:0, size:5}
   ]
 
   getPage(paginationData:string){

@@ -14,7 +14,7 @@ export class SeccionService {
   constructor(private http:HttpClient) { }
   //Listar
   getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/filter=${filter}&seccion?page=${page}&size=${size}`);
+    return this.http.get<IApiResponse>(`${environment.api}/seccion?filter=${filter}&page=${page}&size=${size}`);
   }
 
   //Agregar

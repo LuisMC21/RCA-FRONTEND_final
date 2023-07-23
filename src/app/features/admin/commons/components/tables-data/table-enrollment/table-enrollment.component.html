@@ -1,20 +1,20 @@
 <legend class="tabla__legend">Alumnos matriculados</legend>
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
-
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
-        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
     </div>
 </div>
 <app-modal #modalAdd>
     <h1 class="text-center text-3xl">{{ titulo }}</h1>
-    <form [formGroup]="group" (ngSubmit)="save()">
+ 
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'**Fecha'"></app-label-field>
-                <app-field>
-                    <input formControlName="date" class="input" type="date" required>
-                </app-field>
+                <app-field><input formControlName="date" class="input" type="date" required></app-field>
+
             </div>
             <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
@@ -30,36 +30,34 @@
                             [selected]="anio.id === item.anioLectivoDTO.id">{{anio.name}}</option>
                     </select></app-field>
             </div>
-            <div class="field" formGroupName="alumnoDTO">
+            <div class="form__field" formGroupName="alumnoDTO">
                 <div class="field"></div>
                 <app-label-field [title]="'**Alumno'"></app-label-field>
                 <app-field> <input formControlName="name" class="input" type="text"
-                        placeholder="Buscar por DNI, nombre o apellidos" #searchStudent
+                        placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
                         (input)="searchStudents(searchStudent.value)">
                 </app-field>
                 <div class="field">
                     <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
                         <span (click)="selectStudent(student)" *ngFor="let student of alumno"
-                            class="block w-1/2 h-full">
+                            class="block w-full h-full">
                             {{ student.usuarioDTO.numdoc + ' - ' + student.usuarioDTO.pa_surname + ' ' +
                             student.usuarioDTO.ma_surname + ' ' + student.usuarioDTO.name }}
                         </span>
                     </app-search>
-                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent"
-                        class="newStudent">
+                    <span class="badge badge-pill badge-info btn" *ngIf="alumno.length === 0 && existsStudent" class="newStudent">
                         Seleccionar
                     </span>
                 </div>
 
             </div>
         </div>
-        <div class="flex justify-center py-3 w-full">
+        <div class="btns flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/4 mx-2 h-9 rounded-2xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel w-1/4 mx-2 h-8"
-                (click)="modalAdd.hiddenModal(); reset();"></app-btn-cancel>
+                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
-
+        
     </form>
 
 </app-modal>
@@ -82,8 +80,7 @@
             <td>{{item.aulaDTO.gradoDTO.name + "-" + item.aulaDTO.seccionDTO.name}}</td>
 
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"
-                    (click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"(click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar '"></app-btn-delete>
             </td>
 
@@ -94,7 +91,7 @@
                     <label><b>Nombre: </b>{{item.alumnoDTO.usuarioDTO.name}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

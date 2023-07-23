@@ -1,7 +1,7 @@
 <div class="table__search bg-gray-200 p-3 flex justify-end items-center">
     <label class="mx-4"><b>{{tableName}}</b></label>
     <div class="rounded-3xl bg-slate-50 w-1/3 flex px-4 py-2" #prueba>
-        <i class="bi bi-search">  </i>
+        <i class="bi bi-search"> </i>
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nom" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar por nombre">
     </div>
@@ -10,14 +10,13 @@
 
 <!-- MODAL AGREGAR -->
 
-<app-modal [title]="'Agregar apoderado'" #modalAdd>
+<app-modal [title]="'Agregar apoderado'" (close_modal)="getCloseModal()" #modalAdd>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
                 <app-label-field [title]="'**Código'"></app-label-field>
                 <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="code?.invalid && (code?.dirty || code?.touched)"
+                <app-required-field class="px-2" *ngIf="code?.invalid && (code?.dirty || code?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
         <div class="field">
@@ -42,132 +41,58 @@
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Correo'"></app-label-field>
-                <app-field><input formControlName="email" class="input" type="text"></app-field>
+                <app-label-field [title]="'Correo'"></app-label-field>
+                <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
+                    [text]="'**El campo es de tipo correo'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Teléfono'"></app-label-field>
-                <app-field><input formControlName="tel" class="input" type="text"></app-field>
+                <app-label-field [title]="'Teléfono'"></app-label-field>
+                <app-field><input formControlName="tel" class="input" type="number" inputmode="numeric" min="100000000"
+                        max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
+                    [text]="'**El campo requiere 9 caracteres numéricos'"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'**Tipo de documento'"></app-label-field>
-                <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="type_doc?.invalid && (type_doc?.dirty || type_doc?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-
-            <!-- Tipo de documento con opciones -->
-            <!-- <div class="field">
-                <app-label-field [title]="'Tipo de documento'"></app-label-field>
-                <select formControlName="type_doc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}
-                    </option>
-                </select>
-            </div> -->
-            <div class="field">
-                <app-label-field [title]="'**Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-            <!-- <div class="field">
-                <app-label-field [title]="'Estudios'"></app-label-field>
-                <app-field><input formControlName="gra_inst" class="input" type="text"></app-field>
+                <app-field>
+                    <select formControlName="type_doc" class="input" type="string">
+                        <option value="" disabled selected>-- Seleccione --</option>
+                        <option *ngFor="let tipodocumento of tiposdocumentos" [value]="tipodocumento">
+                            {{ tipodocumento }}
+                        </option>
+                    </select>
+                </app-field>
                 <app-required-field class="px-2"
-                    *ngIf="gra_inst?.invalid && (gra_inst?.dirty || gra_inst?.touched)"
-                    [text]="'El campo es requerio'"></app-required-field>
-            </div> -->
-            <div class="field">
-                <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
-                <app-field><input formControlName="birthdate" class="input" type="date" ></app-field>
-                <app-required-field class="px-2"></app-required-field>
-            </div>
-        </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" 
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
-    </form>
-</app-modal>
-
-
-
-<!-- ------------------------------------------------- -->
-
-
-<!-- Actualizar apoderado -->
-<app-modal [title]="'Actualizar apoderado'" #modalUpdate>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'**Código'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="text" readonly ></app-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
-                <app-field><input formControlName="pa_surname" class="input" type="text" ></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="pa_surname?.invalid && (pa_surname?.dirty || pa_surname?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-                <!-- <app-required-field *ngIf="apelPaterno?.invalid && (apelPaterno?.dirty || apelPaterno?.touched)" [text]="'El campo debe tener como mínimo 3 caracteres'"></app-required-field> -->
-            </div>
-            <div class="field">
-                <app-label-field [title]="'**Apellido Materno'"></app-label-field>
-                <app-field><input formControlName="ma_surname" class="input" type="text"></app-field>
-                <app-required-field class="px-2"
-                    *ngIf="ma_surname?.invalid && (ma_surname?.dirty || ma_surname?.touched)"
+                    *ngIf="group.get('type_insurance')?.invalid && (group.get('type_insurance')?.dirty || group.get('type_insurance')?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
-            <div class="field">
-                <app-label-field [title]="'**Nombre'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'**Correo'"></app-label-field>
-                <app-field><input formControlName="email" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-            <div class="field">
-                <app-label-field [title]="'**Teléfono'"></app-label-field>
-                <app-field><input formControlName="tel" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-          
-            <div class="field">
-                <app-label-field [title]="'**Tipo de documento'"></app-label-field>
-                <app-field><input formControlName="type_doc" class="input" type="text"></app-field>
-                <app-required-field class="px-2" *ngIf="type_doc?.invalid && (type_doc?.dirty || type_doc?.touched)"
-                    [text]="'*El campo es requerido'"></app-required-field>
-            </div>
-
             <div class="field">
                 <app-label-field [title]="'Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="text"></app-field>
-                </div>
-
+                <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
+                        max="999999999999"></app-field>
+                <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
+                    [text]="'*El campo requiere 8 caracteres'"></app-required-field>
+            </div>
             <div class="field">
                 <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
-                <app-field><input formControlName="birthdate" class="input" type="date" ></app-field>
+                <app-field><input formControlName="birthdate" class="input" type="date"></app-field>
                 <app-required-field class="px-2"></app-required-field>
             </div>
-      
+        </div>
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
         </div>
         <div class="btns flex py-7 w-full">
-            <button type="submit" 
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save()">Guardar</button>
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+            <button type="submit" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
+
+
+
+
 
 <!-- TABLA APODERADO -->
 <table class="table bg-gray-50">
@@ -183,7 +108,7 @@
             <td>{{item.tel}}</td>
             <td>{{item.email}}</td>
             <td class="actions">
-                <app-btn-update (click)="form(item)" (click)="modalUpdate.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

@@ -12,22 +12,22 @@ export class GradeService {
 
   constructor(private http: HttpClient) { }
 
-  //Listar
+  //Listar 
   getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
     return this.http.get<IApiResponse>(`${environment.api}/grado?filter=${filter}&page=${page}&size=${size}`);
   }
 
-  //Agregar
+  //Agregar 
   add(grade:IGrade):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/grado`,grade)
   }
 
-  //Modificar
+  //Modificar 
   update(grade:IGrade):Observable<IApiResponse>{
     return this.http.put<IApiResponse>(`${environment.api}/grado`,grade);
   }
 
-  //Eliminar
+  //Eliminar 
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/grado/`+id);
   }
