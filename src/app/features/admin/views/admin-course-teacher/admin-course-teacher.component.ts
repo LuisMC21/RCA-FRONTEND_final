@@ -57,7 +57,6 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.courseTeacherService.getAll('', page, size)
       .subscribe(response => {
         this.courseTeachers = response.data.list;
-        console.log(this.courseTeachers)
       });
 
     let pageTeacher = this.pagination.getPage(this.paginationDataTeachers);
@@ -67,12 +66,10 @@ export class AdminCourseTeacherComponent implements OnInit {
         this.teachers = response.data.list;
       });
 
-  
+
     this.courseService.getAll('', page, size)
       .subscribe(response => {
-        console.log(response);
         this.courses = response.data.list;
-        console.log(this.courses);
       });
 
     let pageAnio = this.pagination.getPage(this.paginationDataAnio);
@@ -80,7 +77,6 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.anioService.getAll('', pageAnio, sizeAnio)
         .subscribe(response => {
           this.anios = response.data.list;
-          console.log(this.anios);
         });
   }
 
@@ -95,11 +91,8 @@ export class AdminCourseTeacherComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(courseTeacher: ICourseTeacher) {
-    console.log(courseTeacher);
     if (courseTeacher.id == null) {
       this.courseTeacherService.add(courseTeacher).subscribe(data => {
-        console.log(data.message)
-        console.log(data.data);
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -114,7 +107,7 @@ export class AdminCourseTeacherComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -122,13 +115,15 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.courseTeacherService.delete(id).subscribe(data => {
-
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful === false;
       }
     });
     this.modalOk.showModal();
