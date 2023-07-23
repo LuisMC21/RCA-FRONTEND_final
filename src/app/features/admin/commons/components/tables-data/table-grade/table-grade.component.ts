@@ -68,7 +68,7 @@ export class TableGradeComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.gradeDelete.emit(id)
     this.modalDelete.hiddenModal();

@@ -12,22 +12,22 @@ import { ISeccion } from '../../interfaces/seccion';
 export class SeccionService {
 
   constructor(private http:HttpClient) { }
-  //Listar 
-  getAll(nom?:string,page?:number,size?:number):Observable<IApiResponse>{
-    return this.http.get<IApiResponse>(`${environment.api}/seccion?page=${page}&size=${size}`);
+  //Listar
+  getAll(filter?:string,page?:number,size?:number):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/filter=${filter}&seccion?page=${page}&size=${size}`);
   }
 
-  //Agregar 
+  //Agregar
   add(seccion:ISeccion):Observable<IApiResponse>{
     return this.http.post<IApiResponse>(`${environment.api}/seccion`,seccion)
   }
 
-  //Modificar 
+  //Modificar
   update(seccion:ISeccion):Observable<IApiResponse>{
     return this.http.put<IApiResponse>(`${environment.api}/seccion`,seccion);
   }
 
-  //Eliminar 
+  //Eliminar
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/seccion/`+id);
   }
