@@ -65,7 +65,7 @@ export class TableTeacherComponent implements OnInit {
 
   form(item?: ITeacher): void {
     if(item){
-      this.titulo = "Actualizar Docente";
+      this.titulo = "Actualizar docente";
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -116,7 +116,7 @@ export class TableTeacherComponent implements OnInit {
   }
 
   reset(){
-    if(this.titulo=="Actualizar Docente"){
+    if(this.titulo=="Actualizar docente"){
       this.titulo = "Agregar Docente";
     }
     console.log(this.group.value);
