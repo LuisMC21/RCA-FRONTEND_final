@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
-import { IResponse } from 'src/app/core/interfaces/response';
 import { environment } from 'src/environments/environment';
 import { IAsistencia } from '../../interfaces/asistencia';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
@@ -16,8 +15,8 @@ export class AsistenciaService {
   constructor(private http: HttpClient, private tokenService: TokenService) { }
 
 
-  getAsistenciasByFilters(nom?: string, page?: number, size?: number, periodo?: string, aula?: string, curso?: string): Observable<IApiResponse> {
-    return this.http.get<IApiResponse>(`${environment.api}/asistencia/apac?filter=${nom}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
+  getAsistenciasByFilters(filter?: string, page?: number, size?: number, periodo?: string, aula?: string, curso?: string): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.api}/asistencia/apac?filter=${filter}&page=${page}&size=${size}&periodo=${periodo}&aula=${aula}&curso=${curso}`);
   }
   //Listar Asistencia
   getAll(filter?: string, page?: number, size?: number): Observable<IApiResponse> {

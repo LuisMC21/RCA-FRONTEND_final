@@ -1,13 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { AsistenciaService } from '../../commons/services/asistencia.service';
-import { ClaseService } from '../../commons/services/clase.service';
 import { PaginationService } from '../../commons/services/pagination.service';
-import { StudentService } from '../../commons/services/student.service';
 import { IAsistencia } from '../../interfaces/asistencia';
 import { IAula } from '../../interfaces/aula';
 import { AulaService } from '../../commons/services/aula.service';
-import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { ICourse } from '../../interfaces/course';
 import { IPeriod } from '../../interfaces/period';
 import { PeriodService } from '../../commons/services/period.service';
@@ -31,8 +28,12 @@ export class AdminAsistenciaComponent implements OnInit {
   tableName = 'Asistencias';
   paginationData = 'course'
   msjResponse: string = '';
-  successful: boolean = false;
-
+  successful!: boolean;
+  filterSearch = "";
+  //paginacion
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+  //
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
   @ViewChild('periodSelect') periodSelect!: ElementRef;
@@ -48,7 +49,6 @@ export class AdminAsistenciaComponent implements OnInit {
   constructor(
     private asistenciaService: AsistenciaService,
     private pagination: PaginationService,
-    private claseService: ClaseService,
     private aulaService: AulaService,
     private periodoService: PeriodService,
     private cursoService: CourseService,
@@ -56,124 +56,21 @@ export class AdminAsistenciaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.anioService.getAll('', 0, 5).subscribe(response => {
-      this.anios = response.data.list;
-    })
-
-    this.selectedAnioId = localStorage.getItem('selectedAnio') || '';
-    this.selectedAulaId = localStorage.getItem('selectedAula') || '';
-
-
-    this.periodoService.getAll(this.selectedAnioId, 0, 5).subscribe(response => {
-      this.periods = response.data.list;
-    });
-    this.aulaService.getAll('', 0, 5).subscribe(response => {
-      this.aulas = response.data.list;
-    });
-
-    this.selectedPeriodId = localStorage.getItem('selectedPeriodo') || '';
-    this.selectedCourseId = localStorage.getItem('selectedCurso') || '';
-
-    if(this.selectedAnioId != '' && this.selectedAulaId != ''){
-      this.cursoService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
-        console.log(response);
-        this.courses = response.data.list
-      })
-    }
-
-
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-
-    if(this.selectedCourseId != '' && this.selectedPeriodId != '' && this.selectedAulaId != ''){
-      this.asistenciaService.getAsistenciasByFilters('',0,5,this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId)
-      .subscribe(response => {
-        this.asistencias = response.data.list;
-        console.log(response);
-      });
-    }else{
-      this.asistenciaService.getAll('',0,5).subscribe(response=>{
-        this.asistencias = response.data.list;
-      })
-    }
-
+    this.getAnios();
   }
-
-  onAnioChange() {
-    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
-    this.selectedAnioId = selectedOption.value;
-
-    this.periodoService.getAll(this.selectedAnioId, 0, 5).subscribe(response => {
-      this.periods = response.data.list;
-    })
-
-    this.aulaService.getAll('', 0, 10).subscribe(response => {
-      this.aulas = response.data.list;
-    })
-
-    localStorage.setItem('selectedAnio', this.selectedAnioId);
-
-  }
-
-  onPeriodoChange() {
-    const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
-    this.selectedPeriodId = selectedOption.value;
-
-    this.asistenciaService.getAsistenciasByFilters('',0,5,this.selectedPeriodId, '', '').subscribe(response => {
-      console.log(response);
-      console.log(this.selectedPeriodId);
-      this.asistencias = response.data.list;
-    })
-
-    localStorage.setItem('selectedPeriodo', this.selectedPeriodId);
-  }
-
-  onAulasChange() {
-    const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
-    this.selectedAulaId = selectedOption.value;
-
-    this.asistenciaService.getAsistenciasByFilters('',0,5,this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
-      this.asistencias = response.data.list;
-    })
-
-    this.cursoService.getAulaAnio(this.selectedAulaId, this.selectedAnioId).subscribe(response=>{
-      console.log(response);
-      this.courses = response.data.list
-    })
-
-    localStorage.setItem('selectedAula', this.selectedAulaId);
-  }
-
-  onCourseChange() {
-    const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
-    this.selectedCourseId = selectedOption.value;
-
-    this.asistenciaService.getAsistenciasByFilters('',0,5,this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
-      this.asistencias = response.data.list;
-    })
-
-    localStorage.setItem('selectedCurso', this.selectedCourseId);
-  }
-
-
 
   //BUSCAR
-  /*search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.alumnoService.getAll(nom, page, size).subscribe(response => {
-      this.student = response.data.list;
-    })
-  }*/
+  search(nom: string) {
+    this.filterSearch = nom;
+    console.log(this.filterSearch)
+    this.getAsistencias();
+  }
 
 
   // AGREGAR - ACTUALIZAR
   save(asistencia: IAsistencia) {
-    console.log(asistencia)
     if (asistencia.id == null) {
       this.asistenciaService.add(asistencia).subscribe(data => {
-        console.log(data.message)
         if (data.successful === true) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -201,10 +98,139 @@ export class AdminAsistenciaComponent implements OnInit {
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();
   }
 
   refresh(): void { window.location.reload(); }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getAsistencias();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAsistencias();
+  }
+
+  //Funciones para filtros
+  onAnioChange() {
+    const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
+    this.selectedAnioId = selectedOption.value;
+    this.getPeriodos();
+  }
+  onPeriodoChange() {
+    const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
+    this.selectedPeriodId = selectedOption.value;
+    this.getAulas();
+  }
+
+  onAulasChange() {
+    const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
+    this.selectedAulaId = selectedOption.value;
+    this.getCursos();
+  }
+  onCourseChange() {
+    const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
+    this.selectedCourseId = selectedOption.value;
+    this.getAsistencias();
+  }
+
+  getAnios(){
+    this.anioService.getAll('', 0, 20)
+      .subscribe(response => {
+        if(response.successful && response.data.list){
+          this.anios = response.data.list;
+          this.selectedAnioId = this.anios[this.anios.length-1].id;
+          this.getPeriodos();
+        } else{
+          this.selectedAnioId = "";
+          this.anios = [];
+          this.getPeriodos();
+        }
+      })
+  }
+
+  getPeriodos(){
+    if(this.selectedAnioId !== ""){
+      this.periodoService.getAll(this.selectedAnioId, 0, 20)
+        .subscribe(response => {
+          if(response.successful && response.data.list){
+            this.periods = response.data.list;
+            this.selectedPeriodId = this.periods[0].id;
+            this.getAulas();
+          } else {
+            this.selectedPeriodId = "";
+            this.periods = [];
+            this.getAulas();
+          }
+        });
+    } else {
+      this.selectedPeriodId = "";
+      this.periods = [];
+      this.getAulas();
+    }
+  }
+
+  getAulas() {
+    if(this.selectedPeriodId !== ""){
+      this.aulaService.getAllAnio('', this.selectedAnioId)
+        .subscribe(response => {
+          if(response.successful && response.data.length>0){
+            this.aulas = response.data;
+            this.selectedAulaId= this.aulas[0].id;
+
+            this.getCursos();
+          } else {
+            this.aulas = [];
+            this.selectedAulaId = "";
+            this.getCursos();
+          }
+        });
+    } else {
+      this.aulas = [];
+      this.selectedAulaId = "";
+      this.getCursos();
+    }
+  }
+  getCursos(){
+    if(this.selectedAulaId !== ""){
+      this.cursoService.getAulaAnio(this.selectedAulaId, this.selectedAnioId)
+          .subscribe(response => {
+            if(response.successful && response.data.length>0){
+              this.courses = response.data;
+              this.selectedCourseId = this.courses[0].id;
+              this.getAsistencias();
+            } else{
+              this.courses = [];
+              this.selectedCourseId = "";
+              this.getAsistencias();
+            }
+          });
+    } else {
+      this.courses = [];
+      this.selectedCourseId = "";
+      this.getAsistencias();
+    }
+  }
+
+  getAsistencias(){
+    if(this.selectedCourseId != '' && this.selectedPeriodId != '' && this.selectedAulaId != ''){
+      this.asistenciaService.getAsistenciasByFilters(this.filterSearch,this.page,this.size,this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId)
+      .subscribe(response => {
+        if(response.successful){
+          this.asistencias = response.data.list;
+        } else{
+          this.asistencias = [];
+        }
+      });
+    }else{
+      this.asistencias = [];
+    }
+  }
 }
