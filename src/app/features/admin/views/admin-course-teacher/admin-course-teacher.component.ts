@@ -35,6 +35,9 @@ export class AdminCourseTeacherComponent implements OnInit {
   msjResponse: string = '';
   successful!: boolean;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+  filterSearch = "";
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private classroomService: AulaService,
@@ -45,6 +48,8 @@ export class AdminCourseTeacherComponent implements OnInit {
     private courseTeacherService: CourseTeacherService) { }
 
   ngOnInit(): void {
+
+    this.getAsignaturas();
     let pageClassroom = this.pagination.getPage(this.paginationDataClassroom);
     let sizeClassroom = this.pagination.getSize(this.paginationDataClassroom);
     this.classroomService.getAll('', pageClassroom, sizeClassroom)
@@ -52,13 +57,8 @@ export class AdminCourseTeacherComponent implements OnInit {
         this.classrooms = response.data.list;
       });
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAll('', page, size)
-      .subscribe(response => {
-        this.courseTeachers = response.data.list;
-        console.log(this.courseTeachers)
-      });
+
+
 
     let pageTeacher = this.pagination.getPage(this.paginationDataTeachers);
     let sizeTeacher = this.pagination.getSize(this.paginationDataTeachers);
@@ -68,7 +68,7 @@ export class AdminCourseTeacherComponent implements OnInit {
       });
 
 
-    this.courseService.getAll('', page, size)
+    this.courseService.getAll('', 0, 40)
       .subscribe(response => {
         console.log(response);
         this.courses = response.data.list;
@@ -80,22 +80,17 @@ export class AdminCourseTeacherComponent implements OnInit {
     this.anioService.getAll('', pageAnio, sizeAnio)
         .subscribe(response => {
           this.anios = response.data.list;
-          console.log(this.anios);
         });
   }
 
   //BUSCAR
-  search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAll(nom, page, size).subscribe(response => {
-      this.courseTeachers = response.data.list;
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getAsignaturas();
   }
 
   // AGREGAR - ACTUALIZAR
   save(courseTeacher: ICourseTeacher) {
-    console.log(courseTeacher);
     if (courseTeacher.id == null) {
       this.courseTeacherService.add(courseTeacher).subscribe(data => {
         console.log(data.message)
@@ -104,7 +99,7 @@ export class AdminCourseTeacherComponent implements OnInit {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -114,7 +109,7 @@ export class AdminCourseTeacherComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -129,6 +124,9 @@ export class AdminCourseTeacherComponent implements OnInit {
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();
@@ -136,4 +134,22 @@ export class AdminCourseTeacherComponent implements OnInit {
 
   refresh(): void { window.location.reload(); }
 
+  //Pagination
+  getPage(event: any) {
+    this.page = event;
+    this.getAsignaturas();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAsignaturas();
+  }
+
+  getAsignaturas(){
+    this.courseTeacherService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        this.courseTeachers = response.data.list;
+        console.log(this.courseTeachers)
+      });
+  }
 }

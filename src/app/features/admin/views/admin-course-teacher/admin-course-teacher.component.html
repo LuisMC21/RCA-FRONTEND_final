@@ -2,12 +2,12 @@
     <app-route></app-route>
     <app-table [title]="'Docentes por curso'" [tableName]="tableName">
         <app-table-course-teacher
-            (courseTeacherDelete)="delete($event)" 
-            (courseTeacherSave)="save($event)" 
+            (courseTeacherDelete)="delete($event)"
+            (courseTeacherSave)="save($event)"
             (courseTeacherSearch)="search($event)"
             [classrooms]="classrooms" [anios]="anios"  [teachers]="teachers" [courseTeachers]="courseTeachers" [courses]="courses" [tableName]="tableName">
         </app-table-course-teacher>
-        <app-pagination [paginationData]="paginationData"></app-pagination>   
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)"  [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 

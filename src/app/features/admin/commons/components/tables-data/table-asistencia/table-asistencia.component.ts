@@ -45,8 +45,8 @@ export class TableAsistenciaComponent implements OnInit {
   }
 
   //BUSCAR
-  search(name: string) {
-    this.asistenciaSearch.emit(name);
+  search(filter: any) {
+    this.asistenciaSearch.emit(filter);
   }
 
   // AGREGAR - ACTUALIZAR
@@ -56,7 +56,7 @@ export class TableAsistenciaComponent implements OnInit {
     }
     this.modalAdd.hiddenModal();
   }
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.asistenciaDelete.emit(id)
     this.modalDelete.hiddenModal();

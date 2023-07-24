@@ -34,10 +34,11 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar curso'" [tableName]="tableName">
-        <app-table-asistencia 
+        <app-table-asistencia
+            (asistenciaSearch)="search($event)"
             [asistencias]="asistencias" [tableName]="tableName">
-        </app-table-asistencia> 
-        <app-pagination [paginationData]="paginationData"></app-pagination>    
+        </app-table-asistencia>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 
 </div>

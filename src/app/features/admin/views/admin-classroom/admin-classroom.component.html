@@ -2,12 +2,12 @@
     <app-route></app-route>
     <app-table [title]="'Agregar Aula'" [tableName]="tableName">
         <app-table-classroom
-            (classroomDelete)="delete($event)" 
-            (classroomSave)="save($event)" 
+            (classroomDelete)="delete($event)"
+            (classroomSave)="save($event)"
             (classroomSearch)="search($event)"
             [classrooms]="classrooms" [grades]="grades" [sections]="sections" [tableName]="tableName">
-        </app-table-classroom> 
-        <app-pagination [paginationData]="paginationData"></app-pagination>   
+        </app-table-classroom>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)"  [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 
