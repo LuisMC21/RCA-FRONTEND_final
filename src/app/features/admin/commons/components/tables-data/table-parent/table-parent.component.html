@@ -5,12 +5,13 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nom" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar por nombre">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
 </div>
 
 <!-- MODAL AGREGAR -->
 
-<app-modal [title]="'Agregar apoderado'" (close_modal)="getCloseModal()" #modalAdd>
+<app-modal (close_modal)="getCloseModal()" #modalAdd>
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
             <div class="field">
@@ -108,7 +109,7 @@
             <td>{{item.tel}}</td>
             <td>{{item.email}}</td>
             <td class="actions">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

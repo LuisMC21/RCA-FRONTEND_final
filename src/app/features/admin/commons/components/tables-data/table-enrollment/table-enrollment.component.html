@@ -6,25 +6,24 @@
     </div>
 </div>
 <app-modal #modalAdd>
-    <h1 class="text-center text-3xl">{{ titulo }}</h1>
- 
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" >
 
         <div class="form__field">
-            <div class="field w-1/2 flex justify-center items-center">
+            <div class="field">
 
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
 
             </div>
-            <div class="field w-1/2">
+            <div class="field">
                 <app-label-field [title]="'**Aula'"></app-label-field>
                 <app-field><select id="aula" class="input" name="aula" formControlName="aulaDTO" required>
                         <option *ngFor="let aula of aulas" [ngValue]="aula" [selected]="aula.id === item.aulaDTO.id">
                             {{aula.gradoDTO.name+ "-"+aula.seccionDTO.name }}</option>
                     </select></app-field>
             </div>
-            <div class="field w-1/2">
+            <div class="field">
                 <app-label-field [title]="'**Año Lectivo'"></app-label-field>
                 <app-field><select id="anio" class="input" name="anio" formControlName="anioLectivoDTO">
                         <option *ngFor="let anio of anioL" [ngValue]="anio"
@@ -38,7 +37,7 @@
                         placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
                         (input)="searchStudents(searchStudent.value)">
                 </app-field>
-                <div class="field w-1/2">
+                <div class="field">
                     <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
                         <span (click)="selectStudent(student)" *ngFor="let student of alumno"
                             class="block w-full h-full">
@@ -53,11 +52,11 @@
 
             </div>
         </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+        <div class="btns flex justify-center py-7 w-full space-x-4">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel w-1/4" (click)="modalAdd.cancelar(); reset();"></app-btn-cancel>
         </div>
+        
         
     </form>
 

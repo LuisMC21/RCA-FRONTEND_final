@@ -14,7 +14,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  titulo:string = 'Agregar sección';
+  titulo:string = 'Agregar Sección';
 
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
@@ -43,7 +43,7 @@ export class TableSeccionComponent implements OnInit {
 
   form(item?: ISeccion): void {
     if(item){
-      this.titulo = 'Actualizar sección';
+      
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -63,9 +63,7 @@ export class TableSeccionComponent implements OnInit {
       this.sectionSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    if(this.titulo == 'Actualizar sección'){
-      this.titulo = 'Agregar sección'
-    }
+
   }
 
   // ELIMINAR
@@ -76,10 +74,21 @@ export class TableSeccionComponent implements OnInit {
 
   refresh(): void { window.location.reload(); }
 
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Sección";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
+
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Sección";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
+
   reset():void{
-    if(this.titulo == 'Actualizar sección'){
-      this.titulo = 'Agregar sección'
-    }
+ 
     this.group.reset();
   }
 

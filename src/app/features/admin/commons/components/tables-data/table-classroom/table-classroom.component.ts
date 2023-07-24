@@ -18,6 +18,7 @@ export class TableClassroomComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
+  titulo:string="Agregar Aula"
   item: IAula = {
     id: '',
     code: '',
@@ -94,7 +95,18 @@ export class TableClassroomComponent implements OnInit {
     };
     console.log(this.group);
   }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Aula";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
 
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Aula";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
   getCloseModal(){
     this.group.reset();
   }

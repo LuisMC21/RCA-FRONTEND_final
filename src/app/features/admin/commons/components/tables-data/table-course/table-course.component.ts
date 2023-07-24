@@ -16,7 +16,7 @@ export class TableCourseComponent implements OnInit {
   @Input() grades:IGrade[]=[];
   @Input() tableName!: string;
   @Input() title!: string;
-
+  titulo: string = "Agregar Curso";
   @Output() courseSave:EventEmitter<ICourse> = new EventEmitter();
   @Output() courseDelete:EventEmitter<string> = new EventEmitter();
   @Output() courseSearch:EventEmitter<string> = new EventEmitter();
@@ -26,8 +26,7 @@ export class TableCourseComponent implements OnInit {
 
   head=["Codigo","Curso","Acciones"]
   group!: FormGroup;
-
-  msjResponse:string='';
+  msjResponse:string=''; 
   nomSearch:string='';
   close_modal!: boolean;
 
@@ -64,7 +63,20 @@ export class TableCourseComponent implements OnInit {
      }
      this.modalAdd.hiddenModal();
   }
+  onUpdateButtonClick(item: any) {
 
+    this.titulo = "Actualizar Curso";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
+
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+
+    this.titulo = "Agregar Curso";
+    this.form();
+    this.modalAdd.showModal();
+  }
   // ELIMINAR
   delete(id:string){
     this.courseDelete.emit(id)

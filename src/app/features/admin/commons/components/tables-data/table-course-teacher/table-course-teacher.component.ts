@@ -25,7 +25,7 @@ export class TableCourseTeacherComponent implements OnInit {
   @Input() title!: string;
 
 
-  titulo:string = 'Agregar asignatura';
+  titulo:string = 'Agregar Asignatura';
 
   item: ICourseTeacher = {
     id: '',
@@ -90,7 +90,7 @@ export class TableCourseTeacherComponent implements OnInit {
   form(item?: ICourseTeacher): void {
     if(item){
       this.item = item;
-      this.titulo = 'Actualizar asignatura';
+     
     }
     
     this.group = this.formBuilder.group({
@@ -113,11 +113,20 @@ export class TableCourseTeacherComponent implements OnInit {
       this.courseTeacherSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    if(this.titulo=="Actualizar Asignatura"){
-      this.titulo = "Agregar Docente";
-    }
+    
+  }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Asignatura";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
   }
 
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Asignatura";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
   // ELIMINAR 
   delete(id: string) {
     this.courseTeacherDelete.emit(id)
@@ -166,9 +175,7 @@ export class TableCourseTeacherComponent implements OnInit {
       }
     }
     this.group.reset();
-    if(this.titulo=="Actualizar Asignatura"){
-      this.titulo = "Agregar Docente";
-    }
+  
   }
 
 }

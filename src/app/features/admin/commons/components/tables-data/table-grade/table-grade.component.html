@@ -5,10 +5,11 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
-<app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
+<app-modal (close_modal)="getCloseModal()" #modalAdd>
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
@@ -36,7 +37,7 @@
             <td>{{item.code}}</td>
             <td>{{item.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()" (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

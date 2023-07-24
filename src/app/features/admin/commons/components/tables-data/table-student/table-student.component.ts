@@ -186,9 +186,6 @@ export class TableStudentComponent implements OnInit {
       this.studentSave.emit(this.group.value)
     }
 
-    if (this.titulo == "Actualizar Alumno") {
-      this.titulo = "Agregar Alumno";
-    }
   }
 
   // ELIMINAR
@@ -213,17 +210,25 @@ export class TableStudentComponent implements OnInit {
   }
 
   reset() {
-    if (this.titulo == "Actualizar Alumno") {
-      this.titulo = "Agregar Alumno";
-    }
-
+ 
     this.group.reset()
   }
 
   redirectToDatosPersonales(uniqueIdentifier: string) {+
     this.studentService.getReporteDatosPersonales(uniqueIdentifier);
   }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Alumno";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
 
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Alumno";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
   getCloseModal(){
     this.group.reset();
     this.form();
