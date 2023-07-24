@@ -6,12 +6,12 @@
     </div>
 </div>
 <app-modal #modalAdd (close_modal)="getCloseModal()">
-    <h1 class="text-center text-3xl">{{ titulo }}</h1>
- 
-    <form [formGroup]="group" (ngSubmit)="save()" class="form" class="w-full flex flex-wrap justify-between">
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+    <form [formGroup]="group" (ngSubmit)="save()" class="form" >
 
         <div class="form__field">
             <div class="field">
+
                 <app-label-field [title]="'**Fecha'"></app-label-field>
                 <app-field><input formControlName="date" class="input" type="date" required></app-field>
 
@@ -52,11 +52,11 @@
 
             </div>
         </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-            <app-btn-cancel class="btn__cancel" (click)="modalAdd.cancelar()"  class="w-1/2 mx-2"></app-btn-cancel>
+        <div class="btns flex justify-center py-7 w-full space-x-4">
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 h-9 rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel class="btn__cancel w-1/4" (click)="modalAdd.cancelar(); reset();"></app-btn-cancel>
         </div>
+        
         
     </form>
 

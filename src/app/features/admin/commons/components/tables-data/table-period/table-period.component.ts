@@ -16,7 +16,9 @@ export class TablePeriodComponent implements OnInit {
   @Input() anios: IAnioLectivo[] = []
   @Input() tableName!: string;
   @Input() title!: string;
-
+  isEditing: boolean = false;
+  selectedItem: any = null; // Variable para almacenar el objeto seleccionado al actualizar
+  titulo:string="Agregar Periodo";
 
   @Output() idperiodo:EventEmitter<string> = new EventEmitter();
   close_modal!: boolean;
@@ -108,6 +110,22 @@ export class TablePeriodComponent implements OnInit {
     this.modalAdd.hiddenModal();
 
   }
+  onUpdateButtonClick(item: any) {
+    this.isEditing = true;
+    this.selectedItem = item;
+    this.titulo = "Actualizar Periodo";
+    this.form(item);
+    this.modalAdd.showModal();
+  }
+
+  onAddButtonClick() {
+    this.isEditing = false;
+    this.selectedItem = null;
+    this.titulo = "Agregar Periodo";
+    this.form();
+    this.modalAdd.showModal();
+  }
+
 
   getCloseModal(){
     this.reset();

@@ -80,10 +80,10 @@ export class TableNewsComponent implements OnInit {
     this.form();
   }
 
-  get titulo() { return this.group.get('title') }
-  get sumilla() { return this.group.get('sommelier') }
-  get descripcion() { return this.group.get('descrip') }
-  get fecha() { return this.group.get('date') }
+  get title() { return this.group.get('title') }
+  get sommelier() { return this.group.get('sommelier') }
+  get descrip() { return this.group.get('descrip') }
+  get date() { return this.group.get('date') }
   get imagen() { return this.group.get('imagen') }
 
   form(item?: any): void {

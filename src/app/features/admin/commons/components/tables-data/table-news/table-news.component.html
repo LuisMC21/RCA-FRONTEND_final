@@ -14,20 +14,20 @@
         <div class="field">
             <app-label-field [title]="'**Título'"></app-label-field>
             <app-field><input  formControlName="title" class="input" type="text"></app-field>
-            <app-required-field class="px-2" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)" [text]="'**El campo es requerido'"></app-required-field>
+            <app-required-field class="px-2" *ngIf="title?.invalid && (title?.dirty || title?.touched)" [text]="'**El campo es requerido'"></app-required-field>
         </div>
         <div class="field">
             <app-label-field [title]="'**Sumilla'"></app-label-field>
             <app-field><input formControlName="sommelier" class="input" type="text"></app-field>
-            <app-required-field class="px-2" *ngIf="sumilla?.invalid && (sumilla?.dirty || sumilla?.touched)" [text]="'**El campo requiere 9 caracteres'"></app-required-field>
+            <app-required-field class="px-2" *ngIf="sommelier?.invalid && (sommelier?.dirty || sommelier?.touched)" [text]="'**El campo requiere 9 caracteres'"></app-required-field>
         </div>
         <app-label-field [title]="'**Descripción'"></app-label-field>
         <textarea  formControlName="descrip" name="textarea" rows="5" class="textArea w-full"></textarea>
-        <app-required-field class="px-2" *ngIf="descripcion?.invalid && (descripcion?.dirty || descripcion?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+        <app-required-field class="px-2" *ngIf="descrip?.invalid && (descrip?.dirty || descrip?.touched)" [text]="'*El campo es requerido'"></app-required-field>
         <div class="field">
             <app-label-field [title]="'**Fecha'"></app-label-field>
             <app-field><input formControlName="date" class="input" type="date"></app-field>
-            <app-required-field class="px-2" *ngIf="fecha?.invalid && (fecha?.dirty || fecha?.touched)" [text]="'*El campo es requerido'"></app-required-field>
+            <app-required-field class="px-2" *ngIf="date?.invalid && (date?.dirty || date?.touched)" [text]="'*El campo es requerido'"></app-required-field>
         </div>
         <div *ngIf="editar" style="text-align: center;">
             <div>
