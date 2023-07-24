@@ -8,9 +8,7 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
-
 <app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
-
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
         <div class="field">
             <app-label-field [title]="'**Docente'"></app-label-field>
