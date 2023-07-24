@@ -3,10 +3,12 @@
     <h1 class="news__subtitle">Noticias</h1>
     <div class="news">
         <div class="item" *ngFor="let item of news">
-            <div class="img">
-                <img src={{item.image}}>
-            </div>
             <span class="news__desc"><p>{{item.title}}</p></span>
+            <div class="img">
+                <img src={{item.route}}>
+            </div>
+            <span class="news__desc"><p>{{item.descrip}}</p></span>
+            <span class="news__desc"><p>{{item.usuarioDTO.name}} {{item.usuarioDTO.pa_surname}} {{item.usuarioDTO.ma_surname}}</p></span>
         </div>
     </div>
 </section>

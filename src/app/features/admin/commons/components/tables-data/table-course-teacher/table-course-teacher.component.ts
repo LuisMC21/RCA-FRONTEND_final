@@ -171,8 +171,7 @@ export class TableCourseTeacherComponent implements OnInit {
     }
   }
 
-
   getCloseModal(){
-    this.group.reset();
+    this.reset();
   }
 }
