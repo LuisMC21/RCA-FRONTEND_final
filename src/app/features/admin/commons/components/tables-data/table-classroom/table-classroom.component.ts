@@ -64,8 +64,8 @@ export class TableClassroomComponent implements OnInit {
   }
 
   //BUSCAR
-  search(name: string) {
-    this.classroomSearch.emit(name);
+  search(filter: string) {
+    this.classroomSearch.emit(filter);
   }
 
   // AGREGAR - ACTUALIZAR

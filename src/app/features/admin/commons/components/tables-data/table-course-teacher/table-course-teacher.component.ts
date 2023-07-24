@@ -16,11 +16,11 @@ export class TableCourseTeacherComponent implements OnInit {
 
   @Input() classrooms: IAula[] = [];
   @Input() courseTeachers: ICourseTeacher[] = [];
-  
+
   @Input() teachers: ITeacher[] = [];
   @Input() courses: ICourse[] = [];
   @Input() anios: IAnioLectivo[] = [];
-  
+
   @Input() tableName!: string;
   @Input() title!: string;
 
@@ -54,7 +54,7 @@ export class TableCourseTeacherComponent implements OnInit {
       }
     },
     cursoDTO: { id: '', code: '', name: '' },
-    
+
     aulaDTO: {
       id: '',
       code: '',
@@ -92,7 +92,7 @@ export class TableCourseTeacherComponent implements OnInit {
       this.item = item;
       this.titulo = 'Actualizar asignatura';
     }
-    
+
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
@@ -103,8 +103,8 @@ export class TableCourseTeacherComponent implements OnInit {
     });
   }
 
-  search(name: string) {
-    this.courseTeacherSearch.emit(name);
+  search(filter: string) {
+    this.courseTeacherSearch.emit(filter);
   }
 
   // AGREGAR - ACTUALIZAR
@@ -118,7 +118,7 @@ export class TableCourseTeacherComponent implements OnInit {
     }
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.courseTeacherDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -170,6 +170,7 @@ export class TableCourseTeacherComponent implements OnInit {
       this.titulo = "Agregar Docente";
     }
   }
+
 
   getCloseModal(){
     this.reset();

@@ -28,6 +28,12 @@ export class AdminClassroomComponent implements OnInit {
   msjResponse: string = '';
   successful!: boolean;
 
+  filterSearch = "";
+
+  //paginatio
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
 
@@ -37,29 +43,9 @@ export class AdminClassroomComponent implements OnInit {
     private gradeService: GradeService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.classroomService.getAll('', page, size)
-      .subscribe(response => {
-        this.classrooms = response.data.list;
+    this.getClassrooms();
+    this.getGradesAndSections();
 
-      });
-
-    let pageGrade = this.pagination.getPage(this.paginationDataGrade);
-    let sizeGrade = this.pagination.getSize(this.paginationDataGrade);
-    this.gradeService.getAll('', pageGrade, sizeGrade)
-      .subscribe(response => {
-        this.grades = response.data.list;
-
-      });
-
-    let pageSection = this.pagination.getPage(this.paginationDataSection);
-    let sizeSection = this.pagination.getSize(this.paginationDataSection);
-    this.sectionService.getAll('', pageSection, sizeSection)
-      .subscribe(response => {
-        this.sections = response.data.list;
-
-      });
       this.classroomService.getAulaCount('')
       .subscribe(count => {
         this.totalAulas = count;
@@ -68,12 +54,9 @@ export class AdminClassroomComponent implements OnInit {
   }
 
   //BUSCAR
-  search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.classroomService.getAll(nom, page, size).subscribe(response => {
-      this.classrooms = response.data.list;
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getClassrooms();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -81,20 +64,23 @@ export class AdminClassroomComponent implements OnInit {
     if (classroom.id == null) {
       this.classroomService.add(classroom).subscribe(data => {
         if (data.successful === true) {
+          this.getClassrooms();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
+          this.getClassrooms();
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     } else {
       this.classroomService.update(classroom).subscribe(data => {
         if (data.successful === true) {
+          this.getClassrooms();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -105,15 +91,53 @@ export class AdminClassroomComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.classroomService.delete(id).subscribe(data => {
-
       if (data.successful === true) {
+        this.getClassrooms();
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful === true;
 
     });
     this.modalOk.showModal();
   }
   refresh(): void { window.location.reload(); }
+
+
+  //Pagination
+  getPage(event: any) {
+    this.page = event;
+    this.getClassrooms();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getClassrooms();
+  }
+
+  //Funciones de lista
+  getClassrooms(){
+    this.classroomService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        if(response.successful){
+          this.classrooms = response.data.list;
+        } else{
+          this.classrooms = [];
+        }
+      });
+  }
+  getGradesAndSections(){
+    this.gradeService.getAll('', 0, 40)
+      .subscribe(response => {
+        this.grades = response.data.list;
+
+      });
+    this.sectionService.getAll('', 0, 40)
+      .subscribe(response => {
+        this.sections = response.data.list;
+
+      });
+  }
 }

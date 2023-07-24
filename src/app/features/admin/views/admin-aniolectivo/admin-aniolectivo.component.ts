@@ -36,11 +36,12 @@ export class AdminAniolectivoComponent implements OnInit {
   }
   //BUSCAR
   search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.anioService.getAll(nom, page, size).subscribe(response => {
-      this.anio = response.data.list;
-      console.log(response.data.list)
+    this.anioService.getAll(nom, this.page, this.size).subscribe(response => {
+      if(response.successful){
+        this.anio = response.data.list;
+      } else {
+        this.anio = [];
+      }
     })
   }
 
@@ -78,8 +79,10 @@ export class AdminAniolectivoComponent implements OnInit {
       if (data.successful === true) {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }
