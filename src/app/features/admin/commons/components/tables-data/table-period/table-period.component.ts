@@ -110,7 +110,7 @@ export class TablePeriodComponent implements OnInit {
   }
 
   getCloseModal(){
-    this.group.reset();
+    this.reset();
   }
 
 }

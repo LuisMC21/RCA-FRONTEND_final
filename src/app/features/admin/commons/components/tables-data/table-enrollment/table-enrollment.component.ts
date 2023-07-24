@@ -116,18 +116,6 @@ export class TableEnrollmentComponent implements OnInit {
     }
 
   }
-  // classroom: IAula = {
-  //   id: '',
-  //   code: '',
-  //   gradoDTO: { id: '', code: '', name: '' },
-  //   seccionDTO: { id: '', code: '', name: '' }
-  // }
-  // aniosL: IAnioLectivo = {
-  //   id: '',
-  //   code: '',
-  //   name:''
-  // }
-
 
   titulo: string = "Agregar Matricula";
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
@@ -194,6 +182,10 @@ export class TableEnrollmentComponent implements OnInit {
 
   isEditing: boolean = false;
   form(item?: IEnrollment) {
+
+    if(item){
+      this.item = item;
+    }
     // Configurar el formulario con controles y validaciones
     this.group = this.formBuilder.group({
       // Controles del formulario para la matricula
@@ -290,14 +282,51 @@ export class TableEnrollmentComponent implements OnInit {
     this.modalAdd.showModal();
   }
   reset(){
+    this.item={
+      id:'',
+      code:'',
+      date: new Date(),
+      anioLectivoDTO:{
+        id: '',
+        code: '',
+        name:''
+      },
+      aulaDTO:{
+        id:'', code:'', gradoDTO:{
+          id: '', code: '', name: ''
+        }, seccionDTO:{id: '', code: '', name: ''}
+      },
+      alumnoDTO:{
+        id:'',code:'', diseases:'',namecon_pri:'',telcon_pri:'', namecon_sec:'',telcon_sec:'',vaccine:'',type_insurance:'',
+        apoderadoDTO:{
+          id:'', code:'', name:'', pa_surname:'',ma_surname:'',birthdate:new Date(), type_doc:'', numdoc:'', email:'', tel:''
+        },
+        usuarioDTO:{
+          id:'',
+          code:'',
+          nombreUsuario:'',
+          name:'',
+          pa_surname:'',
+          ma_surname:'',
+          birthdate: new Date(),
+          type_doc:'',
+          numdoc:'',
+          tel:'',
+          gra_inst:'',
+          email:'',
+          password:'',
+          rol:''
+        }
+      }
   
+    }
     console.log(this.group.value);
     this.group.reset();
 
   }
 
   getCloseModal(){
-    this.group.reset();
+    this.reset();
   }
 
 }

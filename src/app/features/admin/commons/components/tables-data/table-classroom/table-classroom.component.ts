@@ -96,7 +96,7 @@ export class TableClassroomComponent implements OnInit {
   }
 
   getCloseModal(){
-    this.group.reset();
+    this.reset();
   }
 
 }
