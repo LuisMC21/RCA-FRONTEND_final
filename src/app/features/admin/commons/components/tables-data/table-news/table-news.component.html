@@ -44,6 +44,9 @@
             <input (change)="captureFile($event)" class="input" type="file">
             <!-- <app-required-field class="px-2" *ngIf="imagen?.invalid && (imagen?.dirty || imagen?.touched)" [text]="'*El campo es requerido'"></app-required-field> -->
         </div>
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
+        </div>
         <div class="flex py-7 w-full">
             <button type="submit" [disabled]="group.invalid || !imagenSelected" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button> 
             <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>

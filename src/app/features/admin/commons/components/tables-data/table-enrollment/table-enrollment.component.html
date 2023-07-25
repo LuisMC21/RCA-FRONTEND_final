@@ -51,6 +51,9 @@
 
             </div>
         </div>
+        <div style="margin-top: 10px;">
+            <p style="font-size: 11px;">**Campos obligatorios</p>
+        </div>
         <div class="btns flex justify-center py-7 w-full space-x-4">
             <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 h-9 rounded-3xl text-white">Guardar</button>
             <app-btn-cancel class="btn__cancel w-1/4" (click)="modalAdd.cancelar(); reset();"></app-btn-cancel>
