@@ -271,12 +271,14 @@ export class TableEnrollmentComponent implements OnInit {
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Matricula";
+    this.modalAdd.showModal()
     this.form(item); // Call the form() function if needed for your logic
-    this.modalAdd.showModal();
+   
   }
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Matricula";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
