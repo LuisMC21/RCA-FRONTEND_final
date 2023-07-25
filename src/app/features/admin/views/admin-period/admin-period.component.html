@@ -8,7 +8,7 @@
             (idperiodo)="generarEvaluaciones($event)"
             [periods]="periods" [anios]="anios"
         [tableName]="tableName"></app-table-period> 
-    <app-pagination [paginationData]="paginationData"></app-pagination> 
+    <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" s></app-pagination> 
     </app-table>
 </div>
 

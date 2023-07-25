@@ -7,9 +7,9 @@
             (parentSearch)="search($event)"
             [parents]="parents" [tableName]="'Apoderados'">
         </app-table-parent>
-    <app-pagination [paginationData]="paginationData"></app-pagination>  
+    <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" ></app-pagination>  
     </app-table>
 </div>
 
 <!-- MENSAJE DE OPERACION -->
-<app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+<app-modal-response [title]="msjResponse"  [successful]="successful" #modalOk></app-modal-response>

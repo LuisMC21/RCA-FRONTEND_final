@@ -5,7 +5,7 @@
     <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
   </div>
-  <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
+  <app-btn-add  [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
 </div>
 
 <!-- Modal Agregar -->
@@ -191,7 +191,7 @@
       <td>{{item.type_insurance}}</td>
       <td>{{item.namecon_pri + " - " + item.telcon_pri}} | {{item.namecon_sec + "-" + item.telcon_sec}}</td>
       <td class="actions">
-        <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()" (click)="onUpdateButtonClick(item)"></app-btn-update>
+        <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)"></app-btn-update>
         <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
         <app-btn-view (click)="redirectToDatosPersonales(item.id)">
         </app-btn-view>

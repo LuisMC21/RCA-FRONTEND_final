@@ -5,7 +5,7 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
+    <app-btn-add  [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 
 <app-modal #modalAdd>
@@ -40,7 +40,7 @@ Tabla -->
             <td>{{item.name}}</td>
             <!-- <td class="table__description">{{item.descripcion}}</td> -->
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()" (click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
