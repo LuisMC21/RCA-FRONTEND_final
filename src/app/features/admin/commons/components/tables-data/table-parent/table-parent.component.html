@@ -5,7 +5,7 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nom" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar por nombre">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
+    <app-btn-add [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
 </div>
 
 <!-- MODAL AGREGAR -->
@@ -14,12 +14,12 @@
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
-            <div class="field">
+            <!-- <div class="field">
                 <app-label-field [title]="'**Código'"></app-label-field>
                 <app-field><input formControlName="code" class="input" type="text" readonly></app-field>
                 <app-required-field class="px-2" *ngIf="code?.invalid && (code?.dirty || code?.touched)"
                     [text]="'*El campo es requerido'"></app-required-field>
-            </div>
+            </div> -->
         <div class="field">
                 <app-label-field [title]="'**Apellido Paterno'"></app-label-field>
                 <app-field><input formControlName="pa_surname" class="input" type="text" ></app-field>
@@ -42,13 +42,13 @@
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Correo'"></app-label-field>
+                <app-label-field [title]="'**Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                     [text]="'**El campo es de tipo correo'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Teléfono'"></app-label-field>
+                <app-label-field [title]="'**Teléfono'"></app-label-field>
                 <app-field><input formControlName="tel" class="input" type="number" inputmode="numeric" min="100000000"
                         max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
@@ -69,14 +69,14 @@
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Número de documento'"></app-label-field>
+                <app-label-field [title]="'**Número de documento'"></app-label-field>
                 <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
                         max="999999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                     [text]="'*El campo requiere 8 caracteres'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
+                <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
                 <app-field><input formControlName="birthdate" class="input" type="date"></app-field>
                 <app-required-field class="px-2"></app-required-field>
             </div>
@@ -109,7 +109,7 @@
             <td>{{item.tel}}</td>
             <td>{{item.email}}</td>
             <td class="actions">
-                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
