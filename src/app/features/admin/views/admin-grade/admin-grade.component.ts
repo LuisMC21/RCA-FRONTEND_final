@@ -45,6 +45,7 @@ export class AdminGradeComponent implements OnInit {
           this.getGrades();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
+          this.modalOk.hiddenModal();
         } else {
           this.msjResponse = 'Ha ocurrido un error :(';
           this.successful = false;

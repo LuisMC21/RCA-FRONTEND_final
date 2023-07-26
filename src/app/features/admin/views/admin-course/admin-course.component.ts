@@ -21,6 +21,8 @@ export class AdminCourseComponent implements OnInit {
   successful!: boolean;
   totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
 
   constructor(
     private courseService: CourseService,
@@ -28,9 +30,7 @@ export class AdminCourseComponent implements OnInit {
     private gradeService:GradeService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseService.getAll('', page,size)
+    this.courseService.getAll('', this.page,this.size)
     .subscribe(response =>{
       this.courses = response.data.list;
       console.log(response.data.list)
@@ -50,9 +50,7 @@ export class AdminCourseComponent implements OnInit {
 
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseService.getAll(nom,page,size).subscribe(response =>{
+    this.courseService.getAll(nom,this.page,this.size).subscribe(response =>{
       this.courses = response.data.list;
       console.log(response.data.list)
     })
@@ -100,4 +98,25 @@ export class AdminCourseComponent implements OnInit {
   }
 
 refresh(): void { window.location.reload(); }
+
+getPage(event: any) {
+  this.page = event;
+  this.getCursos();
+}
+
+getSize(event: any) {
+  this.size = event;
+  this.getCursos();
+}
+
+getCursos() {
+  this.courseService.getAll('', this.page, this.size)
+    .subscribe(response => {
+      if (response.successful) {
+        this.courses = response.data.list;
+      } else {
+        this.courses = []
+      }
+    });
+}
 }

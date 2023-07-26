@@ -24,7 +24,8 @@ export class TableGradeComponent implements OnInit {
 
   head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
-  close_modal!: boolean;
+
+  @Input() successful: boolean = true;
 
   msjResponse: string = '';
   nomSearch: string = '';
@@ -37,6 +38,7 @@ export class TableGradeComponent implements OnInit {
   get id() { return this.group.get('id') }
   get name() { return this.group.get('name') }
   get code() { return this.group.get('code') }
+
   ngOnInit(): void {
     this.form();
   }
