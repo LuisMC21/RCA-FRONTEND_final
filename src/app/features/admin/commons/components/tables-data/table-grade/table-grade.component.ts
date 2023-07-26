@@ -16,7 +16,7 @@ export class TableGradeComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  titulo = 'Agregar grado';
+  titulo = 'Agregar Grado';
 
   @Output() gradeSave: EventEmitter<IGrade> = new EventEmitter();
   @Output() gradeDelete: EventEmitter<string> = new EventEmitter();
@@ -45,7 +45,7 @@ export class TableGradeComponent implements OnInit {
 
   form(item?: IGrade): void {
     if(item){
-      this.titulo = 'Actualizar grado';
+      
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -67,9 +67,7 @@ export class TableGradeComponent implements OnInit {
       this.gradeSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    if(this.titulo = 'Actualizar grado'){
-      this.titulo = 'Agregar grado';
-    }
+   
   }
 
   // ELIMINAR
@@ -81,11 +79,23 @@ export class TableGradeComponent implements OnInit {
   refresh(): void { window.location.reload(); }
 
   reset() {
-    if(this.titulo = 'Actualizar grado'){
-      this.titulo = 'Agregar grado';
-    }
+  
     this.group.reset();
   }
+  
+onUpdateButtonClick(item: any) {
+  this.titulo = "Actualizar Grado";
+  this.form(item); // Call the form() function if needed for your logic
+  this.modalAdd.showModal();
+}
+
+// Function to handle when the "Add" button is clicked
+onAddButtonClick() {
+  this.titulo = "Agregar Grado";
+  // Any other logic related to the "Add" button can be added here
+  this.modalAdd.showModal();
+}
+
   getCloseModal(){
     this.group.reset();
   }

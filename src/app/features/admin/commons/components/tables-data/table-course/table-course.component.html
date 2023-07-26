@@ -5,52 +5,28 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add  [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 
-
-<!-- MODAL AGREGAR -->
-<app-modal [title]="'Agregar Curso'" (close_modal)="getCloseModal()" #modalAdd>
-    <form [formGroup]="group" class="form" (ngSubmit)="save()" class="form">
-        <div class="form__field">
-            <div class="field">
-                <app-label-field [title]="'**Curso'"></app-label-field>
-                <app-field><input class="input" type="text" formControlName="name" placeholder="Nombre"></app-field>
-                <!-- <app-required-field class="px-2">
-                        [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
-                </div> -->
-            </div>
+<app-modal #modalAdd>
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+    <form [formGroup]="group" class="form" (ngSubmit)="save()">
+      <div class="form__field">
+        <div class="field">
+          <app-label-field [title]="'**Curso'"></app-label-field>
+          <app-field><input class="input" type="text" formControlName="name" placeholder="Nombre"></app-field>
+          <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+            [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
         </div>
-        <div class="btns flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Agregar</button>
-            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
+      </div>
+      <div class="btns flex py-7 w-full">
+        <button type="submit" [disabled]="group.invalid"
+          class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+        <app-btn-cancel (click)="getCloseModal()" class="w-1/2 mx-2"></app-btn-cancel>
+      </div>
     </form>
-</app-modal>
+  </app-modal>
 
-<!-- MODAL EDITAR -->
-<app-modal [title]="'Editar Curso'" #modalEdit>
-    <form [formGroup]="group" (ngSubmit)="save()" class="form">
-        <div class="form__field">
-
-            <div class="field">
-                <app-label-field [title]="'**Código'"></app-label-field>
-                <app-field><input formControlName="code" class="input" type="text" placeholder="Código"></app-field>
-                <app-label-field [title]="'**Nombre'"></app-label-field>
-                <app-field><input formControlName="name" class="input" type="text" placeholder="Nombre"></app-field>
-                <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                    [text]="'**El campo debe contener mínimo 3 caracteres'"></app-required-field>
-            </div>
-        </div>
-        <div class="btns flex py-7 w-full" ngClass="input">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-
-            <app-btn-cancel (click)="modalEdit.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
-    </form>
-</app-modal>
 
 <!--
 Tabla -->
@@ -64,7 +40,7 @@ Tabla -->
             <td>{{item.name}}</td>
             <!-- <td class="table__description">{{item.descripcion}}</td> -->
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalEdit.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

@@ -5,7 +5,7 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
 <app-modal [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
@@ -56,7 +56,7 @@
             <td>{{item.anioLectivoDTO.name}}</td>
             <td>{{item.cursoDTO.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)"  (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar Aula'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

@@ -11,7 +11,7 @@
         [listStudents]="students"
         [matStudent]="enrollmentList">
     </app-table-enrollment>
-        <app-pagination [paginationData]="paginationData"></app-pagination> 
+        <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)"></app-pagination> 
     </app-table>
 </div>
 

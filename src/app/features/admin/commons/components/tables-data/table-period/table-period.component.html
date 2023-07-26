@@ -5,43 +5,54 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add (click)="modalAdd.showModal()" [title]="title"></app-btn-add>
+    <app-btn-add [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
-<!-- MODAL AGREGAR -->
-<app-modal [title]="'Agregar Periodo'" (close_modal)="getCloseModal()" #modalAdd>
-    <form [formGroup]="group" class="w-full flex flex-wrap justify-between">
-        <div class="field">
-            <app-label-field [title]="'**Nombre'"></app-label-field>
-            <app-field><input formControlName="name" class="input" type="text"></app-field>
-            <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                [text]="'*El campo es requerido'"></app-required-field>
-        </div>
-        <div class="field">
-            <app-label-field [title]="'**Fecha de Inicio'"></app-label-field>
-            <app-field><input formControlName="date_start" class="input" type="date"></app-field>
-            <app-required-field class="px-2" *ngIf="fecInic?.invalid && (fecInic?.dirty || fecInic?.touched)"
-                [text]="'*El campo es requerido'"></app-required-field>
-        </div>
-        <div class="field">
-            <app-label-field [title]="'**Fecha de término'"></app-label-field>
-            <app-field><input formControlName="date_end" class="input" type="date"></app-field>
-            <app-required-field class="px-2" *ngIf="fecTer?.invalid && (fecTer?.dirty || fecTer?.touched)"
-                [text]="'*El campo es requerido'"></app-required-field>
-        </div>
-        <div class="field">
-            <app-label-field [title]="'**Año lectivo'"></app-label-field>
-            <app-field><select id="anio" class="input" name="anio" formControlName="anio_lectivoDTO">
-                    <option *ngFor="let anio of anios" [ngValue]="anio"
-                    [selected]="anio.id === item.anio_lectivoDTO.id">{{ anio.name }}</option>
-                </select></app-field>
-        </div>
-        <div class="flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid"
-                class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guargar</button>
-            <app-btn-cancel (click)="modalAdd.cancelar()"  class="w-1/2 mx-2"></app-btn-cancel>
-        </div>
+<app-modal #modalAdd (close_modal)="getCloseModal()">
+    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+    <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
+      <!-- Fields common for both Add and Update -->
+      <!-- <div class="field">
+        <app-label-field [title]="'Code'"></app-label-field>
+        <app-field><input formControlName="code" class="input" type="text" [readonly]="isEditing"></app-field>
+      </div> -->
+      <div class="field">
+        <app-label-field [title]="'**Nombre'"></app-label-field>
+        <app-field><input formControlName="name" class="input" type="text"></app-field>
+        <app-required-field class="px-2" *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+          [text]="'*El campo es requerido'"></app-required-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'**Fecha de Inicio'"></app-label-field>
+        <app-field><input formControlName="date_start" class="input" type="date"></app-field>
+        <app-required-field class="px-2" *ngIf="fecInic?.invalid && (fecInic?.dirty || fecInic?.touched)"
+          [text]="'*El campo es requerido'"></app-required-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'**Fecha de término'"></app-label-field>
+        <app-field><input formControlName="date_end" class="input" type="date"></app-field>
+        <app-required-field class="px-2" *ngIf="fecTer?.invalid && (fecTer?.dirty || fecTer?.touched)"
+          [text]="'*El campo es requerido'"></app-required-field>
+      </div>
+      <div class="field">
+        <app-label-field [title]="'**Año lectivo'"></app-label-field>
+        <app-field>
+          <select id="anio" class="input" name="anio" formControlName="anio_lectivoDTO">
+            <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="isEditing && anio.id === selectedItem?.anio_lectivoDTO.id">{{ anio.name }}</option>
+          </select>
+        </app-field>
+      </div>
+  
+      <div style="margin-top: 10px;">
+        <p style="font-size: 11px;">**Campos obligatorios</p>
+    </div>
+      <div class="flex py-7 w-full">
+        <button type="submit" [disabled]="group.invalid"
+          class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">{{ isEditing ? 'Guardar' : 'Agregar' }}</button>
+        <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+      </div>
     </form>
-</app-modal>
+  </app-modal>
+  
 
 <table class="table bg-gray-50">
     <thead>
@@ -55,7 +66,7 @@
             <td>{{item.date_end}}</td>
             <td>{{item.anio_lectivoDTO.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
+                <app-btn-update (click)="form(item)"(click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <td>

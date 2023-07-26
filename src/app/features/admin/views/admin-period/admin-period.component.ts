@@ -38,6 +38,8 @@ export class AdminPeriodComponent implements OnInit {
   msjResponse: string = '';
   successful!: boolean;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
   courseTeacher!: ICourseTeacher;
 
   period: IPeriod = {
@@ -225,6 +227,24 @@ export class AdminPeriodComponent implements OnInit {
     }
     */
   }
+  getPeriods(){
+    this.periodService.getAll('', this.page, this.size)
+      .subscribe(response =>{
+        if(response.successful){
+          this.periods = response.data.list;
+        } else {
+          this.periods = [];
+        }
+      });
+  }
+  getPage(event: any) {
+    this.page = event;
+    this.getPeriods();
+  }
 
+  getSize(event: any) {
+    this.size = event;
+    this.getPeriods();
+  }
 }
 

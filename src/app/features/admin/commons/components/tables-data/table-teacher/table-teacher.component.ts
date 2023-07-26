@@ -66,9 +66,7 @@ export class TableTeacherComponent implements OnInit {
   }
 
   form(item?: ITeacher): void {
-    if(item){
-      this.titulo = "Actualizar docente";
-    }
+
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
@@ -112,9 +110,7 @@ export class TableTeacherComponent implements OnInit {
     }
     this.modalAdd.hiddenModal();
 
-    if(this.titulo=="Actualizar docente"){
-      this.titulo = "Agregar Docente";
-    }
+   
   }
 
   // ELIMINAR
@@ -124,14 +120,23 @@ export class TableTeacherComponent implements OnInit {
   }
 
   reset(){
-    if(this.titulo=="Actualizar docente"){
-      this.titulo = "Agregar Docente";
-    }
+ 
     console.log(this.group.value);
     this.group.reset();
 
   }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Docente";
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalAdd.showModal();
+  }
 
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Docente";
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
   getCloseModal(){
     this.group.reset();
   }
