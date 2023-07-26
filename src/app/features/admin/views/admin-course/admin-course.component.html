@@ -7,7 +7,7 @@
             (courseSearch)="search($event)"
             [courses]="courses" [tableName]="tableName">
         </app-table-course> 
-        <app-pagination [paginationData]="paginationData"></app-pagination>    
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>    
     </app-table>
 
 </div>
