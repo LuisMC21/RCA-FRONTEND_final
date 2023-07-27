@@ -13,6 +13,7 @@ export class TableTeacherComponent implements OnInit {
   @Input() teachers!: ITeacher[];
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
 
   showPassword: boolean = false;
   titulo: string = 'Agregar Docente';
@@ -110,7 +111,7 @@ export class TableTeacherComponent implements OnInit {
     }
     this.modalAdd.hiddenModal();
 
-   
+
   }
 
   // ELIMINAR
@@ -120,7 +121,7 @@ export class TableTeacherComponent implements OnInit {
   }
 
   reset(){
- 
+
     console.log(this.group.value);
     this.group.reset();
 

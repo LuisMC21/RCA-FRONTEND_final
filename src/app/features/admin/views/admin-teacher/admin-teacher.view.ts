@@ -23,6 +23,9 @@ export class AdminTeacherView implements OnInit {
   totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   cardMenu=[
     {title:"Matenimiento", image:"bi bi-gear-wide-connected"},
     {title:"Operaciones", image:"bi bi-file-earmark-text"},
@@ -31,25 +34,19 @@ export class AdminTeacherView implements OnInit {
   constructor(private teacherService:TeacherService, private pagination:PaginationService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.teacherService.getAll('', page,size)
+    this.teacherService.getAll('', this.page,this.size)
     .subscribe(response =>{
       this.teachers = response.data.list;
-      console.log(this.teachers);
     });
 
     this.teacherService.getTeacherCount('')
     .subscribe(count => {
       this.totalTeachers = count;
-      console.log(this.totalTeachers);
     });
   }
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.teacherService.getAll(nom,page,size).subscribe(response =>{
+    this.teacherService.getAll(nom,this.page,this.size).subscribe(response =>{
       this.teachers = response.data.list;
     })
   }
@@ -74,7 +71,7 @@ export class AdminTeacherView implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful=false;
         }
       })
@@ -89,6 +86,7 @@ export class AdminTeacherView implements OnInit {
         this.msjResponse = 'Eliminado correctamente';
         this.successful=true;
       } else {
+        this.msjResponse = data.message;
         this.successful = true;
       }
     });
@@ -96,5 +94,26 @@ export class AdminTeacherView implements OnInit {
   }
 
  refresh(): void { window.location.reload(); }
+
+ getPage(event: any) {
+  this.page = event;
+  this.getTeachers();
+}
+
+getSize(event: any) {
+  this.size = event;
+  this.getTeachers();
+}
+
+getTeachers() {
+  this.teacherService.getAll('', this.page, this.size)
+    .subscribe(response => {
+      if (response.successful) {
+        this.teachers = response.data.list;
+      } else {
+        this.teachers = []
+      }
+    });
+}
 
 }

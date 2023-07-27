@@ -1,7 +1,7 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar grado'" [tableName]="tableName">
-        <app-table-grade
+        <app-table-grade [successful] = "successful"
             (gradeDelete)="delete($event)"
             (gradeSave)="save($event)"
             (gradeSearch)="search($event)"

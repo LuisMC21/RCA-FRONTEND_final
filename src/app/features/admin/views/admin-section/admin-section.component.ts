@@ -18,26 +18,25 @@ export class AdminSectionComponent implements OnInit {
   msjResponse: string = '';
   successful!: boolean;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private sectionService: SeccionService, private pagination: PaginationService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.sectionService.getAll('', page, size)
+    this.page = this.pagination.getPage(this.paginationData);
+    this.size = this.pagination.getSize(this.paginationData);
+    this.sectionService.getAll('', this.page, this.size)
       .subscribe(response => {
         this.sections = response.data.list;
-
       });
   }
 
   //BUSCAR
   search(name: string) {
-    console.log(name)
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.sectionService.getAll(name, page, size).subscribe(response => {
+    this.sectionService.getAll(name, this.page, this.size).subscribe(response => {
       this.sections = response.data.list;
     })
   }
@@ -52,7 +51,7 @@ export class AdminSectionComponent implements OnInit {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -62,7 +61,7 @@ export class AdminSectionComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })

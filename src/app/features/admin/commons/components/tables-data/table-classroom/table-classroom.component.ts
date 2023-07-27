@@ -17,6 +17,7 @@ export class TableClassroomComponent implements OnInit {
   @Input() sections: ISeccion[] = [];
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
 
   titulo:string="Agregar Aula"
   item: IAula = {

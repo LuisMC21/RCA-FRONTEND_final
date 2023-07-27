@@ -16,6 +16,7 @@ export class TableCourseComponent implements OnInit {
   @Input() grades:IGrade[]=[];
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
   titulo: string = "Agregar Curso";
   @Output() courseSave:EventEmitter<ICourse> = new EventEmitter();
   @Output() courseDelete:EventEmitter<string> = new EventEmitter();
@@ -26,7 +27,7 @@ export class TableCourseComponent implements OnInit {
 
   head=["Codigo","Curso","Acciones"]
   group!: FormGroup;
-  msjResponse:string=''; 
+  msjResponse:string='';
   nomSearch:string='';
   close_modal!: boolean;
 

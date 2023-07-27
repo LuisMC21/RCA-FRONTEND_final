@@ -43,6 +43,8 @@ export class AdminStudentView implements OnInit {
      private apoderadoService:ParentService) { }
 
   ngOnInit(): void {
+    this.page = this.pagination.getPage(this.paginationData);
+    this.size = this.pagination.getSize(this.paginationData);
 
     this.getStudents();
 
@@ -81,7 +83,7 @@ export class AdminStudentView implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -100,6 +102,7 @@ export class AdminStudentView implements OnInit {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
+        this.msjResponse = data.message;
         this.successful = true;
       }
     });

@@ -18,6 +18,7 @@ export class TableStudentComponent implements OnInit {
   apoderados: IParent[] = [];
   filterApoderado: string = '';
   @Input() students!: IStudent[];
+  @Input() successful!: boolean;
   parents: IParent[] = [];
   usuario: IUser[] = []
   identiParent: string = '';
@@ -210,7 +211,7 @@ export class TableStudentComponent implements OnInit {
   }
 
   reset() {
- 
+
     this.group.reset()
   }
 

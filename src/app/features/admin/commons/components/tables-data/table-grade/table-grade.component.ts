@@ -24,7 +24,8 @@ export class TableGradeComponent implements OnInit {
 
   head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
-  close_modal!: boolean;
+
+  @Input() successful!: boolean;
 
   msjResponse: string = '';
   nomSearch: string = '';
@@ -37,13 +38,14 @@ export class TableGradeComponent implements OnInit {
   get id() { return this.group.get('id') }
   get name() { return this.group.get('name') }
   get code() { return this.group.get('code') }
+
   ngOnInit(): void {
     this.form();
   }
 
   form(item?: IGrade): void {
     if(item){
-      
+
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -65,7 +67,7 @@ export class TableGradeComponent implements OnInit {
       this.gradeSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-   
+
   }
 
   // ELIMINAR
@@ -77,10 +79,10 @@ export class TableGradeComponent implements OnInit {
   refresh(): void { window.location.reload(); }
 
   reset() {
-  
+
     this.group.reset();
   }
-  
+
 onUpdateButtonClick(item: any) {
   this.titulo = "Actualizar Grado";
   this.form(item); // Call the form() function if needed for your logic

@@ -16,6 +16,7 @@ export class TablePeriodComponent implements OnInit {
   @Input() anios: IAnioLectivo[] = []
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
   isEditing: boolean = false;
   selectedItem: any = null; // Variable para almacenar el objeto seleccionado al actualizar
   titulo:string="Agregar Periodo";
@@ -73,7 +74,6 @@ export class TablePeriodComponent implements OnInit {
 
   //BUSCAR
   search(nom:string){
-    console.log(nom);
     this.periodSearch.emit(nom);
   }
 

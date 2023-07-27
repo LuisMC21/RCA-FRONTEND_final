@@ -8,8 +8,8 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
-<app-modal (close_modal)="getCloseModal()" #modalAdd>
-    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+<app-modal [successful]="successful" [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
+
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">

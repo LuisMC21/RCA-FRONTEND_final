@@ -13,6 +13,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() sections: ISeccion[] = [];
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
 
   titulo:string = 'Agregar Sección';
 
@@ -43,7 +44,7 @@ export class TableSeccionComponent implements OnInit {
 
   form(item?: ISeccion): void {
     if(item){
-      
+
     }
     this.group = this.formBuilder.group({
       id: [item ? item.id : null],
@@ -88,7 +89,7 @@ export class TableSeccionComponent implements OnInit {
   }
 
   reset():void{
- 
+
     this.group.reset();
   }
 

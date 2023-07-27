@@ -21,6 +21,8 @@ export class AdminCourseComponent implements OnInit {
   successful!: boolean;
   totalTeachers: number=0;
   @ViewChild('modalOk') modalOk!:ModalComponent;
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
 
   constructor(
     private courseService: CourseService,
@@ -28,12 +30,9 @@ export class AdminCourseComponent implements OnInit {
     private gradeService:GradeService) { }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseService.getAll('', page,size)
+    this.courseService.getAll('', this.page,this.size)
     .subscribe(response =>{
       this.courses = response.data.list;
-      console.log(response.data.list)
 
     });
 
@@ -44,17 +43,13 @@ export class AdminCourseComponent implements OnInit {
     this.courseService.getCursoCount('')
     .subscribe(count => {
       this.totalTeachers = count;
-      console.log(this.totalTeachers);
     });
   }
 
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseService.getAll(nom,page,size).subscribe(response =>{
+    this.courseService.getAll(nom,this.page,this.size).subscribe(response =>{
       this.courses = response.data.list;
-      console.log(response.data.list)
     })
   }
 
@@ -63,23 +58,21 @@ export class AdminCourseComponent implements OnInit {
     console.log(course)
     if(course.id==null){
       this.courseService.add(course).subscribe(data =>{
-        console.log(data.message)
         if(data.successful===true){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     }else{
       this.courseService.update(course).subscribe(data =>{
-        console.log(data.message);
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -93,11 +86,34 @@ export class AdminCourseComponent implements OnInit {
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = true;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }
 
 refresh(): void { window.location.reload(); }
+
+getPage(event: any) {
+  this.page = event;
+  this.getCursos();
+}
+
+getSize(event: any) {
+  this.size = event;
+  this.getCursos();
+}
+
+getCursos() {
+  this.courseService.getAll('', this.page, this.size)
+    .subscribe(response => {
+      if (response.successful) {
+        this.courses = response.data.list;
+      } else {
+        this.courses = []
+      }
+    });
+}
 }

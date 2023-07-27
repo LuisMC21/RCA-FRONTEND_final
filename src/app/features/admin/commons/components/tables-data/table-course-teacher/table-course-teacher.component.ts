@@ -16,6 +16,7 @@ export class TableCourseTeacherComponent implements OnInit {
 
   @Input() classrooms: IAula[] = [];
   @Input() courseTeachers: ICourseTeacher[] = [];
+  @Input() successful!: boolean;
 
   @Input() teachers: ITeacher[] = [];
   @Input() courses: ICourse[] = [];
@@ -90,7 +91,7 @@ export class TableCourseTeacherComponent implements OnInit {
   form(item?: ICourseTeacher): void {
     if(item){
       this.item = item;
-     
+
     }
 
     this.group = this.formBuilder.group({
@@ -113,7 +114,7 @@ export class TableCourseTeacherComponent implements OnInit {
       this.courseTeacherSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-    
+
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Asignatura";
@@ -127,7 +128,7 @@ export class TableCourseTeacherComponent implements OnInit {
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.courseTeacherDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -175,7 +176,7 @@ export class TableCourseTeacherComponent implements OnInit {
       }
     }
     this.group.reset();
-  
+
   }
 
   getCloseModal(){

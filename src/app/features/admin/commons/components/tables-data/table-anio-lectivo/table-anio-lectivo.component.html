@@ -9,7 +9,7 @@
 </div>
 
 <!-- MODAL AGREGAR -->
-<app-modal  #modalAdd (close_modal)="getCloseModal()">
+<app-modal [successful]="successful" #modalAdd (close_modal)="getCloseModal()">
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
         <div class="form__field">
