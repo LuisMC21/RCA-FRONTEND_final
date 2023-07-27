@@ -1,7 +1,7 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar Aula'" [tableName]="tableName">
-        <app-table-classroom
+        <app-table-classroom [successful] = "successful"
             (classroomDelete)="delete($event)"
             (classroomSave)="save($event)"
             (classroomSearch)="search($event)"

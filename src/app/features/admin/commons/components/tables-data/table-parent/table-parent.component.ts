@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
@@ -80,13 +80,11 @@ export class TableParentComponent implements OnInit {
     if (this.group.valid) {
       this.parentSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR
   delete(id: string) {
     this.parentDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Apoderado";
@@ -106,6 +104,13 @@ export class TableParentComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }

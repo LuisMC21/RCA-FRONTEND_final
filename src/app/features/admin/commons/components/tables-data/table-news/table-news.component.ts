@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { INews } from 'src/app/features/admin/interfaces/news';
 import { INewsGet } from 'src/app/features/admin/interfaces/newsGet';
@@ -115,16 +115,13 @@ export class TableNewsComponent implements OnInit {
     console.log(this.group.value);
     if (this.group.valid) {
       this.group.addControl('imagenBase64', new FormControl(this.imagenBase64, [Validators.required]));
-      console.log(this.group.get('imagenBase64'));
       this.newSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR
   delete(id: string) {
     this.newDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
 
   captureFile(imgFile: any) {
@@ -164,7 +161,12 @@ export class TableNewsComponent implements OnInit {
     this.group.reset();
   }
 
-
+ // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+ ngOnChanges(changes: SimpleChanges) {
+  if(this.successful){
+    this.modalAdd.hiddenModal();
+  }
+}
 }
 
 

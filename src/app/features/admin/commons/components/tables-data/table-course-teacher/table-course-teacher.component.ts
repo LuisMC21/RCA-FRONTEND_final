@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
@@ -113,8 +113,6 @@ export class TableCourseTeacherComponent implements OnInit {
     if (this.group.valid) {
       this.courseTeacherSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
-
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Asignatura";
@@ -131,11 +129,7 @@ export class TableCourseTeacherComponent implements OnInit {
   // ELIMINAR
   delete(id: string) {
     this.courseTeacherDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
-
-
-  refresh(): void { window.location.reload(); }
 
   reset() {
     this.item={
@@ -181,5 +175,12 @@ export class TableCourseTeacherComponent implements OnInit {
 
   getCloseModal(){
     this.reset();
+  }
+
+   // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+   ngOnChanges(changes: SimpleChanges) {
+    if(this.successful){
+      this.modalAdd.hiddenModal();
+    }
   }
 }

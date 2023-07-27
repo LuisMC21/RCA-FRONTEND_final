@@ -2,7 +2,7 @@
     <!-- <app-card-menu class="cardMenu py-4" [cardMenu]="cardMenu"></app-card-menu> < -->
     <app-route class="my-2"></app-route>
     <app-table #table [tableName]="tableName">
-        <app-table-student
+        <app-table-student [successful] = "successful"
             (studentSave)="save($event)"
             (studentDelete)="delete($event)"
             (studentSearch)="search($event)"

@@ -2,13 +2,13 @@
     <!-- <app-card-menu class="cardMenu py-4" [cardMenu]="cardMenu"></app-card-menu> -->
     <app-route></app-route>
     <app-table  [tableName]="tableName">
-        <app-table-teacher 
-            (teacherDelete)="delete($event)" 
-            (teacherSave)="save($event)" 
+        <app-table-teacher  [successful] = "successful"
+            (teacherDelete)="delete($event)"
+            (teacherSave)="save($event)"
             (teacherSearch)="search($event)"
-            [teachers]="teachers" 
-        [tableName]="tableName" [teachers]="teachers"></app-table-teacher> 
-        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>  
+            [teachers]="teachers"
+        [tableName]="tableName" [teachers]="teachers"></app-table-teacher>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 <!-- MENSAJE DE OPERACION -->

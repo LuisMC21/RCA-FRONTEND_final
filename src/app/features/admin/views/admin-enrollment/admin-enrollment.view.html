@@ -1,9 +1,9 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar curso'" [tableName]="tableName">
-        <app-table-enrollment
-        (enrollmentSave)="save($event)" 
-        (enrollmentDelete)="delete($event)" 
+        <app-table-enrollment [successful] = "successful"
+        (enrollmentSave)="save($event)"
+        (enrollmentDelete)="delete($event)"
         (identiGradePeriodReportXLS)="matGradoResponseXSL($event)"
         (studentSearch)="searchStudent($event)"
         [aulas]="aulas"
@@ -11,7 +11,7 @@
         [listStudents]="students"
         [matStudent]="enrollmentList">
     </app-table-enrollment>
-        <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)"></app-pagination> 
+        <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)"></app-pagination>
     </app-table>
 </div>
 
