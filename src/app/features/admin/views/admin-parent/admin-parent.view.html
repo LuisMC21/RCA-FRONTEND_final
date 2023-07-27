@@ -1,13 +1,13 @@
 <div class="px-8">
     <app-route class="my-2"></app-route>
     <app-table [title]="'Agregar apoderado'" #table [tableName]="tableName">
-        <app-table-parent 
-            (parentDelete)="delete($event)" 
-            (parentSave)="save($event)" 
+        <app-table-parent [successful] = "successful"
+            (parentDelete)="delete($event)"
+            (parentSave)="save($event)"
             (parentSearch)="search($event)"
             [parents]="parents" [tableName]="'Apoderados'">
         </app-table-parent>
-    <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" ></app-pagination>  
+    <app-pagination [paginationData]="paginationData" (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" ></app-pagination>
     </app-table>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { IStudent } from 'src/app/features/admin/interfaces/student';
@@ -263,5 +263,12 @@ export class TableStudentComponent implements OnInit {
     const usuarioDTOFormGroup = this.group.get('apoderadoDTO') as FormGroup;
     usuarioDTOFormGroup.get('name')?.setValue(this.selectedApoderado);
     usuarioDTOFormGroup.get('id')?.setValue(this.selectedApoderadoId);
+  }
+
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
   }
 }

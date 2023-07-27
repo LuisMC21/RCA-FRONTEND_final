@@ -26,13 +26,8 @@ export class AdminAniolectivoComponent implements OnInit {
     private pagination: PaginationService,
   ) { }
 
-
-
   ngOnInit(): void {
-
     this.getAnios();
-
-
   }
   //BUSCAR
   search(nom: string) {
@@ -49,8 +44,9 @@ export class AdminAniolectivoComponent implements OnInit {
   save(anio: IAnioLectivo) {
     if (anio.id == null) {
       this.anioService.add(anio).subscribe(data => {
-        console.log(data)
-        if (data.successful === true) {
+
+        console.log(data.message)
+        if (data.successful) {
           this.getAnios();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
@@ -78,7 +74,8 @@ export class AdminAniolectivoComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.anioService.delete(id).subscribe(data => {
-      if (data.successful === true) {
+
+      if (data.successful) {
         this.getAnios();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;

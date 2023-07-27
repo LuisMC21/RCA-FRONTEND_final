@@ -2,17 +2,17 @@
     <!-- <app-card-menu class="cardMenu py-4" [cardMenu]="cardMenu"></app-card-menu> < -->
     <app-route class="my-2"></app-route>
     <app-table #table [tableName]="tableName">
-        <app-table-grade-period 
+        <app-table-grade-period
         (identiCurGradeReport)="curGradoReport($event)"
         (identiCurGradeReportXLS)="curGradoResponseXSL($event)"
         (gradePeriodSave)="save($event)"
         (courseGradeSave)="saveCG($event)"
-        [listGrades]="listGrades" 
+        [listGrades]="listGrades"
         [listPeriods]="listPeriods"
         [courseGrades]="courseGrade">
-       
+
        </app-table-grade-period>
-        <app-pagination [paginationData]="paginationData"></app-pagination>  
+        <app-pagination [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 

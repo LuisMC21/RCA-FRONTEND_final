@@ -25,7 +25,7 @@ export class TableGradeComponent implements OnInit {
   head = ["Codigo", "Grado", "Acciones"]
   group!: FormGroup;
 
-  @Input() successful: boolean = false;
+  @Input() successful!: boolean;
 
   msjResponse: string = '';
   nomSearch: string = '';
@@ -44,11 +44,11 @@ export class TableGradeComponent implements OnInit {
   }
 
   form(item?: IGrade): void {
-      this.group = this.formBuilder.group({
-        id: [item ? item.id : null],
-        code: [item ? item.code : ''],
-        name: [item ? item.name : '', [Validators.required, Validators.minLength(1), Validators.maxLength(1), Validators.pattern("^[0-9]*$")]],
-      });
+    this.group = this.formBuilder.group({
+      id: [item ? item.id : null],
+      code: [item ? item.code : ''],
+      name: [item ? item.name : '', [Validators.required, Validators.minLength(1), Validators.maxLength(1), Validators.pattern("^[0-9]*$")]],
+    });
   }
 
   //BUSCAR
@@ -66,42 +66,32 @@ export class TableGradeComponent implements OnInit {
   // ELIMINAR
   delete(id: string) {
     this.gradeDelete.emit(id);
-    if(this.successful){
-      this.modalAdd.hiddenModal();
-    }
   }
 
-  refresh(): void { window.location.reload(); }
+  onUpdateButtonClick(item: any) {
+    this.titulo = "Actualizar Grado";
+    this.form(item);
+    this.modalAdd.showModal();
+  }
 
-  reset() {
+  // Function to handle when the "Add" button is clicked
+  onAddButtonClick() {
+    this.titulo = "Agregar Grado";
+    this.group.reset();
+    // Any other logic related to the "Add" button can be added here
+    this.modalAdd.showModal();
+  }
 
+  getCloseModal() {
     this.group.reset();
   }
 
-onUpdateButtonClick(item: any) {
-  this.titulo = "Actualizar Grado";
-  this.form(item);
-  this.modalAdd.showModal();
-}
-
-// Function to handle when the "Add" button is clicked
-onAddButtonClick() {
-  this.titulo = "Agregar Grado";
-  this.group.reset();
-  // Any other logic related to the "Add" button can be added here
-  this.modalAdd.showModal();
-}
-
-  getCloseModal(){
-    this.group.reset();
-  }
-
-  titleAgregar(){
+  titleAgregar() {
     this.titulo = "Agregar grado";
   }
-
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
   ngOnChanges(changes: SimpleChanges) {
-    if(this.successful){
+    if (this.successful) {
       this.modalAdd.hiddenModal();
     }
   }

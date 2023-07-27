@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IEnrollment } from 'src/app/features/admin/interfaces/enrollment';
 import { IGradePeriod } from 'src/app/features/admin/interfaces/grade-period';
@@ -260,7 +260,6 @@ export class TableEnrollmentComponent implements OnInit {
    // ELIMINAR
   delete(id:string){
     this.enrollmentDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
 
 
@@ -285,6 +284,7 @@ export class TableEnrollmentComponent implements OnInit {
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
+
   reset(){
     this.item={
       id:'',
@@ -324,13 +324,18 @@ export class TableEnrollmentComponent implements OnInit {
       }
 
     }
-    console.log(this.group.value);
     this.group.reset();
-
   }
 
   getCloseModal(){
     this.reset();
+  }
+
+   // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+   ngOnChanges(changes: SimpleChanges) {
+    if(this.successful){
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }

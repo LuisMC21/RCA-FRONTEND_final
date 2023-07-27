@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ITeacher } from 'src/app/features/admin/interfaces/teacher';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
@@ -42,7 +42,7 @@ export class TableTeacherComponent implements OnInit {
     { title: 'Superior Técnica', value: 'T' },
     { title: 'Superior Universitaria', value: 'U' }];
 
-  head = ["Codigo", "Docente", "Documento","n° documento", "Teléfono","Correo", "Especialidad", "Grado", "Acciones"]
+  head = ["Codigo", "Docente", "Documento", "n° documento", "Teléfono", "Correo", "Especialidad", "Grado", "Acciones"]
   msjResponse: string = '';
 
   constructor(private formBuilder: FormBuilder) { }
@@ -53,14 +53,14 @@ export class TableTeacherComponent implements OnInit {
   get type_doc() { return this.group.get('usuarioDTO.type_doc') }
   get numdoc() { return this.group.get('usuarioDTO.numdoc') }
   get gra_inst() { return this.group.get('usuarioDTO.gra_inst') }
-  get experience(){return this.group.get('experience')}
-  get dose(){return this.group.get('dose')}
-  get specialty(){return this.group.get('specialty')}
-  get nombreUsuario(){return this.group.get('nombreUsuario')}
-  get birthdate(){return this.group.get('usuarioDTO.birthdate')}
-  get tel(){return this.group.get('usuarioDTO.tel')}
-  get email(){return this.group.get('usuarioDTO.email')}
-  get password(){return this.group.get('usuarioDTO.password')}
+  get experience() { return this.group.get('experience') }
+  get dose() { return this.group.get('dose') }
+  get specialty() { return this.group.get('specialty') }
+  get nombreUsuario() { return this.group.get('nombreUsuario') }
+  get birthdate() { return this.group.get('usuarioDTO.birthdate') }
+  get tel() { return this.group.get('usuarioDTO.tel') }
+  get email() { return this.group.get('usuarioDTO.email') }
+  get password() { return this.group.get('usuarioDTO.password') }
 
   ngOnInit(): void {
     this.form();
@@ -120,7 +120,7 @@ export class TableTeacherComponent implements OnInit {
     this.modalDelete.hiddenModal();
   }
 
-  reset(){
+  reset() {
 
     console.log(this.group.value);
     this.group.reset();
@@ -138,13 +138,18 @@ export class TableTeacherComponent implements OnInit {
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
-  getCloseModal(){
+  getCloseModal() {
     this.group.reset();
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
+  }
 
 }

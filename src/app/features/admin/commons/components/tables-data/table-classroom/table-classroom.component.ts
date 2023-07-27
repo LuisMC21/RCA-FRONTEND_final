@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
 import { IGrade } from 'src/app/features/admin/interfaces/grade';
@@ -75,16 +75,12 @@ export class TableClassroomComponent implements OnInit {
     if (this.group.valid) {
       this.classroomSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR
   delete(id: string) {
     this.classroomDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
-
-  refresh(): void { window.location.reload(); }
 
   reset() {
     this.group.reset();
@@ -94,7 +90,6 @@ export class TableClassroomComponent implements OnInit {
       gradoDTO: { id: '', code: '', name: '' },
       seccionDTO: { id: '', code: '', name: '' }
     };
-    console.log(this.group);
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Aula";
@@ -110,6 +105,13 @@ export class TableClassroomComponent implements OnInit {
   }
   getCloseModal(){
     this.reset();
+  }
+
+   // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+   ngOnChanges(changes: SimpleChanges) {
+    if(this.successful){
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }

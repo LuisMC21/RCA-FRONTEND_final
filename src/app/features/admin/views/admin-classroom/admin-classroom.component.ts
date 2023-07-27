@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { IAula } from '../../interfaces/aula';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { AulaService } from '../../commons/services/aula.service';
@@ -67,7 +67,6 @@ export class AdminClassroomComponent implements OnInit {
           this.getClassrooms();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-          this.getClassrooms();
         } else {
           this.msjResponse = data.message;
           this.successful = false;
