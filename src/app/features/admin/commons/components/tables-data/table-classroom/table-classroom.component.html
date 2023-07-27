@@ -8,13 +8,13 @@
     <app-btn-add [title]="title"(click)="onAddButtonClick()"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
-<app-modal (close_modal)="getCloseModal()" #modalAdd>
+<app-modal [successful]="successful" (close_modal)="getCloseModal()" #modalAdd>
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
         <div class="field">
             <app-label-field [title]="'**Grado'"></app-label-field>
             <app-field><select id="grade" class="input" name="grade" formControlName="gradoDTO">
-                    <option *ngFor="let grade of grades" [ngValue]="grade" 
+                    <option *ngFor="let grade of grades" [ngValue]="grade"
                     [selected]="grade.id === item.gradoDTO.id">{{ grade.name }}</option>
                 </select></app-field>
         </div>

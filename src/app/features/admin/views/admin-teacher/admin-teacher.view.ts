@@ -37,13 +37,11 @@ export class AdminTeacherView implements OnInit {
     this.teacherService.getAll('', this.page,this.size)
     .subscribe(response =>{
       this.teachers = response.data.list;
-      console.log(this.teachers);
     });
 
     this.teacherService.getTeacherCount('')
     .subscribe(count => {
       this.totalTeachers = count;
-      console.log(this.totalTeachers);
     });
   }
   //BUSCAR
@@ -73,7 +71,7 @@ export class AdminTeacherView implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful=true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful=false;
         }
       })
@@ -88,6 +86,7 @@ export class AdminTeacherView implements OnInit {
         this.msjResponse = 'Eliminado correctamente';
         this.successful=true;
       } else {
+        this.msjResponse = data.message;
         this.successful = true;
       }
     });

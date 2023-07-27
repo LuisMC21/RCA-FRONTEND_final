@@ -56,17 +56,14 @@ export class AdminEnrollmentView implements OnInit {
   ngOnInit(): void {
     this.enrollmentService.getAll("",0,5).subscribe(response =>{
       this.enrollmentList= response.data.list;
-      console.log(response.data.list)
     })
     this.searchStudent();
     this.aulaService.getAll("",0,5).subscribe(response =>{
       this.aulas= response.data.list;
-      console.log(response.data.list)
     })
 
     this.anioService.getAll("",0,5).subscribe(response =>{
       this.aniosL= response.data.list;
-      console.log(response.data.list)
     })
 
   }
@@ -111,7 +108,7 @@ export class AdminEnrollmentView implements OnInit {
           this.msjResponse = 'Matricula actualizada con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -124,15 +121,17 @@ export class AdminEnrollmentView implements OnInit {
   getStudentSave(student:IStudent){
     this.studentSave = student;
   }
-  
+
  //ELIMINAR
  delete(id:string){
   this.enrollmentService.delete(id).subscribe(data =>{
     if(data.successful===true){
       this.msjResponse = 'Eliminado correctamente';
       this.successful = true;
+    } else {
+      this.msjResponse = data.message;
+      this.successful = true;
     }
-    this.successful = true;
   });
   this.modalOk.showModal();
 }

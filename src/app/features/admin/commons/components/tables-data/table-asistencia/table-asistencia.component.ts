@@ -15,6 +15,7 @@ import { AsistenciaService } from '../../../services/asistencia.service';
 export class TableAsistenciaComponent implements OnInit {
 
   @Input() asistencias: IAsistencia[] = []
+  @Input() successful!: boolean;
 
   @Input() tableName!: string;
   @Input() title!: string;

@@ -7,7 +7,7 @@
     </div>
     <app-btn-add [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
-<app-modal #modalAdd (close_modal)="getCloseModal()">
+<app-modal [successful]="successful" #modalAdd (close_modal)="getCloseModal()">
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
       <!-- Fields common for both Add and Update -->
@@ -41,7 +41,7 @@
           </select>
         </app-field>
       </div>
-  
+
       <div style="margin-top: 10px;">
         <p style="font-size: 11px;">**Campos obligatorios</p>
     </div>
@@ -52,7 +52,7 @@
       </div>
     </form>
   </app-modal>
-  
+
 
 <table class="table bg-gray-50">
     <thead>

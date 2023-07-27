@@ -69,14 +69,14 @@ export class AdminPeriodComponent implements OnInit {
   ngOnInit(): void {
 
     //listar periodos
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.periodService.getAll('', page, size)
+    this.page = this.pagination.getPage(this.paginationData);
+    this.size = this.pagination.getSize(this.paginationData);
+    this.periodService.getAll('', this.page, this.size)
       .subscribe(response => {
         this.periods = response.data.list;
       });
 
-    this.anioService.getAll('',0,5).subscribe(response=>{
+    this.anioService.getAll('',0,50).subscribe(response=>{
       this.anios = response.data.list;
     })
 
@@ -84,10 +84,7 @@ export class AdminPeriodComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.periodService.getAll(nom, page, size).subscribe(response => {
-      console.log(response);
+    this.periodService.getAll(nom, this.page, this.size).subscribe(response => {
       this.periods = response.data.list;
     })
   }
@@ -96,22 +93,21 @@ export class AdminPeriodComponent implements OnInit {
   save(period: IPeriod) {
     if (period.id == null) {
       this.periodService.add(period).subscribe(data => {
-        if (data.message === 'ok') {
+        if (data.successful) {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     } else {
       this.periodService.update(period).subscribe(data => {
-        console.log(data.message)
-        if (data.message === 'ok') {
+        if (data.successful) {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -122,10 +118,13 @@ export class AdminPeriodComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.periodService.delete(id).subscribe(data => {
-      if (data.message === 'ok') {
+      if (data.successful) {
         this.msjResponse = 'Eliminado correctamente';
+        this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }
@@ -137,7 +136,6 @@ export class AdminPeriodComponent implements OnInit {
     let totalevaluaciones = 0;
 
     this.evaluacionService.getAll(id, 0, 5).subscribe(response => {
-      console.log(response);
       totalevaluaciones = response.data.countFilter || 0;
       this.countEvaluciones(totalevaluaciones, id);
     })

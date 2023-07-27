@@ -78,6 +78,8 @@ export class TableEnrollmentComponent implements OnInit {
   // @Input() matGrado:IReportMatGrade[]=[]
   @Input() matStudent:IEnrollment[]=[]
   @Input() title!: string;
+  @Input() successful!: boolean;
+
   item: IEnrollment={
     id:'',
     code:'',
@@ -223,8 +225,8 @@ export class TableEnrollmentComponent implements OnInit {
       });
     }
   }
-  
-  
+
+
   selectStudent(student: IStudent) {
     this.selectedStudent = `${student.usuarioDTO.pa_surname} ${student.usuarioDTO.ma_surname} ${student.usuarioDTO.name}`;
     this.existsStudent = false;
@@ -235,7 +237,7 @@ export class TableEnrollmentComponent implements OnInit {
     alumnoDTOFormGroup.get('id')?.setValue(this.selectedStudentId);
     console.log(this.selectedStudentId);
   }
-  
+
 
 
   assignStudent(alumnoDTO: IStudent) {
@@ -253,8 +255,8 @@ export class TableEnrollmentComponent implements OnInit {
       this.titulo = "Agregar Alumno";
     }
   }
-  
-  
+
+
    // ELIMINAR
   delete(id:string){
     this.enrollmentDelete.emit(id)
@@ -273,7 +275,7 @@ export class TableEnrollmentComponent implements OnInit {
     this.titulo = "Actualizar Matricula";
     this.modalAdd.showModal()
     this.form(item); // Call the form() function if needed for your logic
-   
+
   }
 
   // Function to handle when the "Add" button is clicked
@@ -320,7 +322,7 @@ export class TableEnrollmentComponent implements OnInit {
           rol:''
         }
       }
-  
+
     }
     console.log(this.group.value);
     this.group.reset();

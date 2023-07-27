@@ -18,7 +18,8 @@ export class TableNewsComponent implements OnInit {
   head = ["TITULO", "SUMILLA", "DESCRIPCIÓN", "FECHA", "IMAGEN", "ACCIONES"]
   @Input() news: INewsGet[] = []
   @Input() tableName!: string;
- 
+  @Input() successful!: boolean;
+
   titulo:string = 'Agregar Noticia';
   imagenBase64: string = '';
   editar:Boolean = false;
@@ -120,7 +121,7 @@ export class TableNewsComponent implements OnInit {
     this.modalAdd.hiddenModal();
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.newDelete.emit(id)
     this.modalDelete.hiddenModal();
@@ -151,7 +152,7 @@ export class TableNewsComponent implements OnInit {
     this.form(item); // Call the form() function if needed for your logic
     this.modalAdd.showModal();
   }
-  
+
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.titulo = "Agregar Noticia";
@@ -159,8 +160,8 @@ export class TableNewsComponent implements OnInit {
     this.modalAdd.showModal();
   }
 
-  reset(){
-    
+  getCloseModal(){
+    this.group.reset();
   }
 
 

@@ -33,7 +33,6 @@ export class AdminCourseComponent implements OnInit {
     this.courseService.getAll('', this.page,this.size)
     .subscribe(response =>{
       this.courses = response.data.list;
-      console.log(response.data.list)
 
     });
 
@@ -44,7 +43,6 @@ export class AdminCourseComponent implements OnInit {
     this.courseService.getCursoCount('')
     .subscribe(count => {
       this.totalTeachers = count;
-      console.log(this.totalTeachers);
     });
   }
 
@@ -52,7 +50,6 @@ export class AdminCourseComponent implements OnInit {
   search(nom:string){
     this.courseService.getAll(nom,this.page,this.size).subscribe(response =>{
       this.courses = response.data.list;
-      console.log(response.data.list)
     })
   }
 
@@ -61,23 +58,21 @@ export class AdminCourseComponent implements OnInit {
     console.log(course)
     if(course.id==null){
       this.courseService.add(course).subscribe(data =>{
-        console.log(data.message)
         if(data.successful===true){
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     }else{
       this.courseService.update(course).subscribe(data =>{
-        console.log(data.message);
         if(data.successful===true){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -91,8 +86,10 @@ export class AdminCourseComponent implements OnInit {
       if(data.successful===true){
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = true;
       }
-      this.successful = true;
     });
     this.modalOk.showModal();
   }

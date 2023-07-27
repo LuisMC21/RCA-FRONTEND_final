@@ -33,7 +33,11 @@ export class AdminGradeComponent implements OnInit {
   //BUSCAR
   search(nom: string) {
     this.gradeService.getAll(nom, this.page, this.size).subscribe(response => {
-      this.grades = response.data.list;
+      if(response.successful){
+        this.grades = response.data.list;
+      } else {
+        this.grades = [];
+      }
     })
   }
 
@@ -45,9 +49,8 @@ export class AdminGradeComponent implements OnInit {
           this.getGrades();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-          this.modalOk.hiddenModal();
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -58,7 +61,7 @@ export class AdminGradeComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })

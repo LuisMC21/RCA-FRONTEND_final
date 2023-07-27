@@ -25,25 +25,22 @@ export class AdminParentView implements OnInit {
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   tableName = "Apoderado"
-  constructor(private parentService:ParentService, private pagination:PaginationService) { 
-    
+  constructor(private parentService:ParentService, private pagination:PaginationService) {
+
   }
 
   ngOnInit(): void {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.parentService.getAll('', page,size)
+    this.page = this.pagination.getPage(this.paginationData);
+    this.size = this.pagination.getSize(this.paginationData);
+    this.parentService.getAll('', this.page, this.size)
     .subscribe(response =>{
       this.parents = response.data.list;
-      console.log(response.data.list)
     });
   }
 
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.parentService.getAll(nom,page,size).subscribe(response =>{
+    this.parentService.getAll(nom,this.page, this.size).subscribe(response =>{
       this.parents = response.data.list;
     })
   }
@@ -58,34 +55,36 @@ export class AdminParentView implements OnInit {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     }else{
       this.parentService.update(parent).subscribe(data =>{
-        console.log(parent)
         if(data.successful){
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         }else{
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
     }
     this.modalOk.showModal();
-    
+
   }
 
 
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id:string){
     this.parentService.delete(id).subscribe(data =>{
       if(data.successful){
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
+      } else{
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();

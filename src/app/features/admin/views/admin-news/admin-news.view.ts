@@ -46,12 +46,11 @@ export class AdminNewsView implements OnInit {
     if (noticia.id == null) {
         //Agregar noticia
         this.newsService.add(noticia).subscribe(data => {
-          console.log(data.message);
           if (data.message === 'ok') {
             this.msjResponse = 'Agregado correctamente';
             this.successful = true;
           } else {
-            this.msjResponse = 'Ha ocurrido un error :(';
+            this.msjResponse = data.message;
             this.successful = false;
           }
       })
@@ -62,7 +61,7 @@ export class AdminNewsView implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -70,13 +69,16 @@ export class AdminNewsView implements OnInit {
     this.modalOk.showModal();
   }
 
-  //ELIMINAR 
+  //ELIMINAR
   delete(id: string) {
     this.newsService.delete(id).subscribe(data => {
       console.log(data.message);
       if (data.message === 'ok') {
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
     });
     this.modalOk.showModal();

@@ -8,7 +8,7 @@
     <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 
-<app-modal (close_modal)="getCloseModal()" #modalAdd>
+<app-modal [successful]="successful" (close_modal)="getCloseModal()" #modalAdd>
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form">
 

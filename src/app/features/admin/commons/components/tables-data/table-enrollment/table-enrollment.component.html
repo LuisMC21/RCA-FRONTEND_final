@@ -5,7 +5,7 @@
         <app-btn-add  [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
     </div>
 </div>
-<app-modal #modalAdd (close_modal)="getCloseModal()">
+<app-modal [successful]="successful" #modalAdd (close_modal)="getCloseModal()">
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" (ngSubmit)="save()" class="form" >
 
@@ -34,7 +34,7 @@
                 <app-label-field [title]="'**Alumno'"></app-label-field>
                 <app-field> <input formControlName="name" class="input" type="text"
                         placeholder="Buscar alumno por DNI, nombre o apellidos" #searchStudent
-                        (input)="searchStudents(searchStudent.value)"> 
+                        (input)="searchStudents(searchStudent.value)">
                 </app-field>
                 <div class="field">
                     <app-search *ngIf="alumno && alumno.length > 0 && searchStudent.value.length>0">
@@ -58,8 +58,8 @@
             <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/4 h-9 rounded-3xl text-white">Guardar</button>
             <app-btn-cancel class="btn__cancel w-1/4" (click)="modalAdd.cancelar(); reset();"></app-btn-cancel>
         </div>
-        
-        
+
+
     </form>
 
 </app-modal>

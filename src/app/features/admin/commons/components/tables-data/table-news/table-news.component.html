@@ -6,10 +6,10 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"type="search" placeholder="Buscar">
     </div>
     <app-btn-add   (click)="onAddButtonClick()"></app-btn-add>
-</div> 
+</div>
 
 <!-- MODAL AGREGAR -->
-<app-modal  #modalAdd>
+<app-modal [successful]="successful" (close_modal)="getCloseModal()"  #modalAdd>
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
         <div class="field">
@@ -48,8 +48,8 @@
             <p style="font-size: 11px;">**Campos obligatorios</p>
         </div>
         <div class="flex py-7 w-full">
-            <button type="submit" [disabled]="group.invalid || !imagenSelected" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button> 
-            <app-btn-cancel (click)="modalAdd.hiddenModal()" (click)="reset()" class="w-1/2 mx-2"></app-btn-cancel>
+            <button type="submit" [disabled]="group.invalid || !imagenSelected" class="field__input--button w-1/2 mx-2 h-full rounded-3xl text-white">Guardar</button>
+            <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>
 </app-modal>
@@ -75,7 +75,7 @@
                     <label><b>Título: </b>{{item.title}}</label>
                 </div>
                 <div class="flex py-7 w-full">
-                    <app-btn-cancel (click)="modalDelete.hiddenModal()" class="w-1/2 mx-2"></app-btn-cancel>
+                    <app-btn-cancel (click)="modalDelete.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
                     <app-btn-confirm-delete (click)="delete(item.id)" class="w-1/2 mx-2"></app-btn-confirm-delete>
                 </div>
             </app-modal>

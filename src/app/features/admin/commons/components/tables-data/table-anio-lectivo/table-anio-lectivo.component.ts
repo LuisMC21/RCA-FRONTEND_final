@@ -11,6 +11,7 @@ export class TableAnioLectivoComponent implements OnInit {
   @Input() anios: IAnioLectivo[]=[];
   @Input() tableName!: string;
   @Input() title!: string;
+  @Input() successful!: boolean;
 
   titulo:string = 'Agregar Año Lectivo';
 
@@ -41,7 +42,7 @@ export class TableAnioLectivoComponent implements OnInit {
 
   form(item?:IAnioLectivo):void{
     if(item){
-      
+
     }
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
@@ -64,7 +65,7 @@ export class TableAnioLectivoComponent implements OnInit {
     this.anioSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-   
+
   }
  // ELIMINAR
  delete(id:string){

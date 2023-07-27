@@ -11,7 +11,7 @@ import { ParentService } from '../../../services/parent.service';
   styleUrls: ['./table-parent.component.scss']
 })
 export class TableParentComponent implements OnInit {
-
+  @Input() successful!: boolean;
   @Input() parents: IParent[] = [];
   @Input() tableName!: string;
   @Input() title!: string;
@@ -83,7 +83,7 @@ export class TableParentComponent implements OnInit {
     this.modalAdd.hiddenModal();
   }
 
-  // ELIMINAR 
+  // ELIMINAR
   delete(id: string) {
     this.parentDelete.emit(id)
     this.modalDelete.hiddenModal();
