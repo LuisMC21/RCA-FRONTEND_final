@@ -1,7 +1,7 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar Año'" [tableName]="tableName">
-        <app-table-anio-lectivo
+        <app-table-anio-lectivo [successful]="successful"
             (anioDelete)="delete($event)"
             (anioSave)="save($event)"
             (anioSearch)="search($event)"
