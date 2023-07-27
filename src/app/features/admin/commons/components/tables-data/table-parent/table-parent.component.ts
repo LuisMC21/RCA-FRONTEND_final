@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from 'src/app/core/services/storage.service';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { ParentService } from '../../../services/parent.service';
 
 @Component({
   selector: 'app-table-parent',

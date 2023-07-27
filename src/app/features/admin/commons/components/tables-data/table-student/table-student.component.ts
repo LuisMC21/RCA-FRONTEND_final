@@ -192,7 +192,6 @@ export class TableStudentComponent implements OnInit {
   // ELIMINAR
   delete(id: string) {
     this.studentDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
 
   keyUp(string: string) {

@@ -122,6 +122,7 @@ export class TableCourseTeacherComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Asignatura";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();

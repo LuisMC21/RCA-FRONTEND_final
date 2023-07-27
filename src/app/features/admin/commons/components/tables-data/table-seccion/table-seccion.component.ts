@@ -70,8 +70,6 @@ export class TableSeccionComponent implements OnInit {
     this.sectionDelete.emit(id)
   }
 
-  refresh(): void { window.location.reload(); }
-
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Sección";
     this.form(item); // Call the form() function if needed for your logic
@@ -80,6 +78,7 @@ export class TableSeccionComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Sección";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();

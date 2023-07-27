@@ -109,22 +109,15 @@ export class TableTeacherComponent implements OnInit {
     if (this.group.valid) {
       this.teacherSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
-
-
   }
 
   // ELIMINAR
   delete(id: string) {
     this.teacherDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
 
   reset() {
-
-    console.log(this.group.value);
     this.group.reset();
-
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Docente";
@@ -134,6 +127,7 @@ export class TableTeacherComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Docente";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
@@ -148,6 +142,7 @@ export class TableTeacherComponent implements OnInit {
   // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
   ngOnChanges(changes: SimpleChanges) {
     if (this.successful) {
+      console.log('Changes in successful:', changes['successful']);
       this.modalAdd.hiddenModal();
     }
   }

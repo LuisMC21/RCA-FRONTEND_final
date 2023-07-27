@@ -72,9 +72,8 @@ export class TableCourseComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
-
+    this.group.reset();
     this.titulo = "Agregar Curso";
-    this.form();
     this.modalAdd.showModal();
   }
   // ELIMINAR
