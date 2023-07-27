@@ -15,7 +15,7 @@ export class AdminGradeComponent implements OnInit {
   tableName: string = 'Grados';
   paginationData = 'grade';
   msjResponse: string = '';
-  successful!: boolean;
+  successful: boolean = false;
   page = this.pagination.getPage(this.paginationData);
   size = this.pagination.getSize(this.paginationData);
 
