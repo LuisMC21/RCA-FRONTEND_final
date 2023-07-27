@@ -18,8 +18,10 @@ export class AdminParentView implements OnInit {
   // response!:IResponse;
   msjResponse:string='';
   paginationData = 'parent'
+  filterSearch = "";
   successful: boolean=false;
-
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   tableName = "Apoderado"
@@ -73,7 +75,22 @@ export class AdminParentView implements OnInit {
   }
 
 
+  getParents(){
+    this.parentService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        this.parents= response.data.list;
+        
+      });
+  }
+  getPage(event: any) {
+    this.page = event;
+    this.getParents();
+  }
 
+  getSize(event: any) {
+    this.size = event;
+    this.getParents();
+  }
   //ELIMINAR
   delete(id:string){
     this.parentService.delete(id).subscribe(data =>{

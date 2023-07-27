@@ -12,7 +12,6 @@ export class TableAnioLectivoComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
   @Input() successful!: boolean;
-
   titulo:string = 'Agregar Año Lectivo';
 
   @Output() anioSave:EventEmitter<IAnioLectivo> = new EventEmitter();
@@ -42,7 +41,7 @@ export class TableAnioLectivoComponent implements OnInit {
 
   form(item?:IAnioLectivo):void{
     if(item){
-
+      
     }
     this.group = this.formBuilder.group({
       id:[item?item.id:null],
@@ -65,7 +64,7 @@ export class TableAnioLectivoComponent implements OnInit {
     this.anioSave.emit(this.group.value)
     }
     this.modalAdd.hiddenModal();
-
+   
   }
  // ELIMINAR
  delete(id:string){
@@ -81,14 +80,14 @@ reset(){
 onUpdateButtonClick(item: any) {
   this.titulo = "Actualizar Año Lectivo";
   this.form(item); // Call the form() function if needed for your logic
-  this.modalAdd.showModal();
+ 
 }
 
 // Function to handle when the "Add" button is clicked
 onAddButtonClick() {
   this.titulo = "Agregar Año Lectivo";
   // Any other logic related to the "Add" button can be added here
-  this.modalAdd.showModal();
+
 }
 getCloseModal(){
   this.group.reset();

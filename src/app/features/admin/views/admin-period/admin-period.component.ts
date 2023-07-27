@@ -27,12 +27,14 @@ export class AdminPeriodComponent implements OnInit {
   anios: IAnioLectivo[] = [];
   student: IStudent[] = [];
   courses: ICourse[] = [];
-
+  paginationData= 'period';
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
   courseTeachers: ICourseTeacher[] = [];
   aulas: IAula[] = []
-
+  filterSearch = "";
   tableName: string = 'Periodos';
-  paginationData: string = 'period';
+ 
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
@@ -128,7 +130,22 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   refresh(): void { window.location.reload(); }
+  getPeriodos(){
+    this.periodService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        this.periods= response.data.list;
+        
+      });
+  }
+  getPage(event: any) {
+    this.page = event;
+    this.getPeriodos();
+  }
 
+  getSize(event: any) {
+    this.size = event;
+    this.getPeriodos();
+  }
   generarEvaluaciones(id: string) {
 
     let totalevaluaciones = 0;

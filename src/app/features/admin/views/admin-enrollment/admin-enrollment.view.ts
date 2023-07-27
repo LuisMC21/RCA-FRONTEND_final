@@ -16,6 +16,7 @@ import {IAula} from '../../interfaces/aula';
 import { AulaService } from '../../commons/services/aula.service';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
+import { PaginationService } from '../../commons/services/pagination.service';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -33,8 +34,11 @@ export class AdminEnrollmentView implements OnInit {
   aniosL:IAnioLectivo[]=[]
   aulas:IAula[]=[];
   students:IStudent[]=[];
-
-  paginationData = 'student'
+  paginationData = 'enrollment'
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+  filterSearch = "";
+ 
   enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
@@ -44,7 +48,8 @@ export class AdminEnrollmentView implements OnInit {
     private enrollmentService:EnrollmentService,
     private aulaService:AulaService,
     private anioService:AnioLectivoService,
-    private reportService:ReportsService
+    private reportService:ReportsService,
+    private pagination:PaginationService
 
     ){ }
 
@@ -115,6 +120,23 @@ export class AdminEnrollmentView implements OnInit {
   // }
   getStudentSave(student:IStudent){
     this.studentSave = student;
+  }
+  
+  getMatriculas(){
+    this.enrollmentService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        this.enrollmentList = response.data.list;
+        console.log(this.enrollmentList)
+      });
+  }
+  getPage(event: any) {
+    this.page = event;
+    this.getMatriculas();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getMatriculas();
   }
 
  //ELIMINAR
