@@ -42,9 +42,9 @@ export class AdminAniolectivoComponent implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(anio: IAnioLectivo) {
-    console.log(anio)
     if (anio.id == null) {
       this.anioService.add(anio).subscribe(data => {
+
         console.log(data.message)
         if (data.successful) {
           this.getAnios();
@@ -57,6 +57,7 @@ export class AdminAniolectivoComponent implements OnInit {
       });
     } else {
       this.anioService.update(anio).subscribe(data => {
+        console.log(data)
         if (data.successful === true) {
           this.getAnios();
           this.msjResponse = 'Cambios actualizados con éxito';
@@ -73,6 +74,7 @@ export class AdminAniolectivoComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.anioService.delete(id).subscribe(data => {
+
       if (data.successful) {
         this.getAnios();
         this.msjResponse = 'Eliminado correctamente';

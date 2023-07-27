@@ -94,6 +94,7 @@ export class AdminPeriodComponent implements OnInit {
     if (period.id == null) {
       this.periodService.add(period).subscribe(data => {
         if (data.successful) {
+          this.getPeriods();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -104,6 +105,7 @@ export class AdminPeriodComponent implements OnInit {
     } else {
       this.periodService.update(period).subscribe(data => {
         if (data.successful) {
+          this.getPeriods();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
@@ -119,6 +121,7 @@ export class AdminPeriodComponent implements OnInit {
   delete(id: string) {
     this.periodService.delete(id).subscribe(data => {
       if (data.successful) {
+        this.getPeriods();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {

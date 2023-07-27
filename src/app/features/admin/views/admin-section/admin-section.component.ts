@@ -48,6 +48,7 @@ export class AdminSectionComponent implements OnInit {
       this.sectionService.add(section).subscribe(data => {
         console.log(data.message)
         if (data.successful === true) {
+          this.getSections();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -58,6 +59,7 @@ export class AdminSectionComponent implements OnInit {
     } else {
       this.sectionService.update(section).subscribe(data => {
         if (data.successful === true) {
+          this.getSections();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
@@ -73,6 +75,7 @@ export class AdminSectionComponent implements OnInit {
   delete(id: string) {
     this.sectionService.delete(id).subscribe(data => {
       if (data.successful) {
+        this.getSections();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
@@ -84,5 +87,26 @@ export class AdminSectionComponent implements OnInit {
   }
 
   refresh(): void { window.location.reload(); }
+
+  getSections(){
+    this.sectionService.getAll('', this.page, this.size)
+      .subscribe(response => {
+        if(response.successful){
+          this.sections = response.data.list;
+        } else {
+          this.sections = []
+        }
+      });
+  }
+
+  getPage(event:any){
+    this.page = event;
+    this.getSections();
+  }
+
+  getSize(event:any){
+    this.size = event;
+    this.getSections();
+  }
 
 }

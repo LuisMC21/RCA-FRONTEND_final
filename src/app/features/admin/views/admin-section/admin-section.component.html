@@ -1,13 +1,14 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [title]="'Agregar grado'" [tableName]="tableName">
-        <app-table-seccion [successful] = "successful"
-            (sectionDelete)="delete($event)"
-            (sectionSave)="save($event)"
+        <app-table-seccion [successful]="successful"
+            (sectionDelete)="delete($event)" 
+            (sectionSave)="save($event)" 
             (sectionSearch)="search($event)"
             [sections]="sections" [tableName]="tableName">
         </app-table-seccion>
-        <app-pagination [paginationData]="paginationData"></app-pagination>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>   
+
     </app-table>
 </div>
 

@@ -59,9 +59,10 @@ export class AdminCourseComponent implements OnInit {
     if(course.id==null){
       this.courseService.add(course).subscribe(data =>{
         if(data.successful===true){
+          this.getCursos();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-        }else{
+        }else if(data.successful === false){
           this.msjResponse = data.message;
           this.successful = false;
         }
@@ -69,9 +70,10 @@ export class AdminCourseComponent implements OnInit {
     }else{
       this.courseService.update(course).subscribe(data =>{
         if(data.successful===true){
+          this.getCursos()
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
-        }else{
+        }else if(data.successful === false){
           this.msjResponse = data.message;
           this.successful = false;
         }
@@ -84,6 +86,7 @@ export class AdminCourseComponent implements OnInit {
   delete(id:string){
     this.courseService.delete(id).subscribe(data =>{
       if(data.successful===true){
+        this.getCursos();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
