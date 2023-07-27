@@ -2,7 +2,7 @@
 <div class="table__search bg-gray-200 p-3 w-full flex justify-between items-center ">
     <div class="flex">
         <app-btn-report class="mx-2"></app-btn-report>
-        <app-btn-add  [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
+        <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()" ></app-btn-add>
     </div>
 </div>
 <app-modal #modalAdd (close_modal)="getCloseModal()">

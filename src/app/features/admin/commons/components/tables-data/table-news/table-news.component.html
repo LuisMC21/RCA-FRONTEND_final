@@ -5,12 +5,11 @@
         <i class="bi bi-search"></i>
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"type="search" placeholder="Buscar">
     </div>
-    <app-btn-add   (click)="onAddButtonClick()"></app-btn-add>
+    <app-btn-add (click)="modalAdd.showModal()"></app-btn-add>
 </div> 
 
 <!-- MODAL AGREGAR -->
-<app-modal  #modalAdd>
-    <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
+<app-modal [title]="'Agregar noticia'" #modalAdd>
     <form  [formGroup]="group" (ngSubmit)="save()" class="form w-full flex flex-wrap justify-between">
         <div class="field">
             <app-label-field [title]="'**Título'"></app-label-field>
@@ -66,7 +65,7 @@
             <td>{{item.date}}</td>
             <td style="text-align: center;"><img src="{{item.route}}" alt="" width="100px"></td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->

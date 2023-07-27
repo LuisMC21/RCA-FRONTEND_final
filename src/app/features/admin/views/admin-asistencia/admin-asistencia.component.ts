@@ -107,7 +107,7 @@ export class AdminAsistenciaComponent implements OnInit {
   }
 
   refresh(): void { window.location.reload(); }
- 
+
   getPage(event: any) {
     this.page = event;
     this.getAsistencias();

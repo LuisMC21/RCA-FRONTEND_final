@@ -16,7 +16,6 @@ import {IAula} from '../../interfaces/aula';
 import { AulaService } from '../../commons/services/aula.service';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
-import { PaginationService } from '../../commons/services/pagination.service';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -27,9 +26,6 @@ export class AdminEnrollmentView implements OnInit {
   tableName:string='Matricula'
   msjResponse:string='';
   successful!: boolean;
-  paginationData = 'enrollment'
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
 
   identiStudent:string='';
   studentSave!: IStudent;
@@ -38,7 +34,7 @@ export class AdminEnrollmentView implements OnInit {
   aulas:IAula[]=[];
   students:IStudent[]=[];
 
-
+  paginationData = 'student'
   enrollmentList:IEnrollment[]=[]
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
@@ -48,8 +44,7 @@ export class AdminEnrollmentView implements OnInit {
     private enrollmentService:EnrollmentService,
     private aulaService:AulaService,
     private anioService:AnioLectivoService,
-    private reportService:ReportsService,
-    private pagination:PaginationService
+    private reportService:ReportsService
 
     ){ }
 
@@ -124,7 +119,7 @@ export class AdminEnrollmentView implements OnInit {
   getStudentSave(student:IStudent){
     this.studentSave = student;
   }
-  
+
  //ELIMINAR
  delete(id:string){
   this.enrollmentService.delete(id).subscribe(data =>{
@@ -136,17 +131,7 @@ export class AdminEnrollmentView implements OnInit {
   });
   this.modalOk.showModal();
 }
-getEnrollment(){
-  this.enrollmentService.getAll('',this.page,this.size)
-  .subscribe(response=>{
-    if(response.successful){
-      this.enrollmentList=response.data.list;
 
-    }else{
-      this.enrollmentList=[]
-    }
-  })
-}
 //Reportes
 managerExcelFile(response:any, fileName:string):void{
   const dataType = response.type;
@@ -159,15 +144,5 @@ managerExcelFile(response:any, fileName:string):void{
   downloadLink.setAttribute('download',fileName);
   document.body.appendChild(downloadLink);
   downloadLink.click();
-}
-
-getPage(event:any){
-this.page=event;
-this.getEnrollment();
-}
-
-getSize(event:any){
-  this.size=event;
-  this.getEnrollment();
 }
 }

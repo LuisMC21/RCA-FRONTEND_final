@@ -20,8 +20,6 @@ export class AdminParentView implements OnInit {
   paginationData = 'parent'
   successful: boolean=false;
 
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   tableName = "Apoderado"
@@ -92,22 +90,5 @@ export class AdminParentView implements OnInit {
   }
 
 refresh(): void { window.location.reload(); }
-getParents(){
-  this.parentService.getAll('',this.page,this.size)
-  .subscribe(response=>{
-    if(response.successful){
-      this.parents=response.data.list;
-    }else{
-      this.parents=[];
-    }
-  })
-}
-getPage(event:any){
-  this.page=event;
-  this.getParents();
-}
-getSize(event: any) {
-  this.size = event;
-  this.getParents();
-}
+
 }
