@@ -9,7 +9,6 @@
 </div>
 <!-- MODAL AGREGAR -->
 <app-modal [successful]="successful" [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
-
     <form [formGroup]="group" class="form" (ngSubmit)="save()">
         <div class="form__field">
             <div class="field">
@@ -37,7 +36,7 @@
             <td>{{item.code}}</td>
             <td>{{item.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)"  (click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()" [title]="'Eliminar curso'"></app-btn-delete>
             </td>
             <!-- MODAL ELIMINAR -->
