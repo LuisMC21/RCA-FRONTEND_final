@@ -94,12 +94,14 @@ export class TableParentComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Apoderado";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
   getCloseModal() {
     this.group.reset();
+    this.form();
   }
 
   togglePasswordVisibility() {

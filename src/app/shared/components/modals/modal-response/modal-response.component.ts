@@ -34,6 +34,7 @@ export class ModalResponseComponent implements OnInit {
 
   hiddenModal(){
     this.show = false;
+    this.title = '';
   }
 
   respuesta(){

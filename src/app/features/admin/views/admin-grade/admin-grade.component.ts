@@ -29,7 +29,6 @@ export class AdminGradeComponent implements OnInit {
 
   }
 
-
   //BUSCAR
   search(nom: string) {
     this.gradeService.getAll(nom, this.page, this.size).subscribe(response => {
