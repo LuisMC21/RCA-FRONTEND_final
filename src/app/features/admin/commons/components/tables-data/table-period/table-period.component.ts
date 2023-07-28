@@ -18,7 +18,6 @@ export class TablePeriodComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
   isEditing: boolean = false;
-  selectedItem: any = null; // Variable para almacenar el objeto seleccionado al actualizar
   titulo:string="Agregar Periodo";
 
   @Output() idperiodo:EventEmitter<string> = new EventEmitter();
@@ -89,8 +88,6 @@ export class TablePeriodComponent implements OnInit {
     this.periodDelete.emit(id)
   }
 
-  refresh(): void { window.location.reload(); }
-
   reset() {
     this.group.reset();
     this.item = {
@@ -107,16 +104,12 @@ export class TablePeriodComponent implements OnInit {
     this.idperiodo.emit(id);
   }
   onUpdateButtonClick(item: any) {
-    this.isEditing = true;
-    this.selectedItem = item;
     this.titulo = "Actualizar Periodo";
     this.form(item);
     this.modalAdd.showModal();
   }
 
   onAddButtonClick() {
-    this.isEditing = false;
-    this.selectedItem = null;
     this.titulo = "Agregar Periodo";
     this.form();
     this.modalAdd.showModal();

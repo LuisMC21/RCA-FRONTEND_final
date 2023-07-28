@@ -43,14 +43,11 @@ export class AdminEnrollmentView implements OnInit {
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(
-    private parentService: ParentService,
     private studentService: StudentService,
     private enrollmentService: EnrollmentService,
     private aulaService: AulaService,
     private anioService: AnioLectivoService,
     private reportService: ReportsService,
-    private pagination: PaginationService
-
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +86,6 @@ export class AdminEnrollmentView implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save(enrollment: IEnrollment) {
-    console.log("AQUI")
     if (enrollment.id == null) {
       this.enrollmentService.add(enrollment).subscribe(data => {
         if (data.successful) {

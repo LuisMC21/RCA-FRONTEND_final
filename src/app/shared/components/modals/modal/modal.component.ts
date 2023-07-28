@@ -20,6 +20,7 @@ export class ModalComponent implements OnInit {
     this.rendered.listen('window','click',(e: Event)=>{
       if(this.modalBack && e.target === this.modalBack.nativeElement){
         this.show = false;
+        this.close_modal.emit(true);
       }
     })
   }
@@ -33,9 +34,7 @@ export class ModalComponent implements OnInit {
 
 
   hiddenModal(){
-    if(this.successful){
       this.show = false;
-    }
   }
   cancelar(){
     this.show = false;

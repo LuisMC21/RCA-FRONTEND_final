@@ -32,7 +32,7 @@
         <app-label-field [title]="'**Año lectivo'"></app-label-field>
         <app-field>
           <select id="anio" class="input" name="anio" formControlName="anio_lectivoDTO">
-            <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="isEditing && anio.id === selectedItem?.anio_lectivoDTO.id">{{ anio.name }}</option>
+            <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="anio.id === item.anio_lectivoDTO.id">{{ anio.name }}</option>
           </select>
         </app-field>
       </div>
