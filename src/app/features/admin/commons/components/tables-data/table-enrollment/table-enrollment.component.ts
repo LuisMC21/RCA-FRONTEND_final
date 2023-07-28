@@ -187,6 +187,7 @@ export class TableEnrollmentComponent implements OnInit {
 
     if(item){
       this.item = item;
+      console.log(this.item)
     }
     // Configurar el formulario con controles y validaciones
     this.group = this.formBuilder.group({
@@ -208,7 +209,6 @@ export class TableEnrollmentComponent implements OnInit {
 
   search(name:string){
     this.studentSearch.emit(name);
-    console.log(this.search)
   }
 
 
