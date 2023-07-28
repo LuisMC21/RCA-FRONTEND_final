@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
-import { IResponse } from 'src/app/core/interfaces/response';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { ParentService } from '../../commons/services/parent.service';
@@ -19,31 +18,24 @@ export class AdminParentView implements OnInit {
   msjResponse: string = '';
   paginationData = 'parent'
   successful: boolean = false;
-
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  filterSearch = "";
+  page = 0;
+  size = 10;
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   tableName = "Apoderado"
-  constructor(private parentService: ParentService, private pagination: PaginationService) {
+  constructor(private parentService: ParentService) {
 
   }
 
   ngOnInit(): void {
-    this.page = 0;
-    this.size = 10;
     this.getParents();
   }
 
   //BUSCAR
-  search(nom: string) {
-    this.parentService.getAll(nom, this.page, this.size).subscribe(response => {
-      if(response.successful){
-        this.parents = response.data.list;
-      } else {
-        this.parents = []
-      }
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getParents();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -73,7 +65,6 @@ export class AdminParentView implements OnInit {
       })
     }
     this.modalOk.showModal();
-
   }
 
   //ELIMINAR
@@ -92,7 +83,7 @@ export class AdminParentView implements OnInit {
   }
 
   getParents() {
-    this.parentService.getAll('', this.page, this.size)
+    this.parentService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if (response.successful) {
           this.parents = response.data.list;

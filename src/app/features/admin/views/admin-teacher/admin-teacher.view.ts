@@ -19,19 +19,20 @@ export class AdminTeacherView implements OnInit {
   anios: IAnioLectivo[] = [];
   paginationData: string = 'teacher';
   msjResponse: string = '';
+  filterSearch = "";
   successful!: boolean;
   totalTeachers: number = 0;
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
 
   cardMenu = [
     { title: "Matenimiento", image: "bi bi-gear-wide-connected" },
     { title: "Operaciones", image: "bi bi-file-earmark-text" },
     { title: "Consultas", image: "bi bi-plus-circle" },
   ]
-  constructor(private teacherService: TeacherService, private pagination: PaginationService) { }
+  constructor(private teacherService: TeacherService) { }
 
   ngOnInit(): void {
     this.getTeachers();
@@ -42,14 +43,9 @@ export class AdminTeacherView implements OnInit {
       });
   }
   //BUSCAR
-  search(nom: string) {
-    this.teacherService.getAll(nom, this.page, this.size).subscribe(response => {
-      if (response.successful) {
-        this.teachers = response.data.list;
-      } else {
-        this.teachers = []
-      }
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getTeachers();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -106,7 +102,7 @@ export class AdminTeacherView implements OnInit {
   }
 
   getTeachers() {
-    this.teacherService.getAll('', this.page, this.size)
+    this.teacherService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if (response.successful) {
           this.teachers = response.data.list;

@@ -15,37 +15,30 @@ export class AdminAniolectivoComponent implements OnInit {
 
   tableName: string = 'Año lectivo';
   paginationData = 'anio'
+  filterSearch = "";
   msjResponse: string = '';
   successful!: boolean;
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page =  0;
+  size = 10;
   @ViewChild('modalOk') modalOk!: ModalComponent;
   constructor(
 
     private anioService: AnioLectivoService,
-    private pagination: PaginationService,
   ) { }
 
   ngOnInit(): void {
     this.getAnios();
   }
   //BUSCAR
-  search(nom: string) {
-    this.anioService.getAll(nom, this.page, this.size).subscribe(response => {
-      if(response.successful){
-        this.anio = response.data.list;
-      } else {
-        this.anio = [];
-      }
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getAnios();
   }
 
   // AGREGAR - ACTUALIZAR
   save(anio: IAnioLectivo) {
     if (anio.id == null) {
       this.anioService.add(anio).subscribe(data => {
-
-        console.log(data.message)
         if (data.successful) {
           this.getAnios();
           this.msjResponse = 'Agregado correctamente';
@@ -57,8 +50,7 @@ export class AdminAniolectivoComponent implements OnInit {
       });
     } else {
       this.anioService.update(anio).subscribe(data => {
-        console.log(data)
-        if (data.successful === true) {
+        if (data.successful) {
           this.getAnios();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
@@ -74,7 +66,6 @@ export class AdminAniolectivoComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.anioService.delete(id).subscribe(data => {
-
       if (data.successful) {
         this.getAnios();
         this.msjResponse = 'Eliminado correctamente';
@@ -87,8 +78,6 @@ export class AdminAniolectivoComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  refresh(): void { window.location.reload(); }
-
   getPage(event: any) {
     this.page = event;
     this.getAnios();
@@ -100,7 +89,7 @@ export class AdminAniolectivoComponent implements OnInit {
   }
 
   getAnios() {
-    this.anioService.getAll('', this.page, this.size)
+    this.anioService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if (response.successful) {
           this.anio = response.data.list;

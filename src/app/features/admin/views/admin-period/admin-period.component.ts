@@ -37,9 +37,10 @@ export class AdminPeriodComponent implements OnInit {
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
   successful!: boolean;
+  filterSearch = "";
 
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
   courseTeacher!: ICourseTeacher;
 
   period: IPeriod = {
@@ -58,23 +59,12 @@ export class AdminPeriodComponent implements OnInit {
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
   constructor(private periodService: PeriodService,
-    private pagination: PaginationService,
-    private aulaService:AulaService,
-    private courseService:CourseService,
     private anioService: AnioLectivoService,
-    private studentService: StudentService,
-    private evaluacionService: EvaluacionService,
-    private courseTeacherService: CourseTeacherService) { }
+    private evaluacionService: EvaluacionService) { }
 
   ngOnInit(): void {
-
     //listar periodos
-    this.page = this.pagination.getPage(this.paginationData);
-    this.size = this.pagination.getSize(this.paginationData);
-    this.periodService.getAll('', this.page, this.size)
-      .subscribe(response => {
-        this.periods = response.data.list;
-      });
+    this.getPeriods();
 
     this.anioService.getAll('',0,50).subscribe(response=>{
       this.anios = response.data.list;
@@ -83,10 +73,9 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   //BUSCAR
-  search(nom: string) {
-    this.periodService.getAll(nom, this.page, this.size).subscribe(response => {
-      this.periods = response.data.list;
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getPeriods();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -131,8 +120,6 @@ export class AdminPeriodComponent implements OnInit {
     });
     this.modalOk.showModal();
   }
-
-  refresh(): void { window.location.reload(); }
 
   generarEvaluaciones(id: string) {
 
@@ -229,7 +216,7 @@ export class AdminPeriodComponent implements OnInit {
     */
   }
   getPeriods(){
-    this.periodService.getAll('', this.page, this.size)
+    this.periodService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response =>{
         if(response.successful){
           this.periods = response.data.list;

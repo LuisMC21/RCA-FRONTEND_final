@@ -16,28 +16,22 @@ export class AdminGradeComponent implements OnInit {
   paginationData = 'grade';
   msjResponse: string = '';
   successful!: boolean;
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
+  filterSearch = "";
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
-  constructor(private gradeService: GradeService,
-    private pagination: PaginationService) { }
+  constructor(private gradeService: GradeService) { }
 
   ngOnInit(): void {
     this.getGrades();
-
   }
 
   //BUSCAR
-  search(nom: string) {
-    this.gradeService.getAll(nom, this.page, this.size).subscribe(response => {
-      if(response.successful){
-        this.grades = response.data.list;
-      } else {
-        this.grades = [];
-      }
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getGrades();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -83,10 +77,8 @@ export class AdminGradeComponent implements OnInit {
     this.modalOk.showModal();
   }
 
-  refresh(): void { window.location.reload(); }
-
   getGrades(){
-    this.gradeService.getAll('', this.page, this.size)
+    this.gradeService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if(response.successful){
           this.grades = response.data.list;

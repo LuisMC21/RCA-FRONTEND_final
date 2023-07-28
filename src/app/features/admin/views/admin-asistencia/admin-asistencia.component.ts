@@ -31,8 +31,8 @@ export class AdminAsistenciaComponent implements OnInit {
   successful!: boolean;
   filterSearch = "";
   //paginacion
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
   //
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
@@ -48,7 +48,6 @@ export class AdminAsistenciaComponent implements OnInit {
 
   constructor(
     private asistenciaService: AsistenciaService,
-    private pagination: PaginationService,
     private aulaService: AulaService,
     private periodoService: PeriodService,
     private cursoService: CourseService,
@@ -60,9 +59,8 @@ export class AdminAsistenciaComponent implements OnInit {
   }
 
   //BUSCAR
-  search(nom: string) {
-    this.filterSearch = nom;
-    console.log(this.filterSearch)
+  search(filter: string) {
+    this.filterSearch = filter;
     this.getAsistencias();
   }
 
@@ -107,7 +105,7 @@ export class AdminAsistenciaComponent implements OnInit {
   }
 
   refresh(): void { window.location.reload(); }
- 
+
   getPage(event: any) {
     this.page = event;
     this.getAsistencias();

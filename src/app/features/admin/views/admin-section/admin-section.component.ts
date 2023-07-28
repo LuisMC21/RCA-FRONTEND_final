@@ -17,28 +17,22 @@ export class AdminSectionComponent implements OnInit {
   paginationData:string = 'grade';
   msjResponse: string = '';
   successful!: boolean;
-
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  filterSearch = "";
+  page = 0;
+  size = 10;
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
-  constructor(private sectionService: SeccionService, private pagination: PaginationService) { }
+  constructor(private sectionService: SeccionService) { }
 
   ngOnInit(): void {
-    this.page = this.pagination.getPage(this.paginationData);
-    this.size = this.pagination.getSize(this.paginationData);
-    this.sectionService.getAll('', this.page, this.size)
-      .subscribe(response => {
-        this.sections = response.data.list;
-      });
+    this.getSections();
   }
 
   //BUSCAR
-  search(name: string) {
-    this.sectionService.getAll(name, this.page, this.size).subscribe(response => {
-      this.sections = response.data.list;
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getSections();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -89,7 +83,7 @@ export class AdminSectionComponent implements OnInit {
   refresh(): void { window.location.reload(); }
 
   getSections(){
-    this.sectionService.getAll('', this.page, this.size)
+    this.sectionService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if(response.successful){
           this.sections = response.data.list;
