@@ -36,6 +36,9 @@ export class StudentNotasComponent implements OnInit {
   msjResponse: string = '';
   successful: boolean = false;
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   idAlumno = '';
   route = 'Notas';
 
@@ -62,9 +65,8 @@ export class StudentNotasComponent implements OnInit {
       this.periods = response.data.list;
     })  
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.evaluacionService.getAllPeriodoAlumno('', page, size, this.selectedPeriodId, this.idAlumno).subscribe(response => {
+    
+    this.evaluacionService.getAllPeriodoAlumno('', this.page, this.size, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -74,7 +76,7 @@ export class StudentNotasComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    this.periodoService.getAll(this.selectedAnioId, 0,10).subscribe(response =>{
+    this.periodoService.getAll(this.selectedAnioId, this.page, this.size).subscribe(response =>{
       this.periods = response.data.list;
     })  
 
@@ -90,11 +92,27 @@ export class StudentNotasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.evaluacionService.getAllPeriodoAlumno('', 0, 5, this.selectedPeriodId, this.idAlumno).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAlumno('', this.page, this.size, this.selectedPeriodId, this.idAlumno).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
     localStorage.setItem('selectedPeriodoN', this.selectedPeriodId);
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getNotas();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getNotas();
+  }
+
+  getNotas(){
+    this.evaluacionService.getAllPeriodoAlumno('', this.page, this.size, this.selectedPeriodId, this.idAlumno).subscribe(response => {
+      this.evaluaciones = response.data.list;
+    })
   }
 
   redirectToNotas(){
