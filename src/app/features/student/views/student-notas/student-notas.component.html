@@ -25,7 +25,7 @@
 <div class="px-8">
     <app-table [title]="'Notas'" [tableName]="tableName">
         <app-table-notas [evaluaciones]="evaluaciones"></app-table-notas>
-        <app-pagination [paginationData]="paginationData"></app-pagination> 
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
