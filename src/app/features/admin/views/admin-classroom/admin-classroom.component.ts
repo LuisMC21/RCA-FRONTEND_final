@@ -1,12 +1,11 @@
 import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { IAula } from '../../interfaces/aula';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { AulaService } from '../../commons/services/aula.service';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { ISeccion } from '../../interfaces/seccion';
 import { IGrade } from '../../interfaces/grade';
 import { SeccionService } from '../../commons/services/seccion.service';
 import { GradeService } from '../../commons/services/grade.service';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-classroom',
@@ -32,9 +31,9 @@ export class AdminClassroomComponent implements OnInit {
 
   //paginatio
   page = 0;
-  size = 20;
+  size = 10;
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
 
   constructor(private classroomService: AulaService,
@@ -47,7 +46,6 @@ export class AdminClassroomComponent implements OnInit {
     this.classroomService.getAulaCount('')
       .subscribe(count => {
         this.totalAulas = count;
-        console.log(this.totalAulas);
       });
   }
 
@@ -83,6 +81,7 @@ export class AdminClassroomComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -99,6 +98,7 @@ export class AdminClassroomComponent implements OnInit {
 
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //Pagination

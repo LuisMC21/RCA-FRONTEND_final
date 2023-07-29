@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ISeccion } from '../../interfaces/seccion';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { SeccionService } from '../../commons/services/seccion.service';
-import { PaginationService } from '../../commons/services/pagination.service';
-import { sanitizeIdentifier } from '@angular/compiler';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-section',
@@ -21,7 +19,7 @@ export class AdminSectionComponent implements OnInit {
   page = 0;
   size = 10;
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   constructor(private sectionService: SeccionService) { }
 
@@ -63,6 +61,7 @@ export class AdminSectionComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -78,6 +77,7 @@ export class AdminSectionComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   refresh(): void { window.location.reload(); }

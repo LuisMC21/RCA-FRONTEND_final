@@ -1,22 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { EnrollmentService } from '../../commons/services/enrollment.service';
-import { GradePeriodService } from '../../commons/services/grade-period.service';
-import { ParentService } from '../../commons/services/parent.service';
 import { ReportsService } from '../../commons/services/reports.service';
 import { StudentService } from '../../commons/services/student.service';
 import { IEnrollment } from '../../interfaces/enrollment';
-import { IGradePeriod } from '../../interfaces/grade-period';
-import { IParent } from '../../interfaces/parent';
-import { IReportMatGrade } from '../../interfaces/reportMatGrade';
 import { IStudent } from '../../interfaces/student';
 import { IAula } from '../../interfaces/aula';
 import { AulaService } from '../../commons/services/aula.service';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
-import { PaginationService } from '../../commons/services/pagination.service';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -40,7 +32,7 @@ export class AdminEnrollmentView implements OnInit {
   students: IStudent[] = [];
 
   enrollmentList: IEnrollment[] = []
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   constructor(
     private studentService: StudentService,
@@ -110,6 +102,7 @@ export class AdminEnrollmentView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
   // getIdentiParent(identiParent:string){
   //   this.identiParent = identiParent;
@@ -131,6 +124,7 @@ export class AdminEnrollmentView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
   getEnrollment() {
     this.enrollmentService.getAll(this.filterSearch, this.page, this.size)

@@ -85,6 +85,7 @@ export class AdminStudentView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getIdentiParent(identiParent:string){
@@ -103,6 +104,7 @@ export class AdminStudentView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //Lista de students

@@ -3,6 +3,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { GradeService } from '../../commons/services/grade.service';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { IGrade } from '../../interfaces/grade';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-grade',
@@ -20,7 +21,7 @@ export class AdminGradeComponent implements OnInit {
   size = 10;
   filterSearch = "";
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   constructor(private gradeService: GradeService) { }
 
@@ -60,6 +61,7 @@ export class AdminGradeComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -75,6 +77,7 @@ export class AdminGradeComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getGrades(){

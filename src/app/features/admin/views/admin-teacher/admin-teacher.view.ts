@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { TeacherService } from '../../commons/services/teacher.service';
 import { ITeacher } from '../../interfaces/teacher';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-teacher',
@@ -22,7 +21,7 @@ export class AdminTeacherView implements OnInit {
   filterSearch = "";
   successful!: boolean;
   totalTeachers: number = 0;
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   page = 0;
   size = 10;
@@ -74,6 +73,7 @@ export class AdminTeacherView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -89,6 +89,7 @@ export class AdminTeacherView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getPage(event: any) {

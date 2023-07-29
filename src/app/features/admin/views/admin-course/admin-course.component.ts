@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { CourseService } from '../../commons/services/course.service';
 import { GradeService } from '../../commons/services/grade.service';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { ICourse } from '../../interfaces/course';
 import { IGrade } from '../../interfaces/grade';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-course',
@@ -21,7 +20,7 @@ export class AdminCourseComponent implements OnInit {
   successful!: boolean;
   totalTeachers: number = 0;
   filterSearch = "";
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
   page = 0;
   size = 10;
 
@@ -74,6 +73,7 @@ export class AdminCourseComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -89,6 +89,7 @@ export class AdminCourseComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getPage(event: any) {
