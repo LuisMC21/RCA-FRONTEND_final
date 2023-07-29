@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { ParentService } from '../../commons/services/parent.service';
 import { IParent } from '../../interfaces/parent';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-parent',
@@ -21,7 +20,7 @@ export class AdminParentView implements OnInit {
   filterSearch = "";
   page = 0;
   size = 10;
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   tableName = "Apoderado"
   constructor(private parentService: ParentService) {
@@ -65,6 +64,7 @@ export class AdminParentView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -80,6 +80,7 @@ export class AdminParentView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getParents() {

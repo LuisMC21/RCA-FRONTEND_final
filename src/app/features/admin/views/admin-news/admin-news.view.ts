@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { NewsService } from 'src/app/features/admin/commons/services/news.service';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { INews } from '../../interfaces/news';
 import { INewsGet } from '../../interfaces/newsGet';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-news',
@@ -12,7 +11,7 @@ import { INewsGet } from '../../interfaces/newsGet';
 })
 export class AdminNewsView implements OnInit {
 
-  constructor(private newsService: NewsService, private pagination: PaginationService) { }
+  constructor(private newsService: NewsService) { }
 
   news: INewsGet[] = [];
   tableName: string = 'Noticias'
@@ -24,7 +23,7 @@ export class AdminNewsView implements OnInit {
   nomImg: string = '';
   page = 0;
   size = 10
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   ngOnInit(): void {
     this.getNews();
@@ -61,12 +60,12 @@ export class AdminNewsView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
   delete(id: string) {
     this.newsService.delete(id).subscribe(data => {
-      console.log(data.message);
       if (data.successful) {
         this.getNews();
         this.msjResponse = 'Eliminado correctamente';
@@ -77,6 +76,7 @@ export class AdminNewsView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //IMAGEN

@@ -199,7 +199,7 @@ export class TableEnrollmentComponent implements OnInit {
       aulaDTO: [item ? item.aulaDTO : '', [Validators.required]],
       anioLectivoDTO: [item ? item.anioLectivoDTO : '', [Validators.required]],
       alumnoDTO: this.formBuilder.group({
-        id: [item ? item.id : null],
+        id: [item ? item.alumnoDTO.id : null],
         name: [item ? item.alumnoDTO.usuarioDTO.name + ' ' + item.alumnoDTO.usuarioDTO.pa_surname + ' ' + item.alumnoDTO.usuarioDTO.ma_surname : '', [Validators.required]]
       }),
       // Control oculto para almacenar el código del alumno

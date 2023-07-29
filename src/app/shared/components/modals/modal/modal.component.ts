@@ -35,6 +35,7 @@ export class ModalComponent implements OnInit {
 
   hiddenModal(){
       this.show = false;
+      this.close_modal.emit(true);
   }
   cancelar(){
     this.show = false;

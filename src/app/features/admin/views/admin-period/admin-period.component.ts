@@ -1,20 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { PeriodService } from '../../commons/services/period.service';
 import { IPeriod } from '../../interfaces/period';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
-import { StudentService } from '../../commons/services/student.service';
 import { IStudent } from '../../interfaces/student';
 import { IAula } from '../../interfaces/aula';
 import { ICourseTeacher } from '../../interfaces/course-teacher';
-import { CourseTeacherService } from '../../commons/services/course-teacher.service';
 import { EvaluacionService } from '../../commons/services/evaluacion.service';
-import { IEvaluacion } from '../../interfaces/evaluacion';
-import { AulaService } from '../../commons/services/aula.service';
-import { CourseService } from '../../commons/services/course.service';
 import { ICourse } from '../../interfaces/course';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-period',
@@ -56,7 +50,7 @@ export class AdminPeriodComponent implements OnInit {
     }
   };
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   constructor(private periodService: PeriodService,
     private anioService: AnioLectivoService,
@@ -104,6 +98,7 @@ export class AdminPeriodComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -119,6 +114,7 @@ export class AdminPeriodComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   generarEvaluaciones(id: string) {
