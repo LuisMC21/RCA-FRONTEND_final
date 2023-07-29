@@ -32,6 +32,8 @@ export class TeacherNotasComponent implements OnInit {
   asignaciones: ICourseTeacher[] = [];
   evaluaciones: IEvaluacion[] = [];
 
+  busqueda = '';
+
   route = "Promedios";
 
   periodo?:IPeriod;
@@ -62,6 +64,9 @@ export class TeacherNotasComponent implements OnInit {
 
   msjResponse: string = '';
   successful: boolean = false;
+
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -98,10 +103,7 @@ export class TeacherNotasComponent implements OnInit {
       this.getAllAulasCursos();
     }
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-
-    this.evaluacionService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       console.log(response);
       this.evaluaciones = response.data.list;
     })
@@ -143,7 +145,7 @@ export class TeacherNotasComponent implements OnInit {
       this.periods = response.data.list;
     })
 
-    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,5)
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,10)
         .subscribe(response => {
           this.asignaciones = response.data.list;
 
@@ -170,7 +172,7 @@ export class TeacherNotasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       console.log(response);
       this.evaluaciones = response.data.list;
     })
@@ -186,7 +188,7 @@ export class TeacherNotasComponent implements OnInit {
 
     this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
 
-    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -198,7 +200,7 @@ export class TeacherNotasComponent implements OnInit {
     const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
     this.selectedCourseId = selectedOption.value;
 
-    this.evaluacionService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.evaluacionService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.evaluaciones = response.data.list;
     })
 
@@ -207,10 +209,8 @@ export class TeacherNotasComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-
-    this.evaluacionService.getAllPeriodoAulaCurso(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.busqueda = nom;
+    this.evaluacionService.getAllPeriodoAulaCurso(nom, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       if(response && response.data && response.data.list){
         this.evaluaciones = response.data.list;
       }
@@ -272,6 +272,23 @@ export class TeacherNotasComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getPromedios();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getPromedios();
+  }
+
+  getPromedios(){
+    this.evaluacionService.getAllPeriodoAulaCurso(this.busqueda, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      console.log(response);
+      this.evaluaciones = response.data.list;
+    })
   }
 
   refresh(): void { window.location.reload(); }

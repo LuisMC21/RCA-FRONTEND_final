@@ -22,6 +22,9 @@ export class TeacherAsignacionesComponent implements OnInit {
 
   teacher = '';
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
 
@@ -42,9 +45,7 @@ export class TeacherAsignacionesComponent implements OnInit {
       this.anios = response.data.list;
     });
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,page,size).subscribe(response =>{
+    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,this.page,this.size).subscribe(response =>{
       this.asignaciones = response.data.list;
     })
   }
@@ -53,7 +54,7 @@ export class TeacherAsignacionesComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
 
-    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,0,5).subscribe(response =>{
+    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,this.page, this.size).subscribe(response =>{
       this.asignaciones = response.data.list;
     })
 
@@ -63,10 +64,24 @@ export class TeacherAsignacionesComponent implements OnInit {
 
   //BUSCAR
   search(nom:string){
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAll(nom,page,size).subscribe(response =>{
+    this.courseTeacherService.getAll(nom,this.page, this.size).subscribe(response =>{
       this.asignaciones = response.content;
+    })
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getAsignaciones();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAsignaciones();
+  }
+
+  getAsignaciones(){
+    this.courseTeacherService.getAllDocenteAnio('',this.teacher, this.selectedAnioId,this.page,this.size).subscribe(response =>{
+      this.asignaciones = response.data.list;
     })
   }
 

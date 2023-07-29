@@ -132,88 +132,18 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   async countEvaluciones(totalevaluaciones: number, id: string) {
-    /*
+    console.log(totalevaluaciones);
     try {
       if (totalevaluaciones == 0) {
-        //periodo para el que se agregarán las evaluaciones
-        const response = await this.periodService.getOne(id).toPromise();
-        if (response && response.data) {
-          this.period = response.data;
-        } else {
-          console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
-        }
-
-      const response2 = await this.aulaService.getAllAnio().toPromise();
-
-        if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
-          this.aulas = response2.data.list;
-        } else {
-          console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
-        };
-
-        console.log("Ciclo aulas")
-
-        for (const aula of this.aulas) {
-
-          //Obtener todos los cursos por año y aula
-          const response2 = await this.courseService.getAulaAnio(aula.id, this.period.anio_lectivoDTO.id).toPromise();
-          if (response2 && response2.data && response2.data.list && response2.data.list.length > 0) {
-            this.courses = response2.data.list;
-          } else {
-            console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
-          }
-
-          console.log(this.courses.length);
-
-          //Obtener todos los alumnos por año, curso y aula
-          const response = await this.studentService.getAllAnioCursoAula().toPromise();
-          if (response && response.data && response.data.list && response.data.list.length > 0) {
-            this.student = response.data.list;
-          } else {
-            console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
-          }
-          console.log("Student por aula")
-          console.log(this.student.length);
-
-          if (this.courses.length > 0 && this.student.length > 0) {
-            console.log("Dentro de ciclo IF")
-            for (const course of this.courses) {
-              const response = await this.courseTeacherService.getAulaCurso('', aula.id, course.id, 0,5).toPromise();
-              if (response && response.data && response.data.list && response.data.list.length > 0) {
-                this.courseTeacher = response.data.list[0];
-              } else {
-                console.error('Error: No se encontraron datos en la respuesta o la lista está vacía.');
-              }
-              console.log(this.courseTeacher);
-              for (const student of this.student) {
-                const evaluacion: IEvaluacion = {
-                  id: '',
-                  code: '',
-                  date: null,
-                  note: "",
-                  periodoDTO: this.period,
-                  docentexCursoDTO: this.courseTeacher,
-                  alumnoDTO: student
-                };
-                await this.evaluacionService.add(evaluacion).toPromise();
-                console.log("Nota creada");
-              }
-            }
-          }
-        }
-
-        this.msjResponse = "Promedios generados correctamente"
-
-      } else {
-        this.msjResponse = 'Promedios ya han sigo generados anteriormente';
+        this.evaluacionService.generarEvaluaciones(id,'').subscribe(response =>{
+          console.log(response);
+        });
       }
-
-      this.modalOk.showModal()
 
     } catch (error) {
       console.log("Error:", error)
     }
-    */
+    
   }
   getPeriods(){
     this.periodService.getAll(this.filterSearch, this.page, this.size)

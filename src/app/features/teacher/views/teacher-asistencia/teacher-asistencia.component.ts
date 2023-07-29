@@ -33,6 +33,7 @@ export class TeacherAsistenciaComponent implements OnInit {
   asistencias: IAsistencia[] = [];
 
   route = "Asistencias";
+  busqueda = '';
 
   periodo!: IPeriod;
   courseTeacher!: ICourseTeacher;
@@ -61,6 +62,10 @@ export class TeacherAsistenciaComponent implements OnInit {
   successful!: boolean;
 
   paginationData = 'asistenciaTc';
+
+  
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -95,9 +100,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.getAllAulasCursos();
     }
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
       this.asistencias = response.data.list;
     })
 
@@ -159,11 +162,11 @@ export class TeacherAsistenciaComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, '').subscribe(response => {
       this.clases = response.data.list;
     })
 
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
       console.log(response);
       this.asistencias = response.data.list;
     })
@@ -203,7 +206,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.clases = response.data.list;
     })
 
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, '').subscribe(response => {
       this.asistencias = response.data.list;
     })
 
@@ -214,7 +217,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     const selectedOption = this.claseSelect.nativeElement.selectedOptions[0];
     this.selectedClaseId = selectedOption.value;
 
-    this.asistenciaService.getAllPeriodoAulaCursoClase('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+    this.asistenciaService.getAllPeriodoAulaCursoClase('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
       this.asistencias = response.data.list;
     })
 
@@ -223,9 +226,25 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.asistenciaService.getAllPeriodoAulaCursoClase(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+    this.busqueda = nom;
+    this.asistenciaService.getAllPeriodoAulaCursoClase(nom, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
+      console.log(response);
+      this.asistencias = response.data.list;
+    })
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getEstudiantes();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getEstudiantes();
+  }
+
+  getEstudiantes(){
+    this.asistenciaService.getAllPeriodoAulaCursoClase(this.busqueda, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
       console.log(response);
       this.asistencias = response.data.list;
     })
