@@ -60,7 +60,7 @@ export class AdminPeriodComponent implements OnInit {
     //listar periodos
     this.getPeriods();
 
-    this.anioService.getAll('',0,50).subscribe(response=>{
+    this.anioService.getAll('', 0, 50).subscribe(response => {
       this.anios = response.data.list;
     })
 
@@ -131,34 +131,46 @@ export class AdminPeriodComponent implements OnInit {
     console.log(totalevaluaciones);
     try {
       if (totalevaluaciones == 0) {
-        this.evaluacionService.generarEvaluaciones(id,'').subscribe(response =>{
-          console.log(response);
-        });
+        this.evaluacionService.generarEvaluaciones(id, '').subscribe(response => {
+          if(response.successful){
+            this.msjResponse = "Evaluaciones generadas exitosamente";
+            this.successful = true;
+            this.modalOk.showModal();
+          }else{
+            this.msjResponse = "Las evaluaciones ya han sido generadas";
+            this.modalOk.showModal();
+            this.successful = false;
+          }
+        }); 
+
+        this.modalOk.showModal();
+        this.msjResponse = "";
+
       }
-
-    } catch (error) {
-      console.log("Error:", error)
-    }
     
-  }
-  getPeriods(){
-    this.periodService.getAll(this.filterSearch, this.page, this.size)
-      .subscribe(response =>{
-        if(response.successful){
-          this.periods = response.data.list;
-        } else {
-          this.periods = [];
-        }
-      });
-  }
-  getPage(event: any) {
-    this.page = event;
-    this.getPeriods();
+    } catch(error) {
+
   }
 
-  getSize(event: any) {
-    this.size = event;
-    this.getPeriods();
-  }
+}
+getPeriods(){
+  this.periodService.getAll(this.filterSearch, this.page, this.size)
+    .subscribe(response => {
+      if (response.successful) {
+        this.periods = response.data.list;
+      } else {
+        this.periods = [];
+      }
+    });
+}
+getPage(event: any) {
+  this.page = event;
+  this.getPeriods();
+}
+
+getSize(event: any) {
+  this.size = event;
+  this.getPeriods();
+}
 }
 
