@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ISeccion } from 'src/app/features/admin/interfaces/seccion';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
@@ -15,7 +15,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
 
-  titulo:string = 'Agregar Sección';
+  titulo: string = 'Agregar Sección';
 
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
@@ -43,7 +43,7 @@ export class TableSeccionComponent implements OnInit {
   }
 
   form(item?: ISeccion): void {
-    if(item){
+    if (item) {
 
     }
     this.group = this.formBuilder.group({
@@ -63,17 +63,12 @@ export class TableSeccionComponent implements OnInit {
     if (this.group.valid) {
       this.sectionSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
-
   }
 
   // ELIMINAR
   delete(id: string) {
     this.sectionDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
-
-  refresh(): void { window.location.reload(); }
 
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Sección";
@@ -83,18 +78,24 @@ export class TableSeccionComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Sección";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
 
-  reset():void{
-
+  reset(): void {
     this.group.reset();
   }
 
-  getCloseModal(){
+  getCloseModal() {
     this.group.reset();
   }
 
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
+  }
 }

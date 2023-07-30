@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
@@ -18,7 +18,6 @@ export class TablePeriodComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
   isEditing: boolean = false;
-  selectedItem: any = null; // Variable para almacenar el objeto seleccionado al actualizar
   titulo:string="Agregar Periodo";
 
   @Output() idperiodo:EventEmitter<string> = new EventEmitter();
@@ -82,16 +81,12 @@ export class TablePeriodComponent implements OnInit {
     if(this.group.valid){
      this.periodSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR
   delete(id:string){
     this.periodDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
-
-  refresh(): void { window.location.reload(); }
 
   reset() {
     this.group.reset();
@@ -107,28 +102,27 @@ export class TablePeriodComponent implements OnInit {
 
   ejecutarEvaluaciones(id:string) {
     this.idperiodo.emit(id);
-    this.modalAdd.hiddenModal();
-
   }
   onUpdateButtonClick(item: any) {
-    this.isEditing = true;
-    this.selectedItem = item;
     this.titulo = "Actualizar Periodo";
     this.form(item);
     this.modalAdd.showModal();
   }
 
   onAddButtonClick() {
-    this.isEditing = false;
-    this.selectedItem = null;
     this.titulo = "Agregar Periodo";
     this.form();
     this.modalAdd.showModal();
   }
 
-
   getCloseModal(){
     this.reset();
+  }
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }

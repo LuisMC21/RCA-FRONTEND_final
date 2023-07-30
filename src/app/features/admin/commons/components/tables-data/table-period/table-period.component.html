@@ -10,11 +10,6 @@
 <app-modal [successful]="successful" #modalAdd (close_modal)="getCloseModal()">
     <h1 class="text-center text-3xl font-bold">{{ titulo }}</h1>
     <form [formGroup]="group" class="w-full flex flex-wrap justify-between" (ngSubmit)="save()">
-      <!-- Fields common for both Add and Update -->
-      <div class="field">
-        <app-label-field [title]="'Code'"></app-label-field>
-        <app-field><input formControlName="code" class="input" type="text" [readonly]="isEditing"></app-field>
-      </div>
       <div class="field">
         <app-label-field [title]="'**Nombre'"></app-label-field>
         <app-field><input formControlName="name" class="input" type="text"></app-field>
@@ -37,7 +32,7 @@
         <app-label-field [title]="'**Año lectivo'"></app-label-field>
         <app-field>
           <select id="anio" class="input" name="anio" formControlName="anio_lectivoDTO">
-            <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="isEditing && anio.id === selectedItem?.anio_lectivoDTO.id">{{ anio.name }}</option>
+            <option *ngFor="let anio of anios" [ngValue]="anio" [selected]="anio.id === item.anio_lectivoDTO.id">{{ anio.name }}</option>
           </select>
         </app-field>
       </div>
@@ -66,7 +61,7 @@
             <td>{{item.date_end}}</td>
             <td>{{item.anio_lectivoDTO.name}}</td>
             <td class="flex justify-center">
-                <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()" (click)="onUpdateButtonClick(item)"></app-btn-update>
+                <app-btn-update (click)="onUpdateButtonClick(item)"></app-btn-update>
                 <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
             </td>
             <td>

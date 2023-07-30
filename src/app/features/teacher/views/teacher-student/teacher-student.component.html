@@ -32,7 +32,7 @@
             (studentSearch)="search($event)"
             [students]="students" 
         [tableName]="tableName"></app-table-student> 
-    <app-pagination [paginationData]="paginationData"></app-pagination> 
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination> 
     </app-table>
 </div>
 

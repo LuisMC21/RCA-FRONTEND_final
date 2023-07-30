@@ -42,6 +42,11 @@ export class EvaluacionService {
     return this.http.delete<IApiResponse>(`${environment.api}/evaluacion/` + id);
   }
 
+  //generarEvaluaciones
+  generarEvaluaciones(id: string, filter: string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/evaluacion/generatedEvaluations?id_periodo=${id}&filter=${filter}`);
+  }
+
   reporteBoletaNotas(id_alumno: string, id_periodo:string){
     const url = `${environment.api}/evaluacion/boletaNotas?periodo=${id_periodo}&alumno=${id_alumno}`;
     this.http.get(url, {

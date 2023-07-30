@@ -32,6 +32,9 @@ export class StudentAsignacionesComponent implements OnInit {
 
   alumno = '';
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   constructor(private pagination: PaginationService,
     private anioService: AnioLectivoService, 
     private tokenService: TokenService,
@@ -49,9 +52,7 @@ export class StudentAsignacionesComponent implements OnInit {
       this.anios = response.data.list;
     });
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,page,size).subscribe(response=>{
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,this.page,this.size).subscribe(response=>{
       console.log(response);
       this.asignaciones = response.data.list;
     })
@@ -62,11 +63,28 @@ export class StudentAsignacionesComponent implements OnInit {
     const selectedOption = this.anioSelect.nativeElement.selectedOptions[0];
     this.selectedAnioId = selectedOption.value;
     
-    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,0,5).subscribe(response=>{
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,this.page,this.size).subscribe(response=>{
       this.asignaciones = response.data.list;
     })
 
     localStorage.setItem('selectedAnioA', this.selectedAnioId);
+  }
+
+  getAsignaciones(){
+    this.courseTeacherService.getAllAlumnoAnio('',this.alumno,this.selectedAnioId,this.page,this.size).subscribe(response=>{
+      console.log(response);
+      this.asignaciones = response.data.list;
+    })
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getAsignaciones();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAsignaciones();
   }
 
 

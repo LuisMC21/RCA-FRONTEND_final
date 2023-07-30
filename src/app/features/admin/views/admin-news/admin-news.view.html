@@ -1,14 +1,14 @@
 <div class="px-8">
     <app-route></app-route>
     <app-table [tableName]="tableName">
-        <app-table-news 
-            (newDelete)="delete($event)" 
-            (newSave)="save($event)" 
+        <app-table-news [successful] = "successful"
+            (newDelete)="delete($event)"
+            (newSave)="save($event)"
             (newSearch)="search($event)"
             (imgFile)="captureFile($event)"
             [news]="news" [tableName]="'Noticias'">
-        </app-table-news> 
-        <app-pagination [paginationData]="paginationData"></app-pagination>   
+        </app-table-news>
+        <app-pagination [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 

@@ -1,22 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { EnrollmentService } from '../../commons/services/enrollment.service';
-import { GradePeriodService } from '../../commons/services/grade-period.service';
-import { ParentService } from '../../commons/services/parent.service';
 import { ReportsService } from '../../commons/services/reports.service';
 import { StudentService } from '../../commons/services/student.service';
 import { IEnrollment } from '../../interfaces/enrollment';
-import { IGradePeriod } from '../../interfaces/grade-period';
-import { IParent } from '../../interfaces/parent';
-import { IReportMatGrade } from '../../interfaces/reportMatGrade';
 import { IStudent } from '../../interfaces/student';
-import {IAula} from '../../interfaces/aula';
+import { IAula } from '../../interfaces/aula';
 import { AulaService } from '../../commons/services/aula.service';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 import { PaginationService } from '../../commons/services/pagination.service';
+import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -24,11 +18,11 @@ import { PaginationService } from '../../commons/services/pagination.service';
 })
 export class AdminEnrollmentView implements OnInit {
 
-  tableName:string='Matricula'
-  msjResponse:string='';
+  tableName: string = 'Matricula';
+  msjResponse: string = '';
   successful!: boolean;
 
-  identiStudent:string='';
+  identiStudent: string = '';
   studentSave!: IStudent;
   enrollmentSave!:IEnrollment;
   aniosL:IAnioLectivo[]=[]
@@ -43,37 +37,33 @@ export class AdminEnrollmentView implements OnInit {
   @ViewChild('modalOk') modalOk!:ModalComponent;
 
   constructor(
-    private parentService: ParentService,
-    private studentService:StudentService,
-    private enrollmentService:EnrollmentService,
-    private aulaService:AulaService,
-    private anioService:AnioLectivoService,
-    private reportService:ReportsService,
-    private pagination:PaginationService
-
-    ){ }
+    private studentService: StudentService,
+    private enrollmentService: EnrollmentService,
+    private aulaService: AulaService,
+    private anioService: AnioLectivoService,
+    private reportService: ReportsService,
+    private pagination: PaginationService,
+  ) { }
 
   ngOnInit(): void {
-    this.enrollmentService.getAll("",0,5).subscribe(response =>{
-      this.enrollmentList= response.data.list;
-    })
+    this.getEnrollment();
     this.searchStudent();
-    this.aulaService.getAll("",0,5).subscribe(response =>{
-      this.aulas= response.data.list;
+    this.aulaService.getAll("", 0, 5).subscribe(response => {
+      this.aulas = response.data.list;
     })
 
-    this.anioService.getAll("",0,5).subscribe(response =>{
-      this.aniosL= response.data.list;
+    this.anioService.getAll("", 0, 5).subscribe(response => {
+      this.aniosL = response.data.list;
     })
 
   }
-  searchStudent(nom?:string){
-    this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
+  searchStudent(nom?: string) {
+    this.studentService.getAll(nom ? nom : '', 0, 6).subscribe(response => {
       this.students = response.data.list;
     })
   }
-  searchAula(nom?:string){
-    this.studentService.getAll(nom?nom:'',0,6).subscribe(response =>{
+  searchAula(nom?: string) {
+    this.studentService.getAll(nom ? nom : '', 0, 6).subscribe(response => {
       this.students = response.data.list;
     })
   }
@@ -83,87 +73,95 @@ export class AdminEnrollmentView implements OnInit {
   //     this.matGrado = data.content
   //   })
   // }
-  matGradoResponseXSL(iden:string){
+  matGradoResponseXSL(iden: string) {
     const fileName = 'Reporte-alumnos-matriculados.xlsx'
-    this.reportService.matGradoExcel(iden,0,5,true).subscribe(data =>{
-      this.managerExcelFile(data,fileName);
+    this.reportService.matGradoExcel(iden, 0, 5, true).subscribe(data => {
+      this.managerExcelFile(data, fileName);
     })
   }
   // AGREGAR - ACTUALIZAR
-  save(enrollment:IEnrollment){
-    console.log("AQUI")
-    if(enrollment.id==null){
-      this.enrollmentService.add(enrollment).subscribe(data =>{
-          if(data.successful===true){
-            this.msjResponse = 'Matricula registrada correctamente'
-            this.successful = true;
-          }else{
-            this.msjResponse = data.message;
-            this.successful = false;
-          }
+  save(enrollment: IEnrollment) {
+    if (enrollment.id == null) {
+      this.enrollmentService.add(enrollment).subscribe(data => {
+        if (data.successful) {
+          this.getEnrollment();
+          this.msjResponse = 'Matricula registrada correctamente'
+          this.successful = true;
+        } else {
+          this.msjResponse = data.message;
+          this.successful = false;
+        }
       });
-    }else{
-      this.enrollmentService.update(enrollment).subscribe(data =>{
-        if(data.successful===true){
+    } else {
+      this.enrollmentService.update(enrollment).subscribe(data => {
+        if (data.successful) {
+          this.getEnrollment();
           this.msjResponse = 'Matricula actualizada con éxito';
           this.successful = true;
-        }else{
+        } else {
           this.msjResponse = data.message;
           this.successful = false;
         }
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
   // getIdentiParent(identiParent:string){
   //   this.identiParent = identiParent;
   // }
-  getStudentSave(student:IStudent){
+  getStudentSave(student: IStudent) {
     this.studentSave = student;
   }
   
-  getMatriculas(){
+
+
+  //ELIMINAR
+  delete(id: string) {
+    this.enrollmentService.delete(id).subscribe(data => {
+      if (data.successful) {
+        this.getEnrollment();
+        this.msjResponse = 'Eliminado correctamente';
+        this.successful = true;
+      } else {
+        this.msjResponse = data.message;
+        this.successful = true;
+      }
+    });
+    this.modalOk.showModal();
+    this.msjResponse = "";
+  }
+  getEnrollment() {
     this.enrollmentService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
-        this.enrollmentList = response.data.list;
-        console.log(this.enrollmentList)
-      });
+        if (response.successful) {
+          this.enrollmentList = response.data.list;
+        } else {
+          this.enrollmentList = []
+        }
+      })
   }
+  //Reportes
+  managerExcelFile(response: any, fileName: string): void {
+    const dataType = response.type;
+    const binaryData = [];
+    binaryData.push(response);
+
+    const fPath = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
+    const downloadLink = document.createElement('a');
+    downloadLink.href = fPath;
+    downloadLink.setAttribute('download', fileName);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+  }
+
   getPage(event: any) {
     this.page = event;
-    this.getMatriculas();
+    this.getEnrollment();
   }
 
   getSize(event: any) {
     this.size = event;
-    this.getMatriculas();
+    this.getEnrollment();
   }
-
- //ELIMINAR
- delete(id:string){
-  this.enrollmentService.delete(id).subscribe(data =>{
-    if(data.successful===true){
-      this.msjResponse = 'Eliminado correctamente';
-      this.successful = true;
-    } else {
-      this.msjResponse = data.message;
-      this.successful = true;
-    }
-  });
-  this.modalOk.showModal();
-}
-
-//Reportes
-managerExcelFile(response:any, fileName:string):void{
-  const dataType = response.type;
-  const binaryData = [];
-  binaryData.push(response);
-
-  const fPath = window.URL.createObjectURL(new Blob(binaryData, {type:dataType}));
-  const downloadLink = document.createElement('a');
-  downloadLink.href = fPath;
-  downloadLink.setAttribute('download',fileName);
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-}
 }

@@ -51,11 +51,16 @@ export class TeacherClasesComponent implements OnInit {
 
   title!: string;
   teacher = '';
+  busqueda = '';
 
   paginationData: string = 'clase';
 
   msjResponse: string = '';
   successful!: boolean;
+
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -97,11 +102,7 @@ export class TeacherClasesComponent implements OnInit {
       this.obtenerCourseTeacher();
     }
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-
-
-    this.claseService.getAllPeriodoAulaCurso('', page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
   }
@@ -143,7 +144,7 @@ export class TeacherClasesComponent implements OnInit {
       this.periods = response.data.list;
     })
 
-    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10)
       .subscribe(response => {
         this.asignaciones = response.data.list;
 
@@ -168,7 +169,7 @@ export class TeacherClasesComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
 
@@ -196,7 +197,7 @@ export class TeacherClasesComponent implements OnInit {
 
     this.courses = this.getCursosUnicosPorAula(this.selectedAulaId);
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
 
@@ -208,7 +209,7 @@ export class TeacherClasesComponent implements OnInit {
     const selectedOption = this.courseSelect.nativeElement.selectedOptions[0];
     this.selectedCourseId = selectedOption.value;
 
-    this.claseService.getAllPeriodoAulaCurso('', 0, 5, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+    this.claseService.getAllPeriodoAulaCurso('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       this.clases = response.data.list;
     })
 
@@ -247,11 +248,26 @@ export class TeacherClasesComponent implements OnInit {
 
   //BUSCAR
   search(nom: string) {
-    console.log(nom);
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
+    this.busqueda = nom;
+    this.claseService.getAllPeriodoAulaCurso(nom, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+      if(response && response.data && response.data.list){
+        this.clases = response.data.list;
+      }
+    })
+  }
 
-    this.claseService.getAllPeriodoAulaCurso(nom, page, size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+  getPage(event: any) {
+    this.page = event;
+    this.getClases();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getClases();
+  }
+
+  getClases(){
+    this.claseService.getAllPeriodoAulaCurso(this.busqueda, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
       if(response && response.data && response.data.list){
         this.clases = response.data.list;
       }

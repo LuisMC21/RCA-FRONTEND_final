@@ -3,6 +3,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { GradeService } from '../../commons/services/grade.service';
 import { PaginationService } from '../../commons/services/pagination.service';
 import { IGrade } from '../../interfaces/grade';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-grade',
@@ -16,29 +17,22 @@ export class AdminGradeComponent implements OnInit {
   paginationData = 'grade';
   msjResponse: string = '';
   successful!: boolean;
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
+  filterSearch = "";
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
-  constructor(private gradeService: GradeService,
-    private pagination: PaginationService) { }
+  constructor(private gradeService: GradeService) { }
 
   ngOnInit(): void {
     this.getGrades();
-
   }
 
-
   //BUSCAR
-  search(nom: string) {
-    this.gradeService.getAll(nom, this.page, this.size).subscribe(response => {
-      if(response.successful){
-        this.grades = response.data.list;
-      } else {
-        this.grades = [];
-      }
-    })
+  search(filter: string) {
+    this.filterSearch = filter;
+    this.getGrades();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -67,6 +61,7 @@ export class AdminGradeComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
@@ -82,12 +77,11 @@ export class AdminGradeComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
-  refresh(): void { window.location.reload(); }
-
   getGrades(){
-    this.gradeService.getAll('', this.page, this.size)
+    this.gradeService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if(response.successful){
           this.grades = response.data.list;

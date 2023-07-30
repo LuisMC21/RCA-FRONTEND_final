@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAsistencia } from 'src/app/features/admin/interfaces/asistencia';
 import { IAula } from 'src/app/features/admin/interfaces/aula';
@@ -55,11 +55,17 @@ export class TableAsistenciaComponent implements OnInit {
     if (this.group.valid) {
       this.asistenciaSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
   // ELIMINAR
   delete(id: string) {
     this.asistenciaDelete.emit(id)
-    this.modalDelete.hiddenModal();
+  }
+
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Changes in successful:', changes['successful']);
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
   }
 }

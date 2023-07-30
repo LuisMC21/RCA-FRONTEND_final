@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { IAula } from '../../interfaces/aula';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { AulaService } from '../../commons/services/aula.service';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { ISeccion } from '../../interfaces/seccion';
 import { IGrade } from '../../interfaces/grade';
 import { SeccionService } from '../../commons/services/seccion.service';
 import { GradeService } from '../../commons/services/grade.service';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-classroom',
@@ -20,7 +19,7 @@ export class AdminClassroomComponent implements OnInit {
   grades: IGrade[] = [];
 
   tableName: string = 'Aulas';
-  totalAulas: number=0;
+  totalAulas: number = 0;
   paginationData = 'classroom';
   paginationDataGrade = 'grade';
   paginationDataSection = 'section';
@@ -31,25 +30,22 @@ export class AdminClassroomComponent implements OnInit {
   filterSearch = "";
 
   //paginatio
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
 
   constructor(private classroomService: AulaService,
-    private pagination: PaginationService,
     private sectionService: SeccionService,
     private gradeService: GradeService) { }
 
   ngOnInit(): void {
     this.getClassrooms();
     this.getGradesAndSections();
-
-      this.classroomService.getAulaCount('')
+    this.classroomService.getAulaCount('')
       .subscribe(count => {
         this.totalAulas = count;
-        console.log(this.totalAulas);
       });
   }
 
@@ -63,11 +59,10 @@ export class AdminClassroomComponent implements OnInit {
   save(classroom: IAula) {
     if (classroom.id == null) {
       this.classroomService.add(classroom).subscribe(data => {
-        if (data.successful === true) {
+        if (data.successful) {
           this.getClassrooms();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-          this.getClassrooms();
         } else {
           this.msjResponse = data.message;
           this.successful = false;
@@ -75,7 +70,7 @@ export class AdminClassroomComponent implements OnInit {
       });
     } else {
       this.classroomService.update(classroom).subscribe(data => {
-        if (data.successful === true) {
+        if (data.successful) {
           this.getClassrooms();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
@@ -86,12 +81,13 @@ export class AdminClassroomComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
   delete(id: string) {
     this.classroomService.delete(id).subscribe(data => {
-      if (data.successful === true) {
+      if (data.successful) {
         this.getClassrooms();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
@@ -102,9 +98,8 @@ export class AdminClassroomComponent implements OnInit {
 
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
-  refresh(): void { window.location.reload(); }
-
 
   //Pagination
   getPage(event: any) {
@@ -118,17 +113,17 @@ export class AdminClassroomComponent implements OnInit {
   }
 
   //Funciones de lista
-  getClassrooms(){
+  getClassrooms() {
     this.classroomService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
-        if(response.successful){
+        if (response.successful) {
           this.classrooms = response.data.list;
-        } else{
+        } else {
           this.classrooms = [];
         }
       });
   }
-  getGradesAndSections(){
+  getGradesAndSections() {
     this.gradeService.getAll('', 0, 40)
       .subscribe(response => {
         this.grades = response.data.list;

@@ -25,6 +25,7 @@ export class TeacherStudentComponent implements OnInit {
   students: IStudent[] = [];
   route = 'Estudiantes';
 
+  busqueda = '';
 
   @ViewChild('anioSelect') anioSelect!: ElementRef;
   selectedAnioId: string = '';
@@ -40,6 +41,9 @@ export class TeacherStudentComponent implements OnInit {
 
   msjResponse: string = '';
   successful: boolean = false;
+
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
 
   @ViewChild('modalOk') modalOk!: ModalComponent;
 
@@ -66,9 +70,8 @@ export class TeacherStudentComponent implements OnInit {
     console.log(this.selectedAulaId);
     console.log(this.selectedAnioId);
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, page, size)
+    
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0,10)
       .subscribe(response => {
         console.log(response);
         this.asignaciones = response.data.list;
@@ -82,7 +85,7 @@ export class TeacherStudentComponent implements OnInit {
         }, []);
       });
 
-    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, page, size).subscribe(response => {
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, this.page, this.size).subscribe(response => {
       console.log(response);
       this.students = response.data.list;
     })
@@ -95,7 +98,7 @@ export class TeacherStudentComponent implements OnInit {
 
     this.aulas = [];
 
-    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 5)
+    this.courseTeacherService.getAllDocenteAnio('', this.teacher, this.selectedAnioId, 0, 10)
       .subscribe(response => {
 
         this.asignaciones = response.data.list;
@@ -109,7 +112,7 @@ export class TeacherStudentComponent implements OnInit {
         }, []);
       });
 
-    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, 0, 5).subscribe(response => {
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, this.page, this.size).subscribe(response => {
       this.students = response.data.list;
     })
 
@@ -122,7 +125,7 @@ export class TeacherStudentComponent implements OnInit {
     const selectedOption = this.aulaSelect.nativeElement.selectedOptions[0];
     this.selectedAulaId = selectedOption.value;
 
-    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, 0, 5).subscribe(response => {
+    this.studentService.getAllAnioCursoAula('', this.selectedAnioId, this.selectedAulaId, this.page, this.size).subscribe(response => {
       this.students = response.data.list;
     })
 
@@ -130,9 +133,26 @@ export class TeacherStudentComponent implements OnInit {
   }
 
   search(name: string) {
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.studentService.getAllAnioCursoAula(name, this.selectedAnioId, this.selectedAulaId, page, size).subscribe(response => {
+    this.busqueda = name;
+    this.studentService.getAllAnioCursoAula(name, this.selectedAnioId, this.selectedAulaId, this.page, this.size).subscribe(response => {
+      if (response && response.data && response.data.list) {
+        this.students = response.data.list;
+      }
+    })
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getEstudiantes();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getEstudiantes();
+  }
+
+  getEstudiantes(){
+    this.studentService.getAllAnioCursoAula(this.busqueda, this.selectedAnioId, this.selectedAulaId, this.page, this.size).subscribe(response => {
       if (response && response.data && response.data.list) {
         this.students = response.data.list;
       }

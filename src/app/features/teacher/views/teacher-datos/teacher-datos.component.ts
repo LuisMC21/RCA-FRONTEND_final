@@ -85,7 +85,9 @@ export class TeacherDatosComponent implements OnInit {
   async obtenerDatos(){
     try {
       const response = await this.teacherService.getAll(this.code,0,5).toPromise();
+      console.log(response);
       if (response && response.data && response.data.list) {
+        
         this.item = response.data.list[0];
       }
 

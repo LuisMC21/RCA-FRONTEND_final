@@ -50,6 +50,9 @@ export class StudentAsistenciasComponent implements OnInit {
   idAlumno = '';
   anioName = '';
 
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+
   constructor(
     private pagination: PaginationService,
     private periodoService: PeriodService,
@@ -77,9 +80,7 @@ export class StudentAsistenciasComponent implements OnInit {
       })
     } 
 
-    let page = this.pagination.getPage(this.paginationData);
-    let size = this.pagination.getSize(this.paginationData);
-    this.asistenciaService.getAllPeriodoAlumnoCurso('',page,size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+    this.asistenciaService.getAllPeriodoAlumnoCurso('',this.page,this.size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
       console.log(response);
       this.asistencias = response.data.list;
     })
@@ -112,7 +113,7 @@ export class StudentAsistenciasComponent implements OnInit {
     const selectedOption = this.periodSelect.nativeElement.selectedOptions[0];
     this.selectedPeriodId = selectedOption.value;
 
-    this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+    this.asistenciaService.getAllPeriodoAlumnoCurso('',this.page,this.size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
       console.log(response)
       this.asistencias = response.data.list;
     })
@@ -124,11 +125,27 @@ export class StudentAsistenciasComponent implements OnInit {
     const selectedOption = this.cursoSelect.nativeElement.selectedOptions[0];
     this.selectedCursoId = selectedOption.value;
 
-    this.asistenciaService.getAllPeriodoAlumnoCurso('',0,5, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+    this.asistenciaService.getAllPeriodoAlumnoCurso('',this.page,this.size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
       this.asistencias = response.data.list;
     })
 
     localStorage.setItem('selectedCurso', this.selectedCursoId);
+  }
+
+  getPage(event: any) {
+    this.page = event;
+    this.getAsistencias();
+  }
+
+  getSize(event: any) {
+    this.size = event;
+    this.getAsistencias();
+  }
+
+  getAsistencias(){
+    this.asistenciaService.getAllPeriodoAlumnoCurso('',this.page,this.size, this.selectedPeriodId, this.idAlumno, this.selectedCursoId).subscribe(response => {
+      this.asistencias = response.data.list;
+    })
   }
 
   redirectToAsistencia(){

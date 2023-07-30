@@ -45,7 +45,7 @@
         <app-table-nota (evaluacionDelete)="delete($event)" (evaluacionSave)="save($event)"
             (evaluacionSearch)="search($event)" [tableName]="tableName" [evaluaciones]="evaluaciones">
         </app-table-nota>
-        <app-pagination [paginationData]="paginationData"></app-pagination>
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination> 
     </app-table>
 </div>
 <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>

@@ -16,7 +16,7 @@
             (asignacionesSearch)="search($event)"
             [asignaciones]="asignaciones" 
         [tableName]="tableName"></app-table-asignaciones> 
-    <app-pagination [paginationData]="paginationData"></app-pagination> 
+        <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
 </div>
 

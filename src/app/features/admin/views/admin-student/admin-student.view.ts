@@ -30,21 +30,18 @@ export class AdminStudentView implements OnInit {
   msjResponse:string='';
   icon:string='';
   identiParent:string='';
+  filterSearch = "";
 
   successful!: boolean;
 
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  page = 0;
+  size = 10;
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
-  constructor(private studentService:StudentService,
-     private pagination:PaginationService,
-     private apoderadoService:ParentService) { }
+  constructor(private studentService:StudentService) { }
 
   ngOnInit(): void {
-    this.page = this.pagination.getPage(this.paginationData);
-    this.size = this.pagination.getSize(this.paginationData);
 
     this.getStudents();
 
@@ -56,10 +53,9 @@ export class AdminStudentView implements OnInit {
 
 
   //BUSCAR
-  search(nom:string){
-    this.studentService.getAll(nom,this.page, this.size).subscribe(response =>{
-      this.students = response.data.list;
-    })
+  search(filter:string){
+    this.filterSearch = filter;
+    this.getStudents();
   }
 
   // AGREGAR - ACTUALIZAR
@@ -89,6 +85,7 @@ export class AdminStudentView implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getIdentiParent(identiParent:string){
@@ -97,7 +94,7 @@ export class AdminStudentView implements OnInit {
   //ELIMINAR
   delete(id:string){
     this.studentService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+      if(data.successful){
         this.getStudents();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
@@ -107,13 +104,12 @@ export class AdminStudentView implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
-  //
-  refresh(): void { window.location.reload(); }
   //Lista de students
   getStudents(){
-    this.studentService.getAll('', this.page, this.size)
+    this.studentService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response =>{
         if(response.successful){
           this.students = response.data.list;

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 import { CourseService } from '../../commons/services/course.service';
 import { GradeService } from '../../commons/services/grade.service';
-import { PaginationService } from '../../commons/services/pagination.service';
 import { ICourse } from '../../interfaces/course';
 import { IGrade } from '../../interfaces/grade';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-admin-course',
@@ -13,77 +12,75 @@ import { IGrade } from '../../interfaces/grade';
 })
 export class AdminCourseComponent implements OnInit {
 
-  courses:ICourse[]=[];
-  grades:IGrade[]=[];
+  courses: ICourse[] = [];
+  grades: IGrade[] = [];
   tableName: string = 'Cursos';
   paginationData = 'course'
-  msjResponse:string='';
+  msjResponse: string = '';
   successful!: boolean;
-  totalTeachers: number=0;
-  @ViewChild('modalOk') modalOk!:ModalComponent;
-  page = this.pagination.getPage(this.paginationData);
-  size = this.pagination.getSize(this.paginationData);
+  totalTeachers: number = 0;
+  filterSearch = "";
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
+  page = 0;
+  size = 10;
 
   constructor(
     private courseService: CourseService,
-    private pagination:PaginationService,
-    private gradeService:GradeService) { }
+    private gradeService: GradeService) { }
 
   ngOnInit(): void {
-    this.courseService.getAll('', this.page,this.size)
-    .subscribe(response =>{
-      this.courses = response.data.list;
+    this.getCursos();
 
-    });
-
-    this.gradeService.getAll('',0,10).subscribe(response =>{
+    this.gradeService.getAll('', 0, 10).subscribe(response => {
       this.grades = response.data.list;
     });
 
     this.courseService.getCursoCount('')
-    .subscribe(count => {
-      this.totalTeachers = count;
-    });
+      .subscribe(count => {
+        this.totalTeachers = count;
+      });
   }
 
   //BUSCAR
-  search(nom:string){
-    this.courseService.getAll(nom,this.page,this.size).subscribe(response =>{
-      this.courses = response.data.list;
-    })
+  search(filter: string) {
+    this.filterSearch = filter
+    this.getCursos();
   }
 
   // AGREGAR - ACTUALIZAR
-  save(course:ICourse){
-    console.log(course)
-    if(course.id==null){
-      this.courseService.add(course).subscribe(data =>{
-        if(data.successful===true){
+  save(course: ICourse) {
+    if (course.id == null) {
+      this.courseService.add(course).subscribe(data => {
+        if (data.successful) {
+          this.getCursos();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
-        }else{
+        } else {
           this.msjResponse = data.message;
           this.successful = false;
         }
       });
-    }else{
-      this.courseService.update(course).subscribe(data =>{
-        if(data.successful===true){
+    } else {
+      this.courseService.update(course).subscribe(data => {
+        if (data.successful) {
+          this.getCursos()
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
-        }else{
+        } else {
           this.msjResponse = data.message;
           this.successful = false;
         }
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
-  delete(id:string){
-    this.courseService.delete(id).subscribe(data =>{
-      if(data.successful===true){
+  delete(id: string) {
+    this.courseService.delete(id).subscribe(data => {
+      if (data.successful) {
+        this.getCursos();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
@@ -92,28 +89,27 @@ export class AdminCourseComponent implements OnInit {
       }
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
-refresh(): void { window.location.reload(); }
+  getPage(event: any) {
+    this.page = event;
+    this.getCursos();
+  }
 
-getPage(event: any) {
-  this.page = event;
-  this.getCursos();
-}
+  getSize(event: any) {
+    this.size = event;
+    this.getCursos();
+  }
 
-getSize(event: any) {
-  this.size = event;
-  this.getCursos();
-}
-
-getCursos() {
-  this.courseService.getAll('', this.page, this.size)
-    .subscribe(response => {
-      if (response.successful) {
-        this.courses = response.data.list;
-      } else {
-        this.courses = []
-      }
-    });
-}
+  getCursos() {
+    this.courseService.getAll(this.filterSearch, this.page, this.size)
+      .subscribe(response => {
+        if (response.successful) {
+          this.courses = response.data.list;
+        } else {
+          this.courses = []
+        }
+      });
+  }
 }

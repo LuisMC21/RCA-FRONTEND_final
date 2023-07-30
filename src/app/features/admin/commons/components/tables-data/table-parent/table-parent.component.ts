@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from 'src/app/core/services/storage.service';
 import { IParent } from 'src/app/features/admin/interfaces/parent';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
-import { ParentService } from '../../../services/parent.service';
 
 @Component({
   selector: 'app-table-parent',
@@ -80,13 +78,11 @@ export class TableParentComponent implements OnInit {
     if (this.group.valid) {
       this.parentSave.emit(this.group.value)
     }
-    this.modalAdd.hiddenModal();
   }
 
   // ELIMINAR
   delete(id: string) {
     this.parentDelete.emit(id)
-    this.modalDelete.hiddenModal();
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Apoderado";
@@ -96,16 +92,25 @@ export class TableParentComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
+    this.group.reset();
     this.titulo = "Agregar Apoderado";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
   getCloseModal() {
     this.group.reset();
+    this.form();
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful) {
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }
