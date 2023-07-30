@@ -118,13 +118,18 @@ export class AdminPeriodComponent implements OnInit {
   }
 
   generarEvaluaciones(id: string) {
+    this.evaluacionService.generarEvaluaciones(id, '').subscribe(response => {
+      if(response.successful){
+      this.msjResponse = "Evaluaciones generadas exitosamente";
+      this.successful = true;
+      } else {
+        this.msjResponse = response.message;
+        this.successful = true;
 
-    let totalevaluaciones = 0;
-
-    this.evaluacionService.getAll(id, 0, 5).subscribe(response => {
-      totalevaluaciones = response.data.countFilter || 0;
-      this.countEvaluciones(totalevaluaciones, id);
+      }
     })
+    this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   async countEvaluciones(totalevaluaciones: number, id: string) {
@@ -141,13 +146,13 @@ export class AdminPeriodComponent implements OnInit {
             this.modalOk.showModal();
             this.successful = false;
           }
-        }); 
+        });
 
         this.modalOk.showModal();
         this.msjResponse = "";
 
       }
-    
+
     } catch(error) {
 
   }
