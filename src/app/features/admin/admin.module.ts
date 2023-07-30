@@ -27,6 +27,7 @@ import { AdminReportMatriculaComponent } from './views/admin-report-matricula/ad
 import { AdminReportNotasComponent } from './views/admin-report-notas/admin-report-notas.component';
 import { interceptorProvider } from 'src/app/interceptors/admin-interceptor.service';
 import { AdminReportAsistenciaComponent } from './views/admin-report-asistencia/admin-report-asistencia.component';
+import { AdminUserComponent } from './views/admin-user/admin-user.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AdminReportAsistenciaComponent } from './views/admin-report-asistencia/
     AdminReportMatriculaComponent,
     AdminReportNotasComponent,
     AdminReportAsistenciaComponent,
+    AdminUserComponent,
     ],
   imports: [
     CommonModule,

@@ -23,6 +23,7 @@ import { TableAsistenciaComponent } from './tables-data/table-asistencia/table-a
 import { TableSeccionComponent } from './tables-data/table-seccion/table-seccion.component';
 import { TableClassroomComponent } from './tables-data/table-classroom/table-classroom.component';
 import { TableCourseTeacherComponent } from './tables-data/table-course-teacher/table-course-teacher.component';
+import { TableUserComponent } from './tables-data/table-user/table-user.component';
 
 
 
@@ -48,7 +49,8 @@ import { TableCourseTeacherComponent } from './tables-data/table-course-teacher/
     TableAsistenciaComponent,
     TableSeccionComponent,
     TableClassroomComponent,
-    TableCourseTeacherComponent
+    TableCourseTeacherComponent,
+    TableUserComponent
   ],
   exports:[
     TableComponent,
@@ -70,7 +72,8 @@ import { TableCourseTeacherComponent } from './tables-data/table-course-teacher/
     TableAsistenciaComponent,
     TableSeccionComponent,
     TableClassroomComponent,
-    TableCourseTeacherComponent
+    TableCourseTeacherComponent,
+    TableUserComponent
   ],
   imports: [
     CommonModule,

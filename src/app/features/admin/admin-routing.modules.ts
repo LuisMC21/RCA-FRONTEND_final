@@ -21,6 +21,7 @@ import { AdminCourseTeacherComponent } from './views/admin-course-teacher/admin-
 import { AdminReportMatriculaComponent } from './views/admin-report-matricula/admin-report-matricula.component';
 import { AdminReportNotasComponent } from './views/admin-report-notas/admin-report-notas.component';
 import { AdminReportAsistenciaComponent } from './views/admin-report-asistencia/admin-report-asistencia.component';
+import { AdminUserComponent } from './views/admin-user/admin-user.component';
 
 
 const routes: Routes = [
@@ -47,7 +48,8 @@ const routes: Routes = [
       { path: 'docenteCurso', component: AdminCourseTeacherComponent},
       { path: 'reportesMatricula', component: AdminReportMatriculaComponent},
       { path: 'reportesNotas', component: AdminReportNotasComponent},
-      { path: 'reportesAsistencia', component: AdminReportAsistenciaComponent}
+      { path: 'reportesAsistencia', component: AdminReportAsistenciaComponent},
+      { path: 'usuarios', component: AdminUserComponent}
     ]
   },
   { path: '**', redirectTo: ''}

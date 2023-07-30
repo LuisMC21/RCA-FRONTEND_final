@@ -1,40 +1,39 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TeacherService } from '../../commons/services/teacher.service';
-import { ITeacher } from '../../interfaces/teacher';
-import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { IUser } from '../../interfaces/user';
+import { UsuarioService } from '../../commons/services/usuario.service';
+import { PaginationService } from '../../commons/services/pagination.service';
 
 @Component({
-  selector: 'app-admin-teacher',
-  templateUrl:
-
-    './admin-teacher.view.html',
-  styleUrls: ['./admin-teacher.view.scss']
+  selector: 'app-admin-user',
+  templateUrl: './admin-user.component.html',
+  styleUrls: ['./admin-user.component.scss']
 })
-export class AdminTeacherView implements OnInit {
+export class AdminUserComponent implements OnInit {
 
-  tableName = "Docente"
-  teachers: ITeacher[] = [];
+  tableName = "Administrador"
+  users: IUser[] = [];
   paginationData: string = 'teacher';
   msjResponse: string = '';
   filterSearch = "";
   successful!: boolean;
   totalTeachers: number = 0;
-  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   page = 0;
   size = 10;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
-  constructor(private teacherService: TeacherService) { }
+  constructor(private usuarioService: UsuarioService, private paginationService: PaginationService) { }
 
   ngOnInit(): void {
     this.getTeachers();
 
-    this.teacherService.getTeacherCount('')
+    /*this.teacherService.getTeacherCount('')
       .subscribe(count => {
         this.totalTeachers = count;
-      });
+      });*/
   }
+
   //BUSCAR
   search(filter: string) {
     this.filterSearch = filter;
@@ -42,9 +41,9 @@ export class AdminTeacherView implements OnInit {
   }
 
   // AGREGAR - ACTUALIZAR
-  save(teacher: ITeacher) {
+  save(teacher: IUser) {
     if (teacher.id == null) {
-      this.teacherService.add(teacher).subscribe(data => {
+      this.usuarioService.add(teacher).subscribe(data => {
         if (data.successful) {
           this.getTeachers();
           this.msjResponse = 'Agregado correctamente';
@@ -55,7 +54,7 @@ export class AdminTeacherView implements OnInit {
         }
       });
     } else {
-      this.teacherService.update(teacher).subscribe(data => {
+      this.usuarioService.update(teacher).subscribe(data => {
         if (data.successful) {
           this.getTeachers();
           this.msjResponse = 'Cambios actualizados con éxito';
@@ -72,7 +71,7 @@ export class AdminTeacherView implements OnInit {
 
   //ELIMINAR
   delete(id: string) {
-    this.teacherService.delete(id).subscribe(data => {
+    this.usuarioService.delete(id).subscribe(data => {
       if (data.successful) {
         this.getTeachers();
         this.msjResponse = 'Eliminado correctamente';
@@ -97,12 +96,12 @@ export class AdminTeacherView implements OnInit {
   }
 
   getTeachers() {
-    this.teacherService.getAll(this.filterSearch, this.page, this.size)
+    this.usuarioService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if (response.successful) {
-          this.teachers = response.data.list;
+          this.users = response.data.list;
         } else {
-          this.teachers = []
+          this.users = []
         }
       });
   }

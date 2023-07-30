@@ -60,6 +60,14 @@
                 </span>
             </div>
             <ul class="nav__submenu" #submenuMant *ngIf="showSubmenuMant">
+                <li (click)="redirectTo('usuarios')" class="nav__option__sub flex flex-col">
+                    <div class="flex">
+                        <i class="bi bi-people"></i>
+                        <span class="nav__option__toggle">
+                            <label class="option__label">Usuarios</label>
+                        </span>
+                    </div>
+                </li>
                 <li (click)="redirectTo('alumno')" class="nav__option__sub flex flex-col">
                     <div class="flex">
                         <i class="bi bi-people"></i>

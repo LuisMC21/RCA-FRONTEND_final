@@ -4,7 +4,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { INews } from 'src/app/features/admin/interfaces/news';
 import { INewsGet } from 'src/app/features/admin/interfaces/newsGet';
 import { IUser } from 'src/app/features/admin/interfaces/user';
+import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-table-news',
@@ -25,48 +27,11 @@ export class TableNewsComponent implements OnInit {
   editar:Boolean = false;
   imagenSelected:Boolean = false;
 
-  item: INewsGet={
-    id:'',
-    code:'',
-    title:'',
-    sommelier:'',
-    descrip:'',
-    route:'',
-    date:new Date,
-    usuarioDTO: {
-      id:'',
-      code: '',
-      nombreUsuario: '',
-      name: '',
-      pa_surname: '',
-      ma_surname: '',
-      birthdate: new Date,
-      type_doc: '',
-      numdoc: '',
-      tel: '',
-      gra_inst: '',
-      email: '',
-      password:'',
-      rol:''
-    }
-  };
+  item!: INewsGet;
 
-  usuarioDTO: IUser = {
-    id: '1eb4f5b8-d9a4-4774-b1e8-0f09a599b6d9',
-    code: '',
-    nombreUsuario: '',
-    name: '',
-    pa_surname: '',
-    ma_surname: '',
-    birthdate: new Date,
-    type_doc: '',
-    numdoc: '',
-    tel: '',
-    gra_inst: '',
-    email: '',
-    password: '',
-    rol: 'ADMINISTRADOR'
-  };
+  usuario: string = '';
+  usuarioDTO!: IUser;
+
 
   @Output() newSave: EventEmitter<INews> = new EventEmitter;
   @Output() newDelete: EventEmitter<string> = new EventEmitter;
@@ -76,9 +41,14 @@ export class TableNewsComponent implements OnInit {
   @ViewChild('modalAdd') modalAdd!: ModalComponent
   @ViewChild('modalDelete') modalDelete!: ModalComponent
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private tokenService: TokenService, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.usuario = this.tokenService.getUserId();
+    this.usuarioService.getAll(this.usuario, 0, 5).subscribe(response=>{
+      console.log(response);
+      this.usuarioDTO = response.data.list[0];  
+    })
     this.form();
   }
 
