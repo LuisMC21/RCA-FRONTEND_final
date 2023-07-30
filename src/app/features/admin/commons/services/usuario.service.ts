@@ -20,7 +20,7 @@ export class UsuarioService {
   //Agregar docente
   add(user:IUser):Observable<IApiResponse>{
     console.log(user)
-    return this.http.post<IApiResponse>(`${environment.api}/usuario`,user)
+    return this.http.post<IApiResponse>(`${environment.api}/auth/usuario`,user)
   }
 
   //Modificar docente
