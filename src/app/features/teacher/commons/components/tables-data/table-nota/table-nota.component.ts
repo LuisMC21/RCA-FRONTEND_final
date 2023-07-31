@@ -19,6 +19,7 @@ export class TableNotaComponent implements OnInit {
   @Input() title!: string;
 
   item?: IEvaluacion;
+  fecha = '';
 
   @Output() evaluacionSave: EventEmitter<IEvaluacion> = new EventEmitter();
   @Output() evaluacionDelete: EventEmitter<string> = new EventEmitter();
@@ -39,6 +40,7 @@ export class TableNotaComponent implements OnInit {
 
   ngOnInit(): void {
     this.form();
+    this.fecha = this.obtenerFecha();
   }
 
   get name() { return this.group.get('name') }
@@ -55,8 +57,8 @@ export class TableNotaComponent implements OnInit {
       name: [item ? item.alumnoDTO.usuarioDTO.name : ''],
       pa_surname: [item ? item.alumnoDTO.usuarioDTO.pa_surname : '', [Validators.required]],
       ma_surname: [item ? item.alumnoDTO.usuarioDTO.ma_surname : '', [Validators.required]],
-      note: ['', [Validators.required, Validators.min(1)]],
-      date:[this.obtenerFecha],
+      note: [item ? item.note : '', [Validators.required, Validators.min(1)]],
+      date:[this.fecha],
       alumnoDTO: [item? item.alumnoDTO:null],
       periodoDTO: [item? item.periodoDTO:null],
       docentexCursoDTO:[item?item.docentexCursoDTO:null]

@@ -27,7 +27,6 @@ export class TeacherService {
 
   //Agregar docente
   add(teacher:ITeacher):Observable<IApiResponse>{
-    console.log(teacher)
     return this.http.post<IApiResponse>(`${environment.api}/docente`,teacher)
   }
 

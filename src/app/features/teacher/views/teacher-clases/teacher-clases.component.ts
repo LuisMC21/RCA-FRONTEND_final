@@ -221,7 +221,8 @@ export class TeacherClasesComponent implements OnInit {
 
   async obtenerCourseTeacher() {
     try {
-      const response = await this.courseTeacherService.getAulaCurso('', this.selectedAulaId, this.selectedCourseId).toPromise();
+      const response = await this.courseTeacherService.getAulaCurso(this.selectedAnioId, this.selectedAulaId, this.selectedCourseId).toPromise();
+      console.log(response);
       if (response && response.data) {
         this.courseTeacher = response.data;
       }
@@ -281,6 +282,7 @@ export class TeacherClasesComponent implements OnInit {
       this.claseService.add(clase).subscribe(data => {
         console.log(data)
         if (data.successful === true) {
+          this.getClases();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -300,18 +302,21 @@ export class TeacherClasesComponent implements OnInit {
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   //ELIMINAR
   delete(id: string) {
     this.claseService.delete(id).subscribe(data => {
       if (data.successful === true) {
+        this.getClases();
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
       }
       this.successful === true;
     });
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   refresh(): void { window.location.reload(); }
