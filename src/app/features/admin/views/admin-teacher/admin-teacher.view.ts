@@ -45,6 +45,7 @@ export class AdminTeacherView implements OnInit {
   save(teacher: ITeacher) {
     if (teacher.id == null) {
       this.teacherService.add(teacher).subscribe(data => {
+        console.log(data);
         if (data.successful) {
           this.getTeachers();
           this.msjResponse = 'Agregado correctamente';

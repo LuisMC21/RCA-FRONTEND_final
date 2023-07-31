@@ -22,6 +22,8 @@ export class TableClaseComponent implements OnInit {
   @Input() periodo!: IPeriod;
   @Input() courseTeacher!: ICourseTeacher
 
+  @Input() successful2 = false;
+
   asistencias: IAsistencia[] = [];
 
   tableNameA = 'Asistencias'

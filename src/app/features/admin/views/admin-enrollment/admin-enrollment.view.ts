@@ -45,7 +45,7 @@ export class AdminEnrollmentView implements OnInit {
   ngOnInit(): void {
     this.getEnrollment();
     this.searchStudent();
-    this.aulaService.getAll("", 0, 5).subscribe(response => {
+    this.aulaService.getAll("", 0, 100).subscribe(response => {
       this.aulas = response.data.list;
     })
 

@@ -222,9 +222,8 @@ export class TeacherNotasComponent implements OnInit {
     console.log(evaluacion);
     if (evaluacion.id == null) {
       this.evaluacionService.add(evaluacion).subscribe(data => {
-        console.log(data.message)
-        console.log(data.data);
         if (data.successful === true) {
+          this.getPromedios();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -236,6 +235,7 @@ export class TeacherNotasComponent implements OnInit {
       this.evaluacionService.update(evaluacion).subscribe(data => {
         console.log(data)
         if (data.successful === true) {
+          this.getPromedios();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
@@ -267,6 +267,7 @@ export class TeacherNotasComponent implements OnInit {
   delete(id: string) {
     this.evaluacionService.delete(id).subscribe(data => {
       if (data.successful === true) {
+        this.getPromedios();
         this.msjResponse = 'Eliminado correctamente';
         this.successful === true;
       }
