@@ -35,6 +35,7 @@ export class AdminNewsView implements OnInit {
 
   // AGREGAR - ACTUALIZAR
   save(noticia: INews) {
+    console.log(noticia)
     if (noticia.id == null) {
         //Agregar noticia
         this.newsService.add(noticia).subscribe(data => {

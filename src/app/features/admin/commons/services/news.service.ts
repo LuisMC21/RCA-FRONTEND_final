@@ -26,7 +26,7 @@ export class NewsService {
     return this.http.put<IApiResponse>(`${environment.api}/noticia`,news)
   }
 
-  //Eliminar 
+  //Eliminar
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/noticia/`+id);
   }
