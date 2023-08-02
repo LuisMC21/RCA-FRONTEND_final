@@ -68,8 +68,8 @@
             <app-table-asistencia (asistenciaSave)="saveAsistencia($event)" (asistenciaSearch)="search($event)"
                 [tableName]="tableNameA" [asistencias]="asistencias">
             </app-table-asistencia>
-            <app-pagination [paginationData]="paginationData"></app-pagination>
+            <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
         </app-table>
     </div>
-    <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk></app-modal-response>
+    <app-modal-response [title]="msjResponse" [successful]="successful" #modalOk2></app-modal-response>
 </app-modal>

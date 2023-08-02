@@ -45,11 +45,20 @@ export class TableNewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.tokenService.getUserId();
-    this.usuarioService.getAll(this.usuario, 0, 5).subscribe(response=>{
-      console.log(response);
-      this.usuarioDTO = response.data.list[0];  
-    })
+    console.log(this.usuario);
+    this.usuarioAdmin();
     this.form();
+  }
+
+  async usuarioAdmin(){
+    try {
+      const response = await this.usuarioService.getAll(this.usuario, 0, 5).toPromise();
+      if(response && response.data){
+        this.usuarioDTO = response.data
+      }
+    } catch (error) {
+      
+    }
   }
 
   get title() { return this.group.get('title') }

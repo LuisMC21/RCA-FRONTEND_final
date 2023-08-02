@@ -33,7 +33,7 @@
 </div>
 <div class="px-8">
     <app-table [title]="'Clases'" [tableName]="tableName">
-        <app-table-clase [successful2] = "successful"
+        <app-table-clase [successful2]="successful"
             (claseDelete)="delete($event)" 
             (claseSave)="save($event)"
             (claseSearch)="search($event)" 

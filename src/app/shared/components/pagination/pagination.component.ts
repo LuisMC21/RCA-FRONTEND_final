@@ -25,14 +25,12 @@ export class PaginationComponent implements OnInit {
 
   previousPage(){
     this.page = (this.paginationService.getPage(this.paginationData))-1
-    console.log(this.page)
     this.pageUpdate.emit(this.page)
     this.paginationService.setPage(this.page);
   }
 
   nextPage(){
     this.page = (this.paginationService.getPage(this.paginationData))+1
-    console.log(this.page)
     this.pageUpdate.emit(this.page)
     this.paginationService.setPage(this.page);
   }

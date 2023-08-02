@@ -17,6 +17,10 @@ export class UsuarioService {
     return this.http.get<IApiResponse>(`${environment.api}/usuario?filter=${filter}&page=${page}&size=${size}`);
   }
 
+  getOne(id?:string):Observable<IApiResponse>{
+    return this.http.get<IApiResponse>(`${environment.api}/usuario/`+id);
+  }
+
   //Agregar docente
   add(user:IUser):Observable<IApiResponse>{
     console.log(user)
