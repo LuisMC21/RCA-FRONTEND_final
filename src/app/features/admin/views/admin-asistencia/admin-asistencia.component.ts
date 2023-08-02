@@ -69,6 +69,7 @@ export class AdminAsistenciaComponent implements OnInit {
     if (asistencia.id == null) {
       this.asistenciaService.add(asistencia).subscribe(data => {
         if (data.successful === true) {
+          this.getAsistencias();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -79,6 +80,7 @@ export class AdminAsistenciaComponent implements OnInit {
     } else {
       this.asistenciaService.update(asistencia).subscribe(data => {
         if (data.successful === true) {
+          this.getAsistencias();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {

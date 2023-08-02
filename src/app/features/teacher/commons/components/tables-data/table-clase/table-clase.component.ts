@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AsistenciaService } from 'src/app/features/admin/commons/services/asistencia.service';
 import { IAsistencia } from 'src/app/features/admin/interfaces/asistencia';
@@ -7,6 +7,7 @@ import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { AdminAsistenciaComponent } from 'src/app/features/admin/views/admin-asistencia/admin-asistencia.component';
 import { TeacherAsistenciaComponent } from 'src/app/features/teacher/views/teacher-asistencia/teacher-asistencia.component';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
 @Component({
@@ -26,9 +27,17 @@ export class TableClaseComponent implements OnInit {
 
   asistencias: IAsistencia[] = [];
 
+  idAsistencia = '';
+
   tableNameA = 'Asistencias'
 
   item?: IClase;
+
+  page = 0;
+  size = 5;
+
+  pageA = 0;
+  sizeA = 10;
 
   @Output() claseSave: EventEmitter<IClase> = new EventEmitter();
   @Output() claseDelete: EventEmitter<string> = new EventEmitter();
@@ -50,7 +59,7 @@ export class TableClaseComponent implements OnInit {
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
   @ViewChild('modalAsistencias') modalAsistencias!: ModalComponent;
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk2') modalOk2!: ModalResponseComponent;
 
   constructor(private formBuilder: FormBuilder, private asistenciaService: AsistenciaService) { }
 
@@ -91,29 +100,31 @@ export class TableClaseComponent implements OnInit {
   }
 
   saveAsistencia(asistencia: IAsistencia){
-    console.log("Asistencia");
     if (asistencia.id == null) {
       this.asistenciaService.add(asistencia).subscribe(data => {
         if (data.successful === true) {
-          this.msjResponse = 'Agregado correctamente';
+          this.getAsistencias();
+          this.msjResponse = 'Agregado correctamentesss';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     } else {
       this.asistenciaService.update(asistencia).subscribe(data => {
         if (data.successful === true) {
-          this.msjResponse = 'Cambios actualizados con éxito';
+          this.msjResponse = 'Cambios actualizados con éxitosss';
           this.successful = true;
+          this.getAsistencias();
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
     }
-    this.modalOk.showModal();
+    this.modalOk2.showModal();
+    this.msjResponse = "";
   }
 
   // ELIMINAR
@@ -135,14 +146,17 @@ export class TableClaseComponent implements OnInit {
     this.asistencias = [];
     this.obtenerAsistencias(id);
     this.modalAsistencias.showModal();
+    this.idAsistencia = id;
   }
 
   async obtenerAsistencias(id:string){
     try {
-      const response = await this.asistenciaService.getAllByClase('', id,0,5).toPromise();
+      const response = await this.asistenciaService.getAllByClase('', id,this.pageA, this.sizeA).toPromise();
       if(response && response.data && response.data.list){
         this.asistencias = response.data.list;
       }
+
+      console.log(this.asistencias);
     } catch (error) {
 
     }
@@ -150,6 +164,27 @@ export class TableClaseComponent implements OnInit {
 
   getCloseModal(){
     this.group.reset();
+  }
+
+  getPage(event: any) {
+    this.pageA = event;
+    this.getAsistencias();
+  }
+
+  getSize(event: any) {
+    this.sizeA = event;
+    this.getAsistencias();
+  }
+
+  getAsistencias(){
+    this.obtenerAsistencias(this.idAsistencia);
+  }
+
+  // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.successful2) {
+      this.modalAdd.hiddenModal();
+    }
   }
 
 }

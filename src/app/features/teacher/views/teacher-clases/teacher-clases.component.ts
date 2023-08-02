@@ -15,6 +15,7 @@ import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.com
 import { TableClaseComponent } from '../../commons/components/tables-data/table-clase/table-clase.component';
 import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 
 @Component({
   selector: 'app-teacher-clases',
@@ -62,7 +63,7 @@ export class TeacherClasesComponent implements OnInit {
   size = this.pagination.getSize(this.paginationData);
 
 
-  @ViewChild('modalOk') modalOk!: ModalComponent;
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
   constructor(private pagination: PaginationService,
     private periodoService: PeriodService,
@@ -281,22 +282,23 @@ export class TeacherClasesComponent implements OnInit {
     if (clase.id == null) {
       this.claseService.add(clase).subscribe(data => {
         console.log(data)
-        if (data.successful === true) {
+        if (data.successful) {
           this.getClases();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     } else {
       this.claseService.update(clase).subscribe(data => {
-        if (data.successful === true) {
+        if (data.successful) {
+          this.getClases();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
@@ -308,12 +310,14 @@ export class TeacherClasesComponent implements OnInit {
   //ELIMINAR
   delete(id: string) {
     this.claseService.delete(id).subscribe(data => {
-      if (data.successful === true) {
+      if (data.successful) {
         this.getClases();
         this.msjResponse = 'Eliminado correctamente';
-        this.successful === true;
+        this.successful = true;
+      }else {
+        this.msjResponse = data.message;
+        this.successful = false;
       }
-      this.successful === true;
     });
     this.modalOk.showModal();
     this.msjResponse = "";
