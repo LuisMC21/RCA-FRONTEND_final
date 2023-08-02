@@ -21,17 +21,18 @@ export class AdminPeriodComponent implements OnInit {
   anios: IAnioLectivo[] = [];
   student: IStudent[] = [];
   courses: ICourse[] = [];
-
+  paginationData= 'period';
+ 
   courseTeachers: ICourseTeacher[] = [];
   aulas: IAula[] = []
-
+  filterSearch = "";
   tableName: string = 'Periodos';
-  paginationData: string = 'period';
+ 
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
   successful!: boolean;
-  filterSearch = "";
+ 
 
   page = 0;
   size = 10;

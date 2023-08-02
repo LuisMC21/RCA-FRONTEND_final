@@ -5,7 +5,7 @@
         <input class="bg-slate-50 w-full outline-none px-6" [(ngModel)]="nomSearch" (ngModelChange)="search($event)"
             type="search" placeholder="Buscar">
     </div>
-    <app-btn-add [title]="title" (click)="onAddButtonClick()"></app-btn-add>
+    <app-btn-add (click)="modalAdd.showModal()" [title]="title" (click)="onAddButtonClick()"></app-btn-add>
 </div>
 <!-- MODAL AGREGAR -->
 <app-modal [successful]="successful" [title]="titulo" (close_modal)="getCloseModal()" #modalAdd>
