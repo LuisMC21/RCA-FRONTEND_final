@@ -45,20 +45,15 @@ export class TableNewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.tokenService.getUserId();
-    console.log(this.usuario);
-    this.usuarioAdmin();
     this.form();
   }
 
-  async usuarioAdmin(){
-    try {
-      const response = await this.usuarioService.getAll(this.usuario, 0, 5).toPromise();
-      if(response && response.data){
-        this.usuarioDTO = response.data
+  usuarioAdmin():any{
+     this.usuarioService.getOne(this.usuario).subscribe(response=>{
+      if(response.successful){
+        return response.data;
       }
-    } catch (error) {
-      
-    }
+     })
   }
 
   get title() { return this.group.get('title') }
@@ -82,8 +77,9 @@ export class TableNewsComponent implements OnInit {
       sommelier: [item ? item.sommelier : '', [Validators.required]],
       descrip: [item ? item.descrip : '', [Validators.required]],
       date: [item ? item.date : ''],
-      usuarioDTO: this.usuarioDTO
-    });
+      usuarioDTO: this.formBuilder.group({
+      })
+      });
   }
   //BUSCAR
   search(nom: string) {
@@ -91,8 +87,9 @@ export class TableNewsComponent implements OnInit {
   }
   // AGREGAR - ACTUALIZAR
   save() {
-    console.log(this.group.value);
     if (this.group.valid) {
+      const usuarioDTOFormGroup = this.group.get('usuarioDTO') as FormGroup;
+      usuarioDTOFormGroup.addControl('id', this.formBuilder.control(this.usuario));
       this.group.addControl('imagenBase64', new FormControl(this.imagenBase64, [Validators.required]));
       this.newSave.emit(this.group.value)
     }
