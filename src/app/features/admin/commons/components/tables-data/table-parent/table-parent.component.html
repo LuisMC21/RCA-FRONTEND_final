@@ -36,13 +36,13 @@
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Correo'"></app-label-field>
+                <app-label-field [title]="'Correo'"></app-label-field>
                 <app-field><input formControlName="email" class="input" type="email"></app-field>
                 <app-required-field class="px-2" *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                     [text]="'**El campo es de tipo correo'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Teléfono'"></app-label-field>
+                <app-label-field [title]="'Teléfono'"></app-label-field>
                 <app-field><input formControlName="tel" class="input" type="number" inputmode="numeric" min="100000000"
                         max="999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="tel?.invalid && (tel?.dirty || tel?.touched)"
@@ -63,14 +63,14 @@
                     [text]="'*El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Número de documento'"></app-label-field>
+                <app-label-field [title]="'Número de documento'"></app-label-field>
                 <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
                         max="999999999999"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                     [text]="'*El campo requiere 8 caracteres'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Fecha de Nacimiento'"></app-label-field>
+                <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
                 <app-field><input formControlName="birthdate" class="input" type="date"></app-field>
                 <app-required-field class="px-2"></app-required-field>
             </div>

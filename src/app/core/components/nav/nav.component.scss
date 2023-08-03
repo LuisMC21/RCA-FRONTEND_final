@@ -18,7 +18,7 @@
             }
         }
         .nav__option:hover{
-            color: var(--const-color-blue-hover);
+        
                 cursor: pointer;
                 .nav__options__secondary{
                     display: block;
@@ -26,24 +26,27 @@
         }
         .nav__option__text{
             cursor: pointer;
+            font-weight: bold;
+            
         }
 
     /*SUBMENU*/
     .nav__options__secondary{
         position: absolute;
         display: none;
-        font-weight: 300;
+       
+        text-align: center;
     }
     .nav__option__secondary{
-      padding: 1% 20%;
-      background-color: var(--const-color-blue-hover);
-      color: white;
+      padding: 10px;
+      background-color: rgb(233, 233, 233);
+      color: black;
+      font-weight: bold;
+     
     }
     .nav__option__secondary:hover{
-      background-color: rgb(80, 80, 80);
-      color: white;
-
-  }
+      background-color: #3464b4;
+      color: white;}
 
     // //li--login
     // .nav__option--login{

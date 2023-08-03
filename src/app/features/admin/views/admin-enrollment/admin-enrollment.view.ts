@@ -9,6 +9,8 @@ import { AulaService } from '../../commons/services/aula.service';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { PaginationService } from '../../commons/services/pagination.service';
+import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 @Component({
   selector: 'app-admin-enrollment',
   templateUrl: './admin-enrollment.view.html',
@@ -19,20 +21,20 @@ export class AdminEnrollmentView implements OnInit {
   tableName: string = 'Matricula';
   msjResponse: string = '';
   successful!: boolean;
-  paginationData = 'enrollment';
-  filterSearch = "";
-  page = 0;
-  size = 10;
 
   identiStudent: string = '';
   studentSave!: IStudent;
-  enrollmentSave!: IEnrollment;
-  aniosL: IAnioLectivo[] = []
-  aulas: IAula[] = [];
-  students: IStudent[] = [];
-
-  enrollmentList: IEnrollment[] = []
-  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
+  enrollmentSave!:IEnrollment;
+  aniosL:IAnioLectivo[]=[]
+  aulas:IAula[]=[];
+  students:IStudent[]=[];
+  paginationData = 'enrollment'
+  page = this.pagination.getPage(this.paginationData);
+  size = this.pagination.getSize(this.paginationData);
+  filterSearch = "";
+ 
+  enrollmentList:IEnrollment[]=[]
+  @ViewChild('modalOk') modalOk!:ModalComponent;
 
   constructor(
     private studentService: StudentService,
@@ -40,6 +42,7 @@ export class AdminEnrollmentView implements OnInit {
     private aulaService: AulaService,
     private anioService: AnioLectivoService,
     private reportService: ReportsService,
+    private pagination: PaginationService,
   ) { }
 
   ngOnInit(): void {
@@ -110,6 +113,8 @@ export class AdminEnrollmentView implements OnInit {
   getStudentSave(student: IStudent) {
     this.studentSave = student;
   }
+  
+
 
   //ELIMINAR
   delete(id: string) {

@@ -18,7 +18,6 @@ export class TableClassroomComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
   @Input() successful!: boolean;
-
   titulo:string="Agregar Aula"
   item: IAula = {
     id: '',
@@ -94,7 +93,7 @@ export class TableClassroomComponent implements OnInit {
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Aula";
     this.form(item); // Call the form() function if needed for your logic
-    this.modalAdd.showModal();
+    
   }
 
   // Function to handle when the "Add" button is clicked
@@ -102,7 +101,7 @@ export class TableClassroomComponent implements OnInit {
     this.group.reset();
     this.titulo = "Agregar Aula";
     // Any other logic related to the "Add" button can be added here
-    this.modalAdd.showModal();
+  
   }
   getCloseModal(){
     this.reset();
