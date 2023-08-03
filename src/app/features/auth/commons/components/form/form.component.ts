@@ -81,16 +81,6 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const savedUsername = localStorage.getItem('username');
-    const savedPassword = localStorage.getItem('password');
-
-    if (savedUsername && savedPassword) {
-      this.group.patchValue({
-        nombreUsuario: savedUsername,
-        password:  this.decryptPassword(savedPassword),
-        recordarCredenciales: true
-      });
-    }
   }
 
   onLogin(): void {
@@ -100,13 +90,10 @@ export class FormComponent implements OnInit {
           this.tokenService.setToken(data.data.token);
           if (this.tokenService.isAdmin()) {
             this.router.navigate(['/admin']);
-            console.log('Bienvenido Admin');
           } else if (this.tokenService.isTeacher()) {
             this.router.navigate(['/teacher']);
-            console.log('Bienvenido Docente');
           } else {
             this.router.navigate(['/student']);
-            console.log('Bienvenido Estudiante');
           }
         } else {
           this.msjResponse = data.message;
@@ -115,6 +102,8 @@ export class FormComponent implements OnInit {
         }
       });
     }
+    this.msjResponse = "";
+
   }
 
   // Función para cifrar la contraseña
