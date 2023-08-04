@@ -17,6 +17,9 @@ import { CourseService } from '../../commons/services/course.service';
 import { AsistenciaService } from '../../commons/services/asistencia.service';
 import { IClase } from '../../interfaces/clase';
 import { ClaseService } from '../../commons/services/clase.service';
+import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
+import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-admin-report-asistencia',
@@ -78,6 +81,11 @@ export class AdminReportAsistenciaComponent implements OnInit {
   selected2CursoId: string = '';
   @ViewChild('claseSelect') claseSelect!: ElementRef;
   selectedClaseId: string = '';
+
+
+  @ViewChild('modalOk') modalOk!: ModalResponseComponent;
+  msjResponse: string = '';
+
   constructor(private studentService: StudentService,
     private periodService: PeriodService,
     private aulaService: AulaService,
@@ -172,35 +180,98 @@ export class AdminReportAsistenciaComponent implements OnInit {
     console.log(this.selectedOption);
   }
 
-
+  //Generar los  de asistencia
   redirectToAsistenciaAlumno() {
 
     if (this.selectedOption === this.options[0]) {
-      const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.selectedStudentId}&id_periodo=${this.selectedPeriodoId}&id_aniolectivo=${this.selectedAnioId}`;
-      this.http.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-      }).subscribe({
-        next: (response) => {
-          // Crear una URL del objeto Blob
-          const fileURL = URL.createObjectURL(response);
-          // Abrir el archivo PDF en una nueva pestaña o ventana
-          window.open(fileURL);
-        },
-        error: (error) => {
-          // Manejar cualquier error que ocurra durante la solicitud
-          console.error(error);
+      this.asistenciaService.exportAsistAlumnoPeriodoAnio(this.selectedStudentId, this.selectedPeriodoId, this.selectedAnioId).subscribe({
+      next: (response: Blob | IApiResponse) => {
+        if (response instanceof Blob) {
+          const contentType = response.type;
+          if (contentType === 'application/pdf') {
+            // Es un PDF, abrimos el archivo en una nueva pestaña
+            const fileURL = URL.createObjectURL(response);
+            window.open(fileURL);
+          } else {
+            // Aquí puedes manejar el caso cuando el Blob no es un PDF
+            this.msjResponse = "No hay datos para mostrar";
+            this.successful = false;
+            this.modalOk.showModal();
+          }
+        } else {
+          // Aquí tienes la respuesta IApiResponse.
+          if (!response.successful) {
+            this.msjResponse = response.message;
+            this.successful = false;
+          }
+          this.modalOk.showModal();
         }
-      });
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+    this.msjResponse = "";
     }
     if (this.selectedOption === this.options[1]) {
-      this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selected2AnioId)
+      this.asistenciaService.exportAsistAula(this.selectedCursoId, this.selectedAulaId, this.selected2AnioId).subscribe({
+        next: (response: Blob | IApiResponse) => {
+          if (response instanceof Blob) {
+            const contentType = response.type;
+            if (contentType === 'application/pdf') {
+              // Es un PDF, abrimos el archivo en una nueva pestaña
+              const fileURL = URL.createObjectURL(response);
+              window.open(fileURL);
+            } else {
+              // Aquí puedes manejar el caso cuando el Blob no es un PDF
+              this.msjResponse = "No hay datos para mostrar";
+              this.successful = false;
+              this.modalOk.showModal();
+            }
+          } else {
+            // Aquí tienes la respuesta IApiResponse.
+            if (!response.successful) {
+              this.msjResponse = response.message;
+              this.successful = false;
+            }
+            this.modalOk.showModal();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+      this.msjResponse = "";
     }
     if (this.selectedOption === this.options[2]) {
-      this.asistenciaService.exportAsistClase(this.selectedClaseId)
+      this.asistenciaService.exportAsistClase(this.selectedClaseId).subscribe({
+        next: (response: Blob | IApiResponse) => {
+          if (response instanceof Blob) {
+            const contentType = response.type;
+            if (contentType === 'application/pdf') {
+              // Es un PDF, abrimos el archivo en una nueva pestaña
+              const fileURL = URL.createObjectURL(response);
+              window.open(fileURL);
+            } else {
+              // Aquí puedes manejar el caso cuando el Blob no es un PDF
+              this.msjResponse = "No hay datos para mostrar";
+              this.successful = false;
+              this.modalOk.showModal();
+            }
+          } else {
+            // Aquí tienes la respuesta IApiResponse.
+            if (!response.successful) {
+              this.msjResponse = response.message;
+              this.successful = false;
+              this.modalOk.showModal();
+            }
+          }
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+      this.msjResponse = "";
     }
   }
 

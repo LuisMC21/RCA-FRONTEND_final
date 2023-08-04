@@ -5,7 +5,7 @@ import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { environment } from 'src/environments/environment';
 import { IAsistencia } from '../../interfaces/asistencia';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
-
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -49,48 +49,37 @@ export class AsistenciaService {
     return this.http.delete<IApiResponse>(`${environment.api}/asistencia/` + id);
   }
 
-  exportAsistAula(id_curso: string, id_aula: string, id_aniolectivo: string) {
+  exportAsistAlumnoPeriodoAnio(id_alumno: string, id_periodo: string, id_anio: string): Observable<Blob | IApiResponse> {
     const token = this.tokenService.getToken();
-    const url = `${environment.api}/asistencia/exportAsistAula?id_curso=${id_curso}&id_aula=${id_aula}&id_aniolectivo=${id_aniolectivo}`;
-    this.http.get(url, {
+    const url = `${environment.api}/asistencia/exportAsistencia?id_alumno=${id_alumno}&id_periodo=${id_periodo}&id_aniolectivo=${id_anio}`;
+    return this.http.get(url, {
       headers: {
         Authorization: `Bearer ${token}`
       },
       responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-    }).subscribe({
-      next: (response) => {
-        // Crear una URL del objeto Blob
-        const fileURL = URL.createObjectURL(response);
-        // Abrir el archivo PDF en una nueva pestaña o ventana
-        window.open(fileURL);
-      },
-      error: (error) => {
-        // Manejar cualquier error que ocurra durante la solicitud
-        console.error(error);
-      }
     });
   }
-  exportAsistClase(id_clase: string) {
 
+  exportAsistAula(id_curso: string, id_aula: string, id_aniolectivo: string): Observable<Blob | IApiResponse> {
     const token = this.tokenService.getToken();
-    const url = `${environment.api}/asistencia/exportAsistClase?id_clase=${id_clase}`
-    this.http.get(url, {
+    const url = `${environment.api}/asistencia/exportAsistAula?id_curso=${id_curso}&id_aula=${id_aula}&id_aniolectivo=${id_aniolectivo}`;
+    return this.http.get(url, {
       headers: {
         Authorization: `Bearer ${token}`
       },
       responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
-    }).subscribe({
-      next: (response) => {
-        // Crear una URL del objeto Blob
-        const fileURL = URL.createObjectURL(response);
-        // Abrir el archivo PDF en una nueva pestaña o ventana
-        window.open(fileURL);
+    });
+  }
+
+  exportAsistClase(id_clase: string) {
+    const token = this.tokenService.getToken();
+    const url = `${environment.api}/asistencia/exportAsistClase?id_clase=${id_clase}`
+    return this.http.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
       },
-      error: (error) => {
-        // Manejar cualquier error que ocurra durante la solicitud
-        console.error(error);
-      }
-    })
+      responseType: 'blob' // Indicamos que esperamos una respuesta de tipo blob
+    });
   }
 
 }
