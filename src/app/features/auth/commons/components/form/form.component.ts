@@ -26,6 +26,7 @@ export class FormComponent implements OnInit {
   nombreUsuario!: string;
   password!: string;
   errMsj!: string;
+  showPassword: boolean = false;
 
   msjResponse: string = '';
   successful: boolean = false;
@@ -118,5 +119,7 @@ decryptPassword(encryptedPassword: string): string {
   return decryptedPassword;
 }
 
-
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
 }
