@@ -22,17 +22,17 @@ export class AdminPeriodComponent implements OnInit {
   student: IStudent[] = [];
   courses: ICourse[] = [];
   paginationData= 'period';
- 
+
   courseTeachers: ICourseTeacher[] = [];
   aulas: IAula[] = []
   filterSearch = "";
   tableName: string = 'Periodos';
- 
+
   paginationStudent = 'student';
   paginationDataAnio: string = 'anio';
   msjResponse: string = '';
   successful!: boolean;
- 
+
 
   page = 0;
   size = 10;
@@ -121,44 +121,18 @@ export class AdminPeriodComponent implements OnInit {
   generarEvaluaciones(id: string) {
     this.evaluacionService.generarEvaluaciones(id, '').subscribe(response => {
       if(response.successful){
+        this.getPeriods();
       this.msjResponse = "Evaluaciones generadas exitosamente";
       this.successful = true;
       } else {
         this.msjResponse = response.message;
-        this.successful = true;
-
+        this.successful = false;
       }
     })
     this.modalOk.showModal();
     this.msjResponse = "";
   }
 
-  async countEvaluciones(totalevaluaciones: number, id: string) {
-    console.log(totalevaluaciones);
-    try {
-      if (totalevaluaciones == 0) {
-        this.evaluacionService.generarEvaluaciones(id, '').subscribe(response => {
-          if(response.successful){
-            this.msjResponse = "Evaluaciones generadas exitosamente";
-            this.successful = true;
-            this.modalOk.showModal();
-          }else{
-            this.msjResponse = "Las evaluaciones ya han sido generadas";
-            this.modalOk.showModal();
-            this.successful = false;
-          }
-        });
-
-        this.modalOk.showModal();
-        this.msjResponse = "";
-
-      }
-
-    } catch(error) {
-
-  }
-
-}
 getPeriods(){
   this.periodService.getAll(this.filterSearch, this.page, this.size)
     .subscribe(response => {

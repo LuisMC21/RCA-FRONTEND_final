@@ -20,7 +20,6 @@ export class TablePeriodComponent implements OnInit {
   isEditing: boolean = false;
   titulo:string="Agregar Periodo";
 
-  @Output() idperiodo:EventEmitter<string> = new EventEmitter();
   close_modal!: boolean;
 
 
@@ -36,6 +35,8 @@ export class TablePeriodComponent implements OnInit {
   @Output() periodSave:EventEmitter<IPeriod> = new EventEmitter();
   @Output() periodDelete:EventEmitter<string> = new EventEmitter();
   @Output() periodSearch:EventEmitter<string> = new EventEmitter();
+  @Output() periodoGenerarEvaluaciones:EventEmitter<string> = new EventEmitter();
+
 
   head=["Code","Nombre","Fecha de Inicio","Fecha de término","Año lectivo","Acciones", "Generar Evaluaciones"]
   group!: FormGroup;
@@ -45,8 +46,9 @@ export class TablePeriodComponent implements OnInit {
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
+  @ViewChild('modalPromedios') modalPromedios!: ModalComponent;
 
-  constructor(private formBuilder:FormBuilder, private periodService:PeriodService) { }
+  constructor(private formBuilder:FormBuilder) { }
 
   get fecInic(){return this.group.get('date_start')}
   get name(){return this.group.get('name')}
@@ -101,7 +103,7 @@ export class TablePeriodComponent implements OnInit {
   }
 
   ejecutarEvaluaciones(id:string) {
-    this.idperiodo.emit(id);
+    this.periodoGenerarEvaluaciones.emit(id);
   }
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Periodo";
