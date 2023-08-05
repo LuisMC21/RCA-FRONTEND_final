@@ -45,7 +45,7 @@ export class TableClaseComponent implements OnInit {
 
   titulo = 'Agregar Clase';
 
-  head = ["Codigo", "Título", "Fecha","Editar", "Asistencias"];
+  head = ["Codigo", "Título", "Asistencias","Fecha", "Acciones"];
   group!: FormGroup;
 
   msjResponse: string = '';
@@ -128,7 +128,7 @@ export class TableClaseComponent implements OnInit {
   }
 
   // ELIMINAR
-  delete(id: string) {
+  delete(id: any) {
     this.claseDelete.emit(id)
     this.modalDelete.hiddenModal();
   }
