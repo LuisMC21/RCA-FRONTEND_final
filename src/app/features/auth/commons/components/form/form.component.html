@@ -16,8 +16,11 @@
         </div>
         <div class="form__field lg:bg-slate-200">
             <span class="field__icon"><i class="bi bi-key-fill"></i></span>
-            <input formControlName="password" class="field__input" type="password" placeholder="Password"
+            <input formControlName="password" class="field__input" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
             required>
+            <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
+              <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+            </button>
         </div>
         <div class="btns flex py-7 w-full">
         <app-button [title] = "btnValue" (click)="onLogin()" class="w-full"></app-button>

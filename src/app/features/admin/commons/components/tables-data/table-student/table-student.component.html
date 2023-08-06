@@ -190,7 +190,7 @@
       <td>{{item.vaccine}}</td>
       <td>{{item.type_insurance}}</td>
       <td>{{item.namecon_pri + " - " + item.telcon_pri}} | {{item.namecon_sec + "-" + item.telcon_sec}}</td>
-      <td class="actions">
+      <td class="flex justify-center items-center">
         <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()" (click)="onUpdateButtonClick(item)"></app-btn-update>
         <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
         <app-btn-view (click)="redirectToDatosPersonales(item.id)">
