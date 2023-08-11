@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { AnioLectivoService } from 'src/app/features/admin/commons/services/anio-lectivo.service';
 import { AsistenciaService } from 'src/app/features/admin/commons/services/asistencia.service';
 import { AulaService } from 'src/app/features/admin/commons/services/aula.service';
@@ -103,6 +104,12 @@ export class TeacherAsistenciaComponent implements OnInit {
     this.asistenciaService.getAllPeriodoAulaCursoClase('', this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
       this.asistencias = response.data.list;
     })
+
+    if(this.selectedCourseId != ''){
+      this.claseService.getAllPeriodoAulaCurso('', 0, 40, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId).subscribe(response => {
+        this.clases = response.data.list;
+      })
+    }
 
   }
 
@@ -221,7 +228,7 @@ export class TeacherAsistenciaComponent implements OnInit {
       this.asistencias = response.data.list;
     })
 
-    localStorage.setItem('selectedClaseAs', this.selectedCourseId);
+    localStorage.setItem('selectedClaseAs', this.selectedClaseId);
   }
 
   //BUSCAR
@@ -235,15 +242,15 @@ export class TeacherAsistenciaComponent implements OnInit {
 
   getPage(event: any) {
     this.page = event;
-    this.getEstudiantes();
+    this.getAsistencias();
   }
 
   getSize(event: any) {
     this.size = event;
-    this.getEstudiantes();
+    this.getAsistencias();
   }
 
-  getEstudiantes(){
+  getAsistencias(){
     this.asistenciaService.getAllPeriodoAulaCursoClase(this.busqueda, this.page, this.size, this.selectedPeriodId, this.selectedAulaId, this.selectedCourseId, this.selectedClaseId).subscribe(response => {
       console.log(response);
       this.asistencias = response.data.list;
@@ -256,6 +263,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     if (asistencia.id == null) {
       this.asistenciaService.add(asistencia).subscribe(data => {
         if (data.successful === true) {
+          this.getAsistencias();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
@@ -266,6 +274,7 @@ export class TeacherAsistenciaComponent implements OnInit {
     } else {
       this.asistenciaService.update(asistencia).subscribe(data => {
         if (data.successful === true) {
+          this.getAsistencias();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
@@ -291,6 +300,38 @@ export class TeacherAsistenciaComponent implements OnInit {
     }, []);
 
     return cursosUnicos;
+  }
+
+  redirectToAsistencia(){
+    this.asistenciaService.exportAsistClase(this.selectedClaseId).subscribe({
+      next: (response: Blob | IApiResponse) => {
+        if (response instanceof Blob) {
+          const contentType = response.type;
+          if (contentType === 'application/pdf') {
+            // Es un PDF, abrimos el archivo en una nueva pestaña
+            const fileURL = URL.createObjectURL(response);
+            window.open(fileURL);
+          } else {
+            // Aquí puedes manejar el caso cuando el Blob no es un PDF
+            this.msjResponse = "No hay datos para mostrar";
+            this.successful = false;
+            this.modalOk.showModal();
+          }
+        } else {
+          // Aquí tienes la respuesta IApiResponse.
+          if (!response.successful) {
+            this.msjResponse = response.message;
+            this.successful = false;
+            this.modalOk.showModal();
+          }
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+    this.msjResponse = "";
+  
   }
 
 }
