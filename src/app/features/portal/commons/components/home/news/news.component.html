@@ -1,14 +1,25 @@
-
-<section class="section__news">
-    <h1 class="news__subtitle">Noticias</h1>
-    <div class="news">
-        <div class="item" *ngFor="let item of news">
-            <span class="news__desc"><p>{{item.title}}</p></span>
-            <div class="img">
-                <img src={{item.route}}>
-            </div>
-            <span class="news__desc"><p>{{item.descrip}}</p></span>
-            <span class="news__desc"><p>{{item.usuarioDTO.name}} {{item.usuarioDTO.pa_surname}} {{item.usuarioDTO.ma_surname}}</p></span>
+<div class="card bg-white p-6 rounded-lg shadow-md">
+    <section class="section__news">
+        <h1 class="news__subtitle text-center text-lg font-bold">NOTICIAS</h1>
+        <div class="news grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <ng-container *ngFor="let item of news">
+                <div class="item">
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="news__desc text-lg font-semibold">{{item.title}}</span>
+                    </div>
+                    <div class="flex justify-center mb-4">
+                        <img [src]="item.route" alt="{{item.title}}" class="max-w-full">
+                    </div>
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="news__desc"><p>{{item.descrip}}</p></span>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <span class="news__desc">
+                            <p>{{item.usuarioDTO.name}} {{item.usuarioDTO.pa_surname}} {{item.usuarioDTO.ma_surname}}</p>
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
         </div>
-    </div>
-</section>
+    </section>
+</div>
