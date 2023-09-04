@@ -61,18 +61,18 @@
                 <div class="field">
                     <app-label-field [title]="'**Número de documento'"></app-label-field>
                     <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
-                        max="999999999999"></app-field>
+                        max="99999999999999999999"></app-field>
                     <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
                       [text]="'*El campo requiere 8 caracteres'"></app-required-field>
                 </div>
-                <div class="field">
+                <div class="field" *ngIf="titulo === 'Registrar Administrador'">
                     <app-label-field [title]="'**Usuario'"></app-label-field>
                     <app-field><input formControlName="nombreUsuario" class="input" type="text"></app-field>
                     <app-required-field class="px-2"
                         *ngIf="nombreUsuario?.invalid && (nombreUsuario?.dirty || nombreUsuario?.touched)"
                         [text]="'**El campo es requerido'"></app-required-field>
                 </div>
-                <div class="field">
+                <div class="field" *ngIf="titulo === 'Registrar Administrador'">
                     <app-label-field [title]="'**Password'"></app-label-field>
                     <app-field>
                         <input formControlName="password" [type]="showPassword ? 'text' : 'password'"
@@ -81,8 +81,10 @@
                           <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
                         </button>
                       </app-field>
+                      <app-required-field class="px-2"
+                        *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+                        [text]="'**El campo es requerido'"></app-required-field>
                 </div>
-    
                 <div class="field">
                     <app-label-field [title]="'**Grado'"></app-label-field>
                     <select formControlName="gra_inst" class="select cursor-pointer h-10 w-full outline-none px-2">
@@ -90,12 +92,12 @@
                     </select>
                 </div>
             </div>
-      
+
             <div style="margin-top: 10px;">
                 <p style="font-size: 11px;">**Campos obligatorios</p>
             </div>
             <div class="btns flex py-7 w-full">
-                <button type="submit" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+                <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
                 <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
             </div>
     </form>
