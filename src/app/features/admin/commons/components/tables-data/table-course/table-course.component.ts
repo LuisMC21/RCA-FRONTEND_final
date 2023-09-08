@@ -17,7 +17,7 @@ export class TableCourseComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
   @Input() successful!: boolean;
-  titulo: string = "Agregar Curso";
+  titulo: string = "Registrar Curso";
   @Output() courseSave: EventEmitter<ICourse> = new EventEmitter();
   @Output() courseDelete: EventEmitter<string> = new EventEmitter();
   @Output() courseSearch: EventEmitter<string> = new EventEmitter();
@@ -73,7 +73,7 @@ export class TableCourseComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Curso";
+    this.titulo = "Registrar Curso";
     this.modalAdd.showModal();
   }
   // ELIMINAR

@@ -13,7 +13,7 @@ export class TableAnioLectivoComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
 
-  titulo: string = 'Agregar Año Lectivo';
+  titulo: string = 'Registrar Año Lectivo';
 
   @Output() anioSave: EventEmitter<IAnioLectivo> = new EventEmitter();
   @Output() anioDelete: EventEmitter<string> = new EventEmitter();
@@ -81,7 +81,7 @@ export class TableAnioLectivoComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
-    this.titulo = "Agregar Año Lectivo";
+    this.titulo = "Registrar Año Lectivo";
     this.group.reset();
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();

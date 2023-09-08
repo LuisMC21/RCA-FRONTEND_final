@@ -18,7 +18,7 @@ export class TablePeriodComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
   isEditing: boolean = false;
-  titulo:string="Agregar Periodo";
+  titulo:string="Registrar Periodo";
 
   close_modal!: boolean;
 
@@ -112,7 +112,7 @@ export class TablePeriodComponent implements OnInit {
   }
 
   onAddButtonClick() {
-    this.titulo = "Agregar Periodo";
+    this.titulo = "Registrar Periodo";
     this.form();
     this.modalAdd.showModal();
   }

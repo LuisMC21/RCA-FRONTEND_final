@@ -15,7 +15,7 @@ export class TableSeccionComponent implements OnInit {
   @Input() title!: string;
   @Input() successful!: boolean;
 
-  titulo: string = 'Agregar Sección';
+  titulo: string = 'Registrar Sección';
 
   @Output() sectionSave: EventEmitter<ISeccion> = new EventEmitter();
   @Output() sectionDelete: EventEmitter<string> = new EventEmitter();
@@ -79,7 +79,7 @@ export class TableSeccionComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Sección";
+    this.titulo = "Registrar Sección";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

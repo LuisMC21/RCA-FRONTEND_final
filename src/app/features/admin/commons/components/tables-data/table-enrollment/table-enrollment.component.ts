@@ -119,7 +119,7 @@ export class TableEnrollmentComponent implements OnInit {
 
   }
 
-  titulo: string = "Agregar Matricula";
+  titulo: string = "Registrar Matricula";
   @Output() enrollmentSave:EventEmitter<IEnrollment> = new EventEmitter();
   @Output() enrollmentDelete:EventEmitter<string> = new EventEmitter();
   @Output() studentSearch:EventEmitter<string> = new EventEmitter();
@@ -252,7 +252,7 @@ export class TableEnrollmentComponent implements OnInit {
      this.enrollmentSave.emit(this.group.value)
     }
     if (this.titulo == "Actualizar Alumno") {
-      this.titulo = "Agregar Alumno";
+      this.titulo = "Registrar Alumno";
     }
   }
 
@@ -273,15 +273,14 @@ export class TableEnrollmentComponent implements OnInit {
   onUpdateButtonClick(item: any) {
     this.titulo = "Actualizar Matricula";
     this.modalAdd.showModal()
-    this.form(item); // Call the form() function if needed for your logic
+    this.form(item); 
 
   }
 
-  // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Matricula";
-    // Any other logic related to the "Add" button can be added here
+    this.titulo = "Registrar Matricula";
+
     this.modalAdd.showModal();
   }
 
