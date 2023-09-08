@@ -34,7 +34,7 @@ export class TableStudentComponent implements OnInit {
   close_modal!: boolean;
 
   showPassword: boolean = false;
-  titulo: string = 'Agregar Alumno';
+  titulo: string = 'Registrar Alumno';
 
   @Output() studentSave: EventEmitter<IStudent> = new EventEmitter();
   @Output() identiParentSave: EventEmitter<string> = new EventEmitter();
@@ -226,7 +226,7 @@ export class TableStudentComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Alumno";
+    this.titulo = "Registrar Alumno";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

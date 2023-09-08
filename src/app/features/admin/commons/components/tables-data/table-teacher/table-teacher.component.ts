@@ -16,7 +16,7 @@ export class TableTeacherComponent implements OnInit {
   @Input() successful!: boolean;
 
   showPassword: boolean = false;
-  titulo: string = 'Agregar Docente';
+  titulo: string = 'Registrar Docente';
   nomSearch: string = '';
 
   @Output() teacherSave: EventEmitter<ITeacher> = new EventEmitter();
@@ -129,7 +129,7 @@ export class TableTeacherComponent implements OnInit {
   onAddButtonClick() {
     this.group.reset();
     this.form();
-    this.titulo = "Agregar Docente";
+    this.titulo = "Registrar Docente";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

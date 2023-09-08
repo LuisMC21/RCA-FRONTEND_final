@@ -16,7 +16,7 @@ export class TableGradeComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
 
-  titulo = 'Agregar Grado';
+  titulo = 'Registrar Grado';
 
   @Output() gradeSave: EventEmitter<IGrade> = new EventEmitter();
   @Output() gradeDelete: EventEmitter<string> = new EventEmitter();
@@ -76,7 +76,7 @@ export class TableGradeComponent implements OnInit {
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
-    this.titulo = "Agregar Grado";
+    this.titulo = "Registrar Grado";
     this.group.reset();
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
@@ -87,7 +87,7 @@ export class TableGradeComponent implements OnInit {
   }
 
   titleAgregar() {
-    this.titulo = "Agregar grado";
+    this.titulo = "Registrar grado";
   }
   // para poder cerrar y abrirel app-modal automáticamente dependiendo de la rpt de la transacción
   ngOnChanges(changes: SimpleChanges) {

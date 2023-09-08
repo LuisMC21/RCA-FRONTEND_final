@@ -26,7 +26,7 @@ export class TableCourseTeacherComponent implements OnInit {
   @Input() title!: string;
 
 
-  titulo:string = 'Agregar Asignatura';
+  titulo:string = 'Registrar Asignatura';
 
   item: ICourseTeacher = {
     id: '',
@@ -123,7 +123,7 @@ export class TableCourseTeacherComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Asignatura";
+    this.titulo = "Registrar Asignatura";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

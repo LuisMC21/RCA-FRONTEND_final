@@ -16,7 +16,7 @@ export class TableUserComponent implements OnInit {
   @Input() successful!: boolean;
 
   showPassword: boolean = false;
-  titulo: string = 'Agregar Admin';
+  titulo: string = 'Registrar Admin';
   nomSearch: string = '';
 
   @Output() userSave: EventEmitter<IUser> = new EventEmitter();

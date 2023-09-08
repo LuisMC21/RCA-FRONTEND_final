@@ -18,7 +18,7 @@ export class TableClassroomComponent implements OnInit {
   @Input() tableName!: string;
   @Input() title!: string;
   @Input() successful!: boolean;
-  titulo:string="Agregar Aula"
+  titulo:string="Registrar Aula"
   item: IAula = {
     id: '',
     code: '',
@@ -99,7 +99,7 @@ export class TableClassroomComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Aula";
+    this.titulo = "Registrar Aula";
     // Any other logic related to the "Add" button can be added here
   
   }

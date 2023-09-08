@@ -22,7 +22,7 @@ export class TableNewsComponent implements OnInit {
   @Input() tableName!: string;
   @Input() successful!: boolean;
 
-  titulo:string = 'Agregar Noticia';
+  titulo:string = 'Registrar Noticia';
   imagenBase64: string = '';
   editar:Boolean = false;
   imagenSelected:Boolean = false;
@@ -129,7 +129,7 @@ export class TableNewsComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Noticia";
+    this.titulo = "Registrar Noticia";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
