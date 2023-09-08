@@ -227,7 +227,7 @@ export class TeacherNotasComponent implements OnInit {
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :(';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
@@ -239,12 +239,13 @@ export class TeacherNotasComponent implements OnInit {
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
-          this.msjResponse = 'Ha ocurrido un error :v';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       })
     }
     this.modalOk.showModal();
+    this.msjResponse = "";
   }
 
   getCursosUnicosPorAula(idAulaSeleccionada: string): ICourse[] {

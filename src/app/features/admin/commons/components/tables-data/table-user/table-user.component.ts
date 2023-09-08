@@ -47,7 +47,7 @@ export class TableUserComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  
+
   get pa_surname() { return this.group.get('pa_surname') }
   get ma_surname() { return this.group.get('ma_surname') }
   get name() { return this.group.get('name') }
@@ -79,9 +79,9 @@ export class TableUserComponent implements OnInit {
       tel: [item ? item.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       gra_inst: [item && item ? item.gra_inst : '', [Validators.required]],
       email: [item && item ? item.email : '', [Validators.required, Validators.email]],
-      password: [item && item ? item.password : ''],
+      password: [item && item ? item.password : '', [Validators.required]],
       rol: ['ADMINISTRADOR']
-      
+
     });
 
     // Subscribe to the valueChanges of numdoc control in usuarioDTO
@@ -112,7 +112,7 @@ export class TableUserComponent implements OnInit {
     this.group.reset();
   }
   onUpdateButtonClick(item: any) {
-    this.titulo = "Actualizar Admin";
+    this.titulo = "Actualizar Administrador";
     this.form(item); // Call the form() function if needed for your logic
     this.modalAdd.showModal();
   }
@@ -120,7 +120,7 @@ export class TableUserComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Admin";
+    this.titulo = "Registrar Administrador";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

@@ -13,7 +13,7 @@ export class TableParentComponent implements OnInit {
   @Input() parents: IParent[] = [];
   @Input() tableName!: string;
   @Input() title!: string;
-  titulo: string = "Agregar Apoderado";
+  titulo: string = "Registrar Apoderado";
   @Output() parentSave: EventEmitter<IParent> = new EventEmitter();
   @Output() parentDelete: EventEmitter<string> = new EventEmitter();
   @Output() parentSearch: EventEmitter<string> = new EventEmitter();
@@ -93,7 +93,7 @@ export class TableParentComponent implements OnInit {
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
     this.group.reset();
-    this.titulo = "Agregar Apoderado";
+    this.titulo = "Registrar Apoderado";
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }

@@ -23,10 +23,10 @@ export class AdminUserComponent implements OnInit {
   size = 10;
   @ViewChild('modalOk') modalOk!: ModalResponseComponent;
 
-  constructor(private usuarioService: UsuarioService, private paginationService: PaginationService) { }
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    this.getTeachers();
+    this.getUsers();
 
     /*this.teacherService.getTeacherCount('')
       .subscribe(count => {
@@ -37,26 +37,26 @@ export class AdminUserComponent implements OnInit {
   //BUSCAR
   search(filter: string) {
     this.filterSearch = filter;
-    this.getTeachers();
+    this.getUsers();
   }
 
   // AGREGAR - ACTUALIZAR
-  save(teacher: IUser) {
-    if (teacher.id == null) {
-      this.usuarioService.add(teacher).subscribe(data => {
+  save(admin: IUser) {
+    if (admin.id == null) {
+      this.usuarioService.add(admin).subscribe(data => {
         if (data.successful) {
-          this.getTeachers();
+          this.getUsers();
           this.msjResponse = 'Agregado correctamente';
           this.successful = true;
         } else {
-          this.msjResponse = 'Error, el docente ya existe';
+          this.msjResponse = data.message;
           this.successful = false;
         }
       });
     } else {
-      this.usuarioService.update(teacher).subscribe(data => {
+      this.usuarioService.update(admin).subscribe(data => {
         if (data.successful) {
-          this.getTeachers();
+          this.getUsers();
           this.msjResponse = 'Cambios actualizados con éxito';
           this.successful = true;
         } else {
@@ -73,7 +73,7 @@ export class AdminUserComponent implements OnInit {
   delete(id: string) {
     this.usuarioService.delete(id).subscribe(data => {
       if (data.successful) {
-        this.getTeachers();
+        this.getUsers();
         this.msjResponse = 'Eliminado correctamente';
         this.successful = true;
       } else {
@@ -87,15 +87,15 @@ export class AdminUserComponent implements OnInit {
 
   getPage(event: any) {
     this.page = event;
-    this.getTeachers();
+    this.getUsers();
   }
 
   getSize(event: any) {
     this.size = event;
-    this.getTeachers();
+    this.getUsers();
   }
 
-  getTeachers() {
+  getUsers() {
     this.usuarioService.getAll(this.filterSearch, this.page, this.size)
       .subscribe(response => {
         if (response.successful) {

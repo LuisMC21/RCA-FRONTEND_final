@@ -36,6 +36,11 @@
                 <option *ngFor="let clase of clases" [value]="clase.id">{{clase.name}}</option>
             </select></app-field>
         </div>
+        <div class="mt-5">
+            <div class="w-1/3" style="display: inline-block; margin-right: 20px;">
+                <button type="submit" class="field__input--button mx-2 h-9 rounded-3xl text-white" [disabled]="selectedAnioId === '' || selectedAulaId === '' || selectedAnioId === null || selectedAulaId === null || selectedCourseId === '' || selectedCourseId === null  || selectedClaseId === '' || selectedClaseId === null" (click)="redirectToAsistencia()">Generar PDF</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="px-8">
