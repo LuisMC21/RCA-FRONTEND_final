@@ -25,6 +25,7 @@ export class TableStudentComponent implements OnInit {
   nomParent: string = '';
   existsApoderado: boolean = false;
   selectedApoderado: string = '';
+  mensaje='';
 
   tiposdocumentos = ['DNI', 'CARNÉ DE EXTRANJERÍA'];
   tiposseguro = ['SIS', 'ESSALUD', 'PRIVADO'];
@@ -36,6 +37,10 @@ export class TableStudentComponent implements OnInit {
   showPassword: boolean = false;
   titulo: string = 'Registrar Alumno';
 
+  changuePassword= false;
+  password2: string = '';
+  coinciden = false;
+
   @Output() studentSave: EventEmitter<IStudent> = new EventEmitter();
   @Output() identiParentSave: EventEmitter<string> = new EventEmitter();
   @Output() studentDelete: EventEmitter<string> = new EventEmitter();
@@ -45,15 +50,11 @@ export class TableStudentComponent implements OnInit {
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
   @ViewChild('searchParentModal') searchParentModal!: SearchComponent;
   @ViewChild('apoderadoSelect') studentSelect!: ElementRef;
+  @ViewChild('modalChangue') modalChangue!: ModalComponent;
   selectedApoderadoId: string = '';
   nomSearch: string = '';
 
   group!: FormGroup;
-  optionsDocumentType = [
-    { title: "DNI", value: '01' },
-    { title: "Pasaporte", value: '02' },
-    { title: "RUC", value: '03' },
-  ]
   optionsVac = [
     { title: 'SI', value: 'S' },
     { title: 'NO', value: 'N' }
@@ -77,6 +78,8 @@ export class TableStudentComponent implements OnInit {
   ngOnInit(): void {
     this.form()
     //  console.log(this.students)
+    
+    
   }
   // ALUMNO
   get id() { return this.group.get('id') }
@@ -91,7 +94,6 @@ export class TableStudentComponent implements OnInit {
   // USUARIO
   get idUsuario() { return this.group.get('usuarioDTO.id') }
   get codeUsuario() { return this.group.get('usuarioDTO.code') }
-  get nombreUsuario() { return this.group.get('usuarioDTO.nombreUsuario') }
   get name() { return this.group.get('usuarioDTO.name') }
   get pa_surname() { return this.group.get('usuarioDTO.pa_surname') }
   get ma_surname() { return this.group.get('usuarioDTO.ma_surname') }
@@ -101,10 +103,11 @@ export class TableStudentComponent implements OnInit {
   get tel() { return this.group.get('usuarioDTO.tel') }
   get gra_inst() { return this.group.get('usuarioDTO.gra_inst') }
   get email() { return this.group.get('usuarioDTO.email') }
-  get password() { return this.group.get('usuarioDTO.password') }
   get rol() { return this.group.get('usuarioDTO.rol') }
   get apoderado() { return this.group.get('apoderado') }
   get isVacunado() { return this.group.get('isVacunado') }
+  get nombreUsuario() { return this.group.get('nombreUsuario')}
+  get password() { return this.group.get('password') }
   // APODERADO
   get idApoderado() { return this.group.get('apoderadoDTO.id') }
   get codeA() { return this.group.get('apoderadoDTO.code') }
@@ -115,7 +118,6 @@ export class TableStudentComponent implements OnInit {
   // Modal
   isEditing: boolean = false;
   form(item?: IStudent) {
-
     if (item) {
       this.titulo = "Actualizar Alumno";
     }
@@ -127,10 +129,10 @@ export class TableStudentComponent implements OnInit {
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
       diseases: [item ? item.diseases : '',[Validators.required]],
-      namecon_pri: [item ? item.namecon_pri : 'Contacto 1',[Validators.required]],
+      namecon_pri: [item ? item.namecon_pri : '',[Validators.required]],
       telcon_pri: [item ? item.telcon_pri : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)] ],
-      namecon_sec: [item ? item.namecon_sec : 'Contacto 2', [Validators.required]],
-      telcon_sec: [item ? item.telcon_sec : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)]],
+      namecon_sec: [item ? item.namecon_sec : '' ],
+      telcon_sec: [item ? item.telcon_sec : ''],
       vaccine: [item ? item.vaccine : '', [Validators.required]],
       type_insurance: [item ? item.type_insurance : '', [Validators.required]],
       apoderadoDTO: this.formBuilder.group({
@@ -144,16 +146,16 @@ export class TableStudentComponent implements OnInit {
       usuarioDTO: this.formBuilder.group({
         id: [item ? item.usuarioDTO.id : null],
         code: [item ? item.usuarioDTO.code : ''],
-        nombreUsuario: [item ? item.usuarioDTO.nombreUsuario : '', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
         name: [item ? item.usuarioDTO.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         pa_surname: [item ? item.usuarioDTO.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         birthdate: [item ? item.usuarioDTO.birthdate : '',[Validators.required]],
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
-        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-        tel: [item ? item.usuarioDTO.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+        numdoc: [item ? item.usuarioDTO.numdoc : ''],
+        tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
         email: [item ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
-        password: [item ? item.usuarioDTO.password : '', [Validators.required,]],
+        password: [item && item ? item.usuarioDTO.password : '', [Validators.required]],
+        nombreUsuario: [item && item ? item.usuarioDTO.nombreUsuario : '', [Validators.required]],
       }),
 
     });
@@ -163,7 +165,56 @@ export class TableStudentComponent implements OnInit {
       // Update the value of nombreUsuario based on numdocValue
       this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
     });
+
+    if(this.changuePassword){
+      this.editarPassword();
+    }
   }
+
+
+  editarPassword(){
+    this.group.get('usuarioDTO.password')?.setValue('');
+  }
+
+  verificarPassword(){
+
+    const password1: string = this.group.get('usuarioDTO.password')?.value;
+    if(this.changuePassword){
+      if(this.password2!=''){
+        if (password1 === this.password2 ) {
+          this.coinciden=true;
+        }else if(password1 !== this.password2 ){
+            this.coinciden=false;
+        }
+      }
+    }
+  }
+
+  changuePass(){
+    this.changuePassword = true;
+  }
+
+  cancelar(){
+    this.changuePassword = false;
+    this.password2 = '';
+    this.coinciden=true;
+  }
+
+  onChangeSelect(event:any) {
+    const selectedValue = event.target.value;;
+    // Aquí puedes definir las reglas de validación en función de la opción seleccionada
+    if (selectedValue === this.tiposdocumentos[0]) {
+      this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      this.mensaje= '*El campo requiere 8 caracteres numéricos';
+    } else if (selectedValue === this.tiposdocumentos[1]) {
+      this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(20), Validators.maxLength(20)]);
+      this.mensaje= '*El campo requiere 20 caracteres numéricos';
+    } 
+
+    // Actualiza los valores de validación
+    this.group.get('usuarioDTO.numdoc')?.updateValueAndValidity();
+  }
+
 
   searchParent(nom: string) {
     this.nomParent = nom;
@@ -187,6 +238,9 @@ export class TableStudentComponent implements OnInit {
       this.studentSave.emit(this.group.value)
     }
 
+    if(this.changuePassword){
+      this.changuePassword = false;
+    }
   }
 
   // ELIMINAR
@@ -221,6 +275,11 @@ export class TableStudentComponent implements OnInit {
     this.titulo = "Actualizar Alumno";
     this.form(item); // Call the form() function if needed for your logic
     this.modalAdd.showModal();
+  }
+
+  onChangueButtonClick(item: any) {
+    this.form(item); // Call the form() function if needed for your logic
+    this.modalChangue.showModal();
   }
 
   // Function to handle when the "Add" button is clicked
