@@ -177,48 +177,48 @@
   </form>
 </app-modal>
 
-<app-modal #modalChangue>
+<app-modal [successful]="successful" (close_modal)="getCloseModal()" #modalChangue>
 
   <h1 class="text-center text-3xl font-bold">Actualizar Credenciales</h1>
-  <form [formGroup]="group" (ngSubmit)="save()" class="form">
-    <div class="form__field" formGroupName="usuarioDTO">
-      <div>
-        <app-label-field [title]="'**Nueva Contraseña'"></app-label-field>
-        <app-field>
-          <input formControlName="password" [type]="showPassword ? 'text' : 'password'"
-            placeholder="Contraseña de usuario" class="input" (ngModelChange)="verificarPassword()"/>
-          <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
-            <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
-          </button>
-        </app-field>
-        <app-required-field class="px-2" *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-          [text]="'**El campo es requerido'"></app-required-field>
-      </div>
+  <div class="flex flex-col items-start px-4">
+    <label><b>Alumno: </b>{{alumno}}</label>
+  </div>
+  <form [formGroup]="group2" class="form">
+    <div>
+      <app-label-field [title]="'**Nueva Contraseña'"></app-label-field>
+      <app-field>
+        <input formControlName="newPassword" [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña de usuario" class="input" (ngModelChange)="verificarPassword()" />
+        <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
+          <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+        </button>
+      </app-field>
+      <app-required-field class="px-2" *ngIf="passwordC?.invalid && (passwordC?.dirty || passwordC?.touched)"
+        [text]="'**El campo es requerido'"></app-required-field>
     </div>
-    </form>
-      <div>
-        <app-label-field [title]="'**Repetir Contraseña'"></app-label-field>
-        <app-field>
-          <input [type]="showPassword ? 'text' : 'password'"
-            placeholder="Contraseña de usuario" class="input" [(ngModel)]="password2" (ngModelChange)="verificarPassword()"/>
-          <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
-            <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
-          </button>
-        </app-field>
-        <app-required-field class="px-2" *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-          [text]="'**El campo es requerido'"></app-required-field>
-      </div>
-      <app-required-field class="px-2"
-          *ngIf="!coinciden" [text]="'Las contraseñas no coinciden'"></app-required-field>
-    
-    <div style="margin-top: 10px;">
-      <p style="font-size: 11px;">**Campos obligatorios</p>
-    </div>
-    <div class="btns flex py-7 w-full">
-      <button type="submit" [disabled]="group.invalid || !coinciden"
-        class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
-      <app-btn-cancel (click)="modalChangue.cancelar()" (click)="cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
-    </div>
+  </form>
+  <div>
+    <app-label-field [title]="'**Repetir Contraseña'"></app-label-field>
+    <app-field>
+      <input [type]="showPassword ? 'text' : 'password'" placeholder="Contraseña de usuario" class="input"
+        [(ngModel)]="password2" (ngModelChange)="verificarPassword()" />
+      <button class="div_icon_mostrar" type="button" (click)="togglePasswordVisibility()">
+        <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+      </button>
+    </app-field>
+    <app-required-field class="px-2" *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+      [text]="'**El campo es requerido'"></app-required-field>
+  </div>
+  <app-required-field class="px-2" *ngIf="!coinciden" [text]="texto"></app-required-field>
+
+  <div style="margin-top: 10px;">
+    <p style="font-size: 11px;">**Campos obligatorios</p>
+  </div>
+  <div class="btns flex py-7 w-full">
+    <button [disabled]="group2.invalid || !coinciden"
+      class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white" (click)="save2()">Guardar</button>
+    <app-btn-cancel (click)="modalChangue.cancelar()" (click)="cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
+  </div>
 
 </app-modal>
 
@@ -243,8 +243,8 @@
         <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
         <app-btn-view (click)="redirectToDatosPersonales(item.id)">
         </app-btn-view>
-        <app-btn-update (click)="changuePass()" (click)="form(item)" (click)="modalChangue.showModal()"
-          (click)="onChangueButtonClick(item)" ></app-btn-update>
+        <app-btn-update (click)="form2(item)" (click)="modalChangue.showModal()"
+        ></app-btn-update>
       </td>
       <app-modal [title]="'Eliminar alumno?'" #modalDelete>
         <div class="flex flex-col items-start px-4">

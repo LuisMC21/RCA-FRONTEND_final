@@ -3,6 +3,8 @@ import { TeacherService } from '../../commons/services/teacher.service';
 import { ITeacher } from '../../interfaces/teacher';
 import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
+import { IChanguePassword } from '../../interfaces/changuePassword';
+import { UsuarioService } from '../../commons/services/usuario.service';
 
 @Component({
   selector: 'app-admin-teacher',
@@ -25,7 +27,7 @@ export class AdminTeacherView implements OnInit {
   page = 0;
   size = 10;
 
-  constructor(private teacherService: TeacherService) { }
+  constructor(private teacherService: TeacherService, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
     this.getTeachers();
@@ -67,6 +69,23 @@ export class AdminTeacherView implements OnInit {
         }
       })
     }
+    this.modalOk.showModal();
+    this.msjResponse = "";
+  }
+
+  savePassword(changuePassword: IChanguePassword){
+    // student.apoderado = this.identiParent;
+    this.usuarioService.changuePassword(changuePassword).subscribe(data =>{
+      if(data.successful){
+        console.log(data.successful)
+        this.msjResponse = 'Contraseña Actualizada'
+        this.successful = true;
+      }else{
+        this.msjResponse = data.message;
+        this.successful = false;
+      }
+    });
+
     this.modalOk.showModal();
     this.msjResponse = "";
   }

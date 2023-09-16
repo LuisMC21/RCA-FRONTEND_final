@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../../interfaces/user';
+import { IChanguePassword } from '../../interfaces/changuePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class UsuarioService {
   //Eliminar docente
   delete(id:string):Observable<IApiResponse>{
     return this.http.delete<IApiResponse>(`${environment.api}/usuario/`+id);
+  }
+
+  changuePassword(changuePassword: IChanguePassword):Observable<IApiResponse>{
+    return this.http.put<IApiResponse>(`${environment.api}/usuario/changepassword`,changuePassword)
   }
 }

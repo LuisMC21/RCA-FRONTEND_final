@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IChanguePassword } from 'src/app/features/admin/interfaces/changuePassword';
 import { ITeacher } from 'src/app/features/admin/interfaces/teacher';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
 
@@ -19,12 +20,20 @@ export class TableTeacherComponent implements OnInit {
   titulo: string = 'Registrar Docente';
   nomSearch: string = '';
 
+  password2: string = '';
+  coinciden = false;
+  texto: string = ''
+  group2!: FormGroup;
+  teacher = '';
+
   @Output() teacherSave: EventEmitter<ITeacher> = new EventEmitter();
   @Output() teacherDelete: EventEmitter<string> = new EventEmitter();
   @Output() teacherSearch: EventEmitter<string> = new EventEmitter();
+  @Output() teacherSavePassword: EventEmitter<IChanguePassword> = new EventEmitter();
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
+  @ViewChild('modalChangue') modalChangue!: ModalComponent;
 
   group!: FormGroup;
 
@@ -62,8 +71,11 @@ export class TableTeacherComponent implements OnInit {
   get email() { return this.group.get('usuarioDTO.email') }
   get password() { return this.group.get('usuarioDTO.password') }
 
+  get passwordC() { return this.group2.get('newPassword') }
+
   ngOnInit(): void {
     this.form();
+    this.form2();
   }
 
   form(item?: ITeacher): void {
@@ -99,6 +111,36 @@ export class TableTeacherComponent implements OnInit {
     });
   }
 
+  form2(item?: ITeacher) {
+    if(item){
+      this.teacher= item.usuarioDTO.name + ' ' + item.usuarioDTO.pa_surname + ' ' + item.usuarioDTO.ma_surname;
+    }
+    this.group2 = this.formBuilder.group({
+      
+      idUser: [item ? item.usuarioDTO.id : null],
+      newPassword: ['', [Validators.required]]
+    })
+  }
+
+  verificarPassword() {
+
+    const password1: string = this.group2.get('newPassword')?.value;
+
+    if (this.password2 != '' && password1 != '') {
+      if (password1 === this.password2) {
+        this.coinciden = true;
+      } else if (password1 !== this.password2) {
+        this.coinciden = false;
+        this.texto = 'Las contraseñas no coinciden'
+      }
+    }
+  }
+
+  cancelar() {
+    this.password2 = '';
+    this.coinciden = false;
+  }
+
   // BUSCAR
   search(nom: string) {
     this.teacherSearch.emit(nom);
@@ -108,6 +150,12 @@ export class TableTeacherComponent implements OnInit {
   save() {
     if (this.group.valid) {
       this.teacherSave.emit(this.group.value)
+    }
+  }
+
+  save2() {
+    if(this.group2.valid){
+      this.teacherSavePassword.emit(this.group2.value)
     }
   }
 
@@ -135,6 +183,12 @@ export class TableTeacherComponent implements OnInit {
   }
   getCloseModal() {
     this.group.reset();
+    this.group2.reset();
+    this.form();
+    this.form2();
+    this.password2= '';
+    this.coinciden=false;
+    this.texto='';
   }
 
   togglePasswordVisibility() {
@@ -145,6 +199,7 @@ export class TableTeacherComponent implements OnInit {
     if (this.successful) {
       console.log('Changes in successful:', changes['successful']);
       this.modalAdd.hiddenModal();
+      this.modalChangue.hiddenModal();
     }
   }
 

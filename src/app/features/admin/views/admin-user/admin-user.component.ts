@@ -3,6 +3,7 @@ import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-r
 import { IUser } from '../../interfaces/user';
 import { UsuarioService } from '../../commons/services/usuario.service';
 import { PaginationService } from '../../commons/services/pagination.service';
+import { IChanguePassword } from '../../interfaces/changuePassword';
 
 @Component({
   selector: 'app-admin-user',
@@ -68,6 +69,24 @@ export class AdminUserComponent implements OnInit {
     this.modalOk.showModal();
     this.msjResponse = "";
   }
+
+  savePassword(changuePassword: IChanguePassword){
+    // student.apoderado = this.identiParent;
+    this.usuarioService.changuePassword(changuePassword).subscribe(data =>{
+      if(data.successful){
+        console.log(data.successful)
+        this.msjResponse = 'Contraseña Actualizada'
+        this.successful = true;
+      }else{
+        this.msjResponse = data.message;
+        this.successful = false;
+      }
+    });
+
+    this.modalOk.showModal();
+    this.msjResponse = "";
+  }
+
 
   //ELIMINAR
   delete(id: string) {

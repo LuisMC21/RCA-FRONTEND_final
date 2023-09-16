@@ -6,6 +6,7 @@
             (userDelete)="delete($event)"
             (userSave)="save($event)"
             (userSearch)="search($event)"
+            (userSavePassword)="savePassword($event)"
             [users]="users"
         [tableName]="tableName"></app-table-user>
         <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>

@@ -7,6 +7,7 @@
             (teacherSave)="save($event)"
             (teacherSearch)="search($event)"
             [teachers]="teachers"
+            (teacherSavePassword)="savePassword($event)"
         [tableName]="tableName" [teachers]="teachers"></app-table-teacher>
         <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>
