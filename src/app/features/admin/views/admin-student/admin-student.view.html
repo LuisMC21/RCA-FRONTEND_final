@@ -5,6 +5,7 @@
             (studentSave)="save($event)"
             (studentDelete)="delete($event)"
             (studentSearch)="search($event)"
+            (studentSavePassword)="savePassword($event)"
         [tableName]="tableName" [students]="students"></app-table-student>
         <app-pagination (pageUpdate)="getPage($event)" (sizeUpdate)="getSize($event)" [paginationData]="paginationData"></app-pagination>
     </app-table>

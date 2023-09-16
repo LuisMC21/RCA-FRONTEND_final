@@ -7,6 +7,8 @@ import { IApiResponse } from 'src/app/core/interfaces/apiResonse.interface';
 import { ModalResponseComponent } from 'src/app/shared/components/modals/modal-response/modal-response.component';
 import { ParentService } from '../../commons/services/parent.service';
 import { IParent } from '../../interfaces/parent';
+import { IChanguePassword } from '../../interfaces/changuePassword';
+import { UsuarioService } from '../../commons/services/usuario.service';
 
 @Component({
   selector: 'app-admin-student',
@@ -39,7 +41,7 @@ export class AdminStudentView implements OnInit {
 
   @ViewChild('modalOk') modalOk!:ModalResponseComponent;
 
-  constructor(private studentService:StudentService) { }
+  constructor(private studentService:StudentService, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
 
@@ -84,6 +86,23 @@ export class AdminStudentView implements OnInit {
         }
       })
     }
+    this.modalOk.showModal();
+    this.msjResponse = "";
+  }
+
+  savePassword(changuePassword: IChanguePassword){
+    // student.apoderado = this.identiParent;
+    this.usuarioService.changuePassword(changuePassword).subscribe(data =>{
+      if(data.successful){
+        console.log(data.successful)
+        this.msjResponse = 'Contraseña Actualizada'
+        this.successful = true;
+      }else{
+        this.msjResponse = data.message;
+        this.successful = false;
+      }
+    });
+
     this.modalOk.showModal();
     this.msjResponse = "";
   }

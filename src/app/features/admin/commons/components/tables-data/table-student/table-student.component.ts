@@ -8,6 +8,7 @@ import { ParentService } from '../../../services/parent.service';
 import { IUser } from 'src/app/features/admin/interfaces/user';
 import { Router } from '@angular/router';
 import { StudentService } from '../../../services/student.service';
+import { IChanguePassword } from 'src/app/features/admin/interfaces/changuePassword';
 
 @Component({
   selector: 'app-table-student',
@@ -25,7 +26,7 @@ export class TableStudentComponent implements OnInit {
   nomParent: string = '';
   existsApoderado: boolean = false;
   selectedApoderado: string = '';
-  mensaje='';
+  mensaje = '';
 
   tiposdocumentos = ['DNI', 'CARNÉ DE EXTRANJERÍA'];
   tiposseguro = ['SIS', 'ESSALUD', 'PRIVADO'];
@@ -37,14 +38,17 @@ export class TableStudentComponent implements OnInit {
   showPassword: boolean = false;
   titulo: string = 'Registrar Alumno';
 
-  changuePassword= false;
   password2: string = '';
   coinciden = false;
+  texto: string = ''
+  group2!: FormGroup;
+  alumno = '';
 
   @Output() studentSave: EventEmitter<IStudent> = new EventEmitter();
   @Output() identiParentSave: EventEmitter<string> = new EventEmitter();
   @Output() studentDelete: EventEmitter<string> = new EventEmitter();
   @Output() studentSearch: EventEmitter<string> = new EventEmitter();
+  @Output() studentSavePassword: EventEmitter<IChanguePassword> = new EventEmitter();
 
   @ViewChild('modalAdd') modalAdd!: ModalComponent;
   @ViewChild('modalDelete') modalDelete!: ModalComponent;
@@ -72,14 +76,14 @@ export class TableStudentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private parentService: ParentService,
     private studentService: StudentService,
-    private apoderadoService:ParentService,
+    private apoderadoService: ParentService,
     private router: Router) {
   }
   ngOnInit(): void {
     this.form()
     //  console.log(this.students)
-    
-    
+    this.form2()
+
   }
   // ALUMNO
   get id() { return this.group.get('id') }
@@ -106,7 +110,7 @@ export class TableStudentComponent implements OnInit {
   get rol() { return this.group.get('usuarioDTO.rol') }
   get apoderado() { return this.group.get('apoderado') }
   get isVacunado() { return this.group.get('isVacunado') }
-  get nombreUsuario() { return this.group.get('nombreUsuario')}
+  get nombreUsuario() { return this.group.get('nombreUsuario') }
   get password() { return this.group.get('password') }
   // APODERADO
   get idApoderado() { return this.group.get('apoderadoDTO.id') }
@@ -114,6 +118,8 @@ export class TableStudentComponent implements OnInit {
   get nameApoderado() { return this.group.get('nameApoderado') }
   get pa_surnameA() { return this.group.get('pa_surnameA') }
   get ma_surnameA() { return this.group.get('ma_surnameA') }
+
+  get passwordC() { return this.group2.get('newPassword') }
 
   // Modal
   isEditing: boolean = false;
@@ -128,10 +134,10 @@ export class TableStudentComponent implements OnInit {
 
       id: [item ? item.id : null],
       code: [item ? item.code : ''],
-      diseases: [item ? item.diseases : '',[Validators.required]],
-      namecon_pri: [item ? item.namecon_pri : '',[Validators.required]],
-      telcon_pri: [item ? item.telcon_pri : '', [Validators.required, Validators.minLength(9),Validators.maxLength(9)] ],
-      namecon_sec: [item ? item.namecon_sec : '' ],
+      diseases: [item ? item.diseases : '', [Validators.required]],
+      namecon_pri: [item ? item.namecon_pri : '', [Validators.required]],
+      telcon_pri: [item ? item.telcon_pri : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      namecon_sec: [item ? item.namecon_sec : ''],
       telcon_sec: [item ? item.telcon_sec : ''],
       vaccine: [item ? item.vaccine : '', [Validators.required]],
       type_insurance: [item ? item.type_insurance : '', [Validators.required]],
@@ -149,7 +155,7 @@ export class TableStudentComponent implements OnInit {
         name: [item ? item.usuarioDTO.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         pa_surname: [item ? item.usuarioDTO.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-        birthdate: [item ? item.usuarioDTO.birthdate : '',[Validators.required]],
+        birthdate: [item ? item.usuarioDTO.birthdate : '', [Validators.required]],
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
         numdoc: [item ? item.usuarioDTO.numdoc : ''],
         tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
@@ -166,50 +172,48 @@ export class TableStudentComponent implements OnInit {
       this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
     });
 
-    if(this.changuePassword){
-      this.editarPassword();
+  }
+
+  form2(item?: IStudent) {
+    if(item){
+      this.alumno = item.usuarioDTO.name + ' ' + item.usuarioDTO.pa_surname + ' ' + item.usuarioDTO.ma_surname;
     }
+    this.group2 = this.formBuilder.group({
+      
+      idUser: [item ? item.usuarioDTO.id : null],
+      newPassword: ['', [Validators.required]]
+    })
   }
 
+  verificarPassword() {
 
-  editarPassword(){
-    this.group.get('usuarioDTO.password')?.setValue('');
-  }
+    const password1: string = this.group2.get('newPassword')?.value;
 
-  verificarPassword(){
-
-    const password1: string = this.group.get('usuarioDTO.password')?.value;
-    if(this.changuePassword){
-      if(this.password2!=''){
-        if (password1 === this.password2 ) {
-          this.coinciden=true;
-        }else if(password1 !== this.password2 ){
-            this.coinciden=false;
-        }
+    if (this.password2 != '' && password1 != '') {
+      if (password1 === this.password2) {
+        this.coinciden = true;
+      } else if (password1 !== this.password2) {
+        this.coinciden = false;
+        this.texto = 'Las contraseñas no coinciden'
       }
     }
   }
 
-  changuePass(){
-    this.changuePassword = true;
-  }
-
-  cancelar(){
-    this.changuePassword = false;
+  cancelar() {
     this.password2 = '';
-    this.coinciden=true;
+    this.coinciden = false;
   }
 
-  onChangeSelect(event:any) {
+  onChangeSelect(event: any) {
     const selectedValue = event.target.value;;
     // Aquí puedes definir las reglas de validación en función de la opción seleccionada
     if (selectedValue === this.tiposdocumentos[0]) {
       this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
-      this.mensaje= '*El campo requiere 8 caracteres numéricos';
+      this.mensaje = '*El campo requiere 8 caracteres numéricos';
     } else if (selectedValue === this.tiposdocumentos[1]) {
       this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(20), Validators.maxLength(20)]);
-      this.mensaje= '*El campo requiere 20 caracteres numéricos';
-    } 
+      this.mensaje = '*El campo requiere 20 caracteres numéricos';
+    }
 
     // Actualiza los valores de validación
     this.group.get('usuarioDTO.numdoc')?.updateValueAndValidity();
@@ -237,9 +241,11 @@ export class TableStudentComponent implements OnInit {
 
       this.studentSave.emit(this.group.value)
     }
+  }
 
-    if(this.changuePassword){
-      this.changuePassword = false;
+  save2() {
+    if(this.group2.valid){
+      this.studentSavePassword.emit(this.group2.value)
     }
   }
 
@@ -263,12 +269,9 @@ export class TableStudentComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  reset() {
 
-    this.group.reset()
-  }
-
-  redirectToDatosPersonales(uniqueIdentifier: string) {+
+  redirectToDatosPersonales(uniqueIdentifier: string) {
+    +
     this.studentService.getReporteDatosPersonales(uniqueIdentifier);
   }
   onUpdateButtonClick(item: any) {
@@ -277,10 +280,6 @@ export class TableStudentComponent implements OnInit {
     this.modalAdd.showModal();
   }
 
-  onChangueButtonClick(item: any) {
-    this.form(item); // Call the form() function if needed for your logic
-    this.modalChangue.showModal();
-  }
 
   // Function to handle when the "Add" button is clicked
   onAddButtonClick() {
@@ -289,9 +288,14 @@ export class TableStudentComponent implements OnInit {
     // Any other logic related to the "Add" button can be added here
     this.modalAdd.showModal();
   }
-  getCloseModal(){
+  getCloseModal() {
     this.group.reset();
+    this.group2.reset();
     this.form();
+    this.form2();
+    this.password2= '';
+    this.coinciden=false;
+    this.texto='';
   }
 
   togglePasswordVisibility() {
@@ -302,12 +306,12 @@ export class TableStudentComponent implements OnInit {
   searchApoderados(value: string | undefined) {
     if (value !== undefined) {
       this.filterApoderado = value;
-      this.apoderadoService.getAll(this.filterApoderado,  0, 5).subscribe(response => {
-        if(response.successful && response.data.list){
+      this.apoderadoService.getAll(this.filterApoderado, 0, 5).subscribe(response => {
+        if (response.successful && response.data.list) {
           this.apoderados = response.data.list;
         } else {
           this.existsApoderado = true
-          this.apoderados= [];
+          this.apoderados = [];
         }
       });
     }
@@ -327,6 +331,7 @@ export class TableStudentComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (this.successful) {
       this.modalAdd.hiddenModal();
+      this.modalChangue.hiddenModal();
     }
   }
 }
