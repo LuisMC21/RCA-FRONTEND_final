@@ -21,6 +21,7 @@ import { BtnSearchComponent } from './buttons/btn-search/btn-search.component';
 import { BtnReportComponent } from './buttons/btn-report/btn-report.component';
 import { LoaderOperationComponent } from './loaders/loader-operation/loader-operation.component';
 import { BtnViewComponent } from './buttons/btn-view/btn-view.component';
+import { BtnPassComponent } from './buttons/btn-pass/btn-pass.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { BtnViewComponent } from './buttons/btn-view/btn-view.component';
     BtnOkComponent,
     BtnSearchComponent,
     BtnReportComponent,
-    LoaderOperationComponent
+    LoaderOperationComponent,
+    BtnPassComponent
   ],
   exports:[
     LogoComponent,
@@ -66,7 +68,8 @@ import { BtnViewComponent } from './buttons/btn-view/btn-view.component';
     BtnOkComponent,
     BtnSearchComponent,
     BtnReportComponent,
-    LoaderOperationComponent
+    LoaderOperationComponent,
+    BtnPassComponent
   ],
   imports: [
     CommonModule,

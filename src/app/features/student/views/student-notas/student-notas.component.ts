@@ -9,6 +9,7 @@ import { IAula } from 'src/app/features/admin/interfaces/aula';
 import { IEvaluacion } from 'src/app/features/admin/interfaces/evaluacion';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-student-notas',
@@ -117,7 +118,7 @@ export class StudentNotasComponent implements OnInit {
 
   redirectToNotas(){
       const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.idAlumno}`;
+      const url = `http://${environment.api}/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.idAlumno}`;
       
       this.http.get(url, {
         headers: {

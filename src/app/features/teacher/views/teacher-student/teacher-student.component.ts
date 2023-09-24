@@ -11,6 +11,7 @@ import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher
 import { IStudent } from 'src/app/features/admin/interfaces/student';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { ModalComponent } from 'src/app/shared/components/modals/modal/modal.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-teacher-student',
@@ -161,7 +162,7 @@ export class TeacherStudentComponent implements OnInit {
 
   redirectToEstudiantes() {
     const token = this.tokenService.getToken();
-    const url = `http://localhost:8080/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
+    const url = `http://${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
 
     this.http.get(url, {
       headers: {
@@ -185,7 +186,7 @@ export class TeacherStudentComponent implements OnInit {
 
   redirecToApoderados() {
     const token = this.tokenService.getToken();
-    const url = `http://localhost:8080/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
+    const url = `http://${environment.api}/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
 
     this.http.get(url, {
       headers: {

@@ -7,6 +7,7 @@ import { IAnioLectivo } from '../../interfaces/anio-lectivo';
 import { AnioLectivoService } from '../../commons/services/anio-lectivo.service';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-report-matricula',
@@ -83,7 +84,7 @@ export class AdminReportMatriculaComponent implements OnInit {
   redirectToMatriculaAula() {
     if (this.selectedOption == this.opciones[0]) {
       const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedClassroomId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
+      const url = `http://${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedClassroomId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {
@@ -107,7 +108,7 @@ export class AdminReportMatriculaComponent implements OnInit {
 
     if(this.selectedOption == this.opciones[1]){
       const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/aula/exportApoderados?id_aula=${this.selectedClassroomId}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `http://${environment.api}/aula/exportApoderados?id_aula=${this.selectedClassroomId}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {

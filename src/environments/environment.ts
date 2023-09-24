@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://rcafinal-production.up.railway.app'
+  api: 'https://rcafinal-production.up.railway.app'
 };
 
 

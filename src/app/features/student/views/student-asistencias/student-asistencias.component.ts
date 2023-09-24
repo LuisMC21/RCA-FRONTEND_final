@@ -13,6 +13,7 @@ import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher
 import { IEvaluacion } from 'src/app/features/admin/interfaces/evaluacion';
 import { IPeriod } from 'src/app/features/admin/interfaces/period';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-student-asistencias',
@@ -150,7 +151,7 @@ export class StudentAsistenciasComponent implements OnInit {
 
   redirectToAsistencia(){
     const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/asistencia/exportAsistencia?id_alumno=${this.idAlumno}&id_periodo=${this.selectedPeriodId}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `http://${environment.api}/asistencia/exportAsistencia?id_alumno=${this.idAlumno}&id_periodo=${this.selectedPeriodId}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {

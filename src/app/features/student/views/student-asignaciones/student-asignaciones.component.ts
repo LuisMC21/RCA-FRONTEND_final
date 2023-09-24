@@ -7,6 +7,7 @@ import { PaginationService } from 'src/app/features/admin/commons/services/pagin
 import { IAnioLectivo } from 'src/app/features/admin/interfaces/anio-lectivo';
 import { ICourseTeacher } from 'src/app/features/admin/interfaces/course-teacher';
 import { TokenService } from 'src/app/features/auth/commons/services/token.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-student-asignaciones',
@@ -90,7 +91,7 @@ export class StudentAsignacionesComponent implements OnInit {
 
   redirectToMatricula() {
       const token = this.tokenService.getToken();
-      const url = `http://localhost:8080/matricula/exportMatricula?id_alumno=${this.alumno}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `http://${environment.api}/matricula/exportMatricula?id_alumno=${this.alumno}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {
