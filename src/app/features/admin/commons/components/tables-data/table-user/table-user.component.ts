@@ -86,15 +86,14 @@ export class TableUserComponent implements OnInit {
       name: [item ? item.name : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
       pa_surname: [item ? item.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
       ma_surname: [item ? item.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-      birthdate: [item && item ? item.birthdate : null, [Validators.required]],
+      birthdate: [item && item ? item.birthdate : null],
       type_doc: [item && item ? item.type_doc : '', [Validators.required]],
       numdoc: [item ? item.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       tel: [item ? item.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       gra_inst: [item && item ? item.gra_inst : '', [Validators.required]],
       email: [item && item ? item.email : '', [Validators.required, Validators.email]],
       password: [item && item ? item.password : '', [Validators.required]],
-      rol: ['ADMINISTRADOR']
-
+      rol: [item && item ? item.rol : null]
     });
 
     // Subscribe to the valueChanges of numdoc control in usuarioDTO

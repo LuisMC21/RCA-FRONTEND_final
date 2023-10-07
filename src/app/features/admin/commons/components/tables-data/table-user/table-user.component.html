@@ -33,10 +33,10 @@
                     [text]="'**El campo es requerido'"></app-required-field>
             </div>
             <div class="field">
-                <app-label-field [title]="'**Fecha de nacimiento'"></app-label-field>
+                <app-label-field [title]="'Fecha de nacimiento'"></app-label-field>
                 <app-field><input formControlName="birthdate" class="input" type="date"></app-field>
-                <app-required-field class="px-2" *ngIf="birthdate?.invalid && (birthdate?.dirty || birthdate?.touched)"
-                    [text]="'**El campo es requerido'"></app-required-field>
+                <!-- <app-required-field class="px-2" *ngIf="birthdate?.invalid && (birthdate?.dirty || birthdate?.touched)"
+                    [text]="'**El campo es requerido'"></app-required-field> -->
             </div>
             <div class="field">
                 <app-label-field [title]="'**Teléfono'"></app-label-field>
