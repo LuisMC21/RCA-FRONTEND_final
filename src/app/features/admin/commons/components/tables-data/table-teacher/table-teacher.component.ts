@@ -19,6 +19,7 @@ export class TableTeacherComponent implements OnInit {
   showPassword: boolean = false;
   titulo: string = 'Registrar Docente';
   nomSearch: string = '';
+  mensaje = '';
 
   password2: string = '';
   coinciden = false;
@@ -39,9 +40,7 @@ export class TableTeacherComponent implements OnInit {
 
   optionsDocumentType = [
     { title: "DNI", value: 'DNI' },
-    { title: "CE", value: 'CE' },
-    { title: "Pasaporte", value: 'Pasaporte' },
-    { title: "Partida de Nacimiento", value: 'Partida' },
+    { title: "CE", value: 'CE' }
   ]
   optionsVac = [
     { title: 'SI', value: 'S' },
@@ -95,7 +94,7 @@ export class TableTeacherComponent implements OnInit {
         ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         birthdate: [item && item.usuarioDTO ? item.usuarioDTO.birthdate : null, [Validators.required]],
         type_doc: [item && item.usuarioDTO ? item.usuarioDTO.type_doc : '', [Validators.required]],
-        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+        numdoc: [item ? item.usuarioDTO.numdoc : ''],
         tel: [item ? item.usuarioDTO.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
         gra_inst: [item && item.usuarioDTO ? item.usuarioDTO.gra_inst : '', [Validators.required]],
         email: [item && item.usuarioDTO ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
@@ -109,6 +108,21 @@ export class TableTeacherComponent implements OnInit {
       // Update the value of nombreUsuario based on numdocValue
       this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
     });
+  }
+
+  onChangeSelect(event: any) {
+    const selectedValue = event.target.value;;
+    // Aquí puedes definir las reglas de validación en función de la opción seleccionada
+    if (selectedValue === this.optionsDocumentType) {
+      this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      this.mensaje = '*El campo requiere 8 caracteres numéricos';
+    } else if (selectedValue === this.optionsDocumentType[1]) {
+      this.group.get('usuarioDTO.numdoc')?.setValidators([Validators.required, Validators.minLength(20), Validators.maxLength(20)]);
+      this.mensaje = '*El campo requiere 20 caracteres numéricos';
+    }
+
+    // Actualiza los valores de validación
+    this.group.get('usuarioDTO.numdoc')?.updateValueAndValidity();
   }
 
   form2(item?: ITeacher) {

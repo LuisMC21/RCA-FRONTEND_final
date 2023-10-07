@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-
+  production: true,
+  api: 'https://rcafinal-production.up.railway.app'
 };

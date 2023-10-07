@@ -53,17 +53,16 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'**Tipo de documento'"></app-label-field>
-                <select formControlName="type_doc" class="select cursor-pointer h-10 w-full outline-none px-2">
-                    <option value="{{option.value}}" *ngFor="let option of optionsDocumentType">{{option.title}}
+                <select formControlName="type_doc" class="select cursor-pointer h-10 w-full outline-none px-2" (change)="onChangeSelect($event)">
+                    <option value="{{option}}" *ngFor="let option of optionsDocumentType">{{option}}
                     </option>
                 </select>
             </div>
             <div class="field">
                 <app-label-field [title]="'**Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
-                        max="99999999999999999999"></app-field>
-                <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
-                    [text]="'*El campo requiere 8 caracteres'"></app-required-field>
+                <app-field><input formControlName="numdoc" class="input"></app-field>
+                        <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
+                        [text]="mensaje"></app-required-field>
             </div>
             <div class="field" *ngIf="titulo === 'Registrar Administrador'">
                 <app-label-field [title]="'**Usuario'"></app-label-field>

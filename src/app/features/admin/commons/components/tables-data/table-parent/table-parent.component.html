@@ -51,7 +51,7 @@
             <div class="field">
                 <app-label-field [title]="'**Tipo de documento'"></app-label-field>
                 <app-field>
-                    <select formControlName="type_doc" class="input" type="string">
+                    <select formControlName="type_doc" class="input" type="string" (change)="onChangeSelect($event)">
                         <option value="" disabled selected>-- Seleccione --</option>
                         <option *ngFor="let tipodocumento of tiposdocumentos" [value]="tipodocumento">
                             {{ tipodocumento }}
@@ -64,10 +64,9 @@
             </div>
             <div class="field">
                 <app-label-field [title]="'**Número de documento'"></app-label-field>
-                <app-field><input formControlName="numdoc" class="input" type="number" min="10000000"
-                        max="999999999999"></app-field>
+                <app-field><input formControlName="numdoc" class="input"></app-field>
                 <app-required-field class="px-2" *ngIf="numdoc?.invalid && (numdoc?.dirty || numdoc?.touched)"
-                    [text]="'*El campo requiere 8 caracteres'"></app-required-field>
+          [text]="mensaje"></app-required-field>
             </div>
             <div class="field">
                 <app-label-field [title]="'Fecha de Nacimiento'"></app-label-field>
@@ -79,7 +78,7 @@
             <p style="font-size: 11px;">**Campos obligatorios</p>
         </div>
         <div class="btns flex py-7 w-full">
-            <button type="submit" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
+            <button type="submit" [disabled]="group.invalid" class="field__input--button w-1/2 mx-2 h-9 rounded-3xl text-white">Guardar</button>
             <app-btn-cancel (click)="modalAdd.cancelar()" class="w-1/2 mx-2"></app-btn-cancel>
         </div>
     </form>

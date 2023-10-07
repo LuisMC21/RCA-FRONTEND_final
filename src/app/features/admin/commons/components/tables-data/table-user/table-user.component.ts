@@ -19,6 +19,7 @@ export class TableUserComponent implements OnInit {
   showPassword: boolean = false;
   titulo: string = 'Registrar Admin';
   nomSearch: string = '';
+  mensaje = '';
 
   password2: string = '';
   coinciden = false;
@@ -37,12 +38,7 @@ export class TableUserComponent implements OnInit {
 
   group!: FormGroup;
 
-  optionsDocumentType = [
-    { title: "DNI", value: 'DNI' },
-    { title: "CE", value: 'CE' },
-    { title: "Pasaporte", value: 'Pasaporte' },
-    { title: "Partida de Nacimiento", value: 'Partida' },
-  ]
+  optionsDocumentType = ['DNI', 'CARNÉ DE EXTRANJERÍA'];
   optionsVac = [
     { title: 'SI', value: 'S' },
     { title: 'NO', value: 'N' }
@@ -78,7 +74,7 @@ export class TableUserComponent implements OnInit {
   }
 
   form(item?: IUser): void {
-
+    
     this.group = this.formBuilder.group({
       id: [item && item ? item.id : null],
       code: [item && item ? item.code : ''],
@@ -88,19 +84,30 @@ export class TableUserComponent implements OnInit {
       ma_surname: [item ? item.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
       birthdate: [item && item ? item.birthdate : null],
       type_doc: [item && item ? item.type_doc : '', [Validators.required]],
-      numdoc: [item ? item.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      numdoc: [item ? item.numdoc : '',[Validators.required]],
       tel: [item ? item.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       gra_inst: [item && item ? item.gra_inst : '', [Validators.required]],
       email: [item && item ? item.email : '', [Validators.required, Validators.email]],
-      password: [item && item ? item.password : '', [Validators.required]],
-      rol: [item && item ? item.rol : null]
+      password: [item && item ? item.password : '', [Validators.required]]
     });
 
     // Subscribe to the valueChanges of numdoc control in usuarioDTO
-    this.group.get('usuarioDTO.numdoc')?.valueChanges.subscribe((numdocValue) => {
+    this.group.get('numdoc')?.valueChanges.subscribe((numdocValue) => {
       // Update the value of nombreUsuario based on numdocValue
-      this.group.get('usuarioDTO.nombreUsuario')?.setValue(numdocValue);
+      this.group.get('nombreUsuario')?.setValue(numdocValue);
     });
+  }
+
+  onChangeSelect(event: any) {
+    const selectedValue = event.target.value;;
+    // Aquí puedes definir las reglas de validación en función de la opción seleccionada
+    if (selectedValue === this.optionsDocumentType[0]) {
+      this.group.get('numdoc')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      this.mensaje = '*El campo requiere 8 caracteres numéricos';
+    } else if (selectedValue === this.optionsDocumentType[1]) {
+      this.group.get('numdoc')?.setValidators([Validators.required, Validators.minLength(20), Validators.maxLength(20)]);
+      this.mensaje = '*El campo requiere 20 caracteres numéricos';
+    }
   }
 
   form2(item?: IUser) {
@@ -141,7 +148,10 @@ export class TableUserComponent implements OnInit {
   // AGREGAR - ACTUALIZAR
   save() {
     if (this.group.valid) {
+      this.group.addControl('rol', this.formBuilder.control('ADMINISTRADOR'));
+
       this.userSave.emit(this.group.value)
+      console.log(this.group.value)
     }
   }
 

@@ -157,7 +157,7 @@ export class TableStudentComponent implements OnInit {
         ma_surname: [item ? item.usuarioDTO.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         birthdate: [item ? item.usuarioDTO.birthdate : '', [Validators.required]],
         type_doc: [item ? item.usuarioDTO.type_doc : '', [Validators.required]],
-        numdoc: [item ? item.usuarioDTO.numdoc : ''],
+        numdoc: [item ? item.usuarioDTO.numdoc : '', [Validators.required]],
         tel: [item ? item.usuarioDTO.tel : '', [Validators.minLength(9), Validators.maxLength(9)]],
         email: [item ? item.usuarioDTO.email : '', [Validators.required, Validators.email]],
         password: [item && item ? item.usuarioDTO.password : '', [Validators.required]],

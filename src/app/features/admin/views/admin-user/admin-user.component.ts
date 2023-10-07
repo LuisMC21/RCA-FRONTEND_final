@@ -119,6 +119,7 @@ export class AdminUserComponent implements OnInit {
       .subscribe(response => {
         if (response.successful) {
           this.users = response.data.list;
+          console.log(this.users)
         } else {
           this.users = []
         }

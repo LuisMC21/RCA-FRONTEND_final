@@ -28,6 +28,7 @@ export class TableParentComponent implements OnInit {
   optionsVac = [{ title: 'SI', value: 'S' }, { title: 'NO', value: 'N' }]
   nom: string = '';
   showPassword: boolean = false;
+  mensaje = '';
 
   tiposdocumentos = ['DNI', 'CARNÉ DE EXTRANJERÍA'];
   tiposseguro = ['SIS', 'ESSALUD', 'PRIVADO'];
@@ -61,11 +62,26 @@ export class TableParentComponent implements OnInit {
         pa_surname: [item ? item.pa_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
         ma_surname: [item ? item.ma_surname : '', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
       birthdate: [item ? item.birthdate : ''],
-      type_doc: [item ? item.type_doc : ''],
-      numdoc: [item ? item.numdoc : '', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      type_doc: [item ? item.type_doc : '', [Validators.required]],
+      numdoc: [item ? item.numdoc : '', [Validators.required]],
       tel: [item ? item.tel : '', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       email: [item ? item.email : '', [Validators.required, Validators.email]],
     });
+  }
+
+  onChangeSelect(event: any) {
+    const selectedValue = event.target.value;;
+    // Aquí puedes definir las reglas de validación en función de la opción seleccionada
+    if (selectedValue === this.tiposdocumentos[0]) {
+      this.group.get('numdoc')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      this.mensaje = '*El campo requiere 8 caracteres numéricos';
+    } else if (selectedValue === this.tiposdocumentos[1]) {
+      this.group.get('numdoc')?.setValidators([Validators.required, Validators.minLength(20), Validators.maxLength(20)]);
+      this.mensaje = '*El campo requiere 20 caracteres numéricos';
+    }
+
+    // Actualiza los valores de validación
+    this.group.get('usuarioDTO.numdoc')?.updateValueAndValidity();
   }
 
   // BUSCAR

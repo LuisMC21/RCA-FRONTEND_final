@@ -236,15 +236,20 @@
       <td>{{item.usuarioDTO.tel}}</td>
       <td>{{item.vaccine}}</td>
       <td>{{item.type_insurance}}</td>
-      <td>{{item.namecon_pri + " - " + item.telcon_pri}} | {{item.namecon_sec + "-" + item.telcon_sec}}</td>
+      <td>
+        {{ item.namecon_pri }} - {{ item.telcon_pri }}
+        <ng-container *ngIf="item.namecon_sec && item.telcon_sec">
+          | {{ item.namecon_sec }} - {{ item.telcon_sec }}
+        </ng-container>
+      </td>
       <td class="flex justify-center items-center">
         <app-btn-update (click)="form(item)" (click)="modalAdd.showModal()"
           (click)="onUpdateButtonClick(item)"></app-btn-update>
         <app-btn-delete (click)="modalDelete.showModal()"></app-btn-delete>
         <app-btn-pass (click)="redirectToDatosPersonales(item.id)">
         </app-btn-pass>
-        <app-btn-update (click)="form2(item)" (click)="modalChangue.showModal()"
-        ></app-btn-update>
+        <app-btn-lock (click)="form2(item)" (click)="modalChangue.showModal()"
+        ></app-btn-lock>
       </td>
       <app-modal [title]="'Eliminar alumno?'" #modalDelete>
         <div class="flex flex-col items-start px-4">

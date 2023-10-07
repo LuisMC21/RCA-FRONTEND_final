@@ -22,7 +22,6 @@ export class UsuarioService {
     return this.http.get<IApiResponse>(`${environment.api}/usuario/`+id);
   }
 
-  //Agregar docente
   add(user:IUser):Observable<IApiResponse>{
     console.log(user)
     return this.http.post<IApiResponse>(`${environment.api}/auth/usuario`,user)
