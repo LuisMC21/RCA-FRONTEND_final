@@ -118,7 +118,7 @@ export class StudentNotasComponent implements OnInit {
 
   redirectToNotas(){
       const token = this.tokenService.getToken();
-      const url = `http://${environment.api}/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.idAlumno}`;
+      const url = `${environment.api}/evaluacion/boletaNotas?periodo=${this.selectedPeriodId}&alumno=${this.idAlumno}`;
       
       this.http.get(url, {
         headers: {

@@ -91,7 +91,7 @@ export class StudentAsignacionesComponent implements OnInit {
 
   redirectToMatricula() {
       const token = this.tokenService.getToken();
-      const url = `http://${environment.api}/matricula/exportMatricula?id_alumno=${this.alumno}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `${environment.api}/matricula/exportMatricula?id_alumno=${this.alumno}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {

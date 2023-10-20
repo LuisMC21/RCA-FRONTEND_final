@@ -162,7 +162,7 @@ export class TeacherStudentComponent implements OnInit {
 
   redirectToEstudiantes() {
     const token = this.tokenService.getToken();
-    const url = `http://${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
+    const url = `${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedAulaId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
 
     this.http.get(url, {
       headers: {
@@ -186,7 +186,7 @@ export class TeacherStudentComponent implements OnInit {
 
   redirecToApoderados() {
     const token = this.tokenService.getToken();
-    const url = `http://${environment.api}/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
+    const url = `${environment.api}/aula/exportApoderados?id_aula=${this.selectedAulaId}&id_aniolectivo=${this.selectedAnioId}`;
 
     this.http.get(url, {
       headers: {

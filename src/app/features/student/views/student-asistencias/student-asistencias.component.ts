@@ -151,7 +151,7 @@ export class StudentAsistenciasComponent implements OnInit {
 
   redirectToAsistencia(){
     const token = this.tokenService.getToken();
-      const url = `http://${environment.api}/asistencia/exportAsistencia?id_alumno=${this.idAlumno}&id_periodo=${this.selectedPeriodId}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `${environment.api}/asistencia/exportAsistencia?id_alumno=${this.idAlumno}&id_periodo=${this.selectedPeriodId}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {

@@ -84,7 +84,7 @@ export class AdminReportMatriculaComponent implements OnInit {
   redirectToMatriculaAula() {
     if (this.selectedOption == this.opciones[0]) {
       const token = this.tokenService.getToken();
-      const url = `http://${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedClassroomId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
+      const url = `${environment.api}/matricula/alumnosAula?uniqueIdentifierAula=${this.selectedClassroomId}&uniqueIdentifierAnio=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {
@@ -108,7 +108,7 @@ export class AdminReportMatriculaComponent implements OnInit {
 
     if(this.selectedOption == this.opciones[1]){
       const token = this.tokenService.getToken();
-      const url = `http://${environment.api}/aula/exportApoderados?id_aula=${this.selectedClassroomId}&id_aniolectivo=${this.selectedAnioId}`;
+      const url = `${environment.api}/aula/exportApoderados?id_aula=${this.selectedClassroomId}&id_aniolectivo=${this.selectedAnioId}`;
       
       this.http.get(url, {
         headers: {
